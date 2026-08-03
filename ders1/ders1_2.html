@@ -513,22 +513,49 @@
             goToSlide(target);
         }
 
+        function showCopiedFeedback(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✓ Kopyalandı!';
+            btn.classList.add('copied');
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+
         function copyPromptText(elementId, btn) {
             const element = document.getElementById(elementId);
             const textToCopy = element.innerText || element.textContent;
             
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '✓ Kopyalandı!';
-                btn.classList.add('copied');
-                
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.classList.remove('copied');
-                }, 2000);
-            }).catch(err => {
-                console.error('Kopyalama hatası:', err);
-            });
+            // Try standard Clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showCopiedFeedback(btn);
+                }).catch(() => {
+                    fallbackCopy(textToCopy, btn);
+                });
+            } else {
+                fallbackCopy(textToCopy, btn);
+            }
+        }
+
+        function fallbackCopy(text, btn) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showCopiedFeedback(btn);
+            } catch (err) {
+                console.error('Kopyalama başarısız:', err);
+            }
+            document.body.removeChild(textArea);
         }
 
         // Keyboard Navigation Support
