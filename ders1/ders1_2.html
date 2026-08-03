@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ai-Galaxy Adım 1.2 - Sıfat Rehberi ve Prompt Sihirbazı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #6366F1;
+            --accent: #F59E0B;
+            --accent-glow: #FBBF24;
+            --success: #10B981;
+            --bg-grad: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Fredoka', cursive, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-grad);
+            color: var(--text-main);
+            padding: 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .tutorial-card-app {
+            width: 100%;
+            max-width: 680px;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            min-height: 540px;
+            justify-content: space-between;
+        }
+
+        /* Top Header & Pagination Bar */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 12px;
+        }
+
+        .badge-step {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+
+        .page-dots {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: var(--accent-glow);
+            width: 22px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .page-counter {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Slide Items Container */
+        .slides-container {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-page {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            gap: 14px;
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .slide-page.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Video Box */
+        .video-wrapper {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(99, 102, 241, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: #000;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            max-height: 240px;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Titles & Descriptions */
+        .slide-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #38BDF8, #818CF8, #F472B6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slide-desc {
+            color: #CBD5E1;
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        /* Formula Box */
+        .formula-card {
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .formula-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .pill {
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .pill-adj { background: rgba(245, 158, 11, 0.25); border: 1px solid #F59E0B; color: #FBBF24; }
+        .pill-noun { background: rgba(59, 130, 246, 0.25); border: 1px solid #3B82F6; color: #60A5FA; }
+        .pill-style { background: rgba(16, 185, 129, 0.25); border: 1px solid #10B981; color: #34D399; }
+
+        /* Prompt Display Box */
+        .prompt-card-body {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .adj-list-badge {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #FBBF24;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .prompt-text {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #F8FAFC;
+            font-family: monospace;
+            word-break: break-word;
+        }
+
+        .prompt-text mark {
+            background: rgba(245, 158, 11, 0.3);
+            color: #FBBF24;
+            font-weight: 700;
+            padding: 2px 4px;
+            border-radius: 4px;
+            text-decoration: underline;
+        }
+
+        .btn-copy-prompt {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-copy-prompt:hover {
+            transform: scale(1.04);
+            background: linear-gradient(135deg, #4338CA, #3730A3);
+        }
+
+        .btn-copy-prompt.copied {
+            background: linear-gradient(135deg, #10B981, #059669);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.5);
+        }
+
+        /* Bottom Controls (Navigation) */
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed rgba(255, 255, 255, 0.15);
+            padding-top: 14px;
+        }
+
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-nav:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn-nav-next {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            border: none;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+        }
+
+        .btn-nav-next:hover:not(:disabled) {
+            background: linear-gradient(135deg, #DB2777, #7C3AED);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tutorial-card-app">
+
+        <!-- Top Header -->
+        <div class="app-header">
+            <div class="badge-step">✨ Ai-Galaxy Adım 1.2</div>
+            <div class="page-dots" id="dotsContainer"></div>
+            <div class="page-counter" id="pageCounter">Sayfa 1 / 6</div>
+        </div>
+
+        <!-- Slides Container -->
+        <div class="slides-container">
+
+            <!-- SLIDE 1: Video & Concept -->
+            <div class="slide-page active" data-slide="1">
+                <!-- Video at the very top -->
+                <div class="video-wrapper">
+                    <video controls autoplay muted loop playsinline>
+                        <source src="./video1.mp4" type="video/mp4">
+                        Tarayıcınız video oynatmayı desteklemiyor.
+                    </video>
+                </div>
+
+                <h1 class="slide-title">🎥 1. Sayfa: Sıfat Sihri & Video Rehberi</h1>
+                <p class="slide-desc">
+                    Yapay zekâ dev bir <strong>Sihirli Aşçı</strong> gibidir! Ona sadece <em>"kedi"</em> dersen sıradan bir kedi çizer. 
+                    Yukarıdaki videoda izlediğin gibi, <strong>"pofuduk, tüylü ve şapkalı bir kedi"</strong> dersen harikalar yaratır!
+                </p>
+
+                <div class="formula-card">
+                    <strong style="color: #38BDF8; font-size: 0.9rem;">🧠 Prompt Hazırlama Formülü:</strong>
+                    <div class="formula-pills">
+                        <span class="pill pill-adj">✨ Niteleyici Sıfatlar</span>
+                        <span style="color:#94A3B8;">+</span>
+                        <span class="pill pill-noun">🐱 Ana Özne</span>
+                        <span style="color:#94A3B8;">+</span>
+                        <span class="pill pill-style">🎨 Sanat Stili</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Prompt 1 -->
+            <div class="slide-page" data-slide="2">
+                <h1 class="slide-title">🦊 2. Sayfa: Sevimli Kızıl Panda</h1>
+                <p class="slide-desc">1. Etkinlik için 1. Örnek Prompt: Canlı renklerle tüylü ve sevimli bir karakter oluşturalım.</p>
+                
+                <div class="prompt-card-body">
+                    <span class="adj-list-badge">Öğretilen Sıfatlar: Pofuduk, sevimli, küçük, kızıl, parlak, canlı</span>
+                    
+                    <div class="prompt-text" id="p1Text">
+                        <mark>Pofuduk tüylü</mark>, <mark>sevimli</mark> ve <mark>küçük</mark> bir <mark>kızıl</mark> panda, <mark>parlak</mark> <mark>yeşil</mark> yaprakların arasında merakla bakıyor, 3D sevimli çizgi film stili, <mark>canlı</mark> renkler
+                    </div>
+
+                    <button class="btn-copy-prompt" onclick="copyPromptText('p1Text', this)">
+                        📋 Prompt'u Kopyala
+                    </button>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: Prompt 2 -->
+            <div class="slide-page" data-slide="3">
+                <h1 class="slide-title">🍄 3. Sayfa: Masalsı Mantar Ev</h1>
+                <p class="slide-desc">2. Örnek Prompt: Işıklı ve masalsı detaylar ekleyerek büyüleyici bir ortam yaratalım.</p>
+                
+                <div class="prompt-card-body">
+                    <span class="adj-list-badge">Öğretilen Sıfatlar: Işıl ışıl parlayan, sihirli, sonbahar, masalsı</span>
+                    
+                    <div class="prompt-text" id="p2Text">
+                        <mark>Işıl ışıl parlayan</mark> <mark>sihirli</mark> bir mantar ev, <mark>sonbahar</mark> yapraklarıyla kaplı <mark>masalsı</mark> bir orman, masal kitabı illüstrasyonu
+                    </div>
+
+                    <button class="btn-copy-prompt" onclick="copyPromptText('p2Text', this)">
+                        📋 Prompt'u Kopyala
+                    </button>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: Prompt 3 -->
+            <div class="slide-page" data-slide="4">
+                <h1 class="slide-title">🤖 4. Sayfa: Neşeli Robot Dost</h1>
+                <p class="slide-desc">3. Örnek Prompt: Renkler ve nesneler arasındaki uyumu sıfatlarla ifade edelim.</p>
+                
+                <div class="prompt-card-body">
+                    <span class="adj-list-badge">Öğretilen Sıfatlar: Mavi, ışık saçan, neşeli, ahşap, akıllı, dijital</span>
+                    
+                    <div class="prompt-text" id="p3Text">
+                        <mark>Mavi</mark> <mark>ışık saçan</mark> <mark>neşeli</mark> bir robot dost, <mark>ahşap</mark> bir masada satranç oynayan <mark>akıllı</mark> bir çocuk, dijital detaylı çizim
+                    </div>
+
+                    <button class="btn-copy-prompt" onclick="copyPromptText('p3Text', this)">
+                        📋 Prompt'u Kopyala
+                    </button>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: Prompt 4 -->
+            <div class="slide-page" data-slide="5">
+                <h1 class="slide-title">🪼 5. Sayfa: Gökkuşağı Denizanası</h1>
+                <p class="slide-desc">4. Örnek Prompt: Su altı atmosferini tanımlayan zengin niteleyici kelimeler.</p>
+                
+                <div class="prompt-card-body">
+                    <span class="adj-list-badge">Öğretilen Sıfatlar: Turkuaz renkli, berrak, dev, gökkuşağı, rüya gibi, yumuşak</span>
+                    
+                    <div class="prompt-text" id="p4Text">
+                        <mark>Turkuaz renkli</mark> <mark>berrak</mark> bir denizde süzülen <mark>dev</mark> <mark>gökkuşağı</mark> denizanası, <mark>rüya gibi</mark> <mark>yumuşak</mark> ışıklar, dijital sanat
+                    </div>
+
+                    <button class="btn-copy-prompt" onclick="copyPromptText('p4Text', this)">
+                        📋 Prompt'u Kopyala
+                    </button>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Prompt 5 & Finish -->
+            <div class="slide-page" data-slide="6">
+                <h1 class="slide-title">🐘 6. Sayfa: Saat Kulesi Fil</h1>
+                <p class="slide-desc">5. Örnek Prompt: Hayal gücünüzü sıfatlarla birleştirerek benzersiz bir heykel tasarlayın!</p>
+                
+                <div class="prompt-card-body">
+                    <span class="adj-list-badge">Öğretilen Sıfatlar: Kocaman, sarı, sevimli, eski zaman, detaylı, renkli</span>
+                    
+                    <div class="prompt-text" id="p5Text">
+                        <mark>Kocaman</mark> <mark>sarı</mark> bir saat kulesine dönüşmüş <mark>sevimli</mark> bir fil heykeli, <mark>eski zaman</mark> stili, <mark>detaylı</mark> ve <mark>renkli</mark>
+                    </div>
+
+                    <button class="btn-copy-prompt" onclick="copyPromptText('p5Text', this)">
+                        📋 Prompt'u Kopyala
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Controls -->
+        <div class="nav-controls">
+            <button class="btn-nav" id="btnPrev" onclick="changeSlide(-1)" disabled>
+                ⬅️ Önceki Sayfa
+            </button>
+            <button class="btn-nav btn-nav-next" id="btnNext" onclick="changeSlide(1)">
+                Sonraki Sayfa ➡️
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 6;
+
+        function initDots() {
+            const container = document.getElementById('dotsContainer');
+            container.innerHTML = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === 1 ? 'active' : ''}`;
+                dot.onclick = () => goToSlide(i);
+                container.appendChild(dot);
+            }
+        }
+
+        function goToSlide(slideNum) {
+            if (slideNum < 1 || slideNum > totalSlides) return;
+            
+            document.querySelectorAll('.slide-page').forEach(page => page.classList.remove('active'));
+            document.querySelector(`.slide-page[data-slide="${slideNum}"]`).classList.add('active');
+            
+            currentSlide = slideNum;
+            document.getElementById('pageCounter').innerText = `Sayfa ${currentSlide} / ${totalSlides}`;
+
+            // Update dots
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, idx) => {
+                if (idx + 1 === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            // Update Buttons
+            document.getElementById('btnPrev').disabled = (currentSlide === 1);
+            const btnNext = document.getElementById('btnNext');
+            if (currentSlide === totalSlides) {
+                btnNext.innerHTML = '🎉 Tebrikler! Başa Dön 🔄';
+            } else {
+                btnNext.innerHTML = 'Sonraki Sayfa ➡️';
+            }
+        }
+
+        function changeSlide(direction) {
+            let target = currentSlide + direction;
+            if (target > totalSlides) {
+                target = 1; // Loop back to page 1
+            }
+            goToSlide(target);
+        }
+
+        function copyPromptText(elementId, btn) {
+            const element = document.getElementById(elementId);
+            const textToCopy = element.innerText || element.textContent;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ Kopyalandı!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Kopyalama hatası:', err);
+            });
+        }
+
+        // Keyboard Navigation Support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        // Initialize on load
+        initDots();
+    </script>
+</body>
+</html>
