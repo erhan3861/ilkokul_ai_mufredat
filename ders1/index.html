@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ders 1: Kelime Avcısı & Prompt Sihirbazı (20 Etkinlikli Özel Sürüm)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #6366F1;
+            --accent: #F59E0B;
+            --accent-glow: #FBBF24;
+            --success: #10B981;
+            --danger: #EF4444;
+            --bg-grad: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Fredoka', cursive, sans-serif;
+            user-select: none;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden; /* Tam ekrana sığma - No scroll */
+            background: var(--bg-grad);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+        }
+
+        /* App Container */
+        .app-container {
+            width: 100%;
+            max-width: 1240px;
+            height: calc(100vh - 12px);
+            max-height: calc(100vh - 12px);
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 12px 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.12);
+            padding-bottom: 6px;
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #38BDF8, #818CF8, #F472B6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+        }
+
+        .btn-header {
+            background: rgba(99, 102, 241, 0.25);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            color: #C7D2FE;
+            padding: 4px 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-header:hover {
+            background: rgba(99, 102, 241, 0.45);
+            color: white;
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #10B981, #3B82F6, #EC4899);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        /* Game Grid */
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        @media (max-width: 850px) {
+            .game-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Left Side: Visual Card */
+        .visual-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            min-height: 0;
+        }
+
+        .mode-badge {
+            background: rgba(236, 72, 153, 0.2);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            color: #F472B6;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .canvas-frame {
+            flex: 1;
+            min-height: 0;
+            background: #090D16;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ai-image-wrapper {
+            width: 100%;
+            height: 100%;
+            transition: filter 0.6s ease;
+            filter: blur(18px) grayscale(70%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .blur-overlay-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            padding: 3px 8px;
+            border-radius: 16px;
+            font-size: 0.72rem;
+            color: var(--accent-glow);
+            font-weight: 600;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            z-index: 5;
+        }
+
+        /* Live Prompt Box */
+        .live-prompt-box {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 8px 10px;
+            font-size: 0.88rem;
+            line-height: 1.4;
+            color: #E2E8F0;
+            flex-shrink: 0;
+        }
+
+        .prompt-title {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #94A3B8;
+            margin-bottom: 3px;
+            font-weight: 700;
+        }
+
+        .prompt-slot {
+            display: inline-block;
+            min-width: 65px;
+            padding: 1px 6px;
+            margin: 0 2px;
+            border-bottom: 2px solid var(--accent);
+            background: rgba(245, 158, 11, 0.15);
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 700;
+            color: var(--accent-glow);
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .prompt-slot.filled {
+            background: rgba(16, 185, 129, 0.2);
+            border-bottom-color: var(--success);
+            color: #34D399;
+        }
+
+        /* Right Side: Words Card */
+        .words-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 6px;
+            min-height: 0;
+        }
+
+        .target-hint-box {
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.82rem;
+            color: #C7D2FE;
+            line-height: 1.35;
+            flex-shrink: 0;
+        }
+
+        .word-chips-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            flex: 1;
+            align-content: center;
+        }
+
+        .word-chip {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1.5px solid var(--card-border);
+            color: #F8FAFC;
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            text-align: center;
+        }
+
+        .word-chip:hover {
+            background: rgba(99, 102, 241, 0.3);
+            border-color: var(--primary-light);
+            transform: scale(1.02);
+        }
+
+        .word-chip.selected {
+            background: var(--success);
+            border-color: #059669;
+            color: white;
+            pointer-events: none;
+            opacity: 0.5;
+            transform: scale(0.96);
+        }
+
+        .word-chip.wrong-shake {
+            animation: shake 0.4s ease;
+            background: rgba(239, 68, 68, 0.3);
+            border-color: var(--danger);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        /* Feedback Toast */
+        .feedback-toast {
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .feedback-toast.success { background: rgba(16, 185, 129, 0.2); border: 1px solid var(--success); color: #6EE7B7; }
+        .feedback-toast.info { background: rgba(59, 130, 246, 0.2); border: 1px solid #3B82F6; color: #93C5FD; }
+        .feedback-toast.warning { background: rgba(245, 158, 11, 0.2); border: 1px solid var(--accent); color: #FDE047; }
+
+        /* Footer Controls */
+        .footer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(79, 70, 229, 0.5);
+        }
+
+        .btn-action:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Story Modal */
+        .story-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(9, 13, 22, 0.94);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            padding: 15px;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .story-modal-backdrop.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .story-card {
+            background: linear-gradient(145deg, #1E1B4B, #2E1065);
+            border: 2px solid #818CF8;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 740px;
+            height: min(520px, 90vh);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .story-header { display: flex; justify-content: space-between; align-items: center; }
+        .story-badge { background: rgba(245, 158, 11, 0.2); border: 1px solid var(--accent); color: var(--accent-glow); padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; }
+        .story-dots { display: flex; gap: 6px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); transition: all 0.3s; }
+        .dot.active { background: #38BDF8; width: 18px; border-radius: 8px; }
+
+        .story-body { display: flex; align-items: center; gap: 16px; flex: 1; margin: 10px 0; }
+        .story-illustration { width: 180px; height: 180px; background: rgba(0, 0, 0, 0.3); border-radius: 16px; border: 2px dashed rgba(255, 255, 255, 0.2); display: flex; justify-content: center; align-items: center; font-size: 4.5rem; flex-shrink: 0; }
+        .story-content h2 { font-family: 'Outfit', sans-serif; font-size: 1.4rem; color: #FDE047; margin-bottom: 8px; }
+        .story-content p { font-size: 0.95rem; line-height: 1.5; color: #E2E8F0; }
+        .story-content .highlight-box { background: rgba(255, 255, 255, 0.08); border-left: 4px solid #38BDF8; padding: 8px 12px; border-radius: 6px; margin-top: 10px; font-size: 0.88rem; color: #A5B4FC; }
+
+        .story-footer { display: flex; justify-content: space-between; align-items: center; }
+        .btn-story-nav { background: rgba(255, 255, 255, 0.15); border: 1px solid var(--card-border); color: white; padding: 8px 16px; border-radius: 10px; font-size: 0.88rem; font-weight: 700; cursor: pointer; }
+
+        /* Completion Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 15px;
+        }
+        .modal-backdrop.active { opacity: 1; pointer-events: auto; }
+        .modal-card {
+            background: #1E1B4B; border: 2px solid #6366F1; border-radius: 20px;
+            padding: 20px; max-width: 580px; width: 100%; text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); display: flex; flex-direction: column; gap: 12px;
+        }
+
+        .summary-prompt-box { background: rgba(0, 0, 0, 0.5); border: 2px dashed #818CF8; padding: 12px; border-radius: 12px; text-align: left; font-size: 0.92rem; color: #E0E7FF; line-height: 1.4; position: relative; }
+        .copy-btn { position: absolute; top: 8px; right: 8px; background: rgba(255, 255, 255, 0.15); border: none; color: white; padding: 3px 8px; border-radius: 5px; font-size: 0.75rem; cursor: pointer; }
+
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99; }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- 1. SINIF EĞİTİM REHBERİ (STORYBOOK MODAL) -->
+    <div class="story-modal-backdrop" id="story-modal">
+        <div class="story-card">
+            <div class="story-header">
+                <div class="story-badge">📖 1. Sınıf Rehberi</div>
+                <div class="story-dots">
+                    <div class="dot active" id="dot-0"></div>
+                    <div class="dot" id="dot-1"></div>
+                    <div class="dot" id="dot-2"></div>
+                    <div class="dot" id="dot-3"></div>
+                </div>
+            </div>
+
+            <div class="story-body" id="story-body-content"></div>
+
+            <div class="story-footer">
+                <button class="btn-story-nav" id="story-prev-btn" style="visibility: hidden;">⬅️ Geri</button>
+                <button class="btn-action" id="story-next-btn">Sonraki Sayfa ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-title">
+                <h1>🔍 Kelime & AI Dedektifi <span style="font-size: 0.88rem; color: #A5B4FC; font-weight: 500;">(Ders 1: 20 Bölümlü Özel Sürüm)</span></h1>
+                <p>Resimleri incele, doğru sıfatları bul ve kendi sihirli AI promptlarını oluştur!</p>
+            </div>
+            <div class="header-stats">
+                <a href="../index.html" class="btn-header" style="text-decoration: none;">🏠 Ana Portal</a>
+                <button class="btn-header" id="reopen-story-btn">📖 Prompt Rehberi</button>
+                <div class="stat-pill">🎯 <span id="level-indicator">Bölüm: 1 / 20</span></div>
+                <div class="stat-pill">⭐ <span id="score-counter">Puan: 0</span></div>
+                <button class="btn-header" id="toggle-sound" style="padding: 4px 8px;">🔊</button>
+            </div>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- Game Grid -->
+        <div class="game-grid">
+            <!-- Left: Visual Card -->
+            <div class="visual-card">
+                <div class="mode-badge" id="mode-badge">🔍 Mod 1: Bulanık Görseli Netleştir</div>
+                <div class="canvas-frame">
+                    <div class="blur-overlay-tag" id="blur-tag">🔒 Bulanıklık: %100</div>
+                    <div class="ai-image-wrapper" id="image-wrapper">
+                        <div id="svg-art" style="width:100%; height:100%;"></div>
+                    </div>
+                </div>
+
+                <div class="live-prompt-box">
+                    <div class="prompt-title" id="prompt-title-text">✍️ Canlı İstem (Prompt) Cümlen:</div>
+                    <div id="live-prompt-text">
+                        "Ekranda <span class="prompt-slot" id="slot-1">? (Sıfat 1)</span>, <span class="prompt-slot" id="slot-2">? (Sıfat 2)</span> ve <span class="prompt-slot" id="slot-3">? (Sıfat 3)</span> bir <b id="subject-name" style="color: #60A5FA;">[Öğe]</b> var."
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Words Card -->
+            <div class="words-card">
+                <div class="target-hint-box" id="level-hint">
+                    Aşağıdaki kelime kartlarını incele. Görseldeki nesneyi niteleyen <b>doğru sıfatları</b> seç!
+                </div>
+
+                <div style="font-size: 0.8rem; font-weight: 700; color: #E2E8F0;" id="bank-title">🏷️ Sıfat Torbasından Seç:</div>
+
+                <div class="word-chips-grid" id="words-container"></div>
+
+                <div class="feedback-toast info" id="feedback-toast">
+                    <span id="toast-icon">👉</span>
+                    <span id="toast-text">Hazırsan ilk sıfat kartına tıkla!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="footer-actions">
+            <button class="btn-action" id="reset-btn" style="background: rgba(255,255,255,0.1); box-shadow: none;">
+                🔄 Sıfırla
+            </button>
+            <button class="btn-action" id="next-btn" disabled>
+                Sonraki Bölüm ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- Stage 2 Completion Modal -->
+    <div class="modal-backdrop" id="completion-modal">
+        <div class="modal-card">
+            <div style="font-size: 2.8rem;">🎉🏆</div>
+            <h2 style="color: #FDE047; font-family: 'Outfit';">Şampiyon AI Dedektifi!</h2>
+            <p style="color: #C7D2FE; font-size: 0.9rem;">
+                20 bölümün tamamını başardın! Tüm görsel stillerini, renk paletlerini ve niteleme sıfatlarını çözdün.
+            </p>
+
+            <div style="text-align: left;">
+                <b style="color: #FBBF24; font-size: 0.82rem; text-transform: uppercase;">🚀 2. Aşama Grup Çalışması İçin Usta İstem Kartın:</b>
+            </div>
+
+            <div class="summary-prompt-box">
+                <button class="copy-btn" id="copy-btn">📋 Kopyala</button>
+                <div id="final-master-prompt">
+                    "Devasa, alev kırmızısı, neon ışıklı, 3D animasyon stili sevimli ejderha ve şato dünyası, 8k çözünürlük."
+                </div>
+            </div>
+
+            <p style="color: #94A3B8; font-size: 0.82rem;">
+                <b>Şimdi ne yapacaksın?</b> Grubunla toplanıp bu kelimelerle kendi süper promptunuzu kağıda yazın!
+            </p>
+
+            <button class="btn-action" id="modal-close-btn" style="margin: 0 auto; padding: 8px 20px;">
+                Yeniden Oyna 🔄
+            </button>
+        </div>
+    </div>
+
+    <script>
+        /* Audio Synthesizer */
+        class SoundEffects {
+            constructor() { this.ctx = null; this.enabled = true; }
+            init() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); }
+            playPop() {
+                if (!this.enabled) return; this.init();
+                const osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
+                osc.type = 'sine'; osc.frequency.setValueAtTime(400, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
+                osc.connect(gain); gain.connect(this.ctx.destination);
+                osc.start(); osc.stop(this.ctx.currentTime + 0.08);
+            }
+            playSuccess() {
+                if (!this.enabled) return; this.init();
+                const now = this.ctx.currentTime, osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.setValueAtTime(659.25, now + 0.1);
+                osc.frequency.setValueAtTime(783.99, now + 0.2);
+                osc.frequency.setValueAtTime(1046.50, now + 0.3);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.connect(gain); gain.connect(this.ctx.destination);
+                osc.start(now); osc.stop(now + 0.5);
+            }
+            playWrong() {
+                if (!this.enabled) return; this.init();
+                const now = this.ctx.currentTime, osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.linearRampToValueAtTime(140, now + 0.2);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                osc.connect(gain); gain.connect(this.ctx.destination);
+                osc.start(now); osc.stop(now + 0.2);
+            }
+        }
+        const sfx = new SoundEffects();
+
+        /* Storybook Pages */
+        const storyPages = [
+            {
+                emoji: "🤖👨‍🍳",
+                title: "1. Sayfa: Sihirli Aşçı Yapay Zekâ!",
+                text: "Yapay zekâ dev bir <b>Sihirli Aşçı</b> gibidir! Ama ona sadece <i>'Bana yemek yap!'</i> dersen ne pişireceğini bilemez.",
+                highlight: "💡 Ona 'Bana çilekli ve muzlu dondurma yap' dersen en lezzetli dondurmayı pişirir!"
+            },
+            {
+                emoji: "✨📝",
+                title: "2. Sayfa: Prompt (İstem) Nedir?",
+                text: "Yapay zekâya verdiğimiz <b>özel tarife ve süslü kelimelere 'PROMPT' (İstem)</b> denir!",
+                highlight: "🎨 Yapay zekâ senin cümlendeki kelimeleri okur ve tıpatıp hayalindeki resmi çizer."
+            },
+            {
+                emoji: "🎨🐱",
+                title: "3. Sayfa: Sıfatların Sihirli Gücü!",
+                text: "Sadece <i>'Bir kedi çiz'</i> dersen sıradan kedi çizer. Ama <b>'Şapkalı, pembe, uçan sevimli kedi'</b> dersen resim muhteşem olur!",
+                highlight: "⭐ <b>Sıfatlar</b> resimlere renk, boyut ve büyü katar!"
+            },
+            {
+                emoji: "🕵️🎨",
+                title: "4. Sayfa: 3 Farklı Dedektiflik Görevi!",
+                text: "Bu oyunda tam <b>20 harika bölüm</b> var! Bazen resmi netleştirecek, bazen resme bakıp sıfatları tahmin edecek, bazen de renk & sanat stilini bulacaksın!",
+                highlight: "🚀 Hazır mısın? 'Oyuna Başla' butonuna tıkla ve macerayı başlat!"
+            }
+        ];
+
+        let currentStoryPage = 0;
+        const storyModal = document.getElementById('story-modal');
+        const storyBodyContent = document.getElementById('story-body-content');
+        const storyPrevBtn = document.getElementById('story-prev-btn');
+        const storyNextBtn = document.getElementById('story-next-btn');
+
+        function renderStoryPage(idx) {
+            currentStoryPage = idx;
+            const page = storyPages[idx];
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`dot-${i}`).className = i === idx ? 'dot active' : 'dot';
+            }
+            storyBodyContent.innerHTML = `
+                <div class="story-illustration">${page.emoji}</div>
+                <div class="story-content">
+                    <h2>${page.title}</h2>
+                    <p>${page.text}</p>
+                    <div class="highlight-box">${page.highlight}</div>
+                </div>
+            `;
+            storyPrevBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
+            storyNextBtn.textContent = idx === storyPages.length - 1 ? 'Oyuna Başla! 🎮' : 'Sonraki Sayfa ➡️';
+        }
+
+        storyPrevBtn.onclick = () => { if (currentStoryPage > 0) { sfx.playPop(); renderStoryPage(currentStoryPage - 1); } };
+        storyNextBtn.onclick = () => {
+            sfx.playPop();
+            if (currentStoryPage < storyPages.length - 1) { renderStoryPage(currentStoryPage + 1); }
+            else { storyModal.classList.add('hidden'); sfx.playSuccess(); }
+        };
+        document.getElementById('reopen-story-btn').onclick = () => { storyModal.classList.remove('hidden'); renderStoryPage(0); };
+
+        /* 20 Levels Database (Mode A: Unblur, Mode B: Reverse Detect, Mode C: Color/Style) */
+        const levels = [
+            // Mode A: Unblur (Bölüm 1 - 7)
+            {
+                id: 1, mode: "unblur", modeName: "🔍 Mod 1: Bulanıklık Çözücü", subject: "Ejderha",
+                hint: "Ejderhanın boyutunu, rengini ve görünüşünü anlatan 3 sıfatı seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Devasa", isTarget: true, type: "Boyut Sıfatı" },
+                    { text: "Koşmak", isTarget: false, reason: "'Koşmak' bir eylemdir (fiil)." },
+                    { text: "Alev Kırmızısı", isTarget: true, type: "Renk Sıfatı" },
+                    { text: "Masa", isTarget: false, reason: "'Masa' bir isimdir." },
+                    { text: "Gülümseyen", isTarget: true, type: "Durum Sıfatı" },
+                    { text: "Hızlıca", isTarget: false, reason: "'Hızlıca' bir zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#2E1065"/><ellipse cx="200" cy="180" rx="70" ry="50" fill="#EF4444"/><circle cx="200" cy="110" r="45" fill="#DC2626"/><circle cx="185" cy="100" r="8" fill="white"/><circle cx="215" cy="100" r="8" fill="white"/><circle cx="187" cy="100" r="4" fill="black"/><circle cx="217" cy="100" r="4" fill="black"/><path d="M 185 125 Q 200 140 215 125" stroke="white" stroke-width="4" fill="none"/></svg>`
+            },
+            {
+                id: 2, mode: "unblur", modeName: "🔍 Mod 1: Bulanıklık Çözücü", subject: "Uzay Gemisi",
+                hint: "Uzay gemisinin ışık ve rengini niteleyen 3 sıfatı seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Parlak", isTarget: true, type: "Işık Sıfatı" },
+                    { text: "Uçmak", isTarget: false, reason: "'Uçmak' eylemdir." },
+                    { text: "Gümüş", isTarget: true, type: "Renk Sıfatı" },
+                    { text: "Döner Işıklı", isTarget: true, type: "Özellik Sıfatı" },
+                    { text: "Gezegen", isTarget: false, reason: "'Gezegen' bir isimdir." },
+                    { text: "Yavaşça", isTarget: false, reason: "'Yavaşça' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#090D16"/><ellipse cx="200" cy="150" rx="90" ry="30" fill="#94A3B8"/><path d="M 160 135 A 40 40 0 0 1 240 135 Z" fill="#38BDF8"/><circle cx="150" cy="150" r="6" fill="#F59E0B"/><circle cx="200" cy="155" r="6" fill="#10B981"/><circle cx="250" cy="150" r="6" fill="#EF4444"/></svg>`
+            },
+            {
+                id: 3, mode: "unblur", modeName: "🔍 Mod 1: Bulanıklık Çözücü", subject: "Sihirli Şato",
+                hint: "Masal şatosunun görünüşünü anlatan 3 sıfatı seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Yüksek", isTarget: true, type: "Boyut Sıfatı" },
+                    { text: "Krallık", isTarget: false, reason: "'Krallık' kavram ismidir." },
+                    { text: "Mor Kristal", isTarget: true, type: "Malzeme/Renk Sıfatı" },
+                    { text: "Bulutlu", isTarget: true, type: "Durum Sıfatı" },
+                    { text: "Yapmak", isTarget: false, reason: "'Yapmak' eylemdir." },
+                    { text: "Prens", isTarget: false, reason: "'Prens' isimdir." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#4C1D95"/><rect x="140" y="140" width="120" height="110" fill="#7C3AED"/><polygon points="140,140 160,80 180,140" fill="#F472B6"/><polygon points="220,140 240,80 260,140" fill="#F472B6"/><polygon points="180,110 200,40 220,110" fill="#FDE047"/></svg>`
+            },
+            {
+                id: 4, mode: "unblur", modeName: "🔍 Mod 1: Bulanıklık Çözücü", subject: "Geleceğin Robotu",
+                hint: "Dost robotu tanımlayan 3 sıfatı seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Minik", isTarget: true, type: "Boyut Sıfatı" },
+                    { text: "Altın Sarısı", isTarget: true, type: "Renk Sıfatı" },
+                    { text: "Kablolar", isTarget: false, reason: "'Kablolar' isimdir." },
+                    { text: "Dost Canlısı", isTarget: true, type: "Karakter Sıfatı" },
+                    { text: "Çalışmak", isTarget: false, reason: "'Çalışmak' eylemdir." },
+                    { text: "Hızla", isTarget: false, reason: "'Hızla' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#1E293B"/><rect x="150" y="90" width="100" height="70" rx="14" fill="#F59E0B"/><rect x="165" y="105" width="70" height="35" rx="6" fill="#0F172A"/><circle cx="185" cy="122" r="6" fill="#34D399"/><circle cx="215" cy="122" r="6" fill="#34D399"/><rect x="140" y="170" width="120" height="90" rx="16" fill="#D97706"/></svg>`
+            },
+            {
+                id: 5, mode: "unblur", modeName: "🔍 Mod 1: Bulanıklık Çözücü", subject: "Sihirli Mantar Ev",
+                hint: "Ormandaki sihirli mantar evi niteleyen 3 sıfatı seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Kırmızı Şapkalı", isTarget: true, type: "Görünüş Sıfatı" },
+                    { text: "Benekli", isTarget: true, type: "Desen Sıfatı" },
+                    { text: "Büyümek", isTarget: false, reason: "'Büyümek' bir fiildir." },
+                    { text: "Sevimli Minik", isTarget: true, type: "Boyut/Durum Sıfatı" },
+                    { text: "Ağaçlar", isTarget: false, reason: "'Ağaçlar' isimdir." },
+                    { text: "Sessizce", isTarget: false, reason: "'Sessizce' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#064E3B"/><path d="M 120 160 Q 200 60 280 160 Z" fill="#EF4444"/><circle cx="160" cy="110" r="10" fill="white"/><circle cx="220" cy="100" r="12" fill="white"/><rect x="160" y="160" width="80" height="90" rx="10" fill="#FEF3C7"/><path d="M 185 200 A 15 15 0 0 1 215 200 Z" fill="#78350F"/></svg>`
+            },
+            {
+                id: 6, mode: "unblur", modeName: "🔍 Mod 1: Bulanıklık Çözücü", subject: "Siber Kedi",
+                hint: "Gözlüklü siber kediyi betimleyen 3 sıfatı seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Neon Mavi", isTarget: true, type: "Renk Sıfatı" },
+                    { text: "Gözlüklü", isTarget: true, type: "Aksesuar Sıfatı" },
+                    { text: "Miyavlamak", isTarget: false, reason: "'Miyavlamak' eylemdir." },
+                    { text: "Kulaklıklı", isTarget: true, type: "Özellik Sıfatı" },
+                    { text: "Süt", isTarget: false, reason: "'Süt' bir nesne ismidir." },
+                    { text: "Çabuk", isTarget: false, reason: "'Çabuk' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#0F172A"/><polygon points="140,110 160,50 180,110" fill="#38BDF8"/><polygon points="220,110 240,50 260,110" fill="#38BDF8"/><circle cx="200" cy="150" r="50" fill="#0284C7"/><rect x="160" y="135" width="80" height="25" rx="6" fill="#F472B6"/><circle cx="180" cy="147" r="6" fill="#090D16"/><circle cx="220" cy="147" r="6" fill="#090D16"/></svg>`
+            },
+            {
+                id: 7, mode: "unblur", modeName: "🔍 Mod 1: Bulanıklık Çözücü", subject: "Sıcak Hava Balonu",
+                hint: "Gökyüzündeki dev balonu betimleyen 3 sıfatı seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Gökkuşağı Renkli", isTarget: true, type: "Renk Sıfatı" },
+                    { text: "Devasa", isTarget: true, type: "Boyut Sıfatı" },
+                    { text: "Yükselmek", isTarget: false, reason: "'Yükselmek' fiildir." },
+                    { text: "Neşeli", isTarget: true, type: "Durum Sıfatı" },
+                    { text: "Rüzgar", isTarget: false, reason: "'Rüzgar' doğa olayı ismidir." },
+                    { text: "Yüksekte", isTarget: false, reason: "'Yüksekte' durum bildirir." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#0EA5E9"/><path d="M 140 130 A 60 60 0 1 1 260 130 Q 200 200 140 130 Z" fill="#F59E0B"/><path d="M 160 130 A 40 40 0 0 1 240 130 Q 200 190 160 130 Z" fill="#EF4444"/><rect x="185" y="210" width="30" height="25" fill="#78350F"/></svg>`
+            },
+
+            // Mode B: Reverse Detective (Resme Bak, Sıfatları Bul!) (Bölüm 8 - 14)
+            {
+                id: 8, mode: "detect", modeName: "🕵️ Mod 2: Resim Dedektifi (Sıfatları Bul!)", subject: "Denizkızı Panda",
+                hint: "Ekranda NET olarak duran sevimli resme iyi bak! Bu resmi anlatmak için kullanılan 3 doğru sıfatı bul!",
+                slotsCount: 3,
+                words: [
+                    { text: "Sevimli", isTarget: true, type: "Durum Sıfatı" },
+                    { text: "Denizkızı Kuyruklu", isTarget: true, type: "Özellik Sıfatı" },
+                    { text: "Yüzmek", isTarget: false, reason: "'Yüzmek' eylemdir." },
+                    { text: "Sualtı Mavi", isTarget: true, type: "Renk/Ortam Sıfatı" },
+                    { text: "Balıklar", isTarget: false, reason: "'Balıklar' canlı ismidir." },
+                    { text: "Derinde", isTarget: false, reason: "'Derinde' durum bildirir." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#0284C7"/><circle cx="200" cy="110" r="40" fill="white"/><circle cx="180" cy="95" r="10" fill="#090D16"/><circle cx="220" cy="95" r="10" fill="#090D16"/><circle cx="185" cy="110" r="5" fill="white"/><circle cx="215" cy="110" r="5" fill="white"/><path d="M 170 140 Q 200 230 260 210 Q 290 190 280 230 Z" fill="#34D399"/></svg>`
+            },
+            {
+                id: 9, mode: "detect", modeName: "🕵️ Mod 2: Resim Dedektifi", subject: "Kristal Unicorn",
+                hint: "Net resimdeki kristal boynuzlu atı tarif eden 3 sıfatı bul!",
+                slotsCount: 3,
+                words: [
+                    { text: "Işıltılı", isTarget: true, type: "Görünüş Sıfatı" },
+                    { text: "Beyaz", isTarget: true, type: "Renk Sıfatı" },
+                    { text: "Şahlanmak", isTarget: false, reason: "'Şahlanmak' eylemdir." },
+                    { text: "Sihirli Kanatlı", isTarget: true, type: "Özellik Sıfatı" },
+                    { text: "Orman", isTarget: false, reason: "'Orman' mekan ismidir." },
+                    { text: "Güzelce", isTarget: false, reason: "'Güzelce' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#581C87"/><ellipse cx="200" cy="160" rx="55" ry="40" fill="#F8FAFC"/><circle cx="235" cy="120" r="30" fill="#F8FAFC"/><polygon points="245,100 280,40 230,90" fill="#FDE047"/><path d="M 160 140 Q 110 80 180 120 Z" fill="#F472B6" opacity="0.8"/></svg>`
+            },
+            {
+                id: 10, mode: "detect", modeName: "🕵️ Mod 2: Resim Dedektifi", subject: "Tahta Ayı",
+                hint: "Nostaljik tahta oyuncağı en iyi niteleyen 3 sıfatı seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Nostaljik", isTarget: true, type: "Tarz Sıfatı" },
+                    { text: "Kahverengi", isTarget: true, type: "Renk Sıfatı" },
+                    { text: "Oynamak", isTarget: false, reason: "'Oynamak' eylemdir." },
+                    { text: "Düğme Gözlü", isTarget: true, type: "Detay Sıfatı" },
+                    { text: "Oda", isTarget: false, reason: "'Oda' isimdir." },
+                    { text: "Sessizce", isTarget: false, reason: "'Sessizce' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#78350F"/><circle cx="200" cy="120" r="45" fill="#B45309"/><circle cx="165" cy="85" r="14" fill="#92400E"/><circle cx="235" cy="85" r="14" fill="#92400E"/><circle cx="185" cy="115" r="7" fill="#FEF3C7"/><circle cx="215" cy="115" r="7" fill="#FEF3C7"/><rect x="155" y="165" width="90" height="85" rx="16" fill="#B45309"/></svg>`
+            },
+            {
+                id: 11, mode: "detect", modeName: "🕵️ Mod 2: Resim Dedektifi", subject: "Sarı Denizaltı",
+                hint: "Sualtındaki yuvarlak pencereli aracı niteleyen 3 sıfatı bul!",
+                slotsCount: 3,
+                words: [
+                    { text: "Parlak Sarı", isTarget: true, type: "Renk Sıfatı" },
+                    { text: "Yuvarlak Pencereli", isTarget: true, type: "Özellik Sıfatı" },
+                    { text: "Dalmak", isTarget: false, reason: "'Dalmak' eylemdir." },
+                    { text: "Derin Su", isTarget: true, type: "Ortam Sıfatı" },
+                    { text: "Kaptan", isTarget: false, reason: "'Kaptan' kişi ismidir." },
+                    { text: "Aşağıda", isTarget: false, reason: "'Aşağıda' yer bildirir." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#0369A1"/><rect x="110" y="120" width="180" height="75" rx="35" fill="#FACC15"/><circle cx="160" cy="155" r="14" fill="#38BDF8"/><circle cx="200" cy="155" r="14" fill="#38BDF8"/><circle cx="240" cy="155" r="14" fill="#38BDF8"/><rect x="190" y="80" width="20" height="40" fill="#FACC15"/></svg>`
+            },
+            {
+                id: 12, mode: "detect", modeName: "🕵️ Mod 2: Resim Dedektifi", subject: "Ağaç Ev",
+                hint: "Dev ağacın üzerindeki gizli evi betimleyen 3 sıfatı seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Ahşap", isTarget: true, type: "Malzeme Sıfatı" },
+                    { text: "Merdivenli", isTarget: true, type: "Özellik Sıfatı" },
+                    { text: "Tırmanmak", isTarget: false, reason: "'Tırmanmak' eylemdir." },
+                    { text: "Gizli Orman", isTarget: true, type: "Ortam Sıfatı" },
+                    { text: "Yapraklar", isTarget: false, reason: "'Yapraklar' nesne ismidir." },
+                    { text: "Yukarıda", isTarget: false, reason: "'Yukarıda' yön bildirir." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#065F46"/><rect x="180" y="140" width="40" height="130" fill="#78350F"/><circle cx="200" cy="100" r="75" fill="#10B981"/><rect x="160" y="100" width="80" height="60" fill="#B45309"/><polygon points="150,100 200,60 250,100" fill="#EF4444"/></svg>`
+            },
+            {
+                id: 13, mode: "detect", modeName: "🕵️ Mod 2: Resim Dedektifi", subject: "Kutup Pengueni",
+                hint: "Buzlar üstündeki penguen için en uygun 3 sıfatı bul!",
+                slotsCount: 3,
+                words: [
+                    { text: "Buzlu", isTarget: true, type: "Ortam Sıfatı" },
+                    { text: "Kırmızı Atkılı", isTarget: true, type: "Aksesuar Sıfatı" },
+                    { text: "Kaymak", isTarget: false, reason: "'Kaymak' eylemdir." },
+                    { text: "Tatlı Minik", isTarget: true, type: "Durum/Boyut Sıfatı" },
+                    { text: "Kar", isTarget: false, reason: "'Kar' doğa ismidir." },
+                    { text: "Neşeyle", isTarget: false, reason: "'Neşeyle' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#0EA5E9"/><ellipse cx="200" cy="170" rx="45" ry="60" fill="#0F172A"/><ellipse cx="200" cy="175" rx="30" ry="45" fill="white"/><polygon points="195,135 205,135 200,145" fill="#F59E0B"/><rect x="170" y="145" width="60" height="12" rx="4" fill="#EF4444"/></svg>`
+            },
+            {
+                id: 14, mode: "detect", modeName: "🕵️ Mod 2: Resim Dedektifi", subject: "Bulut Şehri",
+                hint: "Bulutların üstündeki büyülü pembe şehri betimleyen 3 sıfatı bul!",
+                slotsCount: 3,
+                words: [
+                    { text: "Pamuksu", isTarget: true, type: "Görünüş Sıfatı" },
+                    { text: "Pembe", isTarget: true, type: "Renk Sıfatı" },
+                    { text: "Uçmak", isTarget: false, reason: "'Uçmak' eylemdir." },
+                    { text: "Büyülü Şato", isTarget: true, type: "Özellik Sıfatı" },
+                    { text: "Gökyüzü", isTarget: false, reason: "'Gökyüzü' isimdir." },
+                    { text: "Yükseklerde", isTarget: false, reason: "'Yükseklerde' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#F472B6"/><ellipse cx="140" cy="210" rx="60" ry="30" fill="white"/><ellipse cx="260" cy="210" rx="70" ry="35" fill="white"/><rect x="170" y="110" width="60" height="80" fill="#C084FC"/><polygon points="170,110 200,60 230,110" fill="#FDE047"/></svg>`
+            },
+
+            // Mode C: Color & Art Style Detective (Bölüm 15 - 20)
+            {
+                id: 15, mode: "style", modeName: "🎨 Mod 3: Sanat & Renk Dedektifi", subject: "Piksel Dinozor",
+                hint: "Bu resmin 'Sanat Stili ve Rengi' için en doğru 3 sıfatı seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Piksel Oyun Stili", isTarget: true, type: "Sanat Stili Sıfatı" },
+                    { text: "Fıstık Yeşili", isTarget: true, type: "Renk Sıfatı" },
+                    { text: "Kükremek", isTarget: false, reason: "'Kükremek' eylemdir." },
+                    { text: "Kutulu / Kareli", isTarget: true, type: "Biçim Sıfatı" },
+                    { text: "Oyun", isTarget: false, reason: "'Oyun' isimdir." },
+                    { text: "Eskiye Ait", isTarget: false, reason: "'Eskiye Ait' zarf yapılıdır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#0F172A"/><rect x="150" y="100" width="100" height="100" fill="#22C55E"/><rect x="210" y="120" width="20" height="20" fill="black"/><rect x="120" y="150" width="30" height="30" fill="#15803D"/><rect x="160" y="200" width="20" height="40" fill="#15803D"/><rect x="210" y="200" width="20" height="40" fill="#15803D"/></svg>`
+            },
+            {
+                id: 16, mode: "style", modeName: "🎨 Mod 3: Sanat & Renk Dedektifi", subject: "Sulu Boya Kelebek",
+                hint: "Bu resmin büyüleyici 'Sanat Stili' sıfatlarını seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Sulu Boya Stili", isTarget: true, type: "Sanat Stili Sıfatı" },
+                    { text: "Mor-Mavi Renkli", isTarget: true, type: "Renk Paleti Sıfatı" },
+                    { text: "Çırpmak", isTarget: false, reason: "'Çırpmak' eylemdir." },
+                    { text: "Narin Kanatlı", isTarget: true, type: "Özellik Sıfatı" },
+                    { text: "Ressam", isTarget: false, reason: "'Ressam' kişi ismidir." },
+                    { text: "Zarafetle", isTarget: false, reason: "'Zarafetle' durum zarfıdır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#FEF3C7"/><path d="M 200 150 Q 110 50 120 150 Q 140 220 200 150 Z" fill="#8B5CF6" opacity="0.75"/><path d="M 200 150 Q 290 50 280 150 Q 260 220 200 150 Z" fill="#3B82F6" opacity="0.75"/><line x1="200" y1="110" x2="200" y2="190" stroke="#1E1B4B" stroke-width="6"/></svg>`
+            },
+            {
+                id: 17, mode: "style", modeName: "🎨 Mod 3: Sanat & Renk Dedektifi", subject: "Origami Kuş",
+                hint: "Kağıt katlama sanatı ile yapılan kuşu anlatan 3 sıfatı bul!",
+                slotsCount: 3,
+                words: [
+                    { text: "Origami (Kağıt) Stili", isTarget: true, type: "Sanat Stili Sıfatı" },
+                    { text: "Parlak Turuncu", isTarget: true, type: "Renk Sıfatı" },
+                    { text: "Katlamak", isTarget: false, reason: "'Katlamak' eylemdir." },
+                    { text: "Keskin Çizgili", isTarget: true, type: "Biçim Sıfatı" },
+                    { text: "Kağıtlar", isTarget: false, reason: "'Kağıtlar' isimdir." },
+                    { text: "Özenle", isTarget: false, reason: "'Özenle' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#1E1B4B"/><polygon points="120,160 220,90 200,180" fill="#F97316"/><polygon points="220,90 280,140 200,180" fill="#EA580C"/><polygon points="220,90 240,60 210,80" fill="#FDE047"/></svg>`
+            },
+            {
+                id: 18, mode: "style", modeName: "🎨 Mod 3: Sanat & Renk Dedektifi", subject: "3D Animasyon Tavşan",
+                hint: "3D animasyon filmindeki sevimli tavşanın sıfatlarını seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "3D Dijital Stil", isTarget: true, type: "Sanat Stili Sıfatı" },
+                    { text: "Tüylü Yumuşak", isTarget: true, type: "Doku Sıfatı" },
+                    { text: "Zıplamak", isTarget: false, reason: "'Zıplamak' eylemdir." },
+                    { text: "Uzun Kulaklı", isTarget: true, type: "Özellik Sıfatı" },
+                    { text: "Havuç", isTarget: false, reason: "'Havuç' nesne ismidir." },
+                    { text: "Hızlıca", isTarget: false, reason: "'Hızlıca' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#F472B6"/><ellipse cx="200" cy="180" rx="50" ry="45" fill="white"/><circle cx="200" cy="120" r="35" fill="white"/><rect x="180" y="40" width="12" height="50" rx="6" fill="white"/><rect x="208" y="40" width="12" height="50" rx="6" fill="white"/><circle cx="190" cy="115" r="5" fill="#090D16"/><circle cx="210" cy="115" r="5" fill="#090D16"/></svg>`
+            },
+            {
+                id: 19, mode: "style", modeName: "🎨 Mod 3: Sanat & Renk Dedektifi", subject: "Karakalem Aslan",
+                hint: "Karakalem çizim stiliyle yapılmış aslanın 3 doğru sıfatını bul!",
+                slotsCount: 3,
+                words: [
+                    { text: "Karakalem Çizim Stili", isTarget: true, type: "Sanat Stili Sıfatı" },
+                    { text: "Siyah-Beyaz Palet", isTarget: true, type: "Renk Paleti Sıfatı" },
+                    { text: "Kükremek", isTarget: false, reason: "'Kükremek' eylemdir." },
+                    { text: "Heybetli Yeleli", isTarget: true, type: "Görünüş Sıfatı" },
+                    { text: "Çizim", isTarget: false, reason: "'Çizim' isimdir." },
+                    { text: "Ustaca", isTarget: false, reason: "'Ustaca' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#E2E8F0"/><circle cx="200" cy="150" r="70" fill="#475569"/><circle cx="200" cy="150" r="45" fill="#F8FAFC"/><circle cx="185" cy="140" r="6" fill="#0F172A"/><circle cx="215" cy="140" r="6" fill="#0F172A"/><polygon points="195,155 205,155 200,165" fill="#0F172A"/></svg>`
+            },
+            {
+                id: 20, mode: "style", modeName: "🎨 Mod 3: Sanat & Renk Dedektifi", subject: "Neon Şehir Arabası",
+                hint: "Son Süper Bölüm! Gece ışıklarındaki arabanın 3 sıfatını seç!",
+                slotsCount: 3,
+                words: [
+                    { text: "Neon Gece Stili", isTarget: true, type: "Sanat Stili Sıfatı" },
+                    { text: "Işıklı Renkli", isTarget: true, type: "Işık Sıfatı" },
+                    { text: "Sürmek", isTarget: false, reason: "'Sürmek' eylemdir." },
+                    { text: "Hızlı Spor", isTarget: true, type: "Özellik Sıfatı" },
+                    { text: "Yollar", isTarget: false, reason: "'Yollar' isimdir." },
+                    { text: "Hızla", isTarget: false, reason: "'Hızla' zarftır." }
+                ],
+                svg: `<svg viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="#090D16"/><rect x="120" y="160" width="160" height="45" rx="10" fill="#F472B6"/><path d="M 150 160 L 175 125 L 225 125 L 250 160 Z" fill="#38BDF8"/><circle cx="150" cy="205" r="16" fill="#F59E0B"/><circle cx="250" cy="205" r="16" fill="#F59E0B"/></svg>`
+            }
+        ];
+
+        /* Game State */
+        let currentLevelIdx = 0, score = 0, selectedAdjectives = [];
+
+        const levelIndicator = document.getElementById('level-indicator');
+        const scoreCounter = document.getElementById('score-counter');
+        const progressFill = document.getElementById('progress-fill');
+        const svgArt = document.getElementById('svg-art');
+        const imageWrapper = document.getElementById('image-wrapper');
+        const blurTag = document.getElementById('blur-tag');
+        const modeBadge = document.getElementById('mode-badge');
+        const subjectName = document.getElementById('subject-name');
+        const slot1 = document.getElementById('slot-1');
+        const slot2 = document.getElementById('slot-2');
+        const slot3 = document.getElementById('slot-3');
+        const levelHint = document.getElementById('level-hint');
+        const wordsContainer = document.getElementById('words-container');
+        const toast = document.getElementById('feedback-toast');
+        const toastIcon = document.getElementById('toast-icon');
+        const toastText = document.getElementById('toast-text');
+        const nextBtn = document.getElementById('next-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const soundBtn = document.getElementById('toggle-sound');
+        const completionModal = document.getElementById('completion-modal');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+
+        function loadLevel(idx) {
+            currentLevelIdx = idx;
+            const lvl = levels[idx];
+            selectedAdjectives = [];
+
+            levelIndicator.textContent = `Bölüm: ${lvl.id} / ${levels.length}`;
+            progressFill.style.width = `${((idx + 1) / levels.length) * 100}%`;
+            svgArt.innerHTML = lvl.svg;
+            subjectName.textContent = lvl.subject;
+            levelHint.innerHTML = lvl.hint;
+            modeBadge.textContent = lvl.modeName;
+
+            slot1.textContent = "? (Sıfat 1)"; slot1.classList.remove('filled');
+            slot2.textContent = "? (Sıfat 2)"; slot2.classList.remove('filled');
+            slot3.textContent = "? (Sıfat 3)"; slot3.classList.remove('filled');
+
+            updateBlurEffect();
+
+            wordsContainer.innerHTML = '';
+            const shuffledWords = [...lvl.words].sort(() => Math.random() - 0.5);
+            shuffledWords.forEach(w => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.innerHTML = `<span>🏷️</span> ${w.text}`;
+                chip.onclick = () => handleWordClick(w, chip);
+                wordsContainer.appendChild(chip);
+            });
+
+            showToast('👉', 'Doğru sıfatları seçerek prompt kartını oluştur!', 'info');
+            nextBtn.disabled = true;
+        }
+
+        function updateBlurEffect() {
+            const lvl = levels[currentLevelIdx];
+            const filledCount = selectedAdjectives.length;
+
+            if (lvl.mode === "unblur") {
+                let blurPx = Math.max(0, 18 - (filledCount * 6));
+                let grayscale = Math.max(0, 70 - (filledCount * 25));
+                imageWrapper.style.filter = `blur(${blurPx}px) grayscale(${grayscale}%)`;
+                let blurPercent = Math.round(((lvl.slotsCount - filledCount) / lvl.slotsCount) * 100);
+                blurTag.textContent = blurPercent === 0 ? "🔓 Tamamen Net!" : `🔒 Bulanıklık: %${blurPercent}`;
+            } else {
+                // Mode B & C are clean visuals right from start!
+                imageWrapper.style.filter = "none";
+                blurTag.textContent = "🖼️ Net Görsel İncelemesi";
+                blurTag.style.color = "#38BDF8";
+            }
+        }
+
+        function handleWordClick(wordObj, chipElement) {
+            if (chipElement.classList.contains('selected')) return;
+            sfx.playPop();
+
+            if (wordObj.isTarget) {
+                chipElement.classList.add('selected');
+                selectedAdjectives.push(wordObj.text);
+                sfx.playSuccess();
+
+                const slotIdx = selectedAdjectives.length;
+                if (slotIdx === 1) { slot1.textContent = wordObj.text; slot1.classList.add('filled'); }
+                else if (slotIdx === 2) { slot2.textContent = wordObj.text; slot2.classList.add('filled'); }
+                else if (slotIdx === 3) { slot3.textContent = wordObj.text; slot3.classList.add('filled'); }
+
+                score += 50;
+                scoreCounter.textContent = `Puan: ${score}`;
+                updateBlurEffect();
+                showToast('✨', `Harika! "${wordObj.text}" doğru bir ${wordObj.type}dir.`, 'success');
+
+                if (selectedAdjectives.length === levels[currentLevelIdx].slotsCount) {
+                    showToast('🎉', 'Tebrikler! Bölümü tamamladın.', 'success');
+                    nextBtn.disabled = false;
+                    triggerConfetti();
+                }
+            } else {
+                chipElement.classList.add('wrong-shake');
+                sfx.playWrong();
+                setTimeout(() => chipElement.classList.remove('wrong-shake'), 450);
+                showToast('⚠️', wordObj.reason, 'warning');
+            }
+        }
+
+        function showToast(icon, text, type) {
+            toastIcon.textContent = icon;
+            toastText.textContent = text;
+            toast.className = `feedback-toast ${type}`;
+        }
+
+        function triggerConfetti() {
+            const canvas = document.getElementById('confetti-canvas'), ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            const particles = [];
+            for (let i = 0; i < 45; i++) {
+                particles.push({
+                    x: canvas.width / 2, y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.5) * 10 - 3,
+                    color: ['#F59E0B', '#10B981', '#6366F1', '#EC4899'][Math.floor(Math.random() * 4)],
+                    size: Math.random() * 6 + 4, life: 75
+                });
+            }
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let alive = false;
+                particles.forEach(p => {
+                    if (p.life > 0) {
+                        alive = true; p.x += p.vx; p.y += p.vy; p.vy += 0.2; p.life -= 1.5;
+                        ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+                    }
+                });
+                if (alive) requestAnimationFrame(render);
+            }
+            render();
+        }
+
+        nextBtn.onclick = () => {
+            if (currentLevelIdx < levels.length - 1) {
+                loadLevel(currentLevelIdx + 1);
+            } else {
+                progressFill.style.width = '100%';
+                completionModal.classList.add('active');
+                sfx.playSuccess();
+                triggerConfetti();
+            }
+        };
+
+        resetBtn.onclick = () => loadLevel(currentLevelIdx);
+        soundBtn.onclick = () => { sfx.enabled = !sfx.enabled; soundBtn.textContent = sfx.enabled ? '🔊' : '🔇'; };
+        modalCloseBtn.onclick = () => { completionModal.classList.remove('active'); score = 0; scoreCounter.textContent = 'Puan: 0'; loadLevel(0); };
+
+        document.getElementById('copy-btn').onclick = () => {
+            navigator.clipboard.writeText(document.getElementById('final-master-prompt').textContent.trim());
+            document.getElementById('copy-btn').textContent = "✅ Kopyalandı!";
+            setTimeout(() => document.getElementById('copy-btn').textContent = "📋 Kopyala", 2000);
+        };
+
+        // Init Story and Game
+        renderStoryPage(0);
+        loadLevel(0);
+    </script>
+</body>
+</html>

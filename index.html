@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İlkokul Yapay Zekâ Müfredatı & Etkin Öğrenme Portalı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #6366F1;
+            --accent: #F59E0B;
+            --accent-glow: #FBBF24;
+            --bg-grad: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+
+        body {
+            background: var(--bg-grad);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .portal-badge {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+        }
+
+        header {
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #38BDF8, #818CF8, #F472B6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .lesson-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-light);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.25);
+        }
+
+        .card-tag {
+            align-self: flex-start;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10B981;
+            color: #34D399;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .card-tag.upcoming {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--accent);
+            color: var(--accent-glow);
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #F8FAFC;
+        }
+
+        .card-desc {
+            color: #CBD5E1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .btn-launch {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+            display: block;
+        }
+
+        .btn-launch:hover {
+            background: linear-gradient(135deg, #4338CA, #3730A3);
+            transform: scale(1.02);
+        }
+
+        .btn-launch.disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            pointer-events: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="portal-badge">✨ Türkiye Yüzyılı Maarif Modeli Uyumlu</div>
+
+    <header>
+        <h1>İlkokul Yapay Zekâ Eğitimi Portalı</h1>
+        <p>Bireysel Dijital Okuryazarlık (OB2) ve İş Birlikli İstem (Prompt) Tasarımı Etkinlikleri</p>
+    </header>
+
+    <div class="lessons-grid">
+        <!-- Ders 1 Card -->
+        <div class="lesson-card">
+            <div>
+                <div class="card-tag">✅ Aktif Ders</div>
+                <h2 class="card-title" style="margin-top: 10px;">Ders 1: Kelime & AI Dedektifi</h2>
+                <p class="card-desc" style="margin-top: 8px;">
+                    Sıfatları seç, bulanık görselleri netleştir, renk & sanat stillerini keşfet ve 2. Aşama grup çalışması için harika promptlar yaz! (20 Etkinlikli Sürüm)
+                </p>
+            </div>
+            <a href="./ders1/index.html" class="btn-launch">Dersi Başlat 🚀</a>
+        </div>
+
+        <!-- Ders 2 Placeholder Card -->
+        <div class="lesson-card">
+            <div>
+                <div class="card-tag upcoming">⏳ Çok Yakında</div>
+                <h2 class="card-title" style="margin-top: 10px;">Ders 2: Görsel Okuryazarlık & Sanat Kartları</h2>
+                <p class="card-desc" style="margin-top: 8px;">
+                    Sulu boya, 3D animasyon, karakalem ve origami gibi görsel sanat stillerini eşleştirme ve estetik değer geliştirme oyunu.
+                </p>
+            </div>
+            <a href="#" class="btn-launch disabled">Yakında 🔒</a>
+        </div>
+
+        <!-- Ders 3 Placeholder Card -->
+        <div class="lesson-card">
+            <div>
+                <div class="card-tag upcoming">⏳ Çok Yakında</div>
+                <h2 class="card-title" style="margin-top: 10px;">Ders 3: Mantık Dedektifliği</h2>
+                <p class="card-desc" style="margin-top: 8px;">
+                    Yapay zekâ tarafından bilerek hatalı üretilmiş resimlerdeki mantık hatalarını bulma ve dijital bilgiyi sorgulama (OB2.9).
+                </p>
+            </div>
+            <a href="#" class="btn-launch disabled">Yakında 🔒</a>
+        </div>
+    </div>
+
+</body>
+</html>
