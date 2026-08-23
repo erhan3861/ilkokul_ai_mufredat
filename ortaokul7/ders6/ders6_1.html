@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7. Sınıf Ders 6.1: Karışımlar, Aynalar ve Yanılsama Labı 🧪</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-light: #F472B6;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --success: #10B981;
+            --danger: #EF4444;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            background: var(--bg-grad);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1240px;
+            height: calc(100vh - 12px);
+            max-height: calc(100vh - 12px);
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 12px 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.12);
+            padding-bottom: 6px;
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #FDE047, #EC4899, #818CF8, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-header {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-header:hover {
+            background: rgba(236, 72, 153, 0.3);
+            border-color: #F472B6;
+        }
+
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 5%;
+            background: linear-gradient(90deg, #EC4899, #06B6D4, #10B981);
+            transition: width 0.3s ease;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 12px;
+            flex-grow: 1;
+            min-height: 0;
+        }
+
+        .visual-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .mode-badge {
+            background: linear-gradient(90deg, #EC4899, #06B6D4);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            align-self: flex-start;
+        }
+
+        .canvas-frame {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1.5px solid var(--card-border);
+            background: #000;
+        }
+
+        .blur-overlay-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--card-border);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 5;
+            color: #FDE047;
+        }
+
+        .ai-image-wrapper {
+            width: 100%;
+            height: 100%;
+            filter: blur(18px) grayscale(70%);
+            transition: filter 0.5s ease;
+        }
+
+        .ai-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .live-prompt-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1.5px dashed rgba(236, 72, 153, 0.4);
+            border-radius: 12px;
+            padding: 10px 14px;
+        }
+
+        .prompt-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #F472B6;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .words-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            min-height: 0;
+        }
+
+        .target-hint-box {
+            background: rgba(236, 72, 153, 0.15);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: #FBCFE8;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .word-chips-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .word-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            color: #E2E8F0;
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .word-chip:hover {
+            background: rgba(236, 72, 153, 0.2);
+            border-color: #F472B6;
+            transform: translateX(3px);
+        }
+
+        .word-chip.selected {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #10B981;
+            color: #A7F3D0;
+        }
+
+        .word-chip.wrong-shake {
+            animation: shake 0.4s ease;
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #EF4444;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .feedback-toast {
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feedback-toast.info {
+            background: rgba(6, 182, 212, 0.2);
+            color: #A5F3FC;
+            border: 1px solid rgba(6, 182, 212, 0.4);
+        }
+
+        .feedback-toast.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6EE7B7;
+            border: 1px solid #10B981;
+        }
+
+        .feedback-toast.warning {
+            background: rgba(239, 68, 68, 0.2);
+            color: #FCA5A5;
+            border: 1px solid #EF4444;
+        }
+
+        .footer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover:not(:disabled) {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        .btn-action:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Storybook Tutorial Modal */
+        .story-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(11, 15, 25, 0.9);
+            backdrop-filter: blur(14px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .story-modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .story-card {
+            background: #1E1B4B;
+            border: 2px solid #EC4899;
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 960px;
+            width: 100%;
+            text-align: left;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .story-badge {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6, #06B6D4);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .story-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .s-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .s-dot.active {
+            background: #FDE047;
+            width: 18px;
+            border-radius: 10px;
+        }
+
+        .story-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .story-img-frame {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            height: 280px;
+            background: #000;
+        }
+
+        .story-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-text-area h3 {
+            font-family: 'Outfit', sans-serif;
+            color: #FDE047;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .story-text-area div {
+            font-size: 1rem;
+            color: #CBD5E1;
+            line-height: 1.65;
+        }
+
+        .btn-story-nav {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-story-nav:hover {
+            transform: scale(1.04);
+        }
+
+        /* Completion Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 150;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: #1E1B4B;
+            border: 2px solid #EC4899;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 580px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 4 Adımlık Ders Anlatım Modalı (STORYBOOK) -->
+    <div class="story-modal-backdrop active" id="story-modal">
+        <div class="story-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="story-badge">🧪 7. Sınıf 6. Hafta: Karışımlar, Aynalar ve Halüsinasyon Tespiti</div>
+                <div class="story-dots">
+                    <div class="s-dot active" id="sdot-0"></div>
+                    <div class="s-dot" id="sdot-1"></div>
+                    <div class="s-dot" id="sdot-2"></div>
+                    <div class="s-dot" id="sdot-3"></div>
+                </div>
+            </div>
+
+            <div class="story-content-grid">
+                <div class="story-img-frame">
+                    <img id="story-img" src="images/ders6_hero.png" alt="Ders Rehberi Görseli">
+                </div>
+                <div class="story-text-area" id="story-content">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <button class="btn-story-nav" id="story-prev-btn" onclick="prevStoryPage()"
+                    style="visibility:hidden; background:rgba(255,255,255,0.15); box-shadow:none;">⬅️ Geri</button>
+                <button class="btn-story-nav" id="story-next-btn" onclick="nextStoryPage()">Sonraki Adım ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-title">
+                <h1>🔬 7.6.1 Karışımlar, Aynalar & Yanılsama Labı <span
+                        style="font-size: 0.88rem; color: #F472B6; font-weight: 500;">(20 Bölümlü Bireysel
+                        Çalışma)</span></h1>
+                <p>Yapay zekânın kimya ve optik yanıtlarındaki bilimsel yanılsamaları (halüsinasyonları) tespit et!</p>
+            </div>
+            <div class="header-stats">
+                <button class="btn-header" onclick="reopenStory()">📖 Ders Rehberi</button>
+                <button class="btn-header" onclick="toggleFullScreen()">🖥️ Tam Ekran</button>
+                <div class="stat-pill">🎯 <span id="level-indicator">Bölüm: 1 / 20</span></div>
+                <div class="stat-pill">⭐ <span id="score-counter">Puan: 0</span></div>
+            </div>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- Game Grid -->
+        <div class="game-grid">
+            <!-- Left: Visual Card -->
+            <div class="visual-card">
+                <div class="mode-badge" id="mode-badge">🎮 Seviye 1: Bilimsel Gerçek vs AI Halüsinasyonu</div>
+                <div class="canvas-frame">
+                    <div class="blur-overlay-tag" id="blur-tag">🔒 Bulanıklık: %100</div>
+                    <div class="ai-image-wrapper" id="image-wrapper">
+                        <img id="ai-img" src="images/ders6_hero.png" alt="AI Visual">
+                    </div>
+                </div>
+
+                <div class="live-prompt-box">
+                    <div class="prompt-title">✍️ Yapay Zekânın Ürettiği İfade / Yanıt:</div>
+                    <div id="target-sentence-text" style="font-weight:700; color:#FBCFE8; font-size:0.95rem;">
+                        "Tuzlu su bir bileşiktir, kimyasal formülü NaClH2O şeklindedir ve kaynatılarak ayrılamaz."
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Words Card -->
+            <div class="words-card">
+                <div class="target-hint-box" id="level-hint">
+                    Yukarıdaki yapay zekâ yanıtını incele. Doğru bir bilimsel bilgi mi yoksa uydurma bir Halüsinasyon mu?
+                </div>
+
+                <div style="font-size: 0.8rem; font-weight: 700; color: #E2E8F0;">🏷️ Bilimsel Durumu veya Düzeltme İstemini Seç:</div>
+
+                <div class="word-chips-grid" id="options-container"></div>
+
+                <div class="feedback-toast info" id="feedback-toast">
+                    <span id="toast-icon">👉</span>
+                    <span id="toast-text">İfadeyi oku ve doğru tespit seçeneğine tıkla!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="footer-actions">
+            <button class="btn-action" id="reset-btn" onclick="resetLevel()" style="background: rgba(255,255,255,0.1);">
+                🔄 Sıfırla
+            </button>
+            <button class="btn-action" id="next-btn" onclick="nextLevel()" disabled>
+                Sonraki Bölüm ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- 20th Stage Completion Modal -->
+    <div class="modal-backdrop" id="completion-modal">
+        <div class="modal-card">
+            <div style="font-size: 3rem;">🎉🏆</div>
+            <h2 style="color: #FDE047; font-family: 'Outfit';">Tebrikler Şampiyon Halüsinasyon Avcısı!</h2>
+            <p style="color: #CBD5E1; font-size: 0.95rem;">
+                20 bölümün tamamını üstün başarıyla tamamladın! Karışımlar ve aynalar konularında yapay zekânın ürettiği yanılsamaları bilimsel kanıtlarla tespit edip düzelttin.
+            </p>
+
+            <div
+                style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(6, 182, 212, 0.2)); border: 2px dashed #EC4899; border-radius: 20px; padding: 16px; margin: 12px 0; text-align: center;">
+                <div style="font-size: 1.8rem;">🎁✨</div>
+                <div style="color: #F472B6; font-size: 0.9rem; font-weight: 700; text-transform: uppercase;">7.6.1
+                    BİREYSEL ÇALIŞMA BAŞARI ŞİFRENİZ:</div>
+                <div
+                    style="font-size: 2.4rem; font-weight: 800; color: #FDE047; letter-spacing: 2px; text-transform: lowercase;">
+                    karışım7</div>
+            </div>
+
+            <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 6px; line-height: 1.5;">
+                📌 Canlı ders panelindeki ✏️ <strong>Cevapla</strong> butonuna tıklayın ve bu şifreyi girin!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Storybook 4-Step Tutorial Content
+        const storyPages = [
+            {
+                title: "1. Adım: Yapay Zekâ Halüsinasyonu Nedir? 🎭",
+                img: "images/ders6_hero.png",
+                body: "Yapay zekâ modelleri bazen bilmedikleri konularda son derece kendinden emin görünerek <strong>uydurma ve hatalı bilgiler</strong> üretirler. Buna <strong>Yapay Zekâ Halüsinasyonu</strong> denir!<br>✨ İyi bir istem mühendisi yapay zekânın her dediğine inanmaz, fen kurallarıyla çapraz kontrol yapar."
+            },
+            {
+                title: "2. Adım: Fen 7 Karışımlar & Çözeltiler 🧪",
+                img: "images/ders6_karisim.png",
+                body: "1️⃣ <strong>Saf Maddeler:</strong> Element ve Bileşikler (Formülü vardır, sabittir).<br>2️⃣ <strong>Karışımlar:</strong> Homojen (Çözelti - tuzlu su) ve Heterojen (Zeytinyağı-su, salata). Formülleri yoktur, fiziksel yollarla ayrılırlar!"
+            },
+            {
+                title: "3. Adım: Fen 7 Aynalar ve Yansıma Fiziği 🪞",
+                img: "images/ders6_1.png",
+                body: "1️⃣ <strong>Düzlem Ayna:</strong> Görüntü düz, cisimle aynı boyda ve simetriktir.<br>2️⃣ <strong>Çukur Ayna:</strong> Odak noktasına göre dev veya ters görüntü oluşturur (Dişçi aynası, teleskop).<br>3️⃣ <strong>Tümsek Ayna:</strong> Her zaman düz ve küçük görüntü verir, geniş alanı gösterir (Araç yan aynası)."
+            },
+            {
+                title: "4. Adım: 20 Bölümlük Dedektiflik Testine Başla! 🏆",
+                img: "images/ders6_art.png",
+                body: "Şimdi sıra sende! 20 bölüm boyunca ifadeleri incele, halüsinasyonları yakala ve <strong>karışım7</strong> başarı şifreni kazan!"
+            }
+        ];
+
+        let storyIdx = 0;
+
+        function updateStoryModal() {
+            document.getElementById('story-img').src = storyPages[storyIdx].img;
+            document.getElementById('story-content').innerHTML = `
+                <h3>${storyPages[storyIdx].title}</h3>
+                <div>${storyPages[storyIdx].body}</div>
+            `;
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`sdot-${i}`).className = `s-dot ${i === storyIdx ? 'active' : ''}`;
+            }
+            document.getElementById('story-prev-btn').style.visibility = storyIdx === 0 ? 'hidden' : 'visible';
+            document.getElementById('story-next-btn').innerText = storyIdx === 3 ? "Laboratuvara Başla 🧪" : "Sonraki Adım ➡️";
+        }
+
+        function nextStoryPage() {
+            if (storyIdx < 3) {
+                storyIdx++;
+                updateStoryModal();
+            } else {
+                document.getElementById('story-modal').classList.remove('active');
+            }
+        }
+
+        function prevStoryPage() {
+            if (storyIdx > 0) {
+                storyIdx--;
+                updateStoryModal();
+            }
+        }
+
+        function reopenStory() {
+            storyIdx = 0;
+            updateStoryModal();
+            document.getElementById('story-modal').classList.add('active');
+        }
+
+        // 20-Section Graded Activities (7. Sınıf Karışımlar, Aynalar & Yanılsama Tespiti)
+        const activities = [
+            // Seviye 1: Bilimsel Gerçek vs AI Halüsinasyonu (1 - 7)
+            { sentence: "“Tuzlu su bir bileşiktir, kimyasal formülü NaClH2O şeklindedir ve buharlaştırmayla ayrılamaz.”", img: "images/ders6_hero.png", mode: "🎮 Seviye 1: Bilimsel Gerçek vs AI Halüsinasyonu", hint: "Tuzlu su saf madde midir yoksa karışım mı?", correct: "❌ AI HALÜSİNASYONU (Tuzlu su homojen karışımdır, formülü yoktur ve buharlaştırmayla ayrılır)", options: ["❌ AI HALÜSİNASYONU (Tuzlu su homojen karışımdır, formülü yoktur ve buharlaştırmayla ayrılır)", "✔ Doğru Bilimsel Gerçek"] },
+            { sentence: "“Düzlem aynada oluşan görüntü her zaman cisimle aynı boyda, düz ve aynaya göre simetriktir.”", img: "images/ders6_1.png", mode: "🎮 Seviye 1: Bilimsel Gerçek vs AI Halüsinasyonu", hint: "Düzlem ayna optik kuralını kontrol et!", correct: "✔ Doğru Bilimsel Gerçek", options: ["✔ Doğru Bilimsel Gerçek", "❌ AI Halüsinasyonu"] },
+            { sentence: "“Tümsek ayna cisimleri her zaman ters ve 10 kat devasa boyutta gösterir.”", img: "images/ders6_karisim.png", mode: "🎮 Seviye 1: Bilimsel Gerçek vs AI Halüsinasyonu", hint: "Tümsek ayna (araç yan aynası) görüntüsünü hatırla!", correct: "❌ AI HALÜSİNASYONU (Tümsek ayna her zaman düz ve cisimden KÜÇÜK görüntü verir)", options: ["❌ AI HALÜSİNASYONU (Tümsek ayna her zaman düz ve cisimden KÜÇÜK görüntü verir)", "✔ Doğru Bilimsel Gerçek"] },
+            { sentence: "“Zeytinyağı ve su karışımı heterojendir ve yoğunluk farkıyla ayırma hunisi kullanılarak ayrılabilir.”", img: "images/ders6_art.png", mode: "🎮 Seviye 1: Bilimsel Gerçek vs AI Halüsinasyonu", hint: "Yoğunluk farkı kuralını hatırla!", correct: "✔ Doğru Bilimsel Gerçek", options: ["✔ Doğru Bilimsel Gerçek", "❌ AI Halüsinasyonu"] },
+            { sentence: "“Çözünme hızını artırmak için sıcaklık düşürülmeli ve çözelti asla karıştırılmamalıdır.”", img: "images/ders6_hero.png", mode: "🎮 Seviye 1: Bilimsel Gerçek vs AI Halüsinasyonu", hint: "Çözünme hızını etkileyen faktörleri düşün!", correct: "❌ AI HALÜSİNASYONU (Sıcaklık artışı, karıştırma ve temas yüzeyi çözünme hızını ARTIRIR)", options: ["❌ AI HALÜSİNASYONU (Sıcaklık artışı, karıştırma ve temas yüzeyi çözünme hızını ARTIRIR)", "✔ Doğru Bilimsel Gerçek"] },
+            { sentence: "“Alkol ve su karışımı homojen bir çözeltidir ve kaynama noktası farkından yararlanan ayrımsal damıtma ile ayrılır.”", img: "images/ders6_1.png", mode: "🎮 Seviye 1: Bilimsel Gerçek vs AI Halüsinasyonu", hint: "Damıtma yöntemini hatırla!", correct: "✔ Doğru Bilimsel Gerçek", options: ["✔ Doğru Bilimsel Gerçek", "❌ AI Halüsinasyonu"] },
+            { sentence: "“Çukur ayna yalnızca tek bir görüntü oluşturur; cisim nerede olursa olsun sadece küçük ve düz gösterir.”", img: "images/ders6_karisim.png", mode: "🎮 Seviye 1: Bilimsel Gerçek vs AI Halüsinasyonu", hint: "Çukur aynada odağa göre görüntü değişimini hatırla!", correct: "❌ AI HALÜSİNASYONU (Çukur aynada cismin konumuna göre düz-büyük veya ters-küçük görüntüler oluşabilir)", options: ["❌ AI HALÜSİNASYONU (Çukur aynada cismin konumuna göre düz-büyük veya ters-küçük görüntüler oluşabilir)", "✔ Doğru Bilimsel Gerçek"] },
+
+            // Seviye 2: Karışımlar & Aynalarda Yanılsama Tespiti (8 - 14)
+            { sentence: "Yapay zekâ 'Demir tozu ve kükürt tozu karışımı sadece buharlaştırma ile ayrılır' derse yapılan hata nedir?", img: "images/ders6_art.png", mode: "🚀 Seviye 2: Yanılsama Tespiti", hint: "Mıknatısla ayırma yöntemini düşün!", correct: "Demir tozu manyetiktir; mıknatısla ayırma yöntemi kullanılmalıdır.", options: ["Demir tozu manyetiktir; mıknatısla ayırma yöntemi kullanılmalıdır.", "Buharlaştırma sıcaklığı çok düşüktür.", "Kükürt tozu sıvılaşır."] },
+            { sentence: "Yapay zekâ 'Diş hekimleri hastanın ağzındaki çürüğü küçük görmek için tümsek ayna kullanır' dediğinde hata nedir?", img: "images/ders6_hero.png", mode: "🚀 Seviye 2: Yanılsama Tespiti", hint: "Diş hekimi aynası görüntüyü büyütmelidir!", correct: "Diş hekimleri görüntüyü BÜYÜTMEK için Çukur Ayna kullanırlar.", options: ["Diş hekimleri görüntüyü BÜYÜTMEK için Çukur Ayna kullanırlar.", "Diş hekimleri ayna yerine mercek kullanır.", "Ağızda yansıma gerçekleşmez."] },
+            { sentence: "Yapay zekâ 'Ayran ve çorba homojen çözeltidir, her yerinde aynı özelliği gösterir' derse tespitin ne olur?", img: "images/ders6_1.png", mode: "🚀 Seviye 2: Yanılsama Tespiti", hint: "Homojen vs Heterojen ayrımı!", correct: "Ayran ve çorba heterojen karışımdır (bekletilince çöker veya fazlara ayrılır).", options: ["Ayran ve çorba heterojen karışımdır (bekletilince çöker veya fazlara ayrılır).", "Ayran saf bir elementtir.", "Çorba bileşiktir."] },
+            { sentence: "Yapay zekâ 'Işık düzlem aynaya 30° açıyla gelirse 60° açıyla yansır' dediğinde hangi kanunu ihlal etmiştir?", img: "images/ders6_karisim.png", mode: "🚀 Seviye 2: Yanılsama Tespiti", hint: "Yansıma kanununu hatırla (Gelme Açısı = Yansıma Açısı)!", correct: "Yansıma Kanunu: Gelme açısı her zaman Yansıma açısına eşittir (30° = 30°).", options: ["Yansıma Kanunu: Gelme açısı her zaman Yansıma açısına eşittir (30° = 30°).", "Işık aynada kırılmak zorundadır.", "Açı her zaman 90 dereceye tamamlanır."] },
+            { sentence: "Yapay zekâ 'Kum ve çakıl karışımını ayırmak için süzgeç kağıdıyla damıtma yapılmalıdır' derse doğru yöntem nedir?", img: "images/ders6_art.png", mode: "🚀 Seviye 2: Yanılsama Tespiti", hint: "Tanecik boyutu farkını düşün!", correct: "Tanecik boyutu farkından yararlanan ELEME yöntemi kullanılmalıdır.", options: ["Tanecik boyutu farkından yararlanan ELEME yöntemi kullanılmalıdır.", "Mıknatıs kullanılmalıdır.", "Buharlaştırılmalıdır."] },
+            { sentence: "Yapay zekâ 'Otomobillerin yan aynalarında çukur ayna kullanılır çünkü görüş alanını daraltır' dediğinde gerçek nedir?", img: "images/ders6_hero.png", mode: "🚀 Seviye 2: Yanılsama Tespiti", hint: "Geniş görüş alanı sağlayan aynayı bul!", correct: "Araç yan aynalarında geniş görüş alanı sağlamak için TÜMSEK ayna kullanılır.", options: ["Araç yan aynalarında geniş görüş alanı sağlamak için TÜMSEK ayna kullanılır.", "Araç yan aynaları ahşaptır.", "Yan aynalarda yansıma olmaz."] },
+            { sentence: "Yapay zekâ bir fen sorusuna halüsinasyon ürettiğinde öğrencinin ilk yapması gereken nedir?", img: "images/ders6_1.png", mode: "🚀 Seviye 2: Yanılsama Tespiti", hint: "Doğrulama ve kaynak kontrolü!", correct: "İfadeleri ders kitabı, MEB Maarif kazanımları ve deney kanıtlarıyla çapraz kontrol etmek.", options: ["İfadeleri ders kitabı, MEB Maarif kazanımları ve deney kanıtlarıyla çapraz kontrol etmek.", "Yapay zekânın her dediğini sınav kağıdına yazmak.", "Bilgisayarı hemen kapatmak."] },
+
+            // Seviye 3: Halüsinasyon Engelleyen Şampiyon İstemler (15 - 20)
+            { sentence: "Karışımların ayrılması konusunda HALÜSİNASYONU SIFIRLAYAN şampiyon doğrulama istemi hangisidir?", img: "images/ders6_karisim.png", mode: "🏆 Seviye 3: Şampiyon Doğrulama İstemleri", hint: "Kaynak ve kural zorunluluğu olan istemi seç!", correct: "“[KONU]: Karışımları Ayırma Yöntemleri ➔ [KURAL]: Sadece Fen 7 fiziksel ayırma ilkelerine dayan ➔ [KAYNAK]: MEB Fen 7 Müfredatı”", options: ["“Karışımları kafana göre ayır”", "“[KONU]: Karışımları Ayırma Yöntemleri ➔ [KURAL]: Sadece Fen 7 fiziksel ayırma ilkelerine dayan ➔ [KAYNAK]: MEB Fen 7 Müfredatı”", "“Bana karışım anlat”"] },
+            { sentence: "Aynalarda yansıma konusunda halüsinasyonu engelleyen şampiyon istem hangisidir?", img: "images/ders6_art.png", mode: "🏆 Seviye 3: Şampiyon Doğrulama İstemleri", hint: "Yansıma kanununu zorunlu kılan şıkkı seç!", correct: "“[ZORUNLU_FİZİK_KURALI]: Gelme Açısı = Yansıma Açısı. Düzlem, çukur ve tümsek ayna özelliklerini bu kurala göre tablo halinde ver.”", options: ["“Ayna resmi çiziver”", "“[ZORUNLU_FİZİK_KURALI]: Gelme Açısı = Yansıma Açısı. Düzlem, çukur ve tümsek ayna özelliklerini bu kurala göre tablo halinde ver.”", "“Aynalar güzeldir”", "“Işıkları söndür”"] },
+            { sentence: "Homojen ve heterojen karışımlarda yapay zekânın uydurmasını engelleyen etiket yapısı hangisidir?", img: "images/ders6_hero.png", mode: "🏆 Seviye 3: Şampiyon Doğrulama İstemleri", hint: "Etiketli ve kısıtlı istemi bul!", correct: "“[KONTROL_ADIMI]: Karışımın faz sayısını belirt ➔ [BİLİMSEL_KANIT]: Çözelti olup olmadığını açıkla ➔ [HALÜSİNASYON_KORUMASI]: Emin değilsen belirt.”", options: ["“Karışımları karıştır”", "“[KONTROL_ADIMI]: Karışımın faz sayısını belirt ➔ [BİLİMSEL_KANIT]: Çözelti olup olmadığını açıkla ➔ [HALÜSİNASYON_KORUMASI]: Emin değilsen belirt.”", "“Rastgele yaz”", "“Hiçbir şey sorma”"] },
+            { sentence: "3D Kimya ve Optik Laboratuvarı görsel isteminde halüsinasyonu engelleyen şablon hangisidir?", img: "images/ders6_1.png", mode: "🏆 Seviye 3: Şampiyon Doğrulama İstemleri", hint: "3D görsel istem kurgusunu seç!", correct: "“[GÖRSEL_STİL]: 3D Pixar Chemistry Lab, ayrışan renkli sıvılar, prizma lazer yansımaları, 8k render, no text, no logo.”", options: ["“Karalama resmi”", "“[GÖRSEL_STİL]: 3D Pixar Chemistry Lab, ayrışan renkli sıvılar, prizma lazer yansımaları, 8k render, no text, no logo.”", "“Bulanık fotoğraf”", "“Karanlık oda”"] },
+            { sentence: "Yapay zekâdan bilimsel araştırma yaparken 'RAG (Doküman Tabanlı Doğrulama)' mekanizması ne işe yarar?", img: "images/ders6_karisim.png", mode: "🏆 Seviye 3: Şampiyon Doğrulama İstemleri", hint: "Belgeye dayalı doğrulama mekanizmasını seç!", correct: "Yapay zekânın yalnızca yüklenen güvenilir bilimsel ders notlarına dayanarak yanıt vermesini sağlar ve uydurmayı önler.", options: ["Yapay zekânın yalnızca yüklenen güvenilir bilimsel ders notlarına dayanarak yanıt vermesini sağlar ve uydurmayı önler.", "İnternet hızını iki katına çıkarır.", "Monitörü temizler.", "Hoparlörün sesini açar."] },
+            { sentence: "🏆 20. BÖLÜM FİNALİ: 7. Sınıf seviyesinde yapay zekâ yanıtlarındaki halüsinasyonları engellemenin altın anahtarı nedir?", img: "images/ders6_art.png", mode: "🏆 Seviye 3: Şampiyon Doğrulama İstemleri", hint: "Son büyük kazanım kuralına tıkla!", correct: "“İstemde açık fen kuralları vermek, kaynak kısıtı koymak ve çıktıları bilimsel bilgilerimizle daima doğrulamak.”", options: ["“Yapay zekânın her söylediğini tartışmasız doğru kabul etmek”", "“İstemde açık fen kuralları vermek, kaynak kısıtı koymak ve çıktıları bilimsel bilgilerimizle daima doğrulamak.”", "“Hiç soru sormamak”", "“Yapay zekâya kızmak”", "“Dersi yarıda bırakmak”"] }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+
+        function loadLevel(idx) {
+            if (idx >= activities.length) {
+                document.getElementById('completion-modal').classList.add('active');
+                return;
+            }
+
+            const act = activities[idx];
+            document.getElementById('level-indicator').innerText = `Bölüm: ${idx + 1} / 20`;
+            document.getElementById('score-counter').innerText = `Puan: ${score}`;
+            document.getElementById('progress-fill').style.width = `${((idx + 1) / 20) * 100}%`;
+            document.getElementById('mode-badge').innerText = act.mode;
+
+            document.getElementById('ai-img').src = act.img;
+            document.getElementById('image-wrapper').style.filter = "blur(18px) grayscale(70%)";
+            document.getElementById('blur-tag').innerText = "🔒 Bulanıklık: %100";
+            document.getElementById('level-hint').innerHTML = act.hint;
+            document.getElementById('target-sentence-text').innerText = act.sentence;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            const shuffled = [...act.options].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(optText => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.innerHTML = `<span>${optText}</span> <span>👉</span>`;
+                chip.onclick = () => selectOption(chip, optText, act.correct);
+                container.appendChild(chip);
+            });
+
+            document.getElementById('feedback-toast').className = "feedback-toast info";
+            document.getElementById('toast-icon').innerText = "👉";
+            document.getElementById('toast-text').innerText = "İfadeyi oku ve doğru tespit seçeneğine tıkla!";
+            document.getElementById('next-btn').disabled = true;
+        }
+
+        function selectOption(chipEl, selectedText, correctText) {
+            if (selectedText === correctText) {
+                chipEl.classList.add('selected');
+                score += 10;
+                document.getElementById('score-counter').innerText = `Puan: ${score}`;
+
+                // Unblur visual
+                document.getElementById('image-wrapper').style.filter = "blur(0px) grayscale(0%)";
+                document.getElementById('blur-tag').innerText = "🔓 Netleşti!";
+
+                document.getElementById('feedback-toast').className = "feedback-toast success";
+                document.getElementById('toast-icon').innerText = "🎉";
+                document.getElementById('toast-text').innerText = "TEBRİKLER! Yanılsamayı (halüsinasyonu) başarıyla tespit ettin! (+10 Puan)";
+                document.getElementById('next-btn').disabled = false;
+            } else {
+                chipEl.classList.add('wrong-shake');
+                setTimeout(() => chipEl.classList.remove('wrong-shake'), 400);
+                document.getElementById('feedback-toast').className = "feedback-toast warning";
+                document.getElementById('toast-icon').innerText = "⚠️";
+                document.getElementById('toast-text').innerText = "Bu seçenek bilimsel kurala veya yanılsama tespitine tam uymuyor. Tekrar dene!";
+            }
+        }
+
+        function nextLevel() {
+            currentIdx++;
+            loadLevel(currentIdx);
+        }
+
+        function resetLevel() {
+            loadLevel(currentIdx);
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        window.onload = () => {
+            updateStoryModal();
+            loadLevel(0);
+        };
+    </script>
+</body>
+
+</html>

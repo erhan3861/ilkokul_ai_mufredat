@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Sınıf Ders 9.3: Geometri ve İpucu Koçu Görsel Vitrini 🎨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10B981;
+            --primary-light: #6EE7B7;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --success: #10B981;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-grad);
+            color: var(--text-main);
+            padding: 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .tutorial-card-app {
+            width: 98vw;
+            max-width: 1200px;
+            min-height: 94vh;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--card-border);
+            border-radius: 28px;
+            padding: 24px 28px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            justify-content: space-between;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 12px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge-step {
+            background: linear-gradient(90deg, #10B981, #06B6D4, #F59E0B);
+            color: #0B0F19;
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .dots-container {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #FDE047;
+            width: 22px;
+            border-radius: 10px;
+        }
+
+        .page-view {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            flex-grow: 1;
+        }
+
+        .page-view.active {
+            display: flex;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        .box-bad, .box-good {
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .box-bad {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1.5px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .box-good {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1.5px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .box-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 12px;
+            display: inline-block;
+            align-self: flex-start;
+        }
+
+        .box-bad .box-tag { background: rgba(239, 68, 68, 0.25); color: #FCA5A5; }
+        .box-good .box-tag { background: rgba(16, 185, 129, 0.25); color: #6EE7B7; }
+
+        .prompt-text-display {
+            font-family: monospace;
+            font-size: 0.86rem;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            color: #A7F3D0;
+            white-space: pre-wrap;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            cursor: pointer;
+            align-self: flex-end;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover { transform: scale(1.04); }
+
+        .footer-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-top: 14px;
+        }
+
+        .btn-nav {
+            background: linear-gradient(135deg, #10B981, #06B6D4);
+            color: #0B0F19;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-nav.finish { background: linear-gradient(135deg, #10B981, #059669); color: white; }
+
+        .completion-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 16px;
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .badge-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));
+            border: 2px dashed #10B981;
+            border-radius: 20px;
+            padding: 20px 40px;
+            margin: 12px 0;
+        }
+
+        .pass-code {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #FDE047;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 850px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tutorial-card-app">
+        <!-- Header -->
+        <div class="app-header">
+            <span class="badge-step">🎨 7.9.3 GEOMETRİ İPUCU KOÇU VİTRİNİ</span>
+            <div class="dots-container" id="dotsContainer"></div>
+            <span id="pageCounterText" style="font-weight: 800; color: #FDE047; font-size: 0.9rem;">Sayfa 1 / 9</span>
+        </div>
+
+        <!-- Pages Box -->
+        <div id="pagesBox" style="flex-grow: 1; display: flex; flex-direction: column;">
+            
+            <!-- Page 1: Video Gösterimi (EN BAŞTA) -->
+            <div class="page-view active" id="page-0">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">1. Canlı Video Rehberi: Matematik & Geometri İpucu Koçu 🎬</h2>
+                <div style="background: rgba(0,0,0,0.5); border: 1.5px solid var(--card-border); border-radius: 20px; padding: 16px; text-align: center;">
+                    <video style="width: 100%; max-height: 320px; border-radius: 14px;" controls loop autoplay muted>
+                        <source src="./video1.mp4" type="video/mp4">
+                        Tarayıcınız video oynatmayı desteklemiyor.
+                    </video>
+                    <p style="font-size: 0.9rem; color: #CBD5E1; margin-top: 12px; line-height: 1.6;">
+                        🛹 <strong>3. Ay Açılışına Hoş Geldiniz!</strong> Matematik 7 *Doğrular ve Açılar* konusunu kaykay rampaları, köprü kirişleri ve bilardo masası gibi günlük yaşam örnekleriyle birleştiriyoruz. Yapay zekâyı doğrudan ödev çözen bir bot değil, adım adım düşündüren **Sokratik Geometri Koçu** yapmayı öğrenin!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 2: Sokratik Yöntem Nedir? -->
+            <div class="page-view" id="page-1">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">2. Sokratik Yöntem: Neden Doğrudan Cevap Vermiyoruz?</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Tembelleştiren Doğrudan Cevap</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"120 derecenin bütünleri 60'tır. Hemen cevabı yaz ve geç."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Öğrenci mantığı anlamaz, sınavda benzer soruyu çözemez.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Sokratik İpucu Yaklaşımı</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders9_hero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Geometri Parkı">
+                        </div>
+                        <div class="prompt-text-display">"[SOKRATİK_KURAL]: Doğrudan cevabı söyleme.
+[İPUCU]: 'Bütünler açıların toplamı düz bir çizgiyi (180°) tamamlar. 180'den 120'yi çıkarırsan kaç bulursun?' diye sor."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 3: 3 Kademeli İpucu Sistemi -->
+            <div class="page-view" id="page-2">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">3. 3 Kademeli İpucu Sistemi</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Plansız İpucu</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Açıları topla bir şeyler yap işte."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Yetersiz ve kafa karıştırıcı.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ 3 Kademeli İpucu Merdiveni</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders9_1.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Koç Robot">
+                        </div>
+                        <div class="prompt-text-display">"1. Kademe: Düşündürücü Soru (Kavramı hatırlat)
+2. Kademe: Günlük Yaşam Örneği (Kaykay/Köprü)
+3. Kademe: Çözüm Adımı (Denklemi kur, son işlemi öğrenciye bırak)."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 4: Kaykay Rampaları ve Bütünler Açılar -->
+            <div class="page-view" id="page-3">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">4. Günlük Yaşamda Açılar: Kaykay Rampaları</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Soyut Formül</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"x + y = 180 ise x kaçtır?"</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Günlük yaşamla bağlantı kurulmamış.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Kaykay Rampası Modeli</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders9_geometri.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Kaykay Açısı">
+                        </div>
+                        <div class="prompt-text-display">"[HAYAT_ÖRNEĞİ]: Kaykay rampasının yerle yaptığı açı 35° ise, sporcunun düz zemine geçiş açısı bütünleridir (180 - 35 = 145°).
+[3D_GÖRSEL]: '3D Pixar skateboard ramp with glowing angle measurements' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 5: Boğaz Köprüsü ve Z Kuralı -->
+            <div class="page-view" id="page-4">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">5. Günlük Yaşamda Açılar: Asma Köprüler (Z Kuralı)</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Karmaşık Teori</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Paralel çizgilerin kesenle yaptığı açılarda teorem 12'yi uygulayın."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Korkutucu ve anlaşılmaz dil.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Köprü Çelik Halatları ve Z Kuralı</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders9_hero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Köprü Geometrisi">
+                        </div>
+                        <div class="prompt-text-display">"[HAYAT_ÖRNEĞİ]: Boğaz köprüsündeki paralel halatlar arasındaki Z harfi taşıyıcı kirişlerinde iç ters açılar birbirine eşittir (60° = 60°).
+[3D_GÖRSEL]: 'A futuristic suspension bridge with glowing angle trusses' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 6: Bilardo Masası ve Yansıma Açısı -->
+            <div class="page-view" id="page-5">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">6. Günlük Yaşamda Açılar: Bilardo Yansıma Açısı</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Ezbere Açıklama</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Top banta çarpar ve gider."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Geometrik kural yok.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Geliş Açısı = Sekme Açısı</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders9_geometri.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Bilardo Masası">
+                        </div>
+                        <div class="prompt-text-display">"[HAYAT_ÖRNEĞİ]: Bilardoda top banta 45° açıyla çarparsa 45° açıyla seker. Bu kural aynalardaki ışık yansımasıyla aynıdır!
+[3D_GÖRSEL]: 'A glowing billiard table with laser bounce angles' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 7: 3D Sanat: Geometri Koçu Robot -->
+            <div class="page-view" id="page-6">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">7. 3D Sanat: Sokratik Geometri Koçu Robotu Tasarımı</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Plansız İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Bir robot çiz elinde cetvel olsun."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Açı ölçer sensörleri ve ipucu ekranı eksik kalır.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Şampiyon 3D Karakter İstemi</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders9_art.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Koç Robot">
+                        </div>
+                        <div class="prompt-text-display">"[KARAKTER]: Socratic Geometry Math Coach Robot.
+[DONANIM]: Işıltılı açıölçer kolları, göğsünde 3 kademeli ipucu ekranı ve mavi hologram gözlükler.
+[3D_GÖRSEL]: '3D character design sheet and blueprint of Math Coach Robot, 8k' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 8: 5 Maddelik Sokratik Koçluk Listesi -->
+            <div class="page-view" id="page-7">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">8. 🛡️ 5 Maddelik Sokratik İpucu Kontrol Listesi</h2>
+                <div style="background: rgba(0,0,0,0.4); border: 2px dashed #10B981; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <div style="font-size: 1.05rem; color: #FDE047; font-weight: 800;">📐 YAPAY ZEKÂYI DERS KOÇU YAPMA İLKELERİ:</div>
+                    <div style="font-size: 0.88rem; color: #CBD5E1; line-height: 1.6;">
+                        1️⃣ <strong>Asla Doğrudan Cevap Verme:</strong> Öğrenci sonucu kendisi bulmalıdır.<br>
+                        2️⃣ <strong>Kuralı Hatırlat:</strong> 'Tümler 90°, Bütünler 180°, İç Ters açılar eşittir' kuralını sor.<br>
+                        3️⃣ <strong>Hayattan Örnek Ver:</strong> Kaykay, köprü, bilardo veya güneş paneli benzetimi yap.<br>
+                        4️⃣ <strong>Çözüm Adımını Kur:</strong> Denklemi kurup son işlem adımını öğrenciye bırak.<br>
+                        5️⃣ <strong>Cesaretlendir:</strong> Yanlış tahminde kızmak yerine daha kolay yeni bir ipucu ver.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 9: Vitrin Tamamlama & Başarı Şifresi -->
+            <div class="page-view" id="page-8">
+                <div class="completion-container">
+                    <div style="font-size: 3.5rem;">📐🛹🏆</div>
+                    <h2 style="font-family: 'Outfit'; color: #FDE047; font-size: 2rem;">Geometri İpucu Vitrini Tamamlandı!</h2>
+                    <p style="color: #CBD5E1; font-size: 1rem; max-width: 650px; line-height: 1.6;">
+                        Tebrikler! Matematik ve Geometri İpucu Koçu görsel rehberini başarıyla tamamladınız. Artık yapay zekâyı gerçek bir Sokratik öğretmen gibi kullanabilirsiniz.
+                    </p>
+
+                    <div class="badge-box">
+                        <div style="font-size: 0.85rem; color: #6EE7B7; font-weight: 800; text-transform: uppercase;">7.9.3 GÖRSEL REHBER BAŞARI ŞİFRENİZ:</div>
+                        <div class="pass-code">açı7</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Controls -->
+        <div class="footer-controls">
+            <button class="btn-nav" id="prevBtn" onclick="changePage(-1)" disabled>⬅️ Önceki</button>
+            <button class="btn-nav" id="nextBtn" onclick="changePage(1)">Sonraki ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        const totalPages = 9;
+        let currentPage = 0;
+
+        function initDots() {
+            const container = document.getElementById('dotsContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                dot.onclick = () => goToPage(i);
+                container.appendChild(dot);
+            }
+        }
+
+        function goToPage(index) {
+            currentPage = index;
+            updateView();
+        }
+
+        function changePage(delta) {
+            currentPage += delta;
+            if (currentPage < 0) currentPage = 0;
+            if (currentPage >= totalPages) currentPage = totalPages - 1;
+            updateView();
+        }
+
+        function updateView() {
+            for (let i = 0; i < totalPages; i++) {
+                document.getElementById(`page-${i}`).classList.remove('active');
+            }
+            document.getElementById(`page-${currentPage}`).classList.add('active');
+
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((d, idx) => {
+                d.className = `dot ${idx === currentPage ? 'active' : ''}`;
+            });
+
+            document.getElementById('pageCounterText').innerText = `Sayfa ${currentPage + 1} / ${totalPages}`;
+            document.getElementById('prevBtn').disabled = currentPage === 0;
+
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentPage === totalPages - 1) {
+                nextBtn.innerText = "Tamamlandı ✔️";
+                nextBtn.className = "btn-nav finish";
+                nextBtn.disabled = true;
+            } else {
+                nextBtn.innerText = "Sonraki ➡️";
+                nextBtn.className = "btn-nav";
+                nextBtn.disabled = false;
+            }
+        }
+
+        function copyPromptText(btnEl) {
+            const textDisplay = btnEl.previousElementSibling.innerText || btnEl.previousElementSibling.querySelector('.prompt-text-display').innerText;
+            navigator.clipboard.writeText(textDisplay).then(() => {
+                const origText = btnEl.innerText;
+                btnEl.innerText = "✅ Kopyalandı!";
+                btnEl.style.background = "#10B981";
+                setTimeout(() => {
+                    btnEl.innerText = origText;
+                    btnEl.style.background = "linear-gradient(135deg, #10B981, #059669)";
+                }, 1800);
+            });
+        }
+
+        window.onload = () => {
+            initDots();
+            updateView();
+        };
+    </script>
+</body>
+</html>

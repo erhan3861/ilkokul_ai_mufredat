@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Sınıf Ders 2.3: Hücre Bölünmesi Görsel Rehber Vitrini 🎨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-light: #F472B6;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --success: #10B981;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-grad);
+            color: var(--text-main);
+            padding: 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .tutorial-card-app {
+            width: 98vw;
+            max-width: 1200px;
+            min-height: 94vh;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--card-border);
+            border-radius: 28px;
+            padding: 24px 28px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            justify-content: space-between;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 12px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge-step {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6, #06B6D4);
+            color: white;
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+
+        .dots-container {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #FDE047;
+            width: 22px;
+            border-radius: 10px;
+        }
+
+        .page-view {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            flex-grow: 1;
+        }
+
+        .page-view.active {
+            display: flex;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        .box-bad, .box-good {
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .box-bad {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1.5px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .box-good {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1.5px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .box-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 12px;
+            display: inline-block;
+            align-self: flex-start;
+        }
+
+        .box-bad .box-tag { background: rgba(239, 68, 68, 0.25); color: #FCA5A5; }
+        .box-good .box-tag { background: rgba(16, 185, 129, 0.25); color: #6EE7B7; }
+
+        .prompt-text-display {
+            font-family: monospace;
+            font-size: 0.86rem;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            color: #A7F3D0;
+            white-space: pre-wrap;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            cursor: pointer;
+            align-self: flex-end;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover { transform: scale(1.04); }
+
+        .footer-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-top: 14px;
+        }
+
+        .btn-nav {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-nav.finish { background: linear-gradient(135deg, #10B981, #059669); }
+
+        .completion-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 16px;
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .badge-box {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(6, 182, 212, 0.2));
+            border: 2px dashed #EC4899;
+            border-radius: 20px;
+            padding: 20px 40px;
+            margin: 12px 0;
+        }
+
+        .pass-code {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #FDE047;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 850px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tutorial-card-app">
+        <!-- Header -->
+        <div class="app-header">
+            <span class="badge-step">🎨 7.2.3 GÖRSEL REHBER VİTRİNİ</span>
+            <div class="dots-container" id="dotsContainer"></div>
+            <span id="pageCounterText" style="font-weight: 800; color: #FDE047; font-size: 0.9rem;">Sayfa 1 / 9</span>
+        </div>
+
+        <!-- Pages Box -->
+        <div id="pagesBox" style="flex-grow: 1; display: flex; flex-direction: column;">
+            
+            <!-- Page 1: Video Gösterimi (EN BAŞTA) -->
+            <div class="page-view active" id="page-0">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">1. Canlı Video Rehberi: Hücre Bölünmesi ve Komut Öncelik Kuralları 🎬</h2>
+                <div style="background: rgba(0,0,0,0.5); border: 1.5px solid var(--card-border); border-radius: 20px; padding: 16px; text-align: center;">
+                    <video style="width: 100%; max-height: 320px; border-radius: 14px;" controls loop autoplay muted>
+                        <source src="./video1.mp4" type="video/mp4">
+                        Tarayıcınız video oynatmayı desteklemiyor.
+                    </video>
+                    <p style="font-size: 0.9rem; color: #CBD5E1; margin-top: 12px; line-height: 1.6;">
+                        🚀 <strong>Hoş Geldiniz!</strong> 3D Biyoloji istemleri yazarken yapay zekâya süslemeleri ilk sıraya vermek yerine; <strong>ZORUNLU biyoloji kurallarını en başa</strong> alıp görselliği sonraki adımlara eklediğinizde kusursuz 3D sahneler elde edersiniz! Videoyu izleyin ve sayfaları inceleyin!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 2: Mitoz Bölünme Evreleri -->
+            <div class="page-view" id="page-1">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">2. Fen 7: Mitoz Bölünme Evreleri Kurgusu</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Yanlış Kural Sırası</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Bana pembe renkli 3D resim yap, en sonuna da Mitoz bölünmeyi ekle."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Zorunlu biyoloji kuralı sonda kaldığı için resim sadece süsleme olur, hücre detayları kaybolur.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Zorunlu Kural Öncelikli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders2_mitoz.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Mitoz Bölünme">
+                        </div>
+                        <div class="prompt-text-display">"Mitoz bölünme sahnesini şu kural sırasıyla kurgula:
+1. ZORUNLU KURAL: Ana hücreden 2 özdeş yavru hücre oluştuğunu göster.
+2. BÖLÜNME DETAYI: Kromozomların zıt kutuplara çekilmesini vurgula.
+3. 3D ÇİZİM: 'A 3D isometric representation of cell division mitosis with glowing chromosomes' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 3: 3D Hücre Metropolü -->
+            <div class="page-view" id="page-2">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">3. Fen 7: 3D Hücre Metropolü ve Organeller</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Yanlış Kural Sırası</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Siberpunk şehir yap, araya organelleri de koyarsan koy."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Şehir görselliği biyolojik organel eşleştirmesini bastırır.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Zorunlu Kural Öncelikli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders2_hero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Hücre Metropolü">
+                        </div>
+                        <div class="prompt-text-display">"Hücre şehri sahnesini şu kural sırasıyla sun:
+1. ZORUNLU KURAL: Çekirdeği yönetim kulesi, Mitokondriyi güç santrali olarak göster.
+2. DETAY KURAL: Hücre zarı surlarını koruyucu sınır yap.
+3. 3D ÇİZİM: 'A 3D Pixar style render of a biological cell designed as a glowing futuristic metropolis' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 4: Bitki vs Hayvan Hücresi Bölünmesi -->
+            <div class="page-view" id="page-3">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">4. Fen 7: Bitki ve Hayvan Hücresi Farkı</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Yanlış Kural Sırası</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Yeşil renkli kutu çizdir, bitki hücresi gibi olsun."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Ara lamel ve boğumlanma gibi temel farklar unutulur.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Zorunlu Kural Öncelikli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders2_1.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Hücre Kıyaslama">
+                        </div>
+                        <div class="prompt-text-display">"Bitki ve hayvan hücresi bölünmesini 3 adımla sun:
+1. ZORUNLU KURAL: Bitki hücresinde ara lamel, hayvan hücresinde boğumlanma göster.
+2. DETAY KURAL: Köşeli ve yuvarlak hücre zarı şekillerini koru.
+3. 3D ÇİZİM: 'A 3D comparison render of plant and animal cell division' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 5: Hücre Bölünmesinde Kromozom Sayısı -->
+            <div class="page-view" id="page-4">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">5. Matematik & Fen 7: Kromozom Sayısının Korunması</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Yanlış Kural Sırası</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Sayılar çiz, kromozomlar rasgele dursun."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Mitozda kromozom sayısının sabit kalma kuralı bozulur.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Zorunlu Kural Öncelikli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders2_mitoz.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Kromozom Sayısı">
+                        </div>
+                        <div class="prompt-text-display">"Kromozom korunumunu 3 adımla anlat:
+1. ZORUNLU KURAL: Ana hücre 2n ise oluşan 2 yeni hücrenin de 2n kromozomlu olduğunu belirt.
+2. DETAY KURAL: Genetik yapının birebir aynı kaldığını göster.
+3. 3D ÇİZİM: 'A 3D educational infographic diagram showing identical 2n chromosome count' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 6: Biyomikroskop Keşif Robotu -->
+            <div class="page-view" id="page-5">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">6. 3D Sanat: Biyomikroskop Keşif Robotu</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Yanlış Kural Sırası</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Robot resmi yap, harika görünsün."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Robotun biyolojik inceleme merceği ve numune kolu çizilmez.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Zorunlu Kural Öncelikli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders2_art.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Biyoloji Robotu">
+                        </div>
+                        <div class="prompt-text-display">"Biyoloji keşif robotunu 3 adımla sun:
+1. ZORUNLU KURAL: Robotun ışıklı mikroskop merceğini ve numune alma kolunu göster.
+2. DETAY KURAL: Mavi ve mor biyometrik ekran paneli ekle.
+3. 3D ÇİZİM: 'A 3D character design sheet of a futuristic biology explorer robot, Pixar style' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 7: Mitoz ile Yaraların İyileşmesi -->
+            <div class="page-view" id="page-6">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">7. Fen 7: Büyüme, Gelişme ve Onarım</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Yanlış Kural Sırası</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Doktor resmi yap, yara bantları olsun."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Mitoz bölünmenin vücut hücrelerini çoğaltarak yarayı onarması anlatılmaz.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Zorunlu Kural Öncelikli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders2_hero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Büyüme Onarım">
+                        </div>
+                        <div class="prompt-text-display">"Doku onarımını 3 adımla anlat:
+1. ZORUNLU KURAL: Vücut hücrelerinin mitozla çoğalarak yarayı kapattığını göster.
+2. DETAY KURAL: Yeni oluşan hücrelerin eski hücrelerle aynı olduğunu vurgula.
+3. 3D ÇİZİM: 'A 3D futuristic illustration of cell regeneration and tissue healing' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 8: 360° Hücre Modeli Kartı -->
+            <div class="page-view" id="page-7">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">8. 3D Sanat: 360° Hücre Modeli Tasarım Kartı</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Yanlış Kural Sırası</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Hücre resmi çizdir."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Organellerin 360 derece açısı ve detayları kaybolur.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Zorunlu Kural Öncelikli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders2_mitoz.png" style="width: 100%; height: 100%; object-fit: cover;" alt="360 Hücre Modeli">
+                        </div>
+                        <div class="prompt-text-display">"Hücre modelini 3 adımla sun:
+1. ZORUNLU KURAL: Çekirdek, mitokondri ve hücre zarı etiketlerini göster.
+2. DETAY KURAL: Ön, yan ve kesit açılarını 360 derece kart yap.
+3. 3D ÇİZİM: 'A 360 model sheet view of a glowing biological cell with organelles, Pixar style' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 9: Vitrin Tamamlama & Başarı Şifresi -->
+            <div class="page-view" id="page-8">
+                <div class="completion-container">
+                    <div style="font-size: 3.5rem;">🎉🏆</div>
+                    <h2 style="font-family: 'Outfit'; color: #FDE047; font-size: 2rem;">Görsel Rehber Vitrini Tamamlandı!</h2>
+                    <p style="color: #CBD5E1; font-size: 1rem; max-width: 650px; line-height: 1.6;">
+                        Tebrikler! Hücre Bölünmesi ve Komut Öncelik Kuralları 3D kartlarını başarıyla incelediniz. Şampiyon istemleri projelerinizde kopyalayıp kullanabilirsiniz.
+                    </p>
+
+                    <div class="badge-box">
+                        <div style="font-size: 0.85rem; color: #F472B6; font-weight: 800; text-transform: uppercase;">7.2.3 GÖRSEL REHBER BAŞARI ŞİFRENİZ:</div>
+                        <div class="pass-code">kuralhiyerarşisi7</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Controls -->
+        <div class="footer-controls">
+            <button class="btn-nav" id="prevBtn" onclick="changePage(-1)" disabled>⬅️ Önceki</button>
+            <button class="btn-nav" id="nextBtn" onclick="changePage(1)">Sonraki ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        const totalPages = 9;
+        let currentPage = 0;
+
+        function initDots() {
+            const container = document.getElementById('dotsContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                dot.onclick = () => goToPage(i);
+                container.appendChild(dot);
+            }
+        }
+
+        function goToPage(index) {
+            currentPage = index;
+            updateView();
+        }
+
+        function changePage(delta) {
+            currentPage += delta;
+            if (currentPage < 0) currentPage = 0;
+            if (currentPage >= totalPages) currentPage = totalPages - 1;
+            updateView();
+        }
+
+        function updateView() {
+            for (let i = 0; i < totalPages; i++) {
+                document.getElementById(`page-${i}`).classList.remove('active');
+            }
+            document.getElementById(`page-${currentPage}`).classList.add('active');
+
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((d, idx) => {
+                d.className = `dot ${idx === currentPage ? 'active' : ''}`;
+            });
+
+            document.getElementById('pageCounterText').innerText = `Sayfa ${currentPage + 1} / ${totalPages}`;
+            document.getElementById('prevBtn').disabled = currentPage === 0;
+
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentPage === totalPages - 1) {
+                nextBtn.innerText = "Tamamlandı ✔️";
+                nextBtn.className = "btn-nav finish";
+                nextBtn.disabled = true;
+            } else {
+                nextBtn.innerText = "Sonraki ➡️";
+                nextBtn.className = "btn-nav";
+                nextBtn.disabled = false;
+            }
+        }
+
+        function copyPromptText(btnEl) {
+            const textDisplay = btnEl.previousElementSibling.innerText;
+            navigator.clipboard.writeText(textDisplay).then(() => {
+                const origText = btnEl.innerText;
+                btnEl.innerText = "✅ Kopyalandı!";
+                btnEl.style.background = "#10B981";
+                setTimeout(() => {
+                    btnEl.innerText = origText;
+                    btnEl.style.background = "linear-gradient(135deg, #10B981, #059669)";
+                }, 1800);
+            });
+        }
+
+        window.onload = () => {
+            initDots();
+            updateView();
+        };
+    </script>
+</body>
+</html>

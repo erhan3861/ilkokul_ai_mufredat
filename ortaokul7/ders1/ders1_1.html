@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7. Sınıf Ders 1.1: Güneş Sistemi & Açık İstem Yazma Labı 🧪</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-light: #F472B6;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --success: #10B981;
+            --danger: #EF4444;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            background: var(--bg-grad);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1240px;
+            height: calc(100vh - 12px);
+            max-height: calc(100vh - 12px);
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 12px 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.12);
+            padding-bottom: 6px;
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #FDE047, #EC4899, #818CF8, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-header {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-header:hover {
+            background: rgba(236, 72, 153, 0.3);
+            border-color: #F472B6;
+        }
+
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 5%;
+            background: linear-gradient(90deg, #EC4899, #06B6D4, #10B981);
+            transition: width 0.3s ease;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 12px;
+            flex-grow: 1;
+            min-height: 0;
+        }
+
+        .visual-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .mode-badge {
+            background: linear-gradient(90deg, #EC4899, #06B6D4);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            align-self: flex-start;
+        }
+
+        .canvas-frame {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1.5px solid var(--card-border);
+            background: #000;
+        }
+
+        .blur-overlay-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.75);
+            color: #FDE047;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.75rem;
+            z-index: 10;
+        }
+
+        .ai-image-wrapper {
+            width: 100%;
+            height: 100%;
+            filter: blur(18px) grayscale(70%);
+            transition: filter 0.5s ease;
+        }
+
+        .ai-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .live-prompt-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1.5px dashed rgba(236, 72, 153, 0.4);
+            border-radius: 12px;
+            padding: 10px 14px;
+        }
+
+        .prompt-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #F472B6;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .words-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            min-height: 0;
+        }
+
+        .target-hint-box {
+            background: rgba(236, 72, 153, 0.15);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: #FBCFE8;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .word-chips-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .word-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            color: #E2E8F0;
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .word-chip:hover {
+            background: rgba(236, 72, 153, 0.2);
+            border-color: #F472B6;
+            transform: translateX(3px);
+        }
+
+        .word-chip.selected {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #10B981;
+            color: #A7F3D0;
+        }
+
+        .word-chip.wrong-shake {
+            animation: shake 0.4s ease;
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #EF4444;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .feedback-toast {
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feedback-toast.info {
+            background: rgba(6, 182, 212, 0.2);
+            color: #A5F3FC;
+            border: 1px solid rgba(6, 182, 212, 0.4);
+        }
+
+        .feedback-toast.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6EE7B7;
+            border: 1px solid #10B981;
+        }
+
+        .feedback-toast.warning {
+            background: rgba(239, 68, 68, 0.2);
+            color: #FCA5A5;
+            border: 1px solid #EF4444;
+        }
+
+        .footer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover:not(:disabled) {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        .btn-action:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Storybook Tutorial Modal */
+        .story-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(11, 15, 25, 0.9);
+            backdrop-filter: blur(14px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .story-modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .story-card {
+            background: #1E1B4B;
+            border: 2px solid #EC4899;
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 960px;
+            width: 100%;
+            text-align: left;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .story-badge {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6, #06B6D4);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .story-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .s-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .s-dot.active {
+            background: #FDE047;
+            width: 18px;
+            border-radius: 10px;
+        }
+
+        .story-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .story-img-frame {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            height: 280px;
+            background: #000;
+        }
+
+        .story-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-text-area h3 {
+            font-family: 'Outfit', sans-serif;
+            color: #FDE047;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .story-text-area div {
+            font-size: 1rem;
+            color: #CBD5E1;
+            line-height: 1.65;
+        }
+
+        .btn-story-nav {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-story-nav:hover {
+            transform: scale(1.04);
+        }
+
+        /* Completion Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 150;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: #1E1B4B;
+            border: 2px solid #EC4899;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 580px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 4 Adımlık Ders Anlatım Modalı (STORYBOOK) -->
+    <div class="story-modal-backdrop active" id="story-modal">
+        <div class="story-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="story-badge">🚀 7. Sınıf 1. Hafta Güneş Sistemi & Açık İstem Yazmak</div>
+                <div class="story-dots">
+                    <div class="s-dot active" id="sdot-0"></div>
+                    <div class="s-dot" id="sdot-1"></div>
+                    <div class="s-dot" id="sdot-2"></div>
+                    <div class="s-dot" id="sdot-3"></div>
+                </div>
+            </div>
+
+            <div class="story-content-grid">
+                <div class="story-img-frame">
+                    <img id="story-img" src="images/ders1_hero.png" alt="Ders Rehberi Görseli">
+                </div>
+                <div class="story-text-area" id="story-content">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <button class="btn-story-nav" id="story-prev-btn" onclick="prevStoryPage()"
+                    style="visibility:hidden; background:rgba(255,255,255,0.15); box-shadow:none;">⬅️ Geri</button>
+                <button class="btn-story-nav" id="story-next-btn" onclick="nextStoryPage()">Sonraki Adım ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-title">
+                <h1>🚀 7.1.1 Güneş Sistemi & Açık İstem Yazma Labı <span
+                        style="font-size: 0.88rem; color: #F472B6; font-weight: 500;">(20 Bölümlü Bireysel
+                        Çalışma)</span></h1>
+                <p>Güneş Sistemi fikirlerini karışık yazmak yerine, yapay zekâya sırasıyla 3 net ve açık adımda aktar!</p>
+            </div>
+            <div class="header-stats">
+                <button class="btn-header" onclick="reopenStory()">📖 Ders Rehberi</button>
+                <button class="btn-header" onclick="toggleFullScreen()">🖥️ Tam Ekran</button>
+                <div class="stat-pill">🎯 <span id="level-indicator">Bölüm: 1 / 20</span></div>
+                <div class="stat-pill">⭐ <span id="score-counter">Puan: 0</span></div>
+            </div>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- Game Grid -->
+        <div class="game-grid">
+            <!-- Left: Visual Card -->
+            <div class="visual-card">
+                <div class="mode-badge" id="mode-badge">🎮 Seviye 1: Karmaşık İstem vs Sade ve Açık İstem</div>
+                <div class="canvas-frame">
+                    <div class="blur-overlay-tag" id="blur-tag">🔒 Bulanıklık: %100</div>
+                    <div class="ai-image-wrapper" id="image-wrapper">
+                        <img id="ai-img" src="images/ders1_hero.png" alt="AI Visual">
+                    </div>
+                </div>
+
+                <div class="live-prompt-box">
+                    <div class="prompt-title">✍️ İncelenen İstem:</div>
+                    <div id="target-sentence-text" style="font-weight:700; color:#FBCFE8; font-size:0.95rem;">
+                        "Bana Güneş sistemi haritası çiz, Jüpiter verilerini topla, Mars oranlarını hesapla ve uzay üssü tasarla."
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Words Card -->
+            <div class="words-card">
+                <div class="target-hint-box" id="level-hint">
+                    Yukarıdaki istemi incele. Karışık tek bir komut mu yoksa Adım Adım Açık bir İstem mi?
+                </div>
+
+                <div style="font-size: 0.8rem; font-weight: 700; color: #E2E8F0;">🏷️ İstem Türünü veya Doğru Adımı Seç:</div>
+
+                <div class="word-chips-grid" id="options-container"></div>
+
+                <div class="feedback-toast info" id="feedback-toast">
+                    <span id="toast-icon">👉</span>
+                    <span id="toast-text">İstemi oku ve doğru şıkka tıkla!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="footer-actions">
+            <button class="btn-action" id="reset-btn" onclick="resetLevel()" style="background: rgba(255,255,255,0.1);">
+                🔄 Sıfırla
+            </button>
+            <button class="btn-action" id="next-btn" onclick="nextLevel()" disabled>
+                Sonraki Bölüm ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- 20th Stage Completion Modal -->
+    <div class="modal-backdrop" id="completion-modal">
+        <div class="modal-card">
+            <div style="font-size: 3rem;">🎉🏆</div>
+            <h2 style="color: #FDE047; font-family: 'Outfit';">Tebrikler Şampiyon İstem Yazarı!</h2>
+            <p style="color: #CBD5E1; font-size: 0.95rem;">
+                20 bölümün tamamını başardın! Güneş Sistemi konularını karışık cümleler yerine açık ve adım adım yazarak en doğru uzay istemlerini kurguladın.
+            </p>
+
+            <div
+                style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(6, 182, 212, 0.2)); border: 2px dashed #EC4899; border-radius: 20px; padding: 16px; margin: 12px 0; text-align: center;">
+                <div style="font-size: 1.8rem;">🎁✨</div>
+                <div style="color: #F472B6; font-size: 0.9rem; font-weight: 700; text-transform: uppercase;">7.1.1
+                    BİREYSEL ÇALIŞMA BAŞARI ŞİFRENİZ:</div>
+                <div
+                    style="font-size: 2.4rem; font-weight: 800; color: #FDE047; letter-spacing: 2px; text-transform: lowercase;">
+                    uzayajanı7</div>
+            </div>
+
+            <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 6px; line-height: 1.5;">
+                📌 Canlı ders panelindeki ✏️ <strong>Cevapla</strong> butonuna tıklayın ve bu şifreyi girin!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Storybook 4-Step Tutorial Content
+        const storyPages = [
+            {
+                title: "1. Adım: Karışık Komut vs Açık İstem 🚀",
+                img: "images/ders1_hero.png",
+                body: "Yapay zekâya tek hamlede <strong>'Bana Güneş sistemi çiz, Jüpiter'i anlat, Mars'ı göster ve üs yap'</strong> demek kafa karışıklığı yaratır!<br>❌ <strong>Karışık İstem:</strong> Zor, belirsiz ve eksik sonuç.<br>✨ <strong>Açık ve Düzenli İstem:</strong> Ne istediğimizi adım adım net bir dille söylemek!"
+            },
+            {
+                title: "2. Adım: 3 Adımlı Sade İstem Formülü 🛸",
+                img: "images/ders1_1.png",
+                body: "<strong>1. Adım (Bilimsel Konu):</strong> <i>'Güneş sistemi gezegenlerini tanıt.'</i><br><strong>2. Adım (Özellik & Kıyaslama):</strong> <i>'En büyük gezegen olan Jüpiter'in öne çıkan özelliklerini söyle.'</i><br><strong>3. Adım (Görsel İsteği):</strong> <i>'Jüpiter'in uzaydaki renkli görünümünü 3D olarak resmet.'</i>"
+            },
+            {
+                title: "3. Adım: Net Görseller & Temiz Bilgiler 🪐",
+                img: "images/ders1_science.png",
+                body: "İstemini açık ve düzenli yazdığında yapay zekâ sana muhteşem 3D uzay görselleri ve anlaşılır doğru bilgiler sunar!"
+            },
+            {
+                title: "4. Adım: 20 Bölümlü İleri Lab Çalışmasına Başla! 🏆",
+                img: "images/ders1_art.png",
+                body: "Şimdi sıra sende! 20 bölüm boyunca Güneş Sistemi istemlerini incele, doğru ve açık yazılmış istemleri seç ve başarı şifreni kazan!"
+            }
+        ];
+
+        let storyIdx = 0;
+
+        function updateStoryModal() {
+            document.getElementById('story-img').src = storyPages[storyIdx].img;
+            document.getElementById('story-content').innerHTML = `
+                <h3>${storyPages[storyIdx].title}</h3>
+                <div>${storyPages[storyIdx].body}</div>
+            `;
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`sdot-${i}`).className = `s-dot ${i === storyIdx ? 'active' : ''}`;
+            }
+            document.getElementById('story-prev-btn').style.visibility = storyIdx === 0 ? 'hidden' : 'visible';
+            document.getElementById('story-next-btn').innerText = storyIdx === 3 ? "Oyuna Başla 🎮" : "Sonraki Adım ➡️";
+        }
+
+        function nextStoryPage() {
+            if (storyIdx < 3) {
+                storyIdx++;
+                updateStoryModal();
+            } else {
+                document.getElementById('story-modal').classList.remove('active');
+            }
+        }
+
+        function prevStoryPage() {
+            if (storyIdx > 0) {
+                storyIdx--;
+                updateStoryModal();
+            }
+        }
+
+        function reopenStory() {
+            storyIdx = 0;
+            updateStoryModal();
+            document.getElementById('story-modal').classList.add('active');
+        }
+
+        // 20-Section Graded Activities (7. Sınıf Maarif & Açık İstem Yazmak)
+        const activities = [
+            { sentence: "“Bana Güneş sistemi haritası çiz, Jüpiter verilerini topla, Mars oranlarını hesapla ve uzay üssü tasarla.”", img: "images/ders1_hero.png", mode: "🎮 Seviye 1: Karmaşık İstem vs Açık İstem", hint: "Bu istem düzenli ve açık bir istem midir?", correct: "❌ Karışık Karmaşık İstem", options: ["❌ Karışık Karmaşık İstem", "✨ Adım Adım Açık İstem"] },
+            { sentence: "“1. Adım: Europa buzul uydusunun su özelliklerini anlat. 2. Adım: Dünya ile büyüklüğünü kıyasla. 3. Adım: 3D Buzul İstasyonu görseli üret.”", img: "images/ders1_1.png", mode: "🎮 Seviye 1: Karmaşık İstem vs Açık İstem", hint: "Bu istem ne tür bir istemdir?", correct: "✨ Adım Adım Açık İstem", options: ["✨ Adım Adım Açık İstem", "❌ Karışık Karmaşık İstem"] },
+            { sentence: "“Güneş lekelerini incele, grafiğini çiz ve uzay fırtınası resmi yap.”", img: "images/ders1_science.png", mode: "🎮 Seviye 1: Karmaşık İstem vs Açık İstem", hint: "Bu istem ne tür bir istemdir?", correct: "❌ Karışık Karmaşık İstem", options: ["❌ Karışık Karmaşık İstem", "✨ Adım Adım Açık İstem"] },
+            { sentence: "“1. Adım: Güneş patlamalarının nedenini açıkla. 2. Adım: Dünya'ya etkilerini anlat. 3. Adım: 3D Güneş fırtınası kalkanı resmi çizdir.”", img: "images/ders1_art.png", mode: "🎮 Seviye 1: Karmaşık İstem vs Açık İstem", hint: "Bu istem türü hangisidir?", correct: "✨ Adım Adım Açık İstem", options: ["✨ Adım Adım Açık İstem", "❌ Karışık Karmaşık İstem"] },
+            { sentence: "“Satürn halkalarını anlat, kütlesini hesapla ve görsel üret.”", img: "images/ders1_hero.png", mode: "🎮 Seviye 1: Karmaşık İstem vs Açık İstem", hint: "Bu istem ne tür bir ifadedir?", correct: "❌ Karışık Karmaşık İstem", options: ["❌ Karışık Karmaşık İstem", "✨ Adım Adım Açık İstem"] },
+            { sentence: "“1. Adım: Satürn halkalarının neyden oluştuğunu anlat. 2. Adım: Halkaların kalınlığını belirt. 3. Adım: 3D Satürn halkaları resmi üret.”", img: "images/ders1_1.png", mode: "🎮 Seviye 1: Karmaşık İstem vs Açık İstem", hint: "Bu istem hangisine örnektir?", correct: "✨ Adım Adım Açık İstem", options: ["✨ Adım Adım Açık İstem", "❌ Karışık Karmaşık İstem"] },
+            { sentence: "“1. Adım: Kepler ötegezegen keşiflerini özetle. 2. Adım: Yaşanabilir bölge kavramını açıkla. 3. Adım: 3D Ötegezegen resmi çizdir.”", img: "images/ders1_science.png", mode: "🎮 Seviye 1: Karmaşık İstem vs Açık İstem", hint: "Bu istem türü hangisidir?", correct: "✨ Adım Adım Açık İstem", options: ["✨ Adım Adım Açık İstem", "❌ Karışık Karmaşık İstem"] },
+
+            { sentence: "Karmaşık İstem: 'Güneş Sistemi Gezegen Sıralaması projesi yap.' Bu görevi en açık 3 alt adıma bölen şık hangisidir?", img: "images/ders1_art.png", mode: "🚀 Seviye 2: Alt Görev Sıralama", hint: "En açık ve düzenli adımları seç!", correct: "“1. Adım: Karasal ve gaz dev gezegenleri ayır ➔ 2. Adım: Büyüklük sırasına koy ➔ 3. Adım: 3D Gezegenler afişi üret.”", options: ["“Hemen gezegen çiz.”", "“1. Adım: Karasal ve gaz dev gezegenleri ayır ➔ 2. Adım: Büyüklük sırasına koy ➔ 3. Adım: 3D Gezegenler afişi üret.”", "“Gezegen nerede?”"] },
+            { sentence: "Karmaşık İstem: 'Mars Yüzey Gezgini Projesi kurgula.' Bu görevi en iyi parçalayan seçenek hangisidir?", img: "images/ders1_hero.png", mode: "🚀 Seviye 2: Alt Görev Sıralama", hint: "Doğru parçalamaya tıkla!", correct: "“1. Adım: Mars yüzey özelliklerini anlat ➔ 2. Adım: Yüzey gezgininin görevini sırala ➔ 3. Adım: 3D Mars Rover görseli üret.”", options: ["“Mars resmi yap.”", "“1. Adım: Mars yüzey özelliklerini anlat ➔ 2. Adım: Yüzey gezgininin görevini sırala ➔ 3. Adım: 3D Mars Rover görseli üret.”", "“Kırmızı gezegen nerede?”"] },
+            { sentence: "Karmaşık İstem: 'Ay Üssü Oksijen Üretim Tesisi kurgula.' Bu görevi en iyi parçalayan şık hangisidir?", img: "images/ders1_1.png", mode: "🚀 Seviye 2: Alt Görev Sıralama", hint: "Doğru parçalamayı bul!", correct: "“1. Adım: Ay yüzeyinde oksijen nasıl elde edilir anlat ➔ 2. Adım: Tesisin bölümlerini yaz ➔ 3. Adım: 3D Ay Oksijen Tesisi çizdir.”", options: ["“Ay resmi ver.”", "“1. Adım: Ay yüzeyinde oksijen nasıl elde edilir anlat ➔ 2. Adım: Tesisin bölümlerini yaz ➔ 3. Adım: 3D Ay Oksijen Tesisi çizdir.”", "“Oksijen bitti.”"] },
+            { sentence: "Karmaşık İstem: 'James Webb Teleskobu Veri Analizi yap.' Bu görevi en iyi parçalayan şık hangisidir?", img: "images/ders1_science.png", mode: "🚀 Seviye 2: Alt Görev Sıralama", hint: "Doğru parçalamaya tıkla!", correct: "“1. Adım: James Webb teleskobunun amacını anlat ➔ 2. Adım: Derin uzay fotoğraflarını özetle ➔ 3. Adım: 3D Nebula görseli üret.”", options: ["“Teleskop resmi ver.”", "“1. Adım: James Webb teleskobunun amacını anlat ➔ 2. Adım: Derin uzay fotoğraflarını özetle ➔ 3. Adım: 3D Nebula görseli üret.”", "“Teleskop nerede?”"] },
+            { sentence: "Karmaşık İstem: 'Asteroid Madenciliği tasarla.' Bu görevi en iyi parçalayan seçenek hangisidir?", img: "images/ders1_art.png", mode: "🚀 Seviye 2: Alt Görev Sıralama", hint: "Doğru parçalamayı seç!", correct: "“1. Adım: Asteroidlerin maden zenginliğini anlat ➔ 2. Adım: Maden çıkarma adımlarını yaz ➔ 3. Adım: 3D Maden Gemisi çizdir.”", options: ["“Maden resmi çiz.”", "“1. Adım: Asteroidlerin maden zenginliğini anlat ➔ 2. Adım: Maden çıkarma adımlarını yaz ➔ 3. Adım: 3D Maden Gemisi çizdir.”", "“Taş nerede?”"] },
+            { sentence: "Karmaşık İstem: 'Uzay Çöpü Temizleme kurgula.' Bu görevi en iyi parçalayan seçenek hangisidir?", img: "images/ders1_hero.png", mode: "🚀 Seviye 2: Alt Görev Sıralama", hint: "Doğru parçalamayı bul!", correct: "“1. Adım: Uzay çöplerinin tehlikesini anlat ➔ 2. Adım: Temizleme yöntemlerini sırala ➔ 3. Adım: 3D Temizleyici Uzay Aracı görseli üret.”", options: ["“Çöp çiz.”", "“1. Adım: Uzay çöplerinin tehlikesini anlat ➔ 2. Adım: Temizleme yöntemlerini sırala ➔ 3. Adım: 3D Temizleyici Uzay Aracı görseli üret.”", "“Uzay temizliği bitti.”"] },
+            { sentence: "Karmaşık İstem: 'Venüs Sera Etkisi İncelemesi kurgula.' Bu görevi en iyi parçalayan seçenek hangisidir?", img: "images/ders1_1.png", mode: "🚀 Seviye 2: Alt Görev Sıralama", hint: "Doğru parçalamayı seç!", correct: "“1. Adım: Venüs'ün neden çok sıcak olduğunu açıkla ➔ 2. Adım: Sera gazlarının etkisini anlat ➔ 3. Adım: 3D Venüs Atmosferi görseli üret.”", options: ["“Venüs resmi ver.”", "“1. Adım: Venüs'ün neden çok sıcak olduğunu açıkla ➔ 2. Adım: Sera gazlarının etkisini anlat ➔ 3. Adım: 3D Venüs Atmosferi görseli üret.”", "“Sıcaklık kaç?”"] },
+
+            { sentence: "Karmaşık İstem: 'Güneş Sistemi Ötegezegen Keşif Projesi.' ŞAMPİYON İSTEM hangisidir?", img: "images/ders1_science.png", mode: "🏆 Seviye 3: Şampiyon Uzay İstem Mimarlığı", hint: "Şampiyon parçalanmış istemi bul!", correct: "“1. Adım: Ötegezegen kavramını anlat ➔ 2. Adım: Yaşanabilir gezegen özelliklerini sırala ➔ 3. Adım: 3D Ötegezegen konsepti çizdir.”", options: ["“Gezegen yap.”", "“1. Adım: Ötegezegen kavramını anlat ➔ 2. Adım: Yaşanabilir gezegen özelliklerini sırala ➔ 3. Adım: 3D Ötegezegen konsepti çizdir.”", "“Keşif nerede?”", "“Resim bitti.”", "“Zil çaldı.”"] },
+            { sentence: "Karmaşık İstem: 'Güneş Fırtınası Uyarı Şebekesi.' ŞAMPİYON İSTEM hangisidir?", img: "images/ders1_art.png", mode: "🏆 Seviye 3: Şampiyon Uzay İstem Mimarlığı", hint: "Şampiyon parçalanmış istemi seç!", correct: "“1. Adım: Güneş patlamasını anlat ➔ 2. Adım: Uyarı sistemini kurgula ➔ 3. Adım: 3D Güneş Kalkanı görseli üret.”", options: ["“Güneş resmi yap.”", "“1. Adım: Güneş patlamasını anlat ➔ 2. Adım: Uyarı sistemini kurgula ➔ 3. Adım: 3D Güneş Kalkanı görseli üret.”", "“Fırtına nedir?”", "“Ders bitti.”", "“Işık kapa.”"] },
+            { sentence: "Karmaşık İstem: 'Jüpiter Uydusu Europa Okyanus Keşfi.' ŞAMPİYON İSTEM hangisidir?", img: "images/ders1_hero.png", mode: "🏆 Seviye 3: Şampiyon Uzay İstem Mimarlığı", hint: "Şampiyon parçalanmış isteme tıkla!", correct: "“1. Adım: Europa buz tabakasını anlat ➔ 2. Adım: Okyanus özelliklerini sırala ➔ 3. Adım: 3D Denizaltı Aracı görseli çizdir.”", options: ["“Deniz resmi ver.”", "“1. Adım: Europa buz tabakasını anlat ➔ 2. Adım: Okyanus özelliklerini sırala ➔ 3. Adım: 3D Denizaltı Aracı görseli çizdir.”", "“Buz nerede?”", "“Okyanus bitti.”", "“Denizaltı kapa.”"] },
+            { sentence: "Karmaşık İstem: 'Uluslararası Uzay İstasyonu Enerji Simülasyonu.' ŞAMPİYON İSTEM hangisidir?", img: "images/ders1_1.png", mode: "🏆 Seviye 3: Şampiyon Uzay İstem Mimarlığı", hint: "Şampiyon parçalanmış istemi bul!", correct: "“1. Adım: Uzay istasyonunu tanıt ➔ 2. Adım: Güneş panellerinin önemini anlat ➔ 3. Adım: 3D Uzay İstasyonu Panelleri görseli üret.”", options: ["“İstasyon oyna.”", "“1. Adım: Uzay istasyonunu tanıt ➔ 2. Adım: Güneş panellerinin önemini anlat ➔ 3. Adım: 3D Uzay İstasyonu Panelleri görseli üret.”", "“Enerji bitti.”", "“Panel nerede?”", "“Işık kapa.”"] },
+            { sentence: "Karmaşık İstem: '360° Uzay Astronotu Model Sheet.' ŞAMPİYON İSTEM hangisidir?", img: "images/ders1_art.png", mode: "🏆 Seviye 3: Şampiyon Uzay İstem Mimarlığı", hint: "Şampiyon parçalanmış istemi seç!", correct: "“1. Adım: Astronot kıyafetinin bölümlerini tanıt ➔ 2. Adım: Kask ve roket özelliklerini yaz ➔ 3. Adım: 360° Astronot Model Sheet görseli üret.”", options: ["“Astronot resmi ver.”", "“1. Adım: Astronot kıyafetinin bölümlerini tanıt ➔ 2. Adım: Kask ve roket özelliklerini yaz ➔ 3. Adım: 360° Astronot Model Sheet görseli üret.”", "“Astronot kim?”", "“Kask nerede?”", "“Ders bitti.”"] },
+            { sentence: "🏆 SON BÖLÜM: 7. Sınıf seviyesinde KUSURSUZ İSTEM YAZIMI nasıl yapılır?", img: "images/ders1_science.png", mode: "🏆 Seviye 3: Şampiyon Uzay İstem Mimarlığı", hint: "Son şampiyonluk sorusu! Parçalama kuralına tıkla!", correct: "“Karmaşık uzay konusunu tek cümle yerine; 1) Bilimsel Konu, 2) Detaylar ve Özellikler, 3) 3D Görsel Çizim İsteği olarak 3 net ve açık adıma bölmek.”", options: ["“Tek hamlede 'Bana uzay yap' demek.”", "“Karmaşık uzay konusunu tek cümle yerine; 1) Bilimsel Konu, 2) Detaylar ve Özellikler, 3) 3D Görsel Çizim İsteği olarak 3 net ve açık adıma bölmek.”", "“Hiç kural koymamak.”", "“Kaçmak.”", "“Hiçbir şey yapmamak.”"] }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+
+        function loadLevel(idx) {
+            if (idx >= activities.length) {
+                document.getElementById('completion-modal').classList.add('active');
+                return;
+            }
+
+            const act = activities[idx];
+            document.getElementById('level-indicator').innerText = `Bölüm: ${idx + 1} / 20`;
+            document.getElementById('score-counter').innerText = `Puan: ${score}`;
+            document.getElementById('progress-fill').style.width = `${((idx + 1) / 20) * 100}%`;
+            document.getElementById('mode-badge').innerText = act.mode;
+
+            document.getElementById('ai-img').src = act.img;
+            document.getElementById('image-wrapper').style.filter = "blur(18px) grayscale(70%)";
+            document.getElementById('blur-tag').innerText = "🔒 Bulanıklık: %100";
+            document.getElementById('level-hint').innerHTML = act.hint;
+            document.getElementById('target-sentence-text').innerText = act.sentence;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            const shuffled = [...act.options].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(optText => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.innerHTML = `<span>${optText}</span> <span>👉</span>`;
+                chip.onclick = () => selectOption(chip, optText, act.correct);
+                container.appendChild(chip);
+            });
+
+            document.getElementById('feedback-toast').className = "feedback-toast info";
+            document.getElementById('toast-icon').innerText = "👉";
+            document.getElementById('toast-text').innerText = "İstemi oku ve doğru şıkka tıkla!";
+            document.getElementById('next-btn').disabled = true;
+        }
+
+        function selectOption(chipEl, selectedText, correctText) {
+            if (selectedText === correctText) {
+                chipEl.classList.add('selected');
+                score += 10;
+                document.getElementById('score-counter').innerText = `Puan: ${score}`;
+
+                // Unblur visual
+                document.getElementById('image-wrapper').style.filter = "blur(0px) grayscale(0%)";
+                document.getElementById('blur-tag').innerText = "🔓 Netleşti!";
+
+                document.getElementById('feedback-toast').className = "feedback-toast success";
+                document.getElementById('toast-icon').innerText = "🎉";
+                document.getElementById('toast-text').innerText = "HARİKA! Doğru adım adım açık istemi seçtin! (+10 Puan)";
+                document.getElementById('next-btn').disabled = false;
+            } else {
+                chipEl.classList.add('wrong-shake');
+                setTimeout(() => chipEl.classList.remove('wrong-shake'), 400);
+                document.getElementById('feedback-toast').className = "feedback-toast warning";
+                document.getElementById('toast-icon').innerText = "⚠️";
+                document.getElementById('toast-text').innerText = "Bu istem karmaşık veya belirsiz. Adımları ve açıklığı tekrar incele!";
+            }
+        }
+
+        function nextLevel() {
+            currentIdx++;
+            loadLevel(currentIdx);
+        }
+
+        function resetLevel() {
+            loadLevel(currentIdx);
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        window.onload = () => {
+            updateStoryModal();
+            loadLevel(0);
+        };
+    </script>
+</body>
+
+</html>

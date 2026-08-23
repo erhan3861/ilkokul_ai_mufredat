@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ortaokul 7 yapay zekâ müfredatı ilk 10 ders portalı">
+  <title>AI-GALAXY | Ortaokul 7</title>
+  <style>
+    :root { --accent: #9333ea; --accent-2: #2563eb; --ink: #172033; --muted: #5d6880; --surface: rgba(255,255,255,.9); }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: var(--ink); font-family: Inter, ui-rounded, "Segoe UI", Arial, sans-serif; background: radial-gradient(circle at 8% 0%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 34rem), radial-gradient(circle at 100% 15%, color-mix(in srgb, var(--accent-2) 20%, transparent), transparent 30rem), #f6f8ff; }
+    a { color: inherit; }
+    .shell { width: min(1100px, calc(100% - 32px)); margin: 0 auto; padding: 42px 0 56px; }
+    .top { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+    .logo { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 18px; color: white; font-size: 28px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 12px 28px color-mix(in srgb, var(--accent) 28%, transparent); }
+    .top small { color: var(--muted); font-weight: 800; letter-spacing: .1em; }
+    .top h1 { margin: 3px 0 0; font-size: clamp(1.25rem, 3vw, 1.8rem); }
+    .hero { overflow: hidden; position: relative; padding: clamp(28px, 5vw, 52px); border-radius: 30px; color: white; background: linear-gradient(125deg, var(--accent), var(--accent-2)); box-shadow: 0 22px 55px color-mix(in srgb, var(--accent) 22%, transparent); }
+    .hero::after { content: "🔬"; position: absolute; right: clamp(18px, 6vw, 70px); top: 50%; translate: 0 -50%; font-size: clamp(76px, 14vw, 150px); opacity: .2; }
+    .hero p { position: relative; z-index: 1; max-width: 690px; margin: 0; font-size: clamp(1rem, 2vw, 1.18rem); line-height: 1.65; }
+    .hero h2 { position: relative; z-index: 1; max-width: 760px; margin: 0 0 12px; font-size: clamp(2rem, 6vw, 4rem); line-height: 1.05; }
+    .section-title { margin: 34px 0 16px; font-size: 1.15rem; }
+    .lessons { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+    .lesson { display: flex; align-items: center; gap: 14px; min-height: 96px; padding: 16px; border: 1px solid rgba(103,116,145,.18); border-radius: 20px; text-decoration: none; background: var(--surface); box-shadow: 0 10px 28px rgba(42,52,82,.07); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+    .lesson:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--accent) 55%, white); box-shadow: 0 16px 34px rgba(42,52,82,.13); }
+    .lesson:focus-visible { outline: 4px solid color-mix(in srgb, var(--accent) 38%, transparent); outline-offset: 3px; }
+    .number { flex: 0 0 auto; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; color: white; font-size: 1.05rem; font-weight: 900; background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+    .lesson-copy { min-width: 0; display: grid; gap: 4px; }
+    .lesson-copy small { color: var(--muted); font-size: .72rem; font-weight: 900; letter-spacing: .09em; }
+    .lesson-copy strong { line-height: 1.3; }
+    .arrow { margin-left: auto; color: var(--accent); font-size: 1.5rem; font-weight: 900; }
+    footer { padding-top: 30px; color: var(--muted); text-align: center; font-size: .9rem; }
+    @media (max-width: 720px) { .shell { width: min(100% - 22px, 1100px); padding-top: 22px; } .lessons { grid-template-columns: 1fr; } .hero::after { right: 10px; } }
+    @media (prefers-reduced-motion: reduce) { .lesson { transition: none; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div class="logo" aria-hidden="true">🔬</div>
+      <div><small>AI-GALAXY · 2026–2027</small><h1>Ortaokul 7 Ders Portalı</h1></div>
+    </header>
+    <section class="hero">
+      <h2>İleri Prompt ve AI Araştırma</h2>
+      <p>Görev ayrıştırma, kanıt değerlendirme ve geri bildirim araçlarıyla araştırmacı düşünmeyi geliştir.</p>
+    </section>
+    <h2 class="section-title">İlk 10 ders</h2>
+    <nav class="lessons" aria-label="Ortaokul 7 dersleri">
+      <a class="lesson" href="ders1/index.html"><span class="number">01</span><span class="lesson-copy"><small>1. DERS</small><strong>Görevi Parçalara Ayırmak</strong></span><span class="arrow" aria-hidden="true">→</span></a>
+      <a class="lesson" href="ders2/index.html"><span class="number">02</span><span class="lesson-copy"><small>2. DERS</small><strong>Prompt Önceliklerini Belirlemek</strong></span><span class="arrow" aria-hidden="true">→</span></a>
+      <a class="lesson" href="ders3/index.html"><span class="number">03</span><span class="lesson-copy"><small>3. DERS</small><strong>Örnekle Çıktıyı Yönlendirmek</strong></span><span class="arrow" aria-hidden="true">→</span></a>
+      <a class="lesson" href="ders4/index.html"><span class="number">04</span><span class="lesson-copy"><small>4. DERS</small><strong>Değerlendirme Ölçütü Yazmak</strong></span><span class="arrow" aria-hidden="true">→</span></a>
+      <a class="lesson" href="ders5/index.html"><span class="number">05</span><span class="lesson-copy"><small>5. DERS</small><strong>Araştırma Sorusu Oluşturmak</strong></span><span class="arrow" aria-hidden="true">→</span></a>
+      <a class="lesson" href="ders6/index.html"><span class="number">06</span><span class="lesson-copy"><small>6. DERS</small><strong>İddia, Kanıt ve Açıklama</strong></span><span class="arrow" aria-hidden="true">→</span></a>
+      <a class="lesson" href="ders7/index.html"><span class="number">07</span><span class="lesson-copy"><small>7. DERS</small><strong>Kaynak Kalitesini Değerlendirmek</strong></span><span class="arrow" aria-hidden="true">→</span></a>
+      <a class="lesson" href="ders8/index.html"><span class="number">08</span><span class="lesson-copy"><small>8. DERS</small><strong>AI Cevaplarını Karşılaştırmak</strong></span><span class="arrow" aria-hidden="true">→</span></a>
+      <a class="lesson" href="ders9/index.html"><span class="number">09</span><span class="lesson-copy"><small>9. DERS</small><strong>Sokratik Öğrenme Asistanı</strong></span><span class="arrow" aria-hidden="true">→</span></a>
+      <a class="lesson" href="ders10/index.html"><span class="number">10</span><span class="lesson-copy"><small>10. DERS</small><strong>Geri Bildirim Veren Yazı Asistanı</strong></span><span class="arrow" aria-hidden="true">→</span></a>
+    </nav>
+    <footer>AI-GALAXY · Ortaokul 7 · 2026–2027</footer>
+  </main>
+</body>
+</html>
+

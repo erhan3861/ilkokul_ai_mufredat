@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Sınıf Ders 6.3: Karışımlar, Aynalar ve Doğrulama Görsel Vitrini 🎨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-light: #F472B6;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --success: #10B981;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-grad);
+            color: var(--text-main);
+            padding: 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .tutorial-card-app {
+            width: 98vw;
+            max-width: 1200px;
+            min-height: 94vh;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--card-border);
+            border-radius: 28px;
+            padding: 24px 28px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            justify-content: space-between;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 12px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge-step {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6, #06B6D4);
+            color: white;
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+
+        .dots-container {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #FDE047;
+            width: 22px;
+            border-radius: 10px;
+        }
+
+        .page-view {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            flex-grow: 1;
+        }
+
+        .page-view.active {
+            display: flex;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        .box-bad, .box-good {
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .box-bad {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1.5px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .box-good {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1.5px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .box-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 12px;
+            display: inline-block;
+            align-self: flex-start;
+        }
+
+        .box-bad .box-tag { background: rgba(239, 68, 68, 0.25); color: #FCA5A5; }
+        .box-good .box-tag { background: rgba(16, 185, 129, 0.25); color: #6EE7B7; }
+
+        .prompt-text-display {
+            font-family: monospace;
+            font-size: 0.86rem;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            color: #A7F3D0;
+            white-space: pre-wrap;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            cursor: pointer;
+            align-self: flex-end;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover { transform: scale(1.04); }
+
+        .footer-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-top: 14px;
+        }
+
+        .btn-nav {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-nav.finish { background: linear-gradient(135deg, #10B981, #059669); }
+
+        .completion-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 16px;
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .badge-box {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(6, 182, 212, 0.2));
+            border: 2px dashed #EC4899;
+            border-radius: 20px;
+            padding: 20px 40px;
+            margin: 12px 0;
+        }
+
+        .pass-code {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #FDE047;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 850px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tutorial-card-app">
+        <!-- Header -->
+        <div class="app-header">
+            <span class="badge-step">🎨 7.6.3 GÖRSEL REHBER VİTRİNİ</span>
+            <div class="dots-container" id="dotsContainer"></div>
+            <span id="pageCounterText" style="font-weight: 800; color: #FDE047; font-size: 0.9rem;">Sayfa 1 / 9</span>
+        </div>
+
+        <!-- Pages Box -->
+        <div id="pagesBox" style="flex-grow: 1; display: flex; flex-direction: column;">
+            
+            <!-- Page 1: Video Gösterimi (EN BAŞTA) -->
+            <div class="page-view active" id="page-0">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">1. Canlı Video Rehberi: Karışımlar, Aynalar ve Halüsinasyon Tespiti 🎬</h2>
+                <div style="background: rgba(0,0,0,0.5); border: 1.5px solid var(--card-border); border-radius: 20px; padding: 16px; text-align: center;">
+                    <video style="width: 100%; max-height: 320px; border-radius: 14px;" controls loop autoplay muted>
+                        <source src="./video1.mp4" type="video/mp4">
+                        Tarayıcınız video oynatmayı desteklemiyor.
+                    </video>
+                    <p style="font-size: 0.9rem; color: #CBD5E1; margin-top: 12px; line-height: 1.6;">
+                        🔬 <strong>Dedektiflik Laboratuvarına Hoş Geldiniz!</strong> Fen Bilimleri 7 *Karışımlar & Aynalar* konularında yapay zekânın ürettiği halüsinasyonları (uydurma bilgileri) tespit ediyoruz. Doğrulama istemleri yazarak yapay zekâdan %100 bilimsel kanıtlı çıktılar almayı öğrenin!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 2: Homojen ve Heterojen Karışımlar -->
+            <div class="page-view" id="page-1">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">2. Fen 7: Homojen ve Heterojen Karışımlar</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ AI Halüsinasyonu</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Tuzlu su bir bileşiktir, kimyasal formülü vardır ve filtre kağıdıyla süzülerek ayrılır."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Yanılsama: Tuzlu su homojen bir karışımdır (çözeltidir), formülü yoktur ve süzgeçle ayrılamaz.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Doğrulanmış Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders6_hero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Karışımlar">
+                        </div>
+                        <div class="prompt-text-display">"[BİLİMSEL_TÜR]: Homojen Karışım (Çözelti).
+[ÖZELLİK]: Tek bir madde gibi görünür, fiziksel yöntemle (buharlaştırma) ayrılır.
+[3D_GÖRSEL]: 'A 3D render of glowing blue solution in flask on chemistry lab bench' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 3: Karışımları Ayırma Yöntemleri -->
+            <div class="page-view" id="page-2">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">3. Fen 7: Karışımları Ayırma Yöntemleri</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ AI Halüsinasyonu</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Alkol-su karışımı sadece mıknatısla ayrılır; demir tozu ise kaynatılarak uçurulur."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Yanılsama: Alkol-su ayrımsal damıtmayla (kaynama noktası farkı), demir tozu ise mıknatısla ayrılır!</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Doğrulanmış Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders6_karisim.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Ayırma Yöntemleri">
+                        </div>
+                        <div class="prompt-text-display">"[AYIRMA_YÖNTEMİ]: Ayrımsal Damıtma (Kaynama Noktası Farkı).
+[UYGULAMA]: Alkol ve su çözeltisinin buharlaştırılıp yoğunlaştırılması.
+[3D_GÖRSEL]: 'A 3D distillation apparatus with condenser coil and glowing liquids' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 4: Düzlem Aynalar ve Yansıma Kanunu -->
+            <div class="page-view" id="page-3">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">4. Fen 7: Düzlem Aynalar ve Yansıma Kanunları</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ AI Halüsinasyonu</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Düzlem aynada görüntü her zaman cisimden iki kat büyük ve ters oluşur."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Yanılsama: Düzlem aynada görüntü her zaman düz, cisimle AYNI BOYDA ve simetriktir!</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Doğrulanmış Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders6_1.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Düzlem Ayna">
+                        </div>
+                        <div class="prompt-text-display">"[OPTİK_KURAL]: Düzlem Ayna Yansıması.
+[GÖRÜNTÜ]: Düz, cisimle eşit boyda ve sağ-sol simetrik.
+[3D_GÖRSEL]: 'A cute robot looking into a flat mirror seeing perfect laser reflection' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 5: Çukur ve Tümsek Aynalar -->
+            <div class="page-view" id="page-4">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">5. Fen 7: Çukur ve Tümsek Aynaların Optik Fiziği</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ AI Halüsinasyonu</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Araçların yan aynasında çukur ayna kullanılır; diş hekimleri ise tümsek ayna kullanır."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Yanılsama: Araç yan aynalarında TÜMSEK (geniş görüş), diş hekimliğinde ÇUKUR (dev görüntü) ayna kullanılır!</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Doğrulanmış Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders6_hero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Küresel Aynalar">
+                        </div>
+                        <div class="prompt-text-display">"[AYNA_TÜRÜ 1]: Çukur Ayna (Dişçi aynası, teleskop - dev görüntü).
+[AYNA_TÜRÜ 2]: Tümsek Ayna (Araç yan aynası - geniş alan, küçük düz görüntü).
+[3D_GÖRSEL]: '3D optical lab showing laser reflecting on concave and convex mirrors' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 6: Bilişim 7: Halüsinasyon Avcısı Rehberi -->
+            <div class="page-view" id="page-5">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">6. Bilişim 7: Yapay Zekâ Yanılsamalarını Yakalama</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Yanlış Yaklaşım</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Yapay zekâ çok akıllıdır, ne derse tartışmasız doğrudur ve kontrol etmeye gerek yoktur."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Risk: Halüsinasyonlar öğrencilerin sınavlarda ve projelerde büyük hata yapmasına yol açar.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Profesyonel Dedektif Yaklaşımı</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders6_art.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Doğrulama">
+                        </div>
+                        <div class="prompt-text-display">"[DEDEKTİF_KURALI]: Yapay zekâ çıktısını MEB ders kitabı ve bilimsel kanıtlarla çapraz kontrol et.
+[İSTEM_ÇÖZÜMÜ]: İstemine 'Sadece MEB Fen 7 müfredatı ilkelerini kullan ve emin değilsen belirt' komutu ekle."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 7: 3D Sanat: Halüsinasyon Dedektifi Robot -->
+            <div class="page-view" id="page-6">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">7. 3D Sanat: 3D Halüsinasyon Dedektifi Robot Tasarım Kartı</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Düzensiz Serbest İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Robot çiz, elinde bir büyüteç olsun."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Kimya analiz sensörleri, ayna lensleri ve doğrulama ekranı çizilmez.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Şablonlu Etiketli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders6_art.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Dedektif Robot">
+                        </div>
+                        <div class="prompt-text-display">"[KARAKTER]: Model HD-7 Halüsinasyon Dedektifi Robot.
+[DONANIM]: Kimyasal analiz kolları, ayna yansıma lensleri ve göğsünde 'Verified' onay ekranı.
+[3D_GÖRSEL]: 'A 3D character design sheet and blueprint of Hallucination Detective Robot, Pixar 3D style, 8k' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 8: 5 Maddelik Halüsinasyon Kontrol Listesi -->
+            <div class="page-view" id="page-7">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">8. 🛡️ 5 Maddelik Halüsinasyon Kontrol Listesi</h2>
+                <div style="background: rgba(0,0,0,0.4); border: 2px dashed #06B6D4; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <div style="font-size: 1.05rem; color: #FDE047; font-weight: 800;">🔍 BİLİMSEL İÇERİKLERDE HALÜSİNASYON ENGELLEME LİSTESİ:</div>
+                    <div style="font-size: 0.88rem; color: #CBD5E1; line-height: 1.6;">
+                        1️⃣ <strong>Fen Kanunu Belirt:</strong> İsteminde fiziksel kanunu zorunlu kıl (Örn: Gelme Açısı = Yansıma Açısı).<br>
+                        2️⃣ <strong>Kaynak Kısıtı Ekle:</strong> "Yalnızca MEB Fen 7 ünitesi kazanımlarına dayan" şartı koy.<br>
+                        3️⃣ <strong>Adım Adım Açıklama İste:</strong> Çözünme hızı veya ayırma yöntemini basamaklara böldür.<br>
+                        4️⃣ <strong>Çapraz Kontrol Yap:</strong> Şüpheli görünen formül ve sayıları ders kitabından doğrula.<br>
+                        5️⃣ <strong>Emin Değilse Söylemesini İste:</strong> "Bilmediğin veya kesin olmayan konularda uydurma" komutunu ver.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 9: Vitrin Tamamlama & Başarı Şifresi -->
+            <div class="page-view" id="page-8">
+                <div class="completion-container">
+                    <div style="font-size: 3.5rem;">🎉🏆</div>
+                    <h2 style="font-family: 'Outfit'; color: #FDE047; font-size: 2rem;">Karışımlar & Aynalar Vitrini Tamamlandı!</h2>
+                    <p style="color: #CBD5E1; font-size: 1rem; max-width: 650px; line-height: 1.6;">
+                        Tebrikler! Karışımlar, Aynalar ve Yanılsama (Halüsinasyon) Tespiti görsel rehberini başarıyla tamamladınız. Artık yapay zekânın yanılsamalarını kolayca yakalayabilirsiniz.
+                    </p>
+
+                    <div class="badge-box">
+                        <div style="font-size: 0.85rem; color: #F472B6; font-weight: 800; text-transform: uppercase;">7.6.3 GÖRSEL REHBER BAŞARI ŞİFRENİZ:</div>
+                        <div class="pass-code">ayna7</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Controls -->
+        <div class="footer-controls">
+            <button class="btn-nav" id="prevBtn" onclick="changePage(-1)" disabled>⬅️ Önceki</button>
+            <button class="btn-nav" id="nextBtn" onclick="changePage(1)">Sonraki ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        const totalPages = 9;
+        let currentPage = 0;
+
+        function initDots() {
+            const container = document.getElementById('dotsContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                dot.onclick = () => goToPage(i);
+                container.appendChild(dot);
+            }
+        }
+
+        function goToPage(index) {
+            currentPage = index;
+            updateView();
+        }
+
+        function changePage(delta) {
+            currentPage += delta;
+            if (currentPage < 0) currentPage = 0;
+            if (currentPage >= totalPages) currentPage = totalPages - 1;
+            updateView();
+        }
+
+        function updateView() {
+            for (let i = 0; i < totalPages; i++) {
+                document.getElementById(`page-${i}`).classList.remove('active');
+            }
+            document.getElementById(`page-${currentPage}`).classList.add('active');
+
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((d, idx) => {
+                d.className = `dot ${idx === currentPage ? 'active' : ''}`;
+            });
+
+            document.getElementById('pageCounterText').innerText = `Sayfa ${currentPage + 1} / ${totalPages}`;
+            document.getElementById('prevBtn').disabled = currentPage === 0;
+
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentPage === totalPages - 1) {
+                nextBtn.innerText = "Tamamlandı ✔️";
+                nextBtn.className = "btn-nav finish";
+                nextBtn.disabled = true;
+            } else {
+                nextBtn.innerText = "Sonraki ➡️";
+                nextBtn.className = "btn-nav";
+                nextBtn.disabled = false;
+            }
+        }
+
+        function copyPromptText(btnEl) {
+            const textDisplay = btnEl.previousElementSibling.innerText || btnEl.previousElementSibling.querySelector('.prompt-text-display').innerText;
+            navigator.clipboard.writeText(textDisplay).then(() => {
+                const origText = btnEl.innerText;
+                btnEl.innerText = "✅ Kopyalandı!";
+                btnEl.style.background = "#10B981";
+                setTimeout(() => {
+                    btnEl.innerText = origText;
+                    btnEl.style.background = "linear-gradient(135deg, #10B981, #059669)";
+                }, 1800);
+            });
+        }
+
+        window.onload = () => {
+            initDots();
+            updateView();
+        };
+    </script>
+</body>
+</html>

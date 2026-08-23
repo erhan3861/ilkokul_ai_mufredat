@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7. Sınıf Ders 3.1: Kuvvet, İş ve Şablon Yapılı Çıktılar Labı 🧪</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-light: #F472B6;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --success: #10B981;
+            --danger: #EF4444;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            background: var(--bg-grad);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1240px;
+            height: calc(100vh - 12px);
+            max-height: calc(100vh - 12px);
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 12px 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.12);
+            padding-bottom: 6px;
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #FDE047, #EC4899, #818CF8, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-header {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-header:hover {
+            background: rgba(236, 72, 153, 0.3);
+            border-color: #F472B6;
+        }
+
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 5%;
+            background: linear-gradient(90deg, #EC4899, #06B6D4, #10B981);
+            transition: width 0.3s ease;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 12px;
+            flex-grow: 1;
+            min-height: 0;
+        }
+
+        .visual-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .mode-badge {
+            background: linear-gradient(90deg, #EC4899, #06B6D4);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            align-self: flex-start;
+        }
+
+        .canvas-frame {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1.5px solid var(--card-border);
+            background: #000;
+        }
+
+        .blur-overlay-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.75);
+            color: #FDE047;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.75rem;
+            z-index: 10;
+        }
+
+        .ai-image-wrapper {
+            width: 100%;
+            height: 100%;
+            filter: blur(18px) grayscale(70%);
+            transition: filter 0.5s ease;
+        }
+
+        .ai-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .live-prompt-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1.5px dashed rgba(236, 72, 153, 0.4);
+            border-radius: 12px;
+            padding: 10px 14px;
+        }
+
+        .prompt-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #F472B6;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .words-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            min-height: 0;
+        }
+
+        .target-hint-box {
+            background: rgba(236, 72, 153, 0.15);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: #FBCFE8;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .word-chips-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .word-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            color: #E2E8F0;
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .word-chip:hover {
+            background: rgba(236, 72, 153, 0.2);
+            border-color: #F472B6;
+            transform: translateX(3px);
+        }
+
+        .word-chip.selected {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #10B981;
+            color: #A7F3D0;
+        }
+
+        .word-chip.wrong-shake {
+            animation: shake 0.4s ease;
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #EF4444;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .feedback-toast {
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feedback-toast.info {
+            background: rgba(6, 182, 212, 0.2);
+            color: #A5F3FC;
+            border: 1px solid rgba(6, 182, 212, 0.4);
+        }
+
+        .feedback-toast.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6EE7B7;
+            border: 1px solid #10B981;
+        }
+
+        .feedback-toast.warning {
+            background: rgba(239, 68, 68, 0.2);
+            color: #FCA5A5;
+            border: 1px solid #EF4444;
+        }
+
+        .footer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover:not(:disabled) {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        .btn-action:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Storybook Tutorial Modal */
+        .story-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(11, 15, 25, 0.9);
+            backdrop-filter: blur(14px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .story-modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .story-card {
+            background: #1E1B4B;
+            border: 2px solid #EC4899;
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 960px;
+            width: 100%;
+            text-align: left;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .story-badge {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6, #06B6D4);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .story-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .s-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .s-dot.active {
+            background: #FDE047;
+            width: 18px;
+            border-radius: 10px;
+        }
+
+        .story-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .story-img-frame {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            height: 280px;
+            background: #000;
+        }
+
+        .story-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-text-area h3 {
+            font-family: 'Outfit', sans-serif;
+            color: #FDE047;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .story-text-area div {
+            font-size: 1rem;
+            color: #CBD5E1;
+            line-height: 1.65;
+        }
+
+        .btn-story-nav {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-story-nav:hover {
+            transform: scale(1.04);
+        }
+
+        /* Completion Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 150;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: #1E1B4B;
+            border: 2px solid #EC4899;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 580px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 4 Adımlık Ders Anlatım Modalı (STORYBOOK) -->
+    <div class="story-modal-backdrop active" id="story-modal">
+        <div class="story-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="story-badge">🚀 7. Sınıf 3. Hafta Kuvvet, İş ve Şablon Yapılı İstemler</div>
+                <div class="story-dots">
+                    <div class="s-dot active" id="sdot-0"></div>
+                    <div class="s-dot" id="sdot-1"></div>
+                    <div class="s-dot" id="sdot-2"></div>
+                    <div class="s-dot" id="sdot-3"></div>
+                </div>
+            </div>
+
+            <div class="story-content-grid">
+                <div class="story-img-frame">
+                    <img id="story-img" src="images/ders3_hero.png" alt="Ders Rehberi Görseli">
+                </div>
+                <div class="story-text-area" id="story-content">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <button class="btn-story-nav" id="story-prev-btn" onclick="prevStoryPage()"
+                    style="visibility:hidden; background:rgba(255,255,255,0.15); box-shadow:none;">⬅️ Geri</button>
+                <button class="btn-story-nav" id="story-next-btn" onclick="nextStoryPage()">Sonraki Adım ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-title">
+                <h1>🚀 7.3.1 Kuvvet, İş & Şablon Yapılı Çıktılar Labı <span
+                        style="font-size: 0.88rem; color: #F472B6; font-weight: 500;">(20 Bölümlü Bireysel
+                        Çalışma)</span></h1>
+                <p>Potansiyel ve kinetik enerji istemlerinde yapay zekâya etiketli şablonlar vererek 3D çıktıları düzenli üret!</p>
+            </div>
+            <div class="header-stats">
+                <button class="btn-header" onclick="reopenStory()">📖 Ders Rehberi</button>
+                <button class="btn-header" onclick="toggleFullScreen()">🖥️ Tam Ekran</button>
+                <div class="stat-pill">🎯 <span id="level-indicator">Bölüm: 1 / 20</span></div>
+                <div class="stat-pill">⭐ <span id="score-counter">Puan: 0</span></div>
+            </div>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- Game Grid -->
+        <div class="game-grid">
+            <!-- Left: Visual Card -->
+            <div class="visual-card">
+                <div class="mode-badge" id="mode-badge">🎮 Seviye 1: Serbest İstem vs Şablonlu Etiketli İstem</div>
+                <div class="canvas-frame">
+                    <div class="blur-overlay-tag" id="blur-tag">🔒 Bulanıklık: %100</div>
+                    <div class="ai-image-wrapper" id="image-wrapper">
+                        <img id="ai-img" src="images/ders3_hero.png" alt="AI Visual">
+                    </div>
+                </div>
+
+                <div class="live-prompt-box">
+                    <div class="prompt-title">✍️ İncelenen İstem:</div>
+                    <div id="target-sentence-text" style="font-weight:700; color:#FBCFE8; font-size:0.95rem;">
+                        "Bana enerji anlat, resim çiz ve kuvveti göster."
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Words Card -->
+            <div class="words-card">
+                <div class="target-hint-box" id="level-hint">
+                    Yukarıdaki istemi incele. Düzensiz bir serbest istem mi yoksa Etiketli Şablonlu bir İstem mi?
+                </div>
+
+                <div style="font-size: 0.8rem; font-weight: 700; color: #E2E8F0;">🏷️ İstem Türünü veya Doğru Şablon Yapısını Seç:</div>
+
+                <div class="word-chips-grid" id="options-container"></div>
+
+                <div class="feedback-toast info" id="feedback-toast">
+                    <span id="toast-icon">👉</span>
+                    <span id="toast-text">İstemi oku ve doğru şıkka tıkla!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="footer-actions">
+            <button class="btn-action" id="reset-btn" onclick="resetLevel()" style="background: rgba(255,255,255,0.1);">
+                🔄 Sıfırla
+            </button>
+            <button class="btn-action" id="next-btn" onclick="nextLevel()" disabled>
+                Sonraki Bölüm ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- 20th Stage Completion Modal -->
+    <div class="modal-backdrop" id="completion-modal">
+        <div class="modal-card">
+            <div style="font-size: 3rem;">🎉🏆</div>
+            <h2 style="color: #FDE047; font-family: 'Outfit';">Tebrikler Şampiyon Şablon Mimarı!</h2>
+            <p style="color: #CBD5E1; font-size: 0.95rem;">
+                20 bölümün tamamını başardın! Kuvvet, iş ve enerji konularında etiketli şablonlar kullanarak yapay zekâdan düzenli ve harika 3D çıktılar aldın.
+            </p>
+
+            <div
+                style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(6, 182, 212, 0.2)); border: 2px dashed #EC4899; border-radius: 20px; padding: 16px; margin: 12px 0; text-align: center;">
+                <div style="font-size: 1.8rem;">🎁✨</div>
+                <div style="color: #F472B6; font-size: 0.9rem; font-weight: 700; text-transform: uppercase;">7.3.1
+                    BİREYSEL ÇALIŞMA BAŞARI ŞİFRENİZ:</div>
+                <div
+                    style="font-size: 2.4rem; font-weight: 800; color: #FDE047; letter-spacing: 2px; text-transform: lowercase;">
+                    enerji7</div>
+            </div>
+
+            <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 6px; line-height: 1.5;">
+                📌 Canlı ders panelindeki ✏️ <strong>Cevapla</strong> butonuna tıklayın ve bu şifreyi girin!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Storybook 4-Step Tutorial Content
+        const storyPages = [
+            {
+                title: "1. Adım: Şablonlu İstem Nedir? ⚡",
+                img: "images/ders3_hero.png",
+                body: "Yapay zekâya serbest komutlar vermek yerine, isteklerimizi etiketler ve başlıklarla şablonlamak mükemmel sonuçlar verir.<br>❌ <strong>Düzensiz İstem:</strong> Ne istediği belirsiz karışık cümleler.<br>✨ <strong>Şablonlu İstem:</strong> Başlıklar ve etiketlerle düzenlenmiş net komutlar!"
+            },
+            {
+                title: "2. Adım: Enerji ve Şablon Yapısı 🎡",
+                img: "images/ders3_1.png",
+                body: "<strong>[ENERJİ TÜRÜ]:</strong> Potansiyel (Yükseklik) veya Kinetik (Hız).<br><strong>[FİZİKSEL İŞ]:</strong> Kuvvet x Yol ilişkisi.<br><strong>[3D GÖRSEL ÇİZİM]:</strong> Lunapark veya uzay enerji istasyonu sahnesi."
+            },
+            {
+                title: "3. Adım: Düzenli ve Görsel Çıktılar 🎨",
+                img: "images/ders3_enerji.png",
+                body: "İstemine başlıklar eklediğinde yapay zekâ hem konuları karıştırmaz hem de 3D sahneleri tam istediğin gibi çizer!"
+            },
+            {
+                title: "4. Adım: 20 Bölümlü Çalışmaya Başla! 🏆",
+                img: "images/ders3_art.png",
+                body: "Şimdi sıra sende! 20 bölüm boyunca kuvvet ve enerji istemlerini incele, Şablonlu İstemleri seç ve şifreni kazan!"
+            }
+        ];
+
+        let storyIdx = 0;
+
+        function updateStoryModal() {
+            document.getElementById('story-img').src = storyPages[storyIdx].img;
+            document.getElementById('story-content').innerHTML = `
+                <h3>${storyPages[storyIdx].title}</h3>
+                <div>${storyPages[storyIdx].body}</div>
+            `;
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`sdot-${i}`).className = `s-dot ${i === storyIdx ? 'active' : ''}`;
+            }
+            document.getElementById('story-prev-btn').style.visibility = storyIdx === 0 ? 'hidden' : 'visible';
+            document.getElementById('story-next-btn').innerText = storyIdx === 3 ? "Oyuna Başla 🎮" : "Sonraki Adım ➡️";
+        }
+
+        function nextStoryPage() {
+            if (storyIdx < 3) {
+                storyIdx++;
+                updateStoryModal();
+            } else {
+                document.getElementById('story-modal').classList.remove('active');
+            }
+        }
+
+        function prevStoryPage() {
+            if (storyIdx > 0) {
+                storyIdx--;
+                updateStoryModal();
+            }
+        }
+
+        function reopenStory() {
+            storyIdx = 0;
+            updateStoryModal();
+            document.getElementById('story-modal').classList.add('active');
+        }
+
+        // 20-Section Graded Activities (7. Sınıf Kuvvet, İş, Enerji & Şablon Yapılı İstemler)
+        const activities = [
+            { sentence: "“Bana enerji anlat, resim çiz ve kuvveti göster.”", img: "images/ders3_hero.png", mode: "🎮 Seviye 1: Serbest İstem vs Şablonlu İstem", hint: "Bu istem başlıklandırılmış şablonlu bir istem midir?", correct: "❌ Düzensiz Serbest İstem", options: ["❌ Düzensiz Serbest İstem", "✨ Şablonlu Etiketli İstem"] },
+            { sentence: "“[ENERJİ TÜRÜ]: Çekim potansiyel enerjisi. [FİZİKSEL İŞ]: Cisim yükseğe çıkarılırken yapılan iş. [3D ÇİZİM]: 3D enerji kulesi resmi.”", img: "images/ders3_1.png", mode: "🎮 Seviye 1: Serbest İstem vs Şablonlu İstem", hint: "Bu istem ne tür bir yapıya sahiptir?", correct: "✨ Şablonlu Etiketli İstem", options: ["✨ Şablonlu Etiketli İstem", "❌ Düzensiz Serbest İstem"] },
+            { sentence: "“Roller coaster hızlı gitsin, tepeden insin, arada kinetik enerjiyi de yaz.”", img: "images/ders3_enerji.png", mode: "🎮 Seviye 1: Serbest İstem vs Şablonlu İstem", hint: "Bu istem şablonlu mudur?", correct: "❌ Düzensiz Serbest İstem", options: ["❌ Düzensiz Serbest İstem", "✨ Şablonlu Etiketli İstem"] },
+            { sentence: "“[KONU]: Kinetik Enerji. [ETKENLER]: Kütle ve sürat artışı. [3D ÇİZİM]: 3D hızlı yarış treni simülasyonu.”", img: "images/ders3_art.png", mode: "🎮 Seviye 1: Serbest İstem vs Şablonlu İstem", hint: "Bu istem hangi yapıdadır?", correct: "✨ Şablonlu Etiketli İstem", options: ["✨ Şablonlu Etiketli İstem", "❌ Düzensiz Serbest İstem"] },
+            { sentence: "“Kuvvet uygula, kutu sürüklensin, resmi de sarı yap.”", img: "images/ders3_hero.png", mode: "🎮 Seviye 1: Serbest İstem vs Şablonlu İstem", hint: "Bu istem ne tür bir istemdir?", correct: "❌ Düzensiz Serbest İstem", options: ["❌ Düzensiz Serbest İstem", "✨ Şablonlu Etiketli İstem"] },
+            { sentence: "“[FİZİKSEL İŞ KURALI]: Kuvvet uygulanan cisim kuvvet yönünde yol almalıdır. [ÖRNEK]: Kutuyu iten robot. [3D ÇİZİM]: 3D fizik labı.”", img: "images/ders3_1.png", mode: "🎮 Seviye 1: Serbest İstem vs Şablonlu İstem", hint: "Bu istem doğru şablonlanmış mıdır?", correct: "✨ Şablonlu Etiketli İstem", options: ["✨ Şablonlu Etiketli İstem", "❌ Düzensiz Serbest İstem"] },
+            { sentence: "“[ENERJİ DÖNÜŞÜMÜ]: Potansiyel enerjinin kinetik enerjiye dönüşümü. [3D ÇİZİM]: 3D lunapark treni döngüsü.”", img: "images/ders3_enerji.png", mode: "🎮 Seviye 1: Serbest İstem vs Şablonlu İstem", hint: "Bu istem hangi tür istemdir?", correct: "✨ Şablonlu Etiketli İstem", options: ["✨ Şablonlu Etiketli İstem", "❌ Düzensiz Serbest İstem"] },
+
+            { sentence: "Potansiyel Enerji istemini en iyi ŞABLONLAYAN seçenek hangisidir?", img: "images/ders3_art.png", mode: "🚀 Seviye 2: Şablon Yapılarını Ayırt Etme", hint: "Başlıklı ve etiketli şablonu seç!", correct: "“[KONU]: Çekim Potansiyel Enerjisi ➔ [ETKENLER]: Ağırlık ve yükseklik ➔ [GÖRSEL]: 3D Enerji Kulesi”", options: ["“Yüksekten düşen top resmi yap”", "“[KONU]: Çekim Potansiyel Enerjisi ➔ [ETKENLER]: Ağırlık ve yükseklik ➔ [GÖRSEL]: 3D Enerji Kulesi”", "“Top nerede?”"] },
+            { sentence: "Fiziksel Anlamda İŞ Yapılması istemini en iyi ŞABLONLAYAN şık hangisidir?", img: "images/ders3_hero.png", mode: "🚀 Seviye 2: Şablon Yapılarını Ayırt Etme", hint: "Etiketli şablonu bul!", correct: "“[ŞART]: Kuvvet x Alınan Yol ➔ [AÇIKLAMA]: Sırt çantasıyla düz yürüyen çocuk iş yapmaz ➔ [GÖRSEL]: 3D İtme Kuvveti”", options: ["“Çanta taşıyan çocuk çiz”", "“[ŞART]: Kuvvet x Alınan Yol ➔ [AÇIKLAMA]: Sırt çantasıyla düz yürüyen çocuk iş yapmaz ➔ [GÖRSEL]: 3D İtme Kuvveti”", "“İş bitti”"] },
+            { sentence: "Esneklik Potansiyel Enerjisi istemini en iyi ŞABLONLAYAN seçenek hangisidir?", img: "images/ders3_1.png", mode: "🚀 Seviye 2: Şablon Yapılarını Ayırt Etme", hint: "Şablonlu yapıya tıkla!", correct: "“[KAVRAM]: Esneklik Potansiyel Enerjisi ➔ [ÖRNEK]: Sıkışan yay ve çekilen yay ➔ [GÖRSEL]: 3D Yaylı Robot”", options: ["“Yay resmi ver”", "“[KAVRAM]: Esneklik Potansiyel Enerjisi ➔ [ÖRNEK]: Sıkışan yay ve çekilen yay ➔ [GÖRSEL]: 3D Yaylı Robot”", "“Yay sıkıştı”"] },
+            { sentence: "Kinetik Enerji Değişimi istemini en iyi ŞABLONLAYAN seçenek hangisidir?", img: "images/ders3_enerji.png", mode: "🚀 Seviye 2: Şablon Yapılarını Ayırt Etme", hint: "Doğru şablonu bul!", correct: "“[BİLİMSELKOD]: Kinetik Enerji ➔ [DEĞİŞKEN]: Hız arttıkça kinetik enerji artar ➔ [GÖRSEL]: 3D Yarış Sahnesi”", options: ["“Hızlı araba yap”", "“[BİLİMSELKOD]: Kinetik Enerji ➔ [DEĞİŞKEN]: Hız arttıkça kinetik enerji artar ➔ [GÖRSEL]: 3D Yarış Sahnesi”", "“Araba kaçıyor”"] },
+            { sentence: "Enerjinin Korunumu istemini en iyi ŞABLONLAYAN seçenek hangisidir?", img: "images/ders3_art.png", mode: "🚀 Seviye 2: Şablon Yapılarını Ayırt Etme", hint: "Şablonlu etiketli istemi seç!", correct: "“[KURAL]: Toplam Enerji Korunur ➔ [DÖNÜŞÜM]: Potansiyel ➔ Kinetik ➔ Sürtünmeyle Isı ➔ [GÖRSEL]: 3D Pendulum”", options: ["“Sallanan sarkaç çiz”", "“[KURAL]: Toplam Enerji Korunur ➔ [DÖNÜŞÜM]: Potansiyel ➔ Kinetik ➔ Sürtünmeyle Isı ➔ [GÖRSEL]: 3D Pendulum”", "“Sarkaç bitti”"] },
+            { sentence: "Sürtünme Kuvveti ve Isı Enerjisi istemini en iyi ŞABLONLAYAN şık hangisidir?", img: "images/ders3_hero.png", mode: "🚀 Seviye 2: Şablon Yapılarını Ayırt Etme", hint: "Şablon yapısını seç!", correct: "“[ETKİ]: Sürtünme Kinetik Enerjiyi Azaltır ➔ [SONUÇ]: Isı Enerjisine Dönüşür ➔ [GÖRSEL]: 3D Isı Haritası”", options: ["“Sıcak zemin yap”", "“[ETKİ]: Sürtünme Kinetik Enerjiyi Azaltır ➔ [SONUÇ]: Isı Enerjisine Dönüşür ➔ [GÖRSEL]: 3D Isı Haritası”", "“Zemin nerede?”"] },
+            { sentence: "Yerçekimi Potansiyel Enerjisi istemini en iyi ŞABLONLAYAN seçenek hangisidir?", img: "images/ders3_1.png", mode: "🚀 Seviye 2: Şablon Yapılarını Ayırt Etme", hint: "Doğru şablonu tıkla!", correct: "“[DEĞİŞKEN]: Yükseklik h ve Kütle m ➔ [İLİŞKİ]: Yükseklik arttıkça potansiyel artar ➔ [GÖRSEL]: 3D Baraj Kulesi”", options: ["“Su barajı yap”", "“[DEĞİŞKEN]: Yükseklik h ve Kütle m ➔ [İLİŞKİ]: Yükseklik arttıkça potansiyel artar ➔ [GÖRSEL]: 3D Baraj Kulesi”", "“Baraj nerede?”"] },
+
+            { sentence: "Kuvvet, İş ve Enerji Görsel İsteminde ŞAMPİYON ŞABLON kurgusu hangisidir?", img: "images/ders3_enerji.png", mode: "🏆 Seviye 3: Şampiyon Şablon Yapıları", hint: "Şampiyon şablon kurgusuna tıkla!", correct: "“[KONU_BAŞLIĞI] ➔ [ZORUNLU_FİZİK_KURALI] ➔ [3D_GÖRSEL_ÇİZİM_İSTEĞİ]”", options: ["“Kafa karıştıran cümleler”", "“[KONU_BAŞLIĞI] ➔ [ZORUNLU_FİZİK_KURALI] ➔ [3D_GÖRSEL_ÇİZİM_İSTEĞİ]”", "“Rastgele sözler”", "“Hiç etiket kullanmamak”", "“Dersi kapatmak”"] },
+            { sentence: "Güneş Enerjisi Santrali İsteminde ŞAMPİYON ŞABLON hangisidir?", img: "images/ders3_art.png", mode: "🏆 Seviye 3: Şampiyon Şablon Yapıları", hint: "Şampiyon şablonu seç!", correct: "“[SİSTEM]: Güneş Panelleri ➔ [DÖNÜŞÜM]: Işık Enerjisi ➔ Elektrik Enerjisi ➔ [GÖRSEL]: 3D Solar Park”", options: ["“Güneş resmi yap”", "“[SİSTEM]: Güneş Panelleri ➔ [DÖNÜŞÜM]: Işık Enerjisi ➔ Elektrik Enerjisi ➔ [GÖRSEL]: 3D Solar Park”", "“Güneş nerede?”", "“Işık bitti”", "“Kapa”"] },
+            { sentence: "Rüzgar Türbini İsteminde ŞAMPİYON ŞABLON hangisidir?", img: "images/ders3_hero.png", mode: "🏆 Seviye 3: Şampiyon Şablon Yapıları", hint: "Şampiyon şablonu bul!", correct: "“[TÜR]: Rüzgar Enerjisi ➔ [DÖNÜŞÜM]: Hareket (Kinetik) ➔ Elektrik ➔ [GÖRSEL]: 3D Wind Turbine Park”", options: ["“Rüzgar resmi çiz”", "“[TÜR]: Rüzgar Enerjisi ➔ [DÖNÜŞÜM]: Hareket (Kinetik) ➔ Elektrik ➔ [GÖRSEL]: 3D Wind Turbine Park”", "“Rüzgar nerede?”", "“Pervane bitti”", "“Kapa”"] },
+            { sentence: "Hidroelektrik Santral İsteminde ŞAMPİYON ŞABLON hangisidir?", img: "images/ders3_1.png", mode: "🏆 Seviye 3: Şampiyon Şablon Yapıları", hint: "Şampiyon şablonu seç!", correct: "“[KAYNAK]: Suyun Potansiyel Enerjisi ➔ [AKIŞ]: Kinetik Enerji ➔ Elektrik ➔ [GÖRSEL]: 3D Hydro Dam”", options: ["“Su resmi yap”", "“[KAYNAK]: Suyun Potansiyel Enerjisi ➔ [AKIŞ]: Kinetik Enerji ➔ Elektrik ➔ [GÖRSEL]: 3D Hydro Dam”", "“Su aktı”", "“Baraj bitti”", "“Işık kapa”"] },
+            { sentence: "3D Enerji Keşif Robotu İsteminde ŞAMPİYON ŞABLON hangisidir?", img: "images/ders3_art.png", mode: "🏆 Seviye 3: Şampiyon Şablon Yapıları", hint: "Şampiyon şablonu bul!", correct: "“[KARAKTER]: Enerji Mühendisi Robot ➔ [DONANIM]: Lazer Ölçer ➔ [GÖRSEL]: 3D Pixar Engineer Robot”", options: ["“Robot resmi ver”", "“[KARAKTER]: Enerji Mühendisi Robot ➔ [DONANIM]: Lazer Ölçer ➔ [GÖRSEL]: 3D Pixar Engineer Robot”", "“Robot kim?”", "“Lazer nerede?”", "“Ders bitti”"] },
+            { sentence: "🏆 SON BÖLÜM: 7. Sınıf seviyesinde KUSURSUZ ŞABLONLU İSTEM nasıl yazılır?", img: "images/ders3_enerji.png", mode: "🏆 Seviye 3: Şampiyon Şablon Yapıları", hint: "Son şampiyonluk kuralına tıkla!", correct: "“Konuyu etiketler, başlıklar ve 3D çizim istekleri olarak köşeli parantezli şablonlara bölerek.”", options: ["“Tek cümlede her şeyi karıştırarak”", "“Konuyu etiketler, başlıklar ve 3D çizim istekleri olarak köşeli parantezli şablonlara bölerek.”", "“Hiç etiket koymayarak”", "“Kaçarak”", "“Hiçbir şey yazmayarak”"] }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+
+        function loadLevel(idx) {
+            if (idx >= activities.length) {
+                document.getElementById('completion-modal').classList.add('active');
+                return;
+            }
+
+            const act = activities[idx];
+            document.getElementById('level-indicator').innerText = `Bölüm: ${idx + 1} / 20`;
+            document.getElementById('score-counter').innerText = `Puan: ${score}`;
+            document.getElementById('progress-fill').style.width = `${((idx + 1) / 20) * 100}%`;
+            document.getElementById('mode-badge').innerText = act.mode;
+
+            document.getElementById('ai-img').src = act.img;
+            document.getElementById('image-wrapper').style.filter = "blur(18px) grayscale(70%)";
+            document.getElementById('blur-tag').innerText = "🔒 Bulanıklık: %100";
+            document.getElementById('level-hint').innerHTML = act.hint;
+            document.getElementById('target-sentence-text').innerText = act.sentence;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            const shuffled = [...act.options].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(optText => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.innerHTML = `<span>${optText}</span> <span>👉</span>`;
+                chip.onclick = () => selectOption(chip, optText, act.correct);
+                container.appendChild(chip);
+            });
+
+            document.getElementById('feedback-toast').className = "feedback-toast info";
+            document.getElementById('toast-icon').innerText = "👉";
+            document.getElementById('toast-text').innerText = "İstemi oku ve doğru şablon yapısına tıkla!";
+            document.getElementById('next-btn').disabled = true;
+        }
+
+        function selectOption(chipEl, selectedText, correctText) {
+            if (selectedText === correctText) {
+                chipEl.classList.add('selected');
+                score += 10;
+                document.getElementById('score-counter').innerText = `Puan: ${score}`;
+
+                // Unblur visual
+                document.getElementById('image-wrapper').style.filter = "blur(0px) grayscale(0%)";
+                document.getElementById('blur-tag').innerText = "🔓 Netleşti!";
+
+                document.getElementById('feedback-toast').className = "feedback-toast success";
+                document.getElementById('toast-icon').innerText = "🎉";
+                document.getElementById('toast-text').innerText = "HARİKA! Etiketli ve şablonlu doğru istem yapısını seçtin! (+10 Puan)";
+                document.getElementById('next-btn').disabled = false;
+            } else {
+                chipEl.classList.add('wrong-shake');
+                setTimeout(() => chipEl.classList.remove('wrong-shake'), 400);
+                document.getElementById('feedback-toast').className = "feedback-toast warning";
+                document.getElementById('toast-icon').innerText = "⚠️";
+                document.getElementById('toast-text').innerText = "Bu istem etiketli veya düzenli bir şablona sahip değil. Tekrar dene!";
+            }
+        }
+
+        function nextLevel() {
+            currentIdx++;
+            loadLevel(currentIdx);
+        }
+
+        function resetLevel() {
+            loadLevel(currentIdx);
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        window.onload = () => {
+            updateStoryModal();
+            loadLevel(0);
+        };
+    </script>
+</body>
+
+</html>

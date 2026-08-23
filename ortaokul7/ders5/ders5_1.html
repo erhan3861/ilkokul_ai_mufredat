@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7. Sınıf Ders 5.1: Zaman İçinde Bilim ve Hipotez Labı 🧪</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-light: #F472B6;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --success: #10B981;
+            --danger: #EF4444;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            background: var(--bg-grad);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1240px;
+            height: calc(100vh - 12px);
+            max-height: calc(100vh - 12px);
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 12px 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.12);
+            padding-bottom: 6px;
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #FDE047, #EC4899, #818CF8, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-header {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-header:hover {
+            background: rgba(236, 72, 153, 0.3);
+            border-color: #F472B6;
+        }
+
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 5%;
+            background: linear-gradient(90deg, #EC4899, #06B6D4, #10B981);
+            transition: width 0.3s ease;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 12px;
+            flex-grow: 1;
+            min-height: 0;
+        }
+
+        .visual-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .mode-badge {
+            background: linear-gradient(90deg, #EC4899, #06B6D4);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            align-self: flex-start;
+        }
+
+        .canvas-frame {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1.5px solid var(--card-border);
+            background: #000;
+        }
+
+        .blur-overlay-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--card-border);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 5;
+            color: #FDE047;
+        }
+
+        .ai-image-wrapper {
+            width: 100%;
+            height: 100%;
+            filter: blur(18px) grayscale(70%);
+            transition: filter 0.5s ease;
+        }
+
+        .ai-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .live-prompt-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1.5px dashed rgba(236, 72, 153, 0.4);
+            border-radius: 12px;
+            padding: 10px 14px;
+        }
+
+        .prompt-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #F472B6;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .words-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            min-height: 0;
+        }
+
+        .target-hint-box {
+            background: rgba(236, 72, 153, 0.15);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: #FBCFE8;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .word-chips-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .word-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            color: #E2E8F0;
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .word-chip:hover {
+            background: rgba(236, 72, 153, 0.2);
+            border-color: #F472B6;
+            transform: translateX(3px);
+        }
+
+        .word-chip.selected {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #10B981;
+            color: #A7F3D0;
+        }
+
+        .word-chip.wrong-shake {
+            animation: shake 0.4s ease;
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #EF4444;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .feedback-toast {
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feedback-toast.info {
+            background: rgba(6, 182, 212, 0.2);
+            color: #A5F3FC;
+            border: 1px solid rgba(6, 182, 212, 0.4);
+        }
+
+        .feedback-toast.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6EE7B7;
+            border: 1px solid #10B981;
+        }
+
+        .feedback-toast.warning {
+            background: rgba(239, 68, 68, 0.2);
+            color: #FCA5A5;
+            border: 1px solid #EF4444;
+        }
+
+        .footer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover:not(:disabled) {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        .btn-action:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Storybook Tutorial Modal */
+        .story-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(11, 15, 25, 0.9);
+            backdrop-filter: blur(14px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .story-modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .story-card {
+            background: #1E1B4B;
+            border: 2px solid #EC4899;
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 960px;
+            width: 100%;
+            text-align: left;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .story-badge {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6, #06B6D4);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .story-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .s-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .s-dot.active {
+            background: #FDE047;
+            width: 18px;
+            border-radius: 10px;
+        }
+
+        .story-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .story-img-frame {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            height: 280px;
+            background: #000;
+        }
+
+        .story-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-text-area h3 {
+            font-family: 'Outfit', sans-serif;
+            color: #FDE047;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .story-text-area div {
+            font-size: 1rem;
+            color: #CBD5E1;
+            line-height: 1.65;
+        }
+
+        .btn-story-nav {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-story-nav:hover {
+            transform: scale(1.04);
+        }
+
+        /* Completion Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 150;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: #1E1B4B;
+            border: 2px solid #EC4899;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 580px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 4 Adımlık Ders Anlatım Modalı (STORYBOOK) -->
+    <div class="story-modal-backdrop active" id="story-modal">
+        <div class="story-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="story-badge">📜 7. Sınıf 5. Hafta: Zaman İçinde Bilim ve Hipotez Tasarımı</div>
+                <div class="story-dots">
+                    <div class="s-dot active" id="sdot-0"></div>
+                    <div class="s-dot" id="sdot-1"></div>
+                    <div class="s-dot" id="sdot-2"></div>
+                    <div class="s-dot" id="sdot-3"></div>
+                </div>
+            </div>
+
+            <div class="story-content-grid">
+                <div class="story-img-frame">
+                    <img id="story-img" src="images/ders5_hero.png" alt="Ders Rehberi Görseli">
+                </div>
+                <div class="story-text-area" id="story-content">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <button class="btn-story-nav" id="story-prev-btn" onclick="prevStoryPage()"
+                    style="visibility:hidden; background:rgba(255,255,255,0.15); box-shadow:none;">⬅️ Geri</button>
+                <button class="btn-story-nav" id="story-next-btn" onclick="nextStoryPage()">Sonraki Adım ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-title">
+                <h1>🔬 7.5.1 Zaman İçinde Bilim & Hipotez Labı <span
+                        style="font-size: 0.88rem; color: #F472B6; font-weight: 500;">(20 Bölümlü Bireysel
+                        Çalışma)</span></h1>
+                <p>Tarihi keşif sorularını araştırılabilir bilimsel hipotezlere dönüştür, bağımsız/bağımlı değişkenleri keşfet!</p>
+            </div>
+            <div class="header-stats">
+                <button class="btn-header" onclick="reopenStory()">📖 Ders Rehberi</button>
+                <button class="btn-header" onclick="toggleFullScreen()">🖥️ Tam Ekran</button>
+                <div class="stat-pill">🎯 <span id="level-indicator">Bölüm: 1 / 20</span></div>
+                <div class="stat-pill">⭐ <span id="score-counter">Puan: 0</span></div>
+            </div>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- Game Grid -->
+        <div class="game-grid">
+            <!-- Left: Visual Card -->
+            <div class="visual-card">
+                <div class="mode-badge" id="mode-badge">🎮 Seviye 1: Basit Soru vs Test Edilebilir Hipotez</div>
+                <div class="canvas-frame">
+                    <div class="blur-overlay-tag" id="blur-tag">🔒 Bulanıklık: %100</div>
+                    <div class="ai-image-wrapper" id="image-wrapper">
+                        <img id="ai-img" src="images/ders5_hero.png" alt="AI Visual">
+                    </div>
+                </div>
+
+                <div class="live-prompt-box">
+                    <div class="prompt-title">✍️ İncelenen İstem / İfade:</div>
+                    <div id="target-sentence-text" style="font-weight:700; color:#FBCFE8; font-size:0.95rem;">
+                        "Matbaa insanlık için iyi bir şey midir?"
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Words Card -->
+            <div class="words-card">
+                <div class="target-hint-box" id="level-hint">
+                    Yukarıdaki ifadeyi incele. Basit bir merak sorusu mu yoksa test edilebilir bilimsel bir hipotez mi?
+                </div>
+
+                <div style="font-size: 0.8rem; font-weight: 700; color: #E2E8F0;">🏷️ Doğru Hipotez Yapısını veya Değişken Türünü Seç:</div>
+
+                <div class="word-chips-grid" id="options-container"></div>
+
+                <div class="feedback-toast info" id="feedback-toast">
+                    <span id="toast-icon">👉</span>
+                    <span id="toast-text">İfadeyi oku ve doğru hipotez seçeneğine tıkla!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="footer-actions">
+            <button class="btn-action" id="reset-btn" onclick="resetLevel()" style="background: rgba(255,255,255,0.1);">
+                🔄 Sıfırla
+            </button>
+            <button class="btn-action" id="next-btn" onclick="nextLevel()" disabled>
+                Sonraki Bölüm ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- 20th Stage Completion Modal -->
+    <div class="modal-backdrop" id="completion-modal">
+        <div class="modal-card">
+            <div style="font-size: 3rem;">🎉🏆</div>
+            <h2 style="color: #FDE047; font-family: 'Outfit';">Tebrikler Şampiyon Bilim Dedektifi!</h2>
+            <p style="color: #CBD5E1; font-size: 0.95rem;">
+                20 bölümün tamamını başardın! Tarihi keşif sorularını bağımsız ve bağımlı değişkenleri net belirlenmiş bilimsel hipotezlere dönüştürdün.
+            </p>
+
+            <div
+                style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(6, 182, 212, 0.2)); border: 2px dashed #EC4899; border-radius: 20px; padding: 16px; margin: 12px 0; text-align: center;">
+                <div style="font-size: 1.8rem;">🎁✨</div>
+                <div style="color: #F472B6; font-size: 0.9rem; font-weight: 700; text-transform: uppercase;">7.5.1
+                    BİREYSEL ÇALIŞMA BAŞARI ŞİFRENİZ:</div>
+                <div
+                    style="font-size: 2.4rem; font-weight: 800; color: #FDE047; letter-spacing: 2px; text-transform: lowercase;">
+                    bilim7</div>
+            </div>
+
+            <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 6px; line-height: 1.5;">
+                📌 Canlı ders panelindeki ✏️ <strong>Cevapla</strong> butonuna tıklayın ve bu şifreyi girin!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Storybook 4-Step Tutorial Content
+        const storyPages = [
+            {
+                title: "1. Adım: Bilimsel Hipotez Nedir? 🔬",
+                img: "images/ders5_hero.png",
+                body: "Yapay zekâya 'Matbaa iyi midir?' gibi ucu açık sorular sormak yerine, bilim insanları gibi <strong>Test Edilebilir Hipotezler</strong> kurarız.<br>✨ <strong>Altın Formül:</strong> <em>'Eğer [Bağımsız Değişken] artarsa, o zaman [Bağımlı Değişken] değişir çünkü [Bilimsel Neden].'</em>"
+            },
+            {
+                title: "2. Adım: Değişkenleri Ayırt Etmek ⚖️",
+                img: "images/ders5_1.png",
+                body: "1️⃣ <strong>Bağımsız Değişken:</strong> Bizim değiştirdiğimiz, etki eden faktör (Örn: Matbaa baskı hızı).<br>2️⃣ <strong>Bağımlı Değişken:</strong> Etkilenen ve ölçülen sonuç (Örn: Kitap fiyatı ve okuryazarlık oranı).<br>3️⃣ <strong>Sabit/Kontrol Değişkeni:</strong> Değişmeyen ortam şartları."
+            },
+            {
+                title: "3. Adım: Zaman İçinde Bilim Keşifleri 📜",
+                img: "images/ders5_tarih.png",
+                body: "Kil tabletlerden papirüse, Gutenberg'in matbaasından Ali Kuşçu'nun astronomi hesaplarına ve Ada Lovelace'ın ilk bilgisayar algoritmasına kadar tüm keşifler birer hipotezle başladı!"
+            },
+            {
+                title: "4. Adım: 20 Bölümlük Laboratuvara Başla! 🏆",
+                img: "images/ders5_art.png",
+                body: "Şimdi sıra sende! 20 bölüm boyunca soruları hipotezlere dönüştür, değişkenleri belirle ve <strong>bilim7</strong> başarı şifreni kazan!"
+            }
+        ];
+
+        let storyIdx = 0;
+
+        function updateStoryModal() {
+            document.getElementById('story-img').src = storyPages[storyIdx].img;
+            document.getElementById('story-content').innerHTML = `
+                <h3>${storyPages[storyIdx].title}</h3>
+                <div>${storyPages[storyIdx].body}</div>
+            `;
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`sdot-${i}`).className = `s-dot ${i === storyIdx ? 'active' : ''}`;
+            }
+            document.getElementById('story-prev-btn').style.visibility = storyIdx === 0 ? 'hidden' : 'visible';
+            document.getElementById('story-next-btn').innerText = storyIdx === 3 ? "Laboratuvara Başla 🧪" : "Sonraki Adım ➡️";
+        }
+
+        function nextStoryPage() {
+            if (storyIdx < 3) {
+                storyIdx++;
+                updateStoryModal();
+            } else {
+                document.getElementById('story-modal').classList.remove('active');
+            }
+        }
+
+        function prevStoryPage() {
+            if (storyIdx > 0) {
+                storyIdx--;
+                updateStoryModal();
+            }
+        }
+
+        function reopenStory() {
+            storyIdx = 0;
+            updateStoryModal();
+            document.getElementById('story-modal').classList.add('active');
+        }
+
+        // 20-Section Graded Activities (7. Sınıf Zaman İçinde Bilim & Hipotez Tasarımı)
+        const activities = [
+            // Seviye 1: Basit Soru vs Test Edilebilir Hipotez (1 - 7)
+            { sentence: "“Matbaa insanlık için iyi bir şey midir?”", img: "images/ders5_hero.png", mode: "🎮 Seviye 1: Basit Soru vs Test Edilebilir Hipotez", hint: "Bu ifade ne tür bir yapıdır?", correct: "❌ Basit / Belirsiz Merak Sorusu", options: ["❌ Basit / Belirsiz Merak Sorusu", "✨ Test Edilebilir Bilimsel Hipotez"] },
+            { sentence: "“[HİPOTEZ]: Eğer hareketli harfli matbaa yaygınlaşırsa, kitap basım süresi kısalır ve okuryazarlık oranı artar çünkü bilgiye erişim ucuzlar.”", img: "images/ders5_1.png", mode: "🎮 Seviye 1: Basit Soru vs Test Edilebilir Hipotez", hint: "Bu ifade hangi yapıya sahiptir?", correct: "✨ Test Edilebilir Bilimsel Hipotez", options: ["✨ Test Edilebilir Bilimsel Hipotez", "❌ Basit / Belirsiz Merak Sorusu"] },
+            { sentence: "“Ali Kuşçu Ay'ın haritasını nasıl çizdi acaba?”", img: "images/ders5_tarih.png", mode: "🎮 Seviye 1: Basit Soru vs Test Edilebilir Hipotez", hint: "Bu cümle hipotez midir?", correct: "❌ Basit / Belirsiz Merak Sorusu", options: ["❌ Basit / Belirsiz Merak Sorusu", "✨ Test Edilebilir Bilimsel Hipotez"] },
+            { sentence: "“[HİPOTEZ]: Eğer teleskopun mercek çapı büyütülürse, gök cisimlerinin parlaklığı ve detay netliği artar çünkü toplanan ışık miktarı çoğalır.”", img: "images/ders5_art.png", mode: "🎮 Seviye 1: Basit Soru vs Test Edilebilir Hipotez", hint: "Bu ifade ne tür bir yapıya sahiptir?", correct: "✨ Test Edilebilir Bilimsel Hipotez", options: ["✨ Test Edilebilir Bilimsel Hipotez", "❌ Basit / Belirsiz Merak Sorusu"] },
+            { sentence: "“Bilgisayarlar gelecekte daha hızlı olacak mı?”", img: "images/ders5_hero.png", mode: "🎮 Seviye 1: Basit Soru vs Test Edilebilir Hipotez", hint: "Bu ifade test edilebilir bir hipotez midir?", correct: "❌ Basit / Belirsiz Merak Sorusu", options: ["❌ Basit / Belirsiz Merak Sorusu", "✨ Test Edilebilir Bilimsel Hipotez"] },
+            { sentence: "“[HİPOTEZ]: Eğer yapay zekâ modeline yapılandırılmış şablon istemler verilirse, halüsinasyon (yanlış bilgi) üretme oranı %40 azalır.”", img: "images/ders5_1.png", mode: "🎮 Seviye 1: Basit Soru vs Test Edilebilir Hipotez", hint: "Bu ifade hangi yapıdadır?", correct: "✨ Test Edilebilir Bilimsel Hipotez", options: ["✨ Test Edilebilir Bilimsel Hipotez", "❌ Basit / Belirsiz Merak Sorusu"] },
+            { sentence: "“Eski çağlarda insanlar nasıl yazıyordu?”", img: "images/ders5_tarih.png", mode: "🎮 Seviye 1: Basit Soru vs Test Edilebilir Hipotez", hint: "Bu cümle bilimsel bir hipotez midir?", correct: "❌ Basit / Belirsiz Merak Sorusu", options: ["❌ Basit / Belirsiz Merak Sorusu", "✨ Test Edilebilir Bilimsel Hipotez"] },
+
+            // Seviye 2: Bağımsız ve Bağımlı Değişkenleri Ayırt Etme (8 - 14)
+            { sentence: "“Matbaa baskı hızı arttıkça kitap fiyatları düşer.” hipotezinde BAĞIMSIZ DEĞİŞKEN (bizim değiştirdiğimiz etken) nedir?", img: "images/ders5_art.png", mode: "🚀 Seviye 2: Değişkenleri Ayırt Etme", hint: "Etki eden bağımsız değişkeni seç!", correct: "⚙️ Bağımsız Değişken: Matbaa baskı tekniği / hızı", options: ["⚙️ Bağımsız Değişken: Matbaa baskı tekniği / hızı", "📉 Bağımlı Değişken: Kitap fiyatı", "📚 Kitabın sayfa sayısı"] },
+            { sentence: "“Teleskobun büyütme gücü arttıkça Ay kraterlerinin görünürlük sayısı artar.” hipotezinde BAĞIMLI DEĞİŞKEN (ölçülen sonuç) nedir?", img: "images/ders5_hero.png", mode: "🚀 Seviye 2: Değişkenleri Ayırt Etme", hint: "Ölçülen sonucu bul!", correct: "🎯 Bağımlı Değişken: Ay kraterlerinin görünürlük sayısı", options: ["🎯 Bağımlı Değişken: Ay kraterlerinin görünürlük sayısı", "🔭 Bağımsız Değişken: Teleskop büyütme gücü", "🌙 Ay'ın yaşı"] },
+            { sentence: "“Kil tabletten kağıda geçildikçe bilginin taşınma hızı artar.” hipotezinde BAĞIMSIZ DEĞİŞKEN nedir?", img: "images/ders5_1.png", mode: "🚀 Seviye 2: Değişkenleri Ayırt Etme", hint: "Değiştirilen yazı malzemesini seç!", correct: "📜 Bağımsız Değişken: Kullanılan yazı materyali (Kil vs Kağıt)", options: ["📜 Bağımsız Değişken: Kullanılan yazı materyali (Kil vs Kağıt)", "🚀 Bağımlı Değişken: Bilginin taşınma hızı", "Yazıyı yazan kişi"] },
+            { sentence: "“İstemdeki kural sayısı arttıkça yapay zekânın hata yapma oranı azalır.” hipotezinde BAĞIMLI DEĞİŞKEN nedir?", img: "images/ders5_tarih.png", mode: "🚀 Seviye 2: Değişkenleri Ayırt Etme", hint: "Ölçülen hata oranını bul!", correct: "📉 Bağımlı Değişken: Yapay zekânın hata yapma oranı", options: ["📉 Bağımlı Değişken: Yapay zekânın hata yapma oranı", "✍️ Bağımsız Değişken: İstemdeki kural sayısı", "Bilgisayarın markası"] },
+            { sentence: "“Kütüphanedeki kitap sayısı arttıkça halkın genel kültür skoru artar.” hipotezinde KONTROL EDİLEN (Sabit Tutulan) değişken ne olabilir?", img: "images/ders5_art.png", mode: "🚀 Seviye 2: Değişkenleri Ayırt Etme", hint: "Sabit tutulan faktörü düşün!", correct: "🔒 Sabit Değişken: İncelenen şehrin nüfusu ve yaş grubu", options: ["🔒 Sabit Değişken: İncelenen şehrin nüfusu ve yaş grubu", "Kitap sayısı", "Kültür skoru"] },
+            { sentence: "“Buhar makinesinin gücü arttıkça dokuma fabrikalarındaki üretim miktarı artar.” hipotezinde BAĞIMSIZ DEĞİŞKEN nedir?", img: "images/ders5_hero.png", mode: "🚀 Seviye 2: Değişkenleri Ayırt Etme", hint: "Bağımsız güç etkenini seç!", correct: "⚡ Bağımsız Değişken: Buhar makinesinin gücü (kW)", options: ["⚡ Bağımsız Değişken: Buhar makinesinin gücü (kW)", "🧵 Bağımlı Değişken: Dokunan kumaş miktarı", "Fabrika binasının rengi"] },
+            { sentence: "Bilimsel bir araştırmada neden sadece TEK BİR bağımsız değişken değiştirilmelidir?", img: "images/ders5_1.png", mode: "🚀 Seviye 2: Değişkenleri Ayırt Etme", hint: "Deneyin güvenilirliğini düşün!", correct: "Sonucun (bağımlı değişkenin) hangi nedenden kaynaklandığını kesin olarak kanıtlamak için.", options: ["Sonucun (bağımlı değişkenin) hangi nedenden kaynaklandığını kesin olarak kanıtlamak için.", "Deney çok uzun sürmesin diye.", "Kağıt tasarrufu yapmak için."] },
+
+            // Seviye 3: Tarihsel Keşiflerde Şampiyon Hipotez İstemleri (15 - 20)
+            { sentence: "Gutenberg Matbaası için en iyi BİLİMSEL HİPOTEZ İSTEMİ hangisidir?", img: "images/ders5_tarih.png", mode: "🏆 Seviye 3: Şampiyon Hipotez İstemleri", hint: "Eğer-ise-çünkü formüllü şampiyon istemi seç!", correct: "“[HİPOTEZ]: Eğer hareketli metal harfler kullanılırsa, elle yazmaya göre kitap üretim hızı 100 kat artar çünkü kalıplar tekrar kullanılabilir.”", options: ["“Matbaa çok güzel bir şeydir”", "“[HİPOTEZ]: Eğer hareketli metal harfler kullanılırsa, elle yazmaya göre kitap üretim hızı 100 kat artar çünkü kalıplar tekrar kullanılabilir.”", "“Eski kitap resmi çiz”"] },
+            { sentence: "Ali Kuşçu'nun Astronomi & Ay Haritası çalışmasını en iyi hipotezleyen istem hangisidir?", img: "images/ders5_art.png", mode: "🏆 Seviye 3: Şampiyon Hipotez İstemleri", hint: "Şampiyon bilimsel istemi seç!", correct: "“[HİPOTEZ]: Eğer usturlap ve trigonometri açıları kullanılırsa, Ay kraterlerinin mesafesi %95 doğrulukla hesaplanabilir.”", options: ["“Ay'a giden astronot çiz”", "“[HİPOTEZ]: Eğer usturlap ve trigonometri açıları kullanılırsa, Ay kraterlerinin mesafesi %95 doğrulukla hesaplanabilir.”", "“Ay yuvarlaktır”", "“Gözlemevini kapat”"] },
+            { sentence: "Ada Lovelace ve İlk Bilgisayar Algoritması için en doğru hipotez istemi hangisidir?", img: "images/ders5_hero.png", mode: "🏆 Seviye 3: Şampiyon Hipotez İstemleri", hint: "Algoritma hipotezini bul!", correct: "“[HİPOTEZ]: Eğer delikli kartlar Bernoulli sayıları formülüyle programlanırsa, mekanik makine otomatik hesaplama yapabilir.”", options: ["“Bilgisayar resmi yap”", "“[HİPOTEZ]: Eğer delikli kartlar Bernoulli sayıları formülüyle programlanırsa, mekanik makine otomatik hesaplama yapabilir.”", "“Hesap makinesi bozuldu”", "“Oyun oyna”"] },
+            { sentence: "Harezmi'nin 'Sıfır (0)' rakamı ve Cebir keşfi için en doğru hipotez kurgusu hangisidir?", img: "images/ders5_1.png", mode: "🏆 Seviye 3: Şampiyon Hipotez İstemleri", hint: "Cebir ve matematik hipotezini seç!", correct: "“[HİPOTEZ]: Eğer basamak sistemine sıfır (0) eklenirse, ondalık ve cebirsel işlemler sonsuz basamağa kadar hatasız hesaplanabilir.”", options: ["“Sıfır çiz”", "“[HİPOTEZ]: Eğer basamak sistemine sıfır (0) eklenirse, ondalık ve cebirsel işlemler sonsuz basamağa kadar hatasız hesaplanabilir.”", "“Sayıları sil”", "“Toplama yap”"] },
+            { sentence: "Yapay Zekâ ve Bilgi Doğrulama (RAG) sistemi için en doğru hipotez kurgusu hangisidir?", img: "images/ders5_tarih.png", mode: "🏆 Seviye 3: Şampiyon Hipotez İstemleri", hint: "Yapay zekâ bilgi doğrulaması hipotezini seç!", correct: "“[HİPOTEZ]: Eğer yapay zekâya güvenilir tarihsel kaynak dokümanları verilirse (RAG), uydurma bilgi oranı sıfıra yaklaşır.”", options: ["“Yapay zekâ her şeyi bilir”", "“[HİPOTEZ]: Eğer yapay zekâya güvenilir tarihsel kaynak dokümanları verilirse (RAG), uydurma bilgi oranı sıfıra yaklaşır.”", "“Soru sorma”", "“İnterneti kapat”"] },
+            { sentence: "🏆 20. BÖLÜM FİNALİ: Bilgi tabanlı yapay zekâdan en doğru tarihi analizi almak için altın kural nedir?", img: "images/ders5_art.png", mode: "🏆 Seviye 3: Şampiyon Hipotez İstemleri", hint: "Son büyük kazanım kuralına tıkla!", correct: "“İstemi [HİPOTEZ], [BAĞIMSIZ_DEĞİŞKEN], [BAĞIMLI_DEĞİŞKEN] ve [KAYNAK_BELGE] etiketleriyle yapılandırarak.”", options: ["“Tek satırda aklına gelen soruyu sorarak”", "“İstemi [HİPOTEZ], [BAĞIMSIZ_DEĞİŞKEN], [BAĞIMLI_DEĞİŞKEN] ve [KAYNAK_BELGE] etiketleriyle yapılandırarak.”", "“Hiçbir kaynak belirtmeyerek”", "“Cevabı şansa bırakarak”", "“Ekranı kapatıp giderek”"] }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+
+        function loadLevel(idx) {
+            if (idx >= activities.length) {
+                document.getElementById('completion-modal').classList.add('active');
+                return;
+            }
+
+            const act = activities[idx];
+            document.getElementById('level-indicator').innerText = `Bölüm: ${idx + 1} / 20`;
+            document.getElementById('score-counter').innerText = `Puan: ${score}`;
+            document.getElementById('progress-fill').style.width = `${((idx + 1) / 20) * 100}%`;
+            document.getElementById('mode-badge').innerText = act.mode;
+
+            document.getElementById('ai-img').src = act.img;
+            document.getElementById('image-wrapper').style.filter = "blur(18px) grayscale(70%)";
+            document.getElementById('blur-tag').innerText = "🔒 Bulanıklık: %100";
+            document.getElementById('level-hint').innerHTML = act.hint;
+            document.getElementById('target-sentence-text').innerText = act.sentence;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            const shuffled = [...act.options].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(optText => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.innerHTML = `<span>${optText}</span> <span>👉</span>`;
+                chip.onclick = () => selectOption(chip, optText, act.correct);
+                container.appendChild(chip);
+            });
+
+            document.getElementById('feedback-toast').className = "feedback-toast info";
+            document.getElementById('toast-icon').innerText = "👉";
+            document.getElementById('toast-text').innerText = "İfadeyi oku ve doğru seçeneğe tıkla!";
+            document.getElementById('next-btn').disabled = true;
+        }
+
+        function selectOption(chipEl, selectedText, correctText) {
+            if (selectedText === correctText) {
+                chipEl.classList.add('selected');
+                score += 10;
+                document.getElementById('score-counter').innerText = `Puan: ${score}`;
+
+                // Unblur visual
+                document.getElementById('image-wrapper').style.filter = "blur(0px) grayscale(0%)";
+                document.getElementById('blur-tag').innerText = "🔓 Netleşti!";
+
+                document.getElementById('feedback-toast').className = "feedback-toast success";
+                document.getElementById('toast-icon').innerText = "🎉";
+                document.getElementById('toast-text').innerText = "HARİKA! Bilimsel hipotez ve değişken kuralını doğru uyguladın! (+10 Puan)";
+                document.getElementById('next-btn').disabled = false;
+            } else {
+                chipEl.classList.add('wrong-shake');
+                setTimeout(() => chipEl.classList.remove('wrong-shake'), 400);
+                document.getElementById('feedback-toast').className = "feedback-toast warning";
+                document.getElementById('toast-icon').innerText = "⚠️";
+                document.getElementById('toast-text').innerText = "Bu seçenek bilimsel hipotez kuralına tam uymuyor. Tekrar dene!";
+            }
+        }
+
+        function nextLevel() {
+            currentIdx++;
+            loadLevel(currentIdx);
+        }
+
+        function resetLevel() {
+            loadLevel(currentIdx);
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        window.onload = () => {
+            updateStoryModal();
+            loadLevel(0);
+        };
+    </script>
+</body>
+
+</html>

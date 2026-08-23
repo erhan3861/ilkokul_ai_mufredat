@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7. Sınıf Ders 4.1: Uzay Üssü Performans Testi ve Rubrik Labı 🧪</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-light: #F472B6;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --success: #10B981;
+            --danger: #EF4444;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            background: var(--bg-grad);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1240px;
+            height: calc(100vh - 12px);
+            max-height: calc(100vh - 12px);
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 12px 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.12);
+            padding-bottom: 6px;
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #FDE047, #EC4899, #818CF8, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-header {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-header:hover {
+            background: rgba(236, 72, 153, 0.3);
+            border-color: #F472B6;
+        }
+
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 5%;
+            background: linear-gradient(90deg, #EC4899, #06B6D4, #10B981);
+            transition: width 0.3s ease;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 12px;
+            flex-grow: 1;
+            min-height: 0;
+        }
+
+        .visual-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .mode-badge {
+            background: linear-gradient(90deg, #EC4899, #06B6D4);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            align-self: flex-start;
+        }
+
+        .canvas-frame {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1.5px solid var(--card-border);
+            background: #000;
+        }
+
+        .blur-overlay-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--card-border);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 5;
+            color: #FDE047;
+        }
+
+        .ai-image-wrapper {
+            width: 100%;
+            height: 100%;
+            filter: blur(18px) grayscale(70%);
+            transition: filter 0.5s ease;
+        }
+
+        .ai-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .live-prompt-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1.5px dashed rgba(236, 72, 153, 0.4);
+            border-radius: 12px;
+            padding: 10px 14px;
+        }
+
+        .prompt-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #F472B6;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .words-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            min-height: 0;
+        }
+
+        .target-hint-box {
+            background: rgba(236, 72, 153, 0.15);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: #FBCFE8;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .word-chips-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .word-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            color: #E2E8F0;
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .word-chip:hover {
+            background: rgba(236, 72, 153, 0.2);
+            border-color: #F472B6;
+            transform: translateX(3px);
+        }
+
+        .word-chip.selected {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #10B981;
+            color: #A7F3D0;
+        }
+
+        .word-chip.wrong-shake {
+            animation: shake 0.4s ease;
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #EF4444;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .feedback-toast {
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feedback-toast.info {
+            background: rgba(6, 182, 212, 0.2);
+            color: #A5F3FC;
+            border: 1px solid rgba(6, 182, 212, 0.4);
+        }
+
+        .feedback-toast.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6EE7B7;
+            border: 1px solid #10B981;
+        }
+
+        .feedback-toast.warning {
+            background: rgba(239, 68, 68, 0.2);
+            color: #FCA5A5;
+            border: 1px solid #EF4444;
+        }
+
+        .footer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover:not(:disabled) {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        .btn-action:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Storybook Tutorial Modal */
+        .story-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(11, 15, 25, 0.9);
+            backdrop-filter: blur(14px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .story-modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .story-card {
+            background: #1E1B4B;
+            border: 2px solid #EC4899;
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 960px;
+            width: 100%;
+            text-align: left;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .story-badge {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6, #06B6D4);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .story-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .s-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .s-dot.active {
+            background: #FDE047;
+            width: 18px;
+            border-radius: 10px;
+        }
+
+        .story-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .story-img-frame {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            height: 280px;
+            background: #000;
+        }
+
+        .story-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-text-area h3 {
+            font-family: 'Outfit', sans-serif;
+            color: #FDE047;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .story-text-area div {
+            font-size: 1rem;
+            color: #CBD5E1;
+            line-height: 1.65;
+        }
+
+        .btn-story-nav {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-story-nav:hover {
+            transform: scale(1.04);
+        }
+
+        /* Completion Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 150;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: #1E1B4B;
+            border: 2px solid #EC4899;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 580px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 4 Adımlık Ders Anlatım Modalı (STORYBOOK) -->
+    <div class="story-modal-backdrop active" id="story-modal">
+        <div class="story-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="story-badge">🏆 7. Sınıf 4. Hafta: 1. Ay Büyük Projesi — Uzay Üssü Performans Rubriği</div>
+                <div class="story-dots">
+                    <div class="s-dot active" id="sdot-0"></div>
+                    <div class="s-dot" id="sdot-1"></div>
+                    <div class="s-dot" id="sdot-2"></div>
+                    <div class="s-dot" id="sdot-3"></div>
+                </div>
+            </div>
+
+            <div class="story-content-grid">
+                <div class="story-img-frame">
+                    <img id="story-img" src="images/ders4_hero.png" alt="Ders Rehberi Görseli">
+                </div>
+                <div class="story-text-area" id="story-content">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <button class="btn-story-nav" id="story-prev-btn" onclick="prevStoryPage()"
+                    style="visibility:hidden; background:rgba(255,255,255,0.15); box-shadow:none;">⬅️ Geri</button>
+                <button class="btn-story-nav" id="story-next-btn" onclick="nextStoryPage()">Sonraki Adım ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-title">
+                <h1>🏆 7.4.1 Uzay Üssü Performans Testi & Rubrik Labı <span
+                        style="font-size: 0.88rem; color: #F472B6; font-weight: 500;">(20 Bölümlü Bireysel
+                        Çalışma)</span></h1>
+                <p>Otonom uzay üssü istemlerini 5 maddelik Rubrik Matrisi ile test et, en güvenli ve tasarruflu şampiyon prototipi seç!</p>
+            </div>
+            <div class="header-stats">
+                <button class="btn-header" onclick="reopenStory()">📖 Ders Rehberi</button>
+                <button class="btn-header" onclick="toggleFullScreen()">🖥️ Tam Ekran</button>
+                <div class="stat-pill">🎯 <span id="level-indicator">Bölüm: 1 / 20</span></div>
+                <div class="stat-pill">⭐ <span id="score-counter">Puan: 0</span></div>
+            </div>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- Game Grid -->
+        <div class="game-grid">
+            <!-- Left: Visual Card -->
+            <div class="visual-card">
+                <div class="mode-badge" id="mode-badge">🎮 Seviye 1: 5 Maddelik Rubrik Kriterlerini Keşfetme</div>
+                <div class="canvas-frame">
+                    <div class="blur-overlay-tag" id="blur-tag">🔒 Bulanıklık: %100</div>
+                    <div class="ai-image-wrapper" id="image-wrapper">
+                        <img id="ai-img" src="images/ders4_hero.png" alt="AI Visual">
+                    </div>
+                </div>
+
+                <div class="live-prompt-box">
+                    <div class="prompt-title">✍️ Test Edilen Uzay Üssü İstemi / Durumu:</div>
+                    <div id="target-sentence-text" style="font-weight:700; color:#FBCFE8; font-size:0.95rem;">
+                        "Uzay üssünün Güneş panelleri 3 kat fazla enerji üretsin, kalkanları tam koruma sağlasın."
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Words Card -->
+            <div class="words-card">
+                <div class="target-hint-box" id="level-hint">
+                    Yukarıdaki istemi incele. 5 Maddelik Rubrik Matrisi'ndeki hangi performans kriterine doğrudan odaklanmaktadır?
+                </div>
+
+                <div style="font-size: 0.8rem; font-weight: 700; color: #E2E8F0;">🏷️ Doğru Rubrik Değerlendirmesini veya Şampiyon İstemini Seç:</div>
+
+                <div class="word-chips-grid" id="options-container"></div>
+
+                <div class="feedback-toast info" id="feedback-toast">
+                    <span id="toast-icon">👉</span>
+                    <span id="toast-text">İstemi oku ve doğru rubrik kriterine tıkla!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="footer-actions">
+            <button class="btn-action" id="reset-btn" onclick="resetLevel()" style="background: rgba(255,255,255,0.1);">
+                🔄 Sıfırla
+            </button>
+            <button class="btn-action" id="next-btn" onclick="nextLevel()" disabled>
+                Sonraki Bölüm ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- 20th Stage Completion Modal -->
+    <div class="modal-backdrop" id="completion-modal">
+        <div class="modal-card">
+            <div style="font-size: 3rem;">🎉🏆</div>
+            <h2 style="color: #FDE047; font-family: 'Outfit';">Tebrikler 1. Ay Şampiyon Uzay Mimarı!</h2>
+            <p style="color: #CBD5E1; font-size: 0.95rem;">
+                20 bölümün tamamını üstün başarıyla tamamladın! 5 Maddelik Rubrik Matrisi ile yapay zekâ istemlerini test ettin ve en tasarruflu, güvenli otonom uzay üssü prototipini seçtin.
+            </p>
+
+            <div
+                style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(6, 182, 212, 0.2)); border: 2px dashed #EC4899; border-radius: 20px; padding: 16px; margin: 12px 0; text-align: center;">
+                <div style="font-size: 1.8rem;">🎁✨</div>
+                <div style="color: #F472B6; font-size: 0.9rem; font-weight: 700; text-transform: uppercase;">7.4.1
+                    BİREYSEL ÇALIŞMA BAŞARI ŞİFRENİZ:</div>
+                <div
+                    style="font-size: 2.4rem; font-weight: 800; color: #FDE047; letter-spacing: 2px; text-transform: lowercase;">
+                    rubrik7</div>
+            </div>
+
+            <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 6px; line-height: 1.5;">
+                📌 Canlı ders panelindeki ✏️ <strong>Cevapla</strong> butonuna tıklayın ve bu şifreyi girin!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Storybook 4-Step Tutorial Content
+        const storyPages = [
+            {
+                title: "1. Adım: Rubrik Matrisi Nedir? 📊",
+                img: "images/ders4_hero.png",
+                body: "Yapay zekâya verdiğimiz istemlerin ne kadar başarılı olduğunu 'sadece göz kararıyla' değil, bilimsel ve objektif <strong>5 Maddelik Rubrik Matrisi</strong> ile test ederiz.<br>✨ Her istem Doğruluk, Güvenlik, Netlik, Kural Uyumu ve Tasarruf açılarından puanlanır!"
+            },
+            {
+                title: "2. Adım: 5 Altın Rubrik Kriteri 🛡️",
+                img: "images/ders4_1.png",
+                body: "1️⃣ <strong>Bilimsel Doğruluk:</strong> Fen ve matematik kurallarına uygunluk.<br>2️⃣ <strong>K-12 Güvenlik & Etik:</strong> Biyometrik veri kullanmama, koruma.<br>3️⃣ <strong>Netlik & Açıklık:</strong> Belirsiz olmayan sade komutlar.<br>4️⃣ <strong>Kural Hiyerarşisi:</strong> ZORUNLU kurallara tam uyum.<br>5️⃣ <strong>Enerji & Tasarruf:</strong> En verimli kaynak ve şablon kullanımı."
+            },
+            {
+                title: "3. Adım: Uzay Üssü Prototipini Test Etmek 🚀",
+                img: "images/ders4_rubrik.png",
+                body: "Farklı uzay üssü istem sürümlerini (Versiyon 1, 2, 3) karşılaştıracağız. Hangisi rubrikten 5/5 tam puan alırsa Ay Finali Projemizin <strong>Şampiyon Prototipi</strong> seçilecek!"
+            },
+            {
+                title: "4. Adım: 20 Bölümlük Performans Testine Başla! 🏆",
+                img: "images/ders4_art.png",
+                body: "Şimdi sıra sende! 20 bölüm boyunca istemleri incele, rubrik kriterlerine göre puanla ve 1. Ayın Büyük Başarı Şifresi <strong>rubrik7</strong>'yi kazan!"
+            }
+        ];
+
+        let storyIdx = 0;
+
+        function updateStoryModal() {
+            document.getElementById('story-img').src = storyPages[storyIdx].img;
+            document.getElementById('story-content').innerHTML = `
+                <h3>${storyPages[storyIdx].title}</h3>
+                <div>${storyPages[storyIdx].body}</div>
+            `;
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`sdot-${i}`).className = `s-dot ${i === storyIdx ? 'active' : ''}`;
+            }
+            document.getElementById('story-prev-btn').style.visibility = storyIdx === 0 ? 'hidden' : 'visible';
+            document.getElementById('story-next-btn').innerText = storyIdx === 3 ? "Laboratuvara Başla 🧪" : "Sonraki Adım ➡️";
+        }
+
+        function nextStoryPage() {
+            if (storyIdx < 3) {
+                storyIdx++;
+                updateStoryModal();
+            } else {
+                document.getElementById('story-modal').classList.remove('active');
+            }
+        }
+
+        function prevStoryPage() {
+            if (storyIdx > 0) {
+                storyIdx--;
+                updateStoryModal();
+            }
+        }
+
+        function reopenStory() {
+            storyIdx = 0;
+            updateStoryModal();
+            document.getElementById('story-modal').classList.add('active');
+        }
+
+        // 20-Section Graded Activities (7. Sınıf Uzay Üssü Performans Testi & Rubrik Matrisi)
+        const activities = [
+            // Seviye 1: 5 Kriteri Keşfetme (1 - 7)
+            { sentence: "“Uzay üssünün Güneş panelleri Güneş ışığını elektriğe dönüştürsün, çekim potansiyel enerjisi ve kinetik denge korunsun.”", img: "images/ders4_hero.png", mode: "🎮 Seviye 1: Rubrik Kriterlerini Keşfetme", hint: "Bu istem Rubrik Matrisi'nin hangi maddesini eksiksiz sağlamaktadır?", correct: "🔬 1. Kriter: Bilimsel & Fiziksel Doğruluk", options: ["🔬 1. Kriter: Bilimsel & Fiziksel Doğruluk", "❌ Rastgele Şans Kriteri"] },
+            { sentence: "“İstemde asla gerçek öğrenci fotoğrafı, kişisel veri veya biyometrik yüz kullanılmasın; 3D sanal robot avatarlar çizilsin.”", img: "images/ders4_1.png", mode: "🎮 Seviye 1: Rubrik Kriterlerini Keşfetme", hint: "Bu kural hangi hayati rubrik maddesidir?", correct: "🔒 2. Kriter: K-12 Güvenlik & Dijital Etik", options: ["🔒 2. Kriter: K-12 Güvenlik & Dijital Etik", "❌ Boyama Kriteri"] },
+            { sentence: "“Bana karışık olmayan, adım adım ve başlıklarla ayrılmış [İSTASYON_MODÜLÜ], [ENERJİ_TÜRÜ] etiketli bir komut ver.”", img: "images/ders4_rubrik.png", mode: "🎮 Seviye 1: Rubrik Kriterlerini Keşfetme", hint: "Bu istem hangi rubrik maddesine hizmet eder?", correct: "📝 3. Kriter: Netlik, Açıklık & Şablon Yapısı", options: ["📝 3. Kriter: Netlik, Açıklık & Şablon Yapısı", "❌ Hızlı Koşma Kriteri"] },
+            { sentence: "“[ZORUNLU KURAL]: Uzay üssü sadece temiz güneş enerjisi kullansın. [TERCİH EDİLEN]: Modül rengi neon mavi olsun.”", img: "images/ders4_art.png", mode: "🎮 Seviye 1: Rubrik Kriterlerini Keşfetme", hint: "Zorunlu ve Tercih Edilen kuralların ayrılması hangi rubrik kriteridir?", correct: "⚖️ 4. Kriter: Kural Hiyerarşisine Tam Uyum", options: ["⚖️ 4. Kriter: Kural Hiyerarşisine Tam Uyum", "❌ Rastgele Kural"] },
+            { sentence: "“Uzay üssünün enerji tüketimi cebirsel olarak hesaplansın (3x + 50 kW) ve gereksiz enerji harcayan bölümler kapatılsın.”", img: "images/ders4_hero.png", mode: "🎮 Seviye 1: Rubrik Kriterlerini Keşfetme", hint: "Cebirsel enerji hesabı ve tasarruf hangi rubrik kriteridir?", correct: "⚡ 5. Kriter: Enerji, Cebir & Kaynak Tasarrufu", options: ["⚡ 5. Kriter: Enerji, Cebir & Kaynak Tasarrufu", "❌ Süresiz Bekleme"] },
+            { sentence: "“Uzay üssünde yerçekimsiz ortamda sıvıların davranışı ve mitoz hücre deneyi doğru bilimsel kurallarla simüle edilsin.”", img: "images/ders4_1.png", mode: "🎮 Seviye 1: Rubrik Kriterlerini Keşfetme", hint: "Hangi rubrik kriteri sağlanmıştır?", correct: "🔬 1. Kriter: Bilimsel & Fiziksel Doğruluk", options: ["🔬 1. Kriter: Bilimsel & Fiziksel Doğruluk", "❌ Müzik Çalma"] },
+            { sentence: "“Sistemde hiçbir şekilde şifresiz veri aktarımı yapılmasın, tüm uzay üssü iletişimi kriptolu ve güvenli olsun.”", img: "images/ders4_rubrik.png", mode: "🎮 Seviye 1: Rubrik Kriterlerini Keşfetme", hint: "Hangi rubrik kriterine tam uyum sağlanmıştır?", correct: "🔒 2. Kriter: K-12 Güvenlik & Dijital Etik", options: ["🔒 2. Kriter: K-12 Güvenlik & Dijital Etik", "❌ Sayfa Sayısı"] },
+
+            // Seviye 2: İstem Karşılaştırma & Puanlama (8 - 14)
+            { sentence: "“Havada duran uzay istasyonu yap, enerji ne olursa olsun, bir şeyler parlasın.” istemi Rubrikten kaç puan alır?", img: "images/ders4_art.png", mode: "🚀 Seviye 2: İstem Karşılaştırma & Rubrik Puanlama", hint: "Belirsiz, fizik kuralı olmayan bu istemin rubrik puanını seç!", correct: "⭐ 1/5 Puan (Zayıf: Netlik yok, bilimsel kural yok, şablon yok)", options: ["⭐ 1/5 Puan (Zayıf: Netlik yok, bilimsel kural yok, şablon yok)", "⭐⭐⭐⭐⭐ 5/5 Tam Puan", "⭐⭐⭐ 3/5 Orta Puan"] },
+            { sentence: "“[ÜSSÜN_ADI]: Artemis-7. [GÜÇ_KAYNAĞI]: 1200 kW Güneş Paneli. [KORUMA]: Manyetik Kalkan. [3D_STİL]: 3D Pixar Sci-Fi.” istemi kaç puan alır?", img: "images/ders4_hero.png", mode: "🚀 Seviye 2: İstem Karşılaştırma & Rubrik Puanlama", hint: "Etiketli, net ve bilimsel bu istemin puanını seç!", correct: "⭐⭐⭐⭐⭐ 5/5 Tam Puan (Şampiyon: Etiketli, net, güvenli ve bilimsel)", options: ["⭐⭐⭐⭐⭐ 5/5 Tam Puan (Şampiyon: Etiketli, net, güvenli ve bilimsel)", "⭐ 1/5 Puan", "⭐⭐ 2/5 Puan"] },
+            { sentence: "“Gerçek astronotların yüz fotoğraflarını kullanarak uzay üssü tasarla.” istemi neden Rubrikten 0 alır?", img: "images/ders4_1.png", mode: "🚀 Seviye 2: İstem Karşılaştırma & Rubrik Puanlama", hint: "Güvenlik kuralına dikkat et!", correct: "🚫 K-12 Güvenlik Kuralını ihlal ettiği için (Biyometrik gerçek yüz yasağı)", options: ["🚫 K-12 Güvenlik Kuralını ihlal ettiği için (Biyometrik gerçek yüz yasağı)", "Uzayda Güneş olmadığı için", "Renkler mavi olduğu için"] },
+            { sentence: "Uzay Üssü İsteminde Cebirsel Enerji Tüketimini (2x + 400 kWh) doğru şablonlayan şık hangisidir?", img: "images/ders4_rubrik.png", mode: "🚀 Seviye 2: İstem Karşılaştırma & Rubrik Puanlama", hint: "Matematik ve Fen dengeli şablonu bul!", correct: "“[ENERJİ_DENKLEMİ]: E = 2x + 400 ➔ [DEĞİŞKEN]: x modül sayısı ➔ [TASARRUF]: Kullanılmayan modülü kapat”", options: ["“Elektrik faturasını öde”", "“[ENERJİ_DENKLEMİ]: E = 2x + 400 ➔ [DEĞİŞKEN]: x modül sayısı ➔ [TASARRUF]: Kullanılmayan modülü kapat”", "“Işıkları açık bırak”"] },
+            { sentence: "Hangi istem kural hiyerarşisinde ZORUNLU KURALI en iyi şekilde tanımlamıştır?", img: "images/ders4_art.png", mode: "🚀 Seviye 2: İstem Karşılaştırma & Rubrik Puanlama", hint: "ZORUNLU etiketi olan şıkkı seç!", correct: "“[ZORUNLU_KURAL]: Oksijen geri dönüşüm oranı %95 altına düşemez. [TERCİH]: İç duvarlar beyaz olsun.”", options: ["“İstasyon istediği gibi çalışsın”", "“[ZORUNLU_KURAL]: Oksijen geri dönüşüm oranı %95 altına düşemez. [TERCİH]: İç duvarlar beyaz olsun.”", "“Oksijeni unut gitsin”"] },
+            { sentence: "Güneş Sistemi Araştırmaları modülü için 5/5 Tam Puan alacak ŞAMPİYON İSTEM hangisidir?", img: "images/ders4_hero.png", mode: "🚀 Seviye 2: İstem Karşılaştırma & Rubrik Puanlama", hint: "Tam puan alacak düzenli istemi bul!", correct: "“[GÖREV]: Mars yörüngesinde gözlem ➔ [BİLİMSEL_VERİ]: Güneş paneli açısı 45° ➔ [3D_GÖRSEL]: 3D Pixar Gözlem Üssü”", options: ["“Mars'a bir ev çiziver”", "“[GÖREV]: Mars yörüngesinde gözlem ➔ [BİLİMSEL_VERİ]: Güneş paneli açısı 45° ➔ [3D_GÖRSEL]: 3D Pixar Gözlem Üssü”", "“Mars nerede?”"] },
+            { sentence: "Bir uzay üssü isteminde 'Doğruluk' kriteri yetersizse ne gibi bir hata oluşur?", img: "images/ders4_1.png", mode: "🚀 Seviye 2: İstem Karşılaştırma & Rubrik Puanlama", hint: "Bilimsel hataların sonucunu düşün!", correct: "Yapay zekâ uzayda sesin yayılması veya yerçekiminin hatalı olması gibi bilimsel yanılsamalar üretir.", options: ["Yapay zekâ uzayda sesin yayılması veya yerçekiminin hatalı olması gibi bilimsel yanılsamalar üretir.", "Bilgisayar anında kapanır.", "Monitörün rengi değişir."] },
+
+            // Seviye 3: Aylık Proje: Şampiyon Prototip Seçimi (15 - 20)
+            { sentence: "🏆 PROJE ADIMI 1: Uzay Üssü Prototip A (Rastgele metin) vs Prototip B (5 Kriterli Şablon). Hangisi seçilmelidir?", img: "images/ders4_rubrik.png", mode: "🏆 Seviye 3: Aylık Proje Şampiyon Prototip Seçimi", hint: "Rubrik matrisiyle test edilmiş prototipi seç!", correct: "✨ Prototip B: 5 Maddelik Rubrikten 5/5 tam puan alan şablonlu sürüm", options: ["❌ Prototip A: Kuralı ve şablonu olmayan karışık sürüm", "✨ Prototip B: 5 Maddelik Rubrikten 5/5 tam puan alan şablonlu sürüm", "Hiçbiri"] },
+            { sentence: "🏆 PROJE ADIMI 2: Şampiyon Uzay Üssü'nün GÜVENLİK modülünde hangisi yer almalıdır?", img: "images/ders4_art.png", mode: "🏆 Seviye 3: Aylık Proje Şampiyon Prototip Seçimi", hint: "Güvenlik ve etik kuralını seç!", correct: "“[GÜVENLİK]: Gerçek yüz/ses verisi kullanılmaz, siber kalkan ve yapay zekâ robot operatör kullanılır.”", options: ["“Öğrencilerin gerçek kamera görüntüleri sisteme yüklensin”", "“[GÜVENLİK]: Gerçek yüz/ses verisi kullanılmaz, siber kalkan ve yapay zekâ robot operatör kullanılır.”", "“Şifreleri panoya yazın”", "“Kalkanı kapatın”"] },
+            { sentence: "🏆 PROJE ADIMI 3: Şampiyon Uzay Üssü'nün ENERJİ ve CEBİR modülünde hangisi yer almalıdır?", img: "images/ders4_hero.png", mode: "🏆 Seviye 3: Aylık Proje Şampiyon Prototip Seçimi", hint: "Cebirsel tasarruf kuralını bul!", correct: "“[ENERJİ]: 4x Güneş Paneli + Potansiyel Enerji Depolama Ünitesi ile %40 enerji tasarrufu.”", options: ["“Tüm enerjiyi tek saniyede harca”", "“[ENERJİ]: 4x Güneş Paneli + Potansiyel Enerji Depolama Ünitesi ile %40 enerji tasarrufu.”", "“Panelleri kır”", "“Enerji sayacını sıfırla”"] },
+            { sentence: "🏆 PROJE ADIMI 4: Şampiyon Uzay Üssü'nün 3D GÖRSEL ÇIKTI formatı nasıl tanımlanmalıdır?", img: "images/ders4_1.png", mode: "🏆 Seviye 3: Aylık Proje Şampiyon Prototip Seçimi", hint: "3D görsel istem şablonunu seç!", correct: "“[GÖRSEL_STİL]: 3D Pixar Render, modüler uzay üssü, neon cyan ve amber ışıklar, 8k çözünürlük.”", options: ["“Karalama resmi”", "“[GÖRSEL_STİL]: 3D Pixar Render, modüler uzay üssü, neon cyan ve amber ışıklar, 8k çözünürlük.”", "“Karanlık boş bir sayfa”", "“Resim çizme”"] },
+            { sentence: "🏆 PROJE ADIMI 5: 1. Ay boyunca öğrendiğimiz (Açık İstem, Kural Sırası, Şablon, Rubrik) 4 adımı birleştiren ŞAMPİYON İSTEM kurgusu hangisidir?", img: "images/ders4_rubrik.png", mode: "🏆 Seviye 3: Aylık Proje Şampiyon Prototip Seçimi", hint: "4 haftanın tüm becerilerini birleştiren şıkkı bul!", correct: "“[ROL: Uzay Mühendisi] ➔ [ZORUNLU KURAL] ➔ [ŞABLONLU BİLGİ] ➔ [RUBRİK PERFORMANS TESTİ]”", options: ["“Tek satırda aklına geleni yazmak”", "“[ROL: Uzay Mühendisi] ➔ [ZORUNLU KURAL] ➔ [ŞABLONLU BİLGİ] ➔ [RUBRİK PERFORMANS TESTİ]”", "“Yapay zekâyı kapatmak”", "“Kuralları silmek”", "“Hiç istem yazmamak”"] },
+            { sentence: "🏆 20. BÖLÜM FİNALİ: 1. Ayın Aylık Projesini tamamladık! Bir yapay zekâ isteminin kusursuz olduğunu nasıl anlarız?", img: "images/ders4_art.png", mode: "🏆 Seviye 3: Aylık Proje Şampiyon Prototip Seçimi", hint: "Son büyük kazanım kuralına tıkla!", correct: "“5 Maddelik Rubrik Matrisi ile test edip (Doğruluk, Güvenlik, Netlik, Kural Uyumu, Tasarruf) 5/5 tam puan aldığında.”", options: ["“Şansa bırakarak”", "“5 Maddelik Rubrik Matrisi ile test edip (Doğruluk, Güvenlik, Netlik, Kural Uyumu, Tasarruf) 5/5 tam puan aldığında.”", "“Sadece uzunluğuna bakarak”", "“Yazıyı renklendirerek”", "“Hiç test etmeyerek”"] }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+
+        function loadLevel(idx) {
+            if (idx >= activities.length) {
+                document.getElementById('completion-modal').classList.add('active');
+                return;
+            }
+
+            const act = activities[idx];
+            document.getElementById('level-indicator').innerText = `Bölüm: ${idx + 1} / 20`;
+            document.getElementById('score-counter').innerText = `Puan: ${score}`;
+            document.getElementById('progress-fill').style.width = `${((idx + 1) / 20) * 100}%`;
+            document.getElementById('mode-badge').innerText = act.mode;
+
+            document.getElementById('ai-img').src = act.img;
+            document.getElementById('image-wrapper').style.filter = "blur(18px) grayscale(70%)";
+            document.getElementById('blur-tag').innerText = "🔒 Bulanıklık: %100";
+            document.getElementById('level-hint').innerHTML = act.hint;
+            document.getElementById('target-sentence-text').innerText = act.sentence;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            const shuffled = [...act.options].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(optText => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.innerHTML = `<span>${optText}</span> <span>👉</span>`;
+                chip.onclick = () => selectOption(chip, optText, act.correct);
+                container.appendChild(chip);
+            });
+
+            document.getElementById('feedback-toast').className = "feedback-toast info";
+            document.getElementById('toast-icon').innerText = "👉";
+            document.getElementById('toast-text').innerText = "İstemi oku ve doğru rubrik kriterine tıkla!";
+            document.getElementById('next-btn').disabled = true;
+        }
+
+        function selectOption(chipEl, selectedText, correctText) {
+            if (selectedText === correctText) {
+                chipEl.classList.add('selected');
+                score += 10;
+                document.getElementById('score-counter').innerText = `Puan: ${score}`;
+
+                // Unblur visual
+                document.getElementById('image-wrapper').style.filter = "blur(0px) grayscale(0%)";
+                document.getElementById('blur-tag').innerText = "🔓 Netleşti!";
+
+                document.getElementById('feedback-toast').className = "feedback-toast success";
+                document.getElementById('toast-icon').innerText = "🎉";
+                document.getElementById('toast-text').innerText = "MÜKEMMEL! Rubrik Matrisi kriterini başarıyla uyguladın! (+10 Puan)";
+                document.getElementById('next-btn').disabled = false;
+            } else {
+                chipEl.classList.add('wrong-shake');
+                setTimeout(() => chipEl.classList.remove('wrong-shake'), 400);
+                document.getElementById('feedback-toast').className = "feedback-toast warning";
+                document.getElementById('toast-icon').innerText = "⚠️";
+                document.getElementById('toast-text').innerText = "Bu seçenek rubrik kriterlerini tam karşılamıyor. Tekrar dene!";
+            }
+        }
+
+        function nextLevel() {
+            currentIdx++;
+            loadLevel(currentIdx);
+        }
+
+        function resetLevel() {
+            loadLevel(currentIdx);
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        window.onload = () => {
+            updateStoryModal();
+            loadLevel(0);
+        };
+    </script>
+</body>
+
+</html>

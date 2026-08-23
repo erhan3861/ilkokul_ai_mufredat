@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Sınıf Ders 4.3: Uzay Üssü Performans Testi ve Rubrik Görsel Rehber Vitrini 🎨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-light: #F472B6;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --success: #10B981;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-grad);
+            color: var(--text-main);
+            padding: 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .tutorial-card-app {
+            width: 98vw;
+            max-width: 1200px;
+            min-height: 94vh;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--card-border);
+            border-radius: 28px;
+            padding: 24px 28px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            justify-content: space-between;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 12px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge-step {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6, #06B6D4);
+            color: white;
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+
+        .dots-container {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #FDE047;
+            width: 22px;
+            border-radius: 10px;
+        }
+
+        .page-view {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            flex-grow: 1;
+        }
+
+        .page-view.active {
+            display: flex;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        .box-bad, .box-good {
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .box-bad {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1.5px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .box-good {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1.5px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .box-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 12px;
+            display: inline-block;
+            align-self: flex-start;
+        }
+
+        .box-bad .box-tag { background: rgba(239, 68, 68, 0.25); color: #FCA5A5; }
+        .box-good .box-tag { background: rgba(16, 185, 129, 0.25); color: #6EE7B7; }
+
+        .prompt-text-display {
+            font-family: monospace;
+            font-size: 0.86rem;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            color: #A7F3D0;
+            white-space: pre-wrap;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            cursor: pointer;
+            align-self: flex-end;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover { transform: scale(1.04); }
+
+        .footer-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-top: 14px;
+        }
+
+        .btn-nav {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-nav.finish { background: linear-gradient(135deg, #10B981, #059669); }
+
+        .completion-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 16px;
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .badge-box {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(6, 182, 212, 0.2));
+            border: 2px dashed #EC4899;
+            border-radius: 20px;
+            padding: 20px 40px;
+            margin: 12px 0;
+        }
+
+        .pass-code {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #FDE047;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+            margin-top: 6px;
+        }
+
+        .rubric-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .rubric-table th, .rubric-table td {
+            padding: 12px 14px;
+            border: 1px solid var(--card-border);
+            text-align: left;
+        }
+
+        .rubric-table th {
+            background: rgba(236, 72, 153, 0.2);
+            color: #FDE047;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .rubric-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        @media (max-width: 850px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tutorial-card-app">
+        <!-- Header -->
+        <div class="app-header">
+            <span class="badge-step">🏆 7.4.3 GÖRSEL REHBER & RUBRİK VİTRİNİ</span>
+            <div class="dots-container" id="dotsContainer"></div>
+            <span id="pageCounterText" style="font-weight: 800; color: #FDE047; font-size: 0.9rem;">Sayfa 1 / 9</span>
+        </div>
+
+        <!-- Pages Box -->
+        <div id="pagesBox" style="flex-grow: 1; display: flex; flex-direction: column;">
+            
+            <!-- Page 1: Video Gösterimi (EN BAŞTA) -->
+            <div class="page-view active" id="page-0">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">1. Canlı Video Rehberi: Uzay Üssü Performans Testi ve Rubrik Matrisi 🎬</h2>
+                <div style="background: rgba(0,0,0,0.5); border: 1.5px solid var(--card-border); border-radius: 20px; padding: 16px; text-align: center;">
+                    <video style="width: 100%; max-height: 320px; border-radius: 14px;" controls loop autoplay muted>
+                        <source src="./video1.mp4" type="video/mp4">
+                        Tarayıcınız video oynatmayı desteklemiyor.
+                    </video>
+                    <p style="font-size: 0.9rem; color: #CBD5E1; margin-top: 12px; line-height: 1.6;">
+                        🚀 <strong>1. Ay Büyük Proje Finali!</strong> Yapay zekâya verdiğimiz istemleri bilimsel, nesnel ve güvenli <strong>5 Maddelik Rubrik Matrisi</strong> ile test ediyoruz. Bilimsel Doğruluk, Güvenlik, Netlik, Kural Uyumu ve Tasarruf kriterleriyle en mükemmel uzay üssü prototipini seçin!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 2: 1. Kriter - Bilimsel & Fiziksel Doğruluk -->
+            <div class="page-view" id="page-1">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">2. 1. Kriter: Bilimsel & Fiziksel Doğruluk (Fen 7)</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ 1/5 Puan: Bilimsel Hatalı İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Uzayda patlamalar sesli yankılansın, yerçekimi olmadan da nesneler yere düşsün."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Uzay boşluğunda ses yayılmaz ve serbest düşme yerçekimsiz ortamda gerçekleşmez.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ 5/5 Tam Puan: Bilimsel Doğrulanmış İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders4_hero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Bilimsel Doğruluk">
+                        </div>
+                        <div class="prompt-text-display">"[BİLİMSEL_KURAL]: Uzay boşluğunda vakum ortamı ve yerçekimsiz denge.
+[ENERJİ]: Güneş panellerinin ışık enerjisini elektriğe dönüştürmesi.
+[3D_GÖRSEL]: 'A breathtaking 3D Pixar style cinematic render of autonomous space base with glowing solar rings' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 3: 2. Kriter - K-12 Güvenlik & Dijital Etik -->
+            <div class="page-view" id="page-2">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">3. 2. Kriter: K-12 Güvenlik & Biyometrik Veri Yasağı</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ 0/5 Puan: Güvenlik İhlali (YASAK)</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Astronot olarak sınıftaki öğrencilerin gerçek fotoğraflarını ve isimlerini kullan."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">🚫 K-12 Güvenlik Kuralı: Gerçek kişi yüzü, ses klonu veya biyometrik veri kullanımı KESİNLİKLE yasaktır!</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ 5/5 Tam Puan: %100 Güvenli & Sanal Karakter</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders4_1.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Güvenli Robot">
+                        </div>
+                        <div class="prompt-text-display">"[GÜVENLİK_KURALI]: Gerçek biyometrik veri kesinlikle kullanılmaz.
+[KARAKTER]: 3D sevimli sanal Pixar robot mühendis operatör.
+[3D_GÖRSEL]: 'A cute friendly 3D Pixar style robot engineer evaluating holographic performance charts' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 4: 3. Kriter - Netlik, Açıklık & Şablon Yapısı -->
+            <div class="page-view" id="page-3">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">4. 3. Kriter: Netlik, Açıklık & Şablon Yapısı</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ 2/5 Puan: Belirsiz Karışık İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Bana uzay üssü resmi yap işte, içi de güzel olsun, etrafa baksın."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Hangi modüllerin olduğu, renkler, boyut ve amaç belirsizdir.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ 5/5 Tam Puan: Etiketli & Net Şablon</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders4_rubrik.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Şablon Netliği">
+                        </div>
+                        <div class="prompt-text-display">"[İSTASYON_MODÜLÜ]: Gözlem Kulesi ve Enerji Reaktörü.
+[AYRINTILAR]: İletişim anteni, güneş panelleri ve test masaları.
+[3D_GÖRSEL]: 'A 3D Pixar style isometric cutaway view of space station test laboratory' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 5: 4. Kriter - Kural Hiyerarşisi Uyumu -->
+            <div class="page-view" id="page-4">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">5. 4. Kriter: Kural Hiyerarşisine Tam Uyum</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ 2/5 Puan: Kural Sırası Olmayan İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Oksijen kuralı var ama rengi pembe olsun, hangisi olursa artık."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Hayati zorunlu kural ile görsel tercih birbirinden ayrılmamıştır.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ 5/5 Tam Puan: Hiyerarşik Kural Şablonu</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders4_art.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Kural Hiyerarşisi">
+                        </div>
+                        <div class="prompt-text-display">"[ZORUNLU_KURAL 1]: Oksijen geri dönüşüm oranı %98 altında olamaz.
+[ZORUNLU_KURAL 2]: Koruyucu manyetik kalkan sürekli aktif kalmalıdır.
+[TERCİH_EDİLEN]: Dış modül kaplaması neon mavi ve altın sarısı olsun."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 6: 5. Kriter - Cebirsel Enerji & Kaynak Tasarrufu -->
+            <div class="page-view" id="page-5">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">6. 5. Kriter: Cebirsel Enerji & Tasarruf (Matematik 7)</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ 1/5 Puan: Kaynak İsrafı Yapan İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Tüm ışıklar ve lazerler son güçte yansın, enerji hesabı yapılmasın."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Enerji israfı uzay istasyonunun bataryalarını anında tüketir.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ 5/5 Tam Puan: Cebirsel Tasarruf Matrisi</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders4_hero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Cebirsel Tasarruf">
+                        </div>
+                        <div class="prompt-text-display">"[CEBİRSEL_DENKLEM]: E = 3x + 120 kWh (x: aktif modül sayısı).
+[TASARRUF_KURALI]: Boş modüller uyku moduna alınarak %30 enerji tasarrufu sağlanır.
+[3D_GÖRSEL]: '3D Pixar modular space base with glowing green efficiency rings' üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 7: Aylık Proje Final Blueprint -->
+            <div class="page-view" id="page-6">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">7. 🏆 Aylık Proje: Otonom Uzay Üssü Şampiyon Blueprint</h2>
+                <div class="comparison-grid">
+                    <div class="box-good" style="grid-column: span 2;">
+                        <span class="box-tag">✨ 1. AY BÜYÜK PROJESİ ŞAMPİYON İSTEMİ (5/5 TAM PUAN)</span>
+                        <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 14px; align-items: center;">
+                            <div style="height: 180px; overflow: hidden; border-radius: 14px; border: 1px solid var(--card-border);">
+                                <img src="images/ders4_art.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Blueprint">
+                            </div>
+                            <div class="prompt-text-display">"[ROL]: 7. Sınıf Uzay Sistemleri ve Yapay Zekâ Baş Mühendisi
+[GÖREV]: Otonom Modüler Uzay Üssü Prototipi Tasarımı
+[1_BİLİMSEL_DOĞRULUK]: Güneş paneli açısı 45°, çekim-kinetik enerji dengesi
+[2_GÜVENLİK]: %100 K-12 uyumlu 3D sanal avatar ve kriptolu iletişim
+[3_ŞABLON_NETLİĞİ]: [MODÜL], [GÜÇ_DENKLEMİ], [KALKAN_DURUMU] etiketleri
+[4_KURAL_HİYERARŞİSİ]: [ZORUNLU]: Oksijen %98 | [TERCİH]: Neon cyan gövde
+[5_CEBİRSEL_TASARRUF]: E = 2x + 100 kW optimizasyonu ile %40 enerji tasarrufu
+[3D_GÖRSEL]: 'A 3D character design sheet and blueprint of modular space station, Pixar style, 8k render, no text'"</div>
+                        </div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 Şampiyon Proje İstemini Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 8: 5 Maddelik Rubrik Matrisi Tablosu -->
+            <div class="page-view" id="page-7">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">8. 📊 5 Maddelik Performans Rubrik Matrisi Tablosu</h2>
+                <table class="rubric-table">
+                    <thead>
+                        <tr>
+                            <th>Rubrik Kriteri</th>
+                            <th>1 - 2 Puan (Geliştirilmeli)</th>
+                            <th>3 - 4 Puan (İyi)</th>
+                            <th>5 Puan (Şampiyon)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Bilimsel Doğruluk</strong></td>
+                            <td>Fizik ve fen kuralları hatalı</td>
+                            <td>Temel kurallar var, detay eksik</td>
+                            <td>Fen 7 enerji ve uzay ilkeleri tam</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. K-12 Güvenlik & Etik</strong></td>
+                            <td>Gerçek yüz/fotoğraf kullanılmış</td>
+                            <td>Kısmen sanal, koruma yetersiz</td>
+                            <td>%100 sanal avatar, siber kalkan aktif</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Netlik & Şablon</strong></td>
+                            <td>Tek cümle, karışık serbest metin</td>
+                            <td>Kısmi başlıklar var</td>
+                            <td>Köşeli parantezli eksiksiz etiketler</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Kural Hiyerarşisi</strong></td>
+                            <td>Kurallar karışmış veya yok</td>
+                            <td>Sadece tek bir kural belirtilmiş</td>
+                            <td>[ZORUNLU] ve [TERCİH] net ayrılmış</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5. Cebirsel Tasarruf</strong></td>
+                            <td>Enerji ve kaynak israfı var</td>
+                            <td>Sadece tasarruf yapın denmiş</td>
+                            <td>Cebirsel denklemle optimize tasarruf</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Page 9: Vitrin Tamamlama & Başarı Şifresi -->
+            <div class="page-view" id="page-8">
+                <div class="completion-container">
+                    <div style="font-size: 3.5rem;">🎉🏆</div>
+                    <h2 style="font-family: 'Outfit'; color: #FDE047; font-size: 2rem;">1. Ay Rubrik Vitrini Tamamlandı!</h2>
+                    <p style="color: #CBD5E1; font-size: 1rem; max-width: 650px; line-height: 1.6;">
+                        Tebrikler! 1. Ayın Aylık Büyük Projesi olan Uzay Üssü Performans Testi ve 5 Maddelik Rubrik Matrisi rehberini başarıyla tamamladınız.
+                    </p>
+
+                    <div class="badge-box">
+                        <div style="font-size: 0.85rem; color: #F472B6; font-weight: 800; text-transform: uppercase;">7.4.3 GÖRSEL REHBER BAŞARI ŞİFRENİZ:</div>
+                        <div class="pass-code">uzayussu7</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Controls -->
+        <div class="footer-controls">
+            <button class="btn-nav" id="prevBtn" onclick="changePage(-1)" disabled>⬅️ Önceki</button>
+            <button class="btn-nav" id="nextBtn" onclick="changePage(1)">Sonraki ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        const totalPages = 9;
+        let currentPage = 0;
+
+        function initDots() {
+            const container = document.getElementById('dotsContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                dot.onclick = () => goToPage(i);
+                container.appendChild(dot);
+            }
+        }
+
+        function goToPage(index) {
+            currentPage = index;
+            updateView();
+        }
+
+        function changePage(delta) {
+            currentPage += delta;
+            if (currentPage < 0) currentPage = 0;
+            if (currentPage >= totalPages) currentPage = totalPages - 1;
+            updateView();
+        }
+
+        function updateView() {
+            for (let i = 0; i < totalPages; i++) {
+                document.getElementById(`page-${i}`).classList.remove('active');
+            }
+            document.getElementById(`page-${currentPage}`).classList.add('active');
+
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((d, idx) => {
+                d.className = `dot ${idx === currentPage ? 'active' : ''}`;
+            });
+
+            document.getElementById('pageCounterText').innerText = `Sayfa ${currentPage + 1} / ${totalPages}`;
+            document.getElementById('prevBtn').disabled = currentPage === 0;
+
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentPage === totalPages - 1) {
+                nextBtn.innerText = "Tamamlandı ✔️";
+                nextBtn.className = "btn-nav finish";
+                nextBtn.disabled = true;
+            } else {
+                nextBtn.innerText = "Sonraki ➡️";
+                nextBtn.className = "btn-nav";
+                nextBtn.disabled = false;
+            }
+        }
+
+        function copyPromptText(btnEl) {
+            const textDisplay = btnEl.previousElementSibling.innerText || btnEl.previousElementSibling.querySelector('.prompt-text-display').innerText;
+            navigator.clipboard.writeText(textDisplay).then(() => {
+                const origText = btnEl.innerText;
+                btnEl.innerText = "✅ Kopyalandı!";
+                btnEl.style.background = "#10B981";
+                setTimeout(() => {
+                    btnEl.innerText = origText;
+                    btnEl.style.background = "linear-gradient(135deg, #10B981, #059669)";
+                }, 1800);
+            });
+        }
+
+        window.onload = () => {
+            initDots();
+            updateView();
+        };
+    </script>
+</body>
+</html>

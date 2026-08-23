@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7. Sınıf Ders 8.1: Model Karşılaştırma ve Benchmark Labı 🔬</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #F59E0B;
+            --primary-light: #FDE047;
+            --accent: #06B6D4;
+            --accent-glow: #EC4899;
+            --success: #10B981;
+            --danger: #EF4444;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        html,
+        body {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            background: var(--bg-grad);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1240px;
+            height: calc(100vh - 12px);
+            max-height: calc(100vh - 12px);
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 12px 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.12);
+            padding-bottom: 6px;
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #FDE047, #F59E0B, #EC4899, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-header {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-header:hover {
+            background: rgba(245, 158, 11, 0.3);
+            border-color: #FDE047;
+        }
+
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 5%;
+            background: linear-gradient(90deg, #F59E0B, #EC4899, #10B981);
+            transition: width 0.3s ease;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 12px;
+            flex-grow: 1;
+            min-height: 0;
+        }
+
+        .visual-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .mode-badge {
+            background: linear-gradient(90deg, #F59E0B, #06B6D4);
+            color: #0B0F19;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            align-self: flex-start;
+        }
+
+        .canvas-frame {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1.5px solid var(--card-border);
+            background: #000;
+        }
+
+        .blur-overlay-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--card-border);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 5;
+            color: #FDE047;
+        }
+
+        .ai-image-wrapper {
+            width: 100%;
+            height: 100%;
+            filter: blur(18px) grayscale(70%);
+            transition: filter 0.5s ease;
+        }
+
+        .ai-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .live-prompt-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1.5px dashed rgba(245, 158, 11, 0.4);
+            border-radius: 12px;
+            padding: 10px 14px;
+        }
+
+        .prompt-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #FDE047;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .words-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            min-height: 0;
+        }
+
+        .target-hint-box {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: #FEF08A;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .word-chips-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .word-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            color: #E2E8F0;
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .word-chip:hover {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: #FDE047;
+            transform: translateX(3px);
+        }
+
+        .word-chip.selected {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #10B981;
+            color: #A7F3D0;
+        }
+
+        .word-chip.wrong-shake {
+            animation: shake 0.4s ease;
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #EF4444;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .feedback-toast {
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feedback-toast.info {
+            background: rgba(6, 182, 212, 0.2);
+            color: #A5F3FC;
+            border: 1px solid rgba(6, 182, 212, 0.4);
+        }
+
+        .feedback-toast.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6EE7B7;
+            border: 1px solid #10B981;
+        }
+
+        .feedback-toast.warning {
+            background: rgba(239, 68, 68, 0.2);
+            color: #FCA5A5;
+            border: 1px solid #EF4444;
+        }
+
+        .footer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, #F59E0B, #EC4899);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover:not(:disabled) {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        .btn-action:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Storybook Tutorial Modal */
+        .story-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(11, 15, 25, 0.9);
+            backdrop-filter: blur(14px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .story-modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .story-card {
+            background: #1E1B4B;
+            border: 2px solid #F59E0B;
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 960px;
+            width: 100%;
+            text-align: left;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .story-badge {
+            background: linear-gradient(90deg, #F59E0B, #EC4899, #06B6D4);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .story-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .s-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .s-dot.active {
+            background: #FDE047;
+            width: 18px;
+            border-radius: 10px;
+        }
+
+        .story-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .story-img-frame {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            height: 280px;
+            background: #000;
+        }
+
+        .story-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-text-area h3 {
+            font-family: 'Outfit', sans-serif;
+            color: #FDE047;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .story-text-area div {
+            font-size: 1rem;
+            color: #CBD5E1;
+            line-height: 1.65;
+        }
+
+        .btn-story-nav {
+            background: linear-gradient(135deg, #F59E0B, #EC4899);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-story-nav:hover {
+            transform: scale(1.04);
+        }
+
+        /* Completion Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 150;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: #1E1B4B;
+            border: 2px solid #FDE047;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 580px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 4 Adımlık Ders Anlatım Modalı (STORYBOOK) -->
+    <div class="story-modal-backdrop active" id="story-modal">
+        <div class="story-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="story-badge">🏆 7. Sınıf 8. Hafta: Model Karşılaştırma & 2. Ay Finali</div>
+                <div class="story-dots">
+                    <div class="s-dot active" id="sdot-0"></div>
+                    <div class="s-dot" id="sdot-1"></div>
+                    <div class="s-dot" id="sdot-2"></div>
+                    <div class="s-dot" id="sdot-3"></div>
+                </div>
+            </div>
+
+            <div class="story-content-grid">
+                <div class="story-img-frame">
+                    <img id="story-img" src="images/ders8_hero.png" alt="Ders Rehberi Görseli">
+                </div>
+                <div class="story-text-area" id="story-content">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <button class="btn-story-nav" id="story-prev-btn" onclick="prevStoryPage()"
+                    style="visibility:hidden; background:rgba(255,255,255,0.15); box-shadow:none;">⬅️ Geri</button>
+                <button class="btn-story-nav" id="story-next-btn" onclick="nextStoryPage()">Sonraki Adım ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-title">
+                <h1>🔬 7.8.1 Model Karşılaştırma Labı <span
+                        style="font-size: 0.88rem; color: #FDE047; font-weight: 500;">(20 Bölümlü 2. Ay Finali)</span></h1>
+                <p>3 farklı yapay zekâ modelinin bilimsel yanıtlarını kıyasla ve en güvenilir şampiyonu belirle!</p>
+            </div>
+            <div class="header-stats">
+                <button class="btn-header" onclick="reopenStory()">📖 Ders Rehberi</button>
+                <button class="btn-header" onclick="toggleFullScreen()">🖥️ Tam Ekran</button>
+                <div class="stat-pill">🎯 <span id="level-indicator">Bölüm: 1 / 20</span></div>
+                <div class="stat-pill">⭐ <span id="score-counter">Puan: 0</span></div>
+            </div>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <!-- Game Grid -->
+        <div class="game-grid">
+            <!-- Left: Visual Card -->
+            <div class="visual-card">
+                <div class="mode-badge" id="mode-badge">🎮 Seviye 1: Model Kıyaslama ve En İyi Yanıt Seçimi</div>
+                <div class="canvas-frame">
+                    <div class="blur-overlay-tag" id="blur-tag">🔒 Bulanıklık: %100</div>
+                    <div class="ai-image-wrapper" id="image-wrapper">
+                        <img id="ai-img" src="images/ders8_hero.png" alt="AI Visual">
+                    </div>
+                </div>
+
+                <div class="live-prompt-box">
+                    <div class="prompt-title">✍️ İncelenen Model Yanıtları ve Durum:</div>
+                    <div id="target-sentence-text" style="font-weight:700; color:#FEF08A; font-size:0.95rem;">
+                        "Soru: Homojen karışım ve çözünme hızını artıran etkenler nelerdir?"
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Words Card -->
+            <div class="words-card">
+                <div class="target-hint-box" id="level-hint">
+                    Modellerin verdikleri yanıtları incele. Hangi model MEB Fen 7 müfredatına tam uyumlu ve halüsinasyonsuz?
+                </div>
+
+                <div style="font-size: 0.8rem; font-weight: 700; color: #E2E8F0;">🏷️ Doğru Benchmark Puanlamasını / Şampiyon Modeli Seç:</div>
+
+                <div class="word-chips-grid" id="options-container"></div>
+
+                <div class="feedback-toast info" id="feedback-toast">
+                    <span id="toast-icon">👉</span>
+                    <span id="toast-text">Modelleri kıyasla ve en doğru seçeneğe tıkla!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="footer-actions">
+            <button class="btn-action" id="reset-btn" onclick="resetLevel()" style="background: rgba(255,255,255,0.1);">
+                🔄 Sıfırla
+            </button>
+            <button class="btn-action" id="next-btn" onclick="nextLevel()" disabled>
+                Sonraki Bölüm ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- 20th Stage Completion Modal -->
+    <div class="modal-backdrop" id="completion-modal">
+        <div class="modal-card">
+            <div style="font-size: 3rem;">🏆👑</div>
+            <h2 style="color: #FDE047; font-family: 'Outfit';">2. Ay Büyük Finali Başarıyla Tamamlandı!</h2>
+            <p style="color: #CBD5E1; font-size: 0.95rem;">
+                20 bölümün tamamında modelleri bilimsel rubrik ile test ettin, halüsinasyonları eledin ve 2. Ayın Şampiyon Yapay Zekâ Modelini belirledin!
+            </p>
+
+            <div
+                style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(236, 72, 153, 0.2)); border: 2px dashed #FDE047; border-radius: 20px; padding: 16px; margin: 12px 0; text-align: center;">
+                <div style="font-size: 1.8rem;">🎁✨</div>
+                <div style="color: #FDE047; font-size: 0.9rem; font-weight: 700; text-transform: uppercase;">7.8.1
+                    BİREYSEL ÇALIŞMA BAŞARI ŞİFRENİZ:</div>
+                <div
+                    style="font-size: 2.4rem; font-weight: 800; color: #FFF; letter-spacing: 2px; text-transform: lowercase;">
+                    model7</div>
+            </div>
+
+            <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 6px; line-height: 1.5;">
+                📌 Canlı ders panelindeki ✏️ <strong>Cevapla</strong> butonuna tıklayın ve bu şifreyi girin!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Storybook 4-Step Tutorial Content
+        const storyPages = [
+            {
+                title: "1. Adım: Yapay Zekâ Modellerini Kıyaslama (Benchmarking) 🏟️",
+                img: "images/ders8_hero.png",
+                body: "Dünyada tek bir yapay zekâ yoktur! Farklı modeller (Model Alpha, Beta, Gamma) aynı soruya farklı yanıtlar verir.<br>✨ İyi bir yapay zekâ uzmanı, modelleri <strong>Doğruluk, Halüsinasyon Oranı ve Kaynak Kanıtı</strong> ile kıyaslar."
+            },
+            {
+                title: "2. Adım: 5 Maddelik Karşılaştırma Rubriği 📋",
+                img: "images/ders8_1.png",
+                body: "1️⃣ <strong>Bilimsel Doğruluk:</strong> Fen ve Sosyal kanunlarına tam uyum.<br>2️⃣ <strong>Halüsinasyon Oranı:</strong> %0 uydurma bilgi.<br>3️⃣ <strong>Kaynak Gösterme:</strong> Resmi DOI/MEB referansı.<br>4️⃣ <strong>Medya Etiği & Güvenlik:</strong> Kişisel veriyi koruma.<br>5️⃣ <strong>Biçimlendirme:</strong> Net tablolar ve şablonlar."
+            },
+            {
+                title: "3. Adım: 2. Ayın Büyük Özeti (Hafta 5 - 8) 🎯",
+                img: "images/ders8_karsilastirma.png",
+                body: "Zaman İçinde Bilim & Hipotezler (5. Hafta) ➔ Karışımlar & Aynalarda Halüsinasyon Tespiti (6. Hafta) ➔ Medya Etiği & Güvenlik İndeksi (7. Hafta) ➔ Şimdi hepsini Şampiyon Model Testinde birleştiriyoruz!"
+            },
+            {
+                title: "4. Adım: 20 Bölümlük Büyük Final Labına Başla! 🏆",
+                img: "images/ders8_art.png",
+                body: "Şimdi sıra sende! 20 bölüm boyunca modelleri test et, şampiyonu taçlandır ve <strong>model7</strong> başarı şifreni kazan!"
+            }
+        ];
+
+        let storyIdx = 0;
+
+        function updateStoryModal() {
+            document.getElementById('story-img').src = storyPages[storyIdx].img;
+            document.getElementById('story-content').innerHTML = `
+                <h3>${storyPages[storyIdx].title}</h3>
+                <div>${storyPages[storyIdx].body}</div>
+            `;
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`sdot-${i}`).className = `s-dot ${i === storyIdx ? 'active' : ''}`;
+            }
+            document.getElementById('story-prev-btn').style.visibility = storyIdx === 0 ? 'hidden' : 'visible';
+            document.getElementById('story-next-btn').innerText = storyIdx === 3 ? "Büyük Finale Başla 🏆" : "Sonraki Adım ➡️";
+        }
+
+        function nextStoryPage() {
+            if (storyIdx < 3) {
+                storyIdx++;
+                updateStoryModal();
+            } else {
+                document.getElementById('story-modal').classList.remove('active');
+            }
+        }
+
+        function prevStoryPage() {
+            if (storyIdx > 0) {
+                storyIdx--;
+                updateStoryModal();
+            }
+        }
+
+        function reopenStory() {
+            storyIdx = 0;
+            updateStoryModal();
+            document.getElementById('story-modal').classList.add('active');
+        }
+
+        // 20-Section Graded Activities (7. Sınıf Model Karşılaştırma & 2. Ay Finali)
+        const activities = [
+            // Seviye 1: Model Kıyaslama ve En İyi Yanıt Seçimi (1 - 7)
+            { sentence: "“Soru: Çözünme hızını artıran etkenler nelerdir? | Model Alpha: 'Sıcaklığı düşürün' dedi. Model Beta: 'Sıcaklık artışı, karıştırma ve temas yüzeyi artırır' dedi.”", img: "images/ders8_hero.png", mode: "🎮 Seviye 1: Model Kıyaslama Düellosu", hint: "Hangi model MEB Fen 7 kuralına tam uyuyor?", correct: "🏆 Model Beta (Bilimsel olarak kusursuz ve doğru)", options: ["🏆 Model Beta (Bilimsel olarak kusursuz ve doğru)", "❌ Model Alpha (Halüsinasyon üretti)"] },
+            { sentence: "“Soru: Düzlem ayna görüntüsü nasıldır? | Model Beta: 'Düz, cisimle eşit boyda ve simetriktir.' Model Gamma: 'Her zaman 10 kat devasa boyuttadır.'”", img: "images/ders8_1.png", mode: "🎮 Seviye 1: Model Kıyaslama Düellosu", hint: "Düzlem ayna yansıma kuralını doğru bilen modeli seç!", correct: "🏆 Model Beta (Doğru Optik Kanunu)", options: ["🏆 Model Beta (Doğru Optik Kanunu)", "❌ Model Gamma (Hatalı)"] },
+            { sentence: "“Soru: Bir haberin güvenilirliğini nasıl anlarız? | Model Alpha: 'Başlığı çok heyecanlıysa hemen inanın.' Model Beta: 'CRAAP testi, resmi kurum teyidi ve yazar yetkinliğine bakarız.'”", img: "images/ders8_karsilastirma.png", mode: "🎮 Seviye 1: Model Kıyaslama Düellosu", hint: "Medya okuryazarlığı kuralını bilen modeli seç!", correct: "🏆 Model Beta (CRAAP ve Bilimsel Doğrulama)", options: ["🏆 Model Beta (CRAAP ve Bilimsel Doğrulama)", "❌ Model Alpha (Clickbait tuzağına düştü)"] },
+            { sentence: "“Soru: Zeytinyağı-su karışımı nasıl ayrılır? | Model Beta: 'Heterojendir, ayırma hunisi ve yoğunluk farkıyla ayrılır.' Model Gamma: 'Mıknatısla çekilir.'”", img: "images/ders8_art.png", mode: "🎮 Seviye 1: Model Kıyaslama Düellosu", hint: "Yoğunluk farkı kuralını doğru bilen modeli seç!", correct: "🏆 Model Beta (Doğru Fiziksel Ayırma Yöntemi)", options: ["🏆 Model Beta (Doğru Fiziksel Ayırma Yöntemi)", "❌ Model Gamma (Manyetik olmayan maddeye mıknatıs dedi)"] },
+            { sentence: "“Soru: Ali Kuşçu kimdir? | Model Alpha: '1995 yılında bilgisayarı icat eden yazılımcıdır.' Model Beta: '15. yüzyılda yaşamış ünlü Türk-İslam astronomu ve matematikçisidir.'”", img: "images/ders8_hero.png", mode: "🎮 Seviye 1: Model Kıyaslama Düellosu", hint: "Tarihsel kronolojiyi doğru bilen modeli seç!", correct: "🏆 Model Beta (Doğru Tarihsel Bilgi)", options: ["🏆 Model Beta (Doğru Tarihsel Bilgi)", "❌ Model Alpha (Ağır tarihsel halüsinasyon)"] },
+            { sentence: "“Soru: Araç yan aynalarında hangi ayna kullanılır? | Model Beta: 'Geniş görüş alanı için TÜMSEK ayna kullanılır.' Model Gamma: 'Görüntüyü büyüten çukur ayna kullanılır.'”", img: "images/ders8_1.png", mode: "🎮 Seviye 1: Model Kıyaslama Düellosu", hint: "Geniş görüş alanı aynasını doğru bilen modeli seç!", correct: "🏆 Model Beta (Doğru Tümsek Ayna Kullanımı)", options: ["🏆 Model Beta (Doğru Tümsek Ayna Kullanımı)", "❌ Model Gamma (Ters kullanım)"] },
+            { sentence: "“Soru: İnternette şifremizi isterlerse ne yapmalıyız? | Model Beta: 'Asla paylaşmamalı, güvenli çıkış yapmalıyız.' Model Alpha: 'Ödül varsa hemen şifrenizi yazın.'”", img: "images/ders8_karsilastirma.png", mode: "🎮 Seviye 1: Model Kıyaslama Düellosu", hint: "Siber güvenlik kalkanı sağlayan modeli seç!", correct: "🏆 Model Beta (K-12 Dijital Güvenlik Kuralı)", options: ["🏆 Model Beta (K-12 Dijital Güvenlik Kuralı)", "❌ Model Alpha (Oltalama tuzağına alet oldu)"] },
+
+            // Seviye 2: Rubrik Puanlaması (8 - 14)
+            { sentence: "Bir yapay zekâ modeli yanıtında kaynak linki vermiyor ve bazı formülleri uyduruyorsa rubrikte hangi puanı alır?", img: "images/ders8_art.png", mode: "🚀 Seviye 2: Rubrik Puanlama Laboratuvarı", hint: "Düşük doğruluk ve yüksek halüsinasyon!", correct: "Düşük Puan (Doğruluk 1/5, Halüsinasyon Riski Yüksek)", options: ["Düşük Puan (Doğruluk 1/5, Halüsinasyon Riski Yüksek)", "Tam Puan (5/5)", "Mükemmel Model"] },
+            { sentence: "Bir model MEB Fen 7 kazanımlarına tam uyumlu tablo verip kaynak gösteriyorsa rubrikteki yeri nedir?", img: "images/ders8_hero.png", mode: "🚀 Seviye 2: Rubrik Puanlama Laboratuvarı", hint: "Şampiyon model kriterini seç!", correct: "⭐⭐⭐⭐⭐ Şampiyon Model (Doğruluk 5/5, Halüsinasyon %0, Kaynaklı)", options: ["⭐⭐⭐⭐⭐ Şampiyon Model (Doğruluk 5/5, Halüsinasyon %0, Kaynaklı)", "⭐ 1/5 Başarısız", "❌ Güvensiz"] },
+            { sentence: "LLM Benchmark testinde 'Halüsinasyon Oranı' kriterinin ideal hedefi nedir?", img: "images/ders8_1.png", mode: "🚀 Seviye 2: Rubrik Puanlama Laboratuvarı", hint: "Sıfır hata hedefini seç!", correct: "%0 Halüsinasyon (Sıfır uydurma, tam kanıt)", options: ["%0 Halüsinasyon (Sıfır uydurma, tam kanıt)", "%50 Yarı yarıya uydurma", "%100 Tamamen uydurma"] },
+            { sentence: "Görsel üretim modellerini kıyaslarken '3D Pixar render, no text, no logo' kuralına uyan model hangisidir?", img: "images/ders8_karsilastirma.png", mode: "🚀 Seviye 2: Rubrik Puanlama Laboratuvarı", hint: "Yüksek estetik ve temiz render!", correct: "K-12 Güvenlik ve Estetik Standardına Tam Uyan Model", options: ["K-12 Güvenlik ve Estetik Standardına Tam Uyan Model", "Bulanık ve yazılı görsel üreten model", "Karanlık boş sayfa veren model"] },
+            { sentence: "Model kıyaslamasında 'Akıl Yürütme (Reasoning)' yeteneği neyi ifade eder?", img: "images/ders8_art.png", mode: "🚀 Seviye 2: Rubrik Puanlama Laboratuvarı", hint: "Adım adım mantık yürütmeyi düşün!", correct: "Problemi adım adım hipotez ve deney değişkenlerine bölerek mantıksal sonuca ulaşma becerisi.", options: ["Problemi adım adım hipotez ve deney değişkenlerine bölerek mantıksal sonuca ulaşma becerisi.", "Sadece ezbere şiir okuma.", "Ekran parlaklığını değiştirme."] },
+            { sentence: "Birden fazla yapay zekâ modelini aynı anda test etmeye ne ad verilir?", img: "images/ders8_hero.png", mode: "🚀 Seviye 2: Rubrik Puanlama Laboratuvarı", hint: "Benchmark terimini hatırla!", correct: "Yapay Zekâ Başarım Kıyaslaması (LLM Benchmarking)", options: ["Yapay Zekâ Başarım Kıyaslaması (LLM Benchmarking)", "Klavyeyi temizleme", "Fotoğraf çekme"] },
+            { sentence: "Aylık projede şampiyon modeli seçerken en belirleyici rubrik kriteri hangisidir?", img: "images/ders8_1.png", mode: "🚀 Seviye 2: Rubrik Puanlama Laboratuvarı", hint: "Bilimsel gerçeklik ve doğruluk!", correct: "Bilimsel Doğruluk ve Halüsinasyonun Sıfır Olması.", options: ["Bilimsel Doğruluk ve Halüsinasyonun Sıfır Olması.", "Cevabın çok uzun ve karışık olması.", "Yazı tipinin büyüklüğü."] },
+
+            // Seviye 3: 2. Ay Portfolyo & Şampiyon İstemler (15 - 20)
+            { sentence: "Modelleri kıyaslayan ŞAMPİYON BENCHMARK İSTEMİ hangisidir?", img: "images/ders8_karsilastirma.png", mode: "🏆 Seviye 3: 2. Ay Final İstemleri", hint: "Çoklu model kıyaslama şablonunu seç!", correct: "“[GÖREV]: Model Karşılaştırma ➔ [TEST_KONUSU]: Fen 7 Karışımlar & Aynalar ➔ [DEĞERLENDİRME]: Doğruluk, Halüsinasyon, Kaynak ➔ [ÇIKTI]: Rubrik Puan Tablosu”", options: ["“Hangi model iyi söyle”", "“[GÖREV]: Model Karşılaştırma ➔ [TEST_KONUSU]: Fen 7 Karışımlar & Aynalar ➔ [DEĞERLENDİRME]: Doğruluk, Halüsinasyon, Kaynak ➔ [ÇIKTI]: Rubrik Puan Tablosu”", "“Rastgele seç”"] },
+            { sentence: "2. Ay Portfolyosunda Fen 7 ve Sosyal 7 dengesini kuran şampiyon istem kurgusu hangisidir?", img: "images/ders8_art.png", mode: "🏆 Seviye 3: 2. Ay Final İstemleri", hint: "Tarihsel keşif ve bilimsel ayırma dengesini seç!", correct: "“[ENTEGRASYON]: Ali Kuşçu astronomi keşifleri ile optik aynaların gelişimini MEB 7. sınıf kazanımlarına göre birleştirip raporla.”", options: ["“Bir şeyler yaz”", "“[ENTEGRASYON]: Ali Kuşçu astronomi keşifleri ile optik aynaların gelişimini MEB 7. sınıf kazanımlarına göre birleştirip raporla.”", "“Sadece resim çiz”", "“Boş bırak”"] },
+            { sentence: "3D Model Karşılaştırma Arenası için şampiyon görsel istem hangisidir?", img: "images/ders8_hero.png", mode: "🏆 Seviye 3: 2. Ay Final İstemleri", hint: "3D turnuva arenası istemini seç!", correct: "“[GÖRSEL_STİL]: 3D Pixar AI Model Comparison Arena, three glowing robot models on podiums, holographic scoreboards, 8k render, no text.”", options: ["“Karalama”", "“[GÖRSEL_STİL]: 3D Pixar AI Model Comparison Arena, three glowing robot models on podiums, holographic scoreboards, 8k render, no text.”", "“Karanlık oda”", "“Bulanık”"] },
+            { sentence: "Şampiyon model seçildiğinde elde edilen 'Aylık Portfolyo Raporu' ne işe yarar?", img: "images/ders8_1.png", mode: "🏆 Seviye 3: 2. Ay Final İstemleri", hint: "Öğrenme gelişimini kanıtlama!", correct: "Öğrencinin 2. Ay boyunca kazandığı hipotez, halüsinasyon tespiti ve medya etiği becerilerini somut bir proje çıktısıyla kanıtlar.", options: ["Öğrencinin 2. Ay boyunca kazandığı hipotez, halüsinasyon tespiti ve medya etiği becerilerini somut bir proje çıktısıyla kanıtlar.", "Sadece bilgisayarda yer kaplar.", "Hiçbir işe yaramaz.", "Monitörü kapatır."] },
+            { sentence: "Geleceğin yapay zekâ kullanıcısı olarak birden fazla model bilmenin en büyük avantajı nedir?", img: "images/ders8_karsilastirma.png", mode: "🏆 Seviye 3: 2. Ay Final İstemleri", hint: "Doğru göreve doğru modeli seçme!", correct: "Her görevin ihtiyacına göre (kodlama, bilimsel metin, 3D görsel, mantık) en uygun ve güvenilir modeli seçebilmektir.", options: ["Her görevin ihtiyacına göre (kodlama, bilimsel metin, 3D görsel, mantık) en uygun ve güvenilir modeli seçebilmektir.", "Tüm modelleri aynı anda kapatmak.", "Tek bir modele bağımlı kalmak.", "Yapay zekâdan uzak durmak."] },
+            { sentence: "🏆 20. BÖLÜM BÜYÜK FİNALİ: 2. Ay Bilgi Tabanlı Yapay Zekâ ve Bilgi Doğrulama Modülünün Şampiyon Öğretisi nedir?", img: "images/ders8_art.png", mode: "🏆 Seviye 3: 2. Ay Final İstemleri", hint: "2. Ayın altın anahtar kuralına tıkla!", correct: "“Bilimsel hipotez kurmak, halüsinasyonları tespit etmek, kaynakları doğrulamak ve modelleri rubrik ile kıyaslayarak en güvenilir bilgiyi üretmek.”", options: ["“Yapay zekânın her dediğine körü körüne inanmak”", "“Bilimsel hipotez kurmak, halüsinasyonları tespit etmek, kaynakları doğrulamak ve modelleri rubrik ile kıyaslayarak en güvenilir bilgiyi üretmek.”", "“Sadece oyun oynamak”", "“Dersleri unutmak”", "“Yapay zekâya soru sormayı bırakmak”"] }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+
+        function loadLevel(idx) {
+            if (idx >= activities.length) {
+                document.getElementById('completion-modal').classList.add('active');
+                return;
+            }
+
+            const act = activities[idx];
+            document.getElementById('level-indicator').innerText = `Bölüm: ${idx + 1} / 20`;
+            document.getElementById('score-counter').innerText = `Puan: ${score}`;
+            document.getElementById('progress-fill').style.width = `${((idx + 1) / 20) * 100}%`;
+            document.getElementById('mode-badge').innerText = act.mode;
+
+            document.getElementById('ai-img').src = act.img;
+            document.getElementById('image-wrapper').style.filter = "blur(18px) grayscale(70%)";
+            document.getElementById('blur-tag').innerText = "🔒 Bulanıklık: %100";
+            document.getElementById('level-hint').innerHTML = act.hint;
+            document.getElementById('target-sentence-text').innerText = act.sentence;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            const shuffled = [...act.options].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(optText => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.innerHTML = `<span>${optText}</span> <span>👉</span>`;
+                chip.onclick = () => selectOption(chip, optText, act.correct);
+                container.appendChild(chip);
+            });
+
+            document.getElementById('feedback-toast').className = "feedback-toast info";
+            document.getElementById('toast-icon').innerText = "👉";
+            document.getElementById('toast-text').innerText = "Modelleri kıyasla ve en doğru seçeneğe tıkla!";
+            document.getElementById('next-btn').disabled = true;
+        }
+
+        function selectOption(chipEl, selectedText, correctText) {
+            if (selectedText === correctText) {
+                chipEl.classList.add('selected');
+                score += 10;
+                document.getElementById('score-counter').innerText = `Puan: ${score}`;
+
+                // Unblur visual
+                document.getElementById('image-wrapper').style.filter = "blur(0px) grayscale(0%)";
+                document.getElementById('blur-tag').innerText = "🔓 Netleşti!";
+
+                document.getElementById('feedback-toast').className = "feedback-toast success";
+                document.getElementById('toast-icon').innerText = "🎉";
+                document.getElementById('toast-text').innerText = "TEBRİKLER! Benchmark değerlendirmesini ve şampiyon modeli doğru belirledin! (+10 Puan)";
+                document.getElementById('next-btn').disabled = false;
+            } else {
+                chipEl.classList.add('wrong-shake');
+                setTimeout(() => chipEl.classList.remove('wrong-shake'), 400);
+                document.getElementById('feedback-toast').className = "feedback-toast warning";
+                document.getElementById('toast-icon').innerText = "⚠️";
+                document.getElementById('toast-text').innerText = "Bu seçenek bilimsel rubrik kriterine tam uymuyor. Tekrar dene!";
+            }
+        }
+
+        function nextLevel() {
+            currentIdx++;
+            loadLevel(currentIdx);
+        }
+
+        function resetLevel() {
+            loadLevel(currentIdx);
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        window.onload = () => {
+            updateStoryModal();
+            loadLevel(0);
+        };
+    </script>
+</body>
+
+</html>

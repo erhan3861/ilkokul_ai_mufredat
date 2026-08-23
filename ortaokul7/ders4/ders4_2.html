@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7. Sınıf Ders 4.2: Uzay Üssü Rubrik Takım Atölyesi 🏆</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #111827 40%, #1E1B4B 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.14);
+            --primary: #EC4899;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --cyber-green: #10B981;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            background: var(--bg-grad);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+        }
+
+        .mission-container {
+            width: 100%;
+            max-width: 1240px;
+            height: calc(100vh - 12px);
+            max-height: calc(100vh - 12px);
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(20px);
+            border: 1.5px solid var(--card-border);
+            border-radius: 22px;
+            padding: 14px 18px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 8px;
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #FDE047, #EC4899, #818CF8, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p { color: var(--text-muted); font-size: 0.78rem; }
+
+        .step-indicators {
+            display: flex;
+            gap: 8px;
+        }
+
+        .step-ind {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .step-ind.active {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6);
+            color: white;
+            border-color: #F472B6;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
+        }
+
+        .mission-body {
+            flex-grow: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step-pane { display: none; flex-direction: column; gap: 12px; }
+        .step-pane.active { display: flex; }
+
+        /* Scenario Visual Cards */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .s-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid var(--card-border);
+            border-radius: 18px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .s-card:hover {
+            background: rgba(236, 72, 153, 0.18);
+            border-color: #F472B6;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(236, 72, 153, 0.35);
+        }
+
+        .s-card.selected {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(6, 182, 212, 0.25));
+            border-color: #10B981;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
+        }
+
+        .s-card-img-frame {
+            position: relative;
+            width: 100%;
+            height: 140px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .s-card-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .s-card:hover .s-card-img-frame img {
+            transform: scale(1.05);
+        }
+
+        .s-card-content {
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .s-card-tag {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(15, 23, 42, 0.85);
+            color: #FBCFE8;
+            border: 1px solid rgba(244, 114, 182, 0.5);
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            z-index: 5;
+        }
+
+        /* Step Prompt Builder Grid */
+        .step-builder-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .builder-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .builder-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #FDE047;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .opt-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.84rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #E2E8F0;
+            margin-bottom: 6px;
+        }
+
+        .opt-chip:hover {
+            background: rgba(236, 72, 153, 0.2);
+            border-color: #F472B6;
+        }
+
+        .opt-chip.active {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #10B981;
+            color: #A7F3D0;
+            font-weight: 700;
+        }
+
+        /* Step 3 Visual Grid Layout & Output Display */
+        .step3-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .visual-preview-frame {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1.5px solid var(--accent);
+            border-radius: 16px;
+            overflow: hidden;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+        }
+
+        .visual-preview-frame img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+        }
+
+        .prompt-summary-box {
+            background: rgba(5, 11, 24, 0.92);
+            border: 1.5px solid rgba(6, 182, 212, 0.4);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.15);
+        }
+
+        .summary-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.88rem;
+            color: #06B6D4;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed rgba(6, 182, 212, 0.3);
+            padding-bottom: 6px;
+        }
+
+        textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px;
+            color: #A7F3D0;
+            font-family: monospace;
+            font-size: 0.88rem;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 6px;
+            flex-shrink: 0;
+        }
+
+        .btn-nav {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <div class="mission-container">
+        <!-- Header -->
+        <header>
+            <div class="header-title">
+                <h1>🏆 7.4.2 Uzay Üssü Rubrik Takım Proje Atölyesi <span style="font-size: 0.85rem; color: #F472B6; font-weight: 500;">(Grup Projesi)</span></h1>
+                <p>Takım arkadaşlarınla bir araya gel, Uzay Üssü Prototipini seç ve 5 Maddelik Rubrik Matrisi ile şampiyon istemini üret!</p>
+            </div>
+            <div class="step-indicators">
+                <div class="step-ind active" id="ind-1">1. Prototip Seçimi</div>
+                <div class="step-ind" id="ind-2">2. Rubrik Optimizasyonu</div>
+                <div class="step-ind" id="ind-3">3. Şampiyon İstem Kartı</div>
+            </div>
+        </header>
+
+        <!-- Mission Body -->
+        <div class="mission-body">
+            
+            <!-- STEP 1: Prototip Seçimi -->
+            <div class="step-pane active" id="pane-1">
+                <h3 style="font-family: 'Fredoka', sans-serif; color: #FDE047; font-size: 1.15rem;">📌 ADIM 1: Takımınız İçin Test Edilecek Uzay Üssü Prototipini Seçin:</h3>
+                <div class="scenario-grid">
+                    
+                    <div class="s-card" id="scard-1" onclick="selectScenario(1)">
+                        <div class="s-card-tag">🚀 PROTOTİP 1: ARTEMIS-7</div>
+                        <div class="s-card-img-frame">
+                            <img src="images/ders4_hero.png" alt="Artemis-7 Uzay Üssü">
+                        </div>
+                        <div class="s-card-content">
+                            <h4 style="font-family: 'Fredoka'; color: #FDE047; font-size: 1rem;">1. Artemis-7 Güneş Yörünge İstasyonu</h4>
+                            <p style="font-size: 0.8rem; color: #CBD5E1; line-height: 1.4;">Güneş paneli optimizasyonu, manyetik kalkan ve derin uzay optik gözlem laboratuvarı.</p>
+                        </div>
+                    </div>
+
+                    <div class="s-card" id="scard-2" onclick="selectScenario(2)">
+                        <div class="s-card-tag">⚡ PROTOTİP 2: NOVA-X</div>
+                        <div class="s-card-img-frame">
+                            <img src="images/ders4_rubrik.png" alt="Nova-X Test İstasyonu">
+                        </div>
+                        <div class="s-card-content">
+                            <h4 style="font-family: 'Fredoka'; color: #FDE047; font-size: 1rem;">2. Nova-X Enerji & Madencilik Reaktörü</h4>
+                            <p style="font-size: 0.8rem; color: #CBD5E1; line-height: 1.4;">Potansiyel-kinetik enerji dönüşümü ve cebirsel güç tasarruf matrisi (3x + 100 kW).</p>
+                        </div>
+                    </div>
+
+                    <div class="s-card" id="scard-3" onclick="selectScenario(3)">
+                        <div class="s-card-tag">🧬 PROTOTİP 3: ASTRA-MODÜLER</div>
+                        <div class="s-card-img-frame">
+                            <img src="images/ders4_art.png" alt="Astra Modüler İstasyon">
+                        </div>
+                        <div class="s-card-content">
+                            <h4 style="font-family: 'Fredoka'; color: #FDE047; font-size: 1rem;">3. Astra-Bio Modüler Keşif Üssü</h4>
+                            <p style="font-size: 0.8rem; color: #CBD5E1; line-height: 1.4;">Ötegezegenlerde yaşam destek ünitesi, robotik kollar ve K-12 güvenli şifreli ağ.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- STEP 2: Rubrik Matrisi Optimizasyonu -->
+            <div class="step-pane" id="pane-2">
+                <h3 style="font-family: 'Fredoka', sans-serif; color: #FDE047; font-size: 1.15rem;">📌 ADIM 2: 5 Maddelik Rubrik Kriterlerini İstem Yapısına Entegre Edin:</h3>
+                
+                <div class="step-builder-grid">
+                    
+                    <div class="builder-card">
+                        <div class="builder-title">🔬 1. [BİLİMSEL DOĞRULUK & GÜVENLİK]</div>
+                        <div id="step1-opts"></div>
+                    </div>
+
+                    <div class="builder-card">
+                        <div class="builder-title">📝 2. [ŞABLON NETLİĞİ & KURAL SIRASI]</div>
+                        <div id="step2-opts"></div>
+                    </div>
+
+                    <div class="builder-card">
+                        <div class="builder-title">⚡ 3. [CEBİRSEL TASARRUF & 3D GÖRSEL]</div>
+                        <div id="step3-opts"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- STEP 3: Şampiyon İstem Kartı Özeti & Başarı Şifresi -->
+            <div class="step-pane" id="pane-3">
+                <h3 style="font-family: 'Fredoka', sans-serif; color: #FDE047; font-size: 1.15rem;">📌 ADIM 3: 5/5 Tam Puan Alan Şampiyon İstem Kartınız ve Grup Şifresi:</h3>
+                
+                <div class="step3-grid">
+                    <div class="visual-preview-frame">
+                        <div style="font-size: 0.8rem; font-weight: 800; color: #FDE047;">📸 Test Edilen ve Onaylanan 3D Uzay Üssü:</div>
+                        <img id="final-img-preview" src="images/ders4_hero.png" alt="Final 3D Preview">
+                        
+                        <div style="background: rgba(16, 185, 129, 0.15); border: 1.5px dashed #10B981; border-radius: 14px; padding: 12px; text-align: center; margin-top: 4px;">
+                            <div style="font-size: 0.8rem; color: #FDE047; font-weight: 700;">GRUP PROJESİ BAŞARI ŞİFRENİZ:</div>
+                            <div style="font-size: 2rem; font-weight: 800; color: #FFF; letter-spacing: 2px; text-transform: lowercase;">performans7</div>
+                            <div style="font-size: 0.75rem; color: #A7F3D0; margin-top: 2px;">Bu şifreyi öğretmeninize ileterek takım proje puanınızı onaylatın!</div>
+                        </div>
+                    </div>
+
+                    <div class="prompt-summary-box">
+                        <div class="summary-header">
+                            <span>📋 RUBRİK MATRİSİ İLE TEST EDİLMİŞ ŞAMPİYON İSTEM</span>
+                            <span style="color: #10B981;">✔ 5/5 TAM PUAN</span>
+                        </div>
+                        <textarea id="final-prompt-text" rows="9" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <button class="btn-nav" id="prev-btn" onclick="prevStep()" disabled style="background: rgba(255,255,255,0.12);">⬅️ Geri Adım</button>
+            <div style="font-size: 0.82rem; color: var(--text-muted);">
+                <span id="step-hint-text">Öncelikle takımınız için bir uzay üssü prototipi seçin.</span>
+            </div>
+            <button class="btn-nav" id="next-btn" onclick="nextStep()" disabled>Sonraki Adım ➡️</button>
+        </footer>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedScenario = null;
+        let selectedOpts = { step1: null, step2: null, step3: null };
+
+        const scenariosData = {
+            1: {
+                title: "Artemis-7 Güneş Yörünge İstasyonu",
+                img: "images/ders4_hero.png",
+                step1Opts: [
+                    { id: "s1_a", text: "[BİLİMSEL_DOĞRULUK]: Güneş paneli ışık enerjisini elektriğe dönüştürür. [GÜVENLİK]: Biyometrik veri kullanılmaz, siber kalkan aktiftir." },
+                    { id: "s1_b", text: "Güneş enerjisi rastgele çalışsın, güvenlik olmasa da olur." }
+                ],
+                step2Opts: [
+                    { id: "s2_a", text: "[ZORUNLU_KURAL]: Ana jeneratör sürekli devrede kalmalıdır. [ŞABLON]: [MODÜL], [GÖREV], [KORUMA] etiketleri." },
+                    { id: "s2_b", text: "Kuralları karıştır ve hiçbir etiket koyma." }
+                ],
+                step3Opts: [
+                    { id: "s3_a", text: "[CEBİRSEL_TASARRUF]: E = 3x + 150 kW dengesi kurulur. [3D_GÖRSEL]: 3D Pixar Sci-Fi Artemis Station, neon cyan ringler, 8k render." },
+                    { id: "s3_b", text: "Enerjiyi boşa harca ve karalama resim çiz." }
+                ]
+            },
+            2: {
+                title: "Nova-X Enerji & Madencilik Reaktörü",
+                img: "images/ders4_rubrik.png",
+                step1Opts: [
+                    { id: "s1_a", text: "[BİLİMSEL_DOĞRULUK]: Potansiyel ve kinetik enerji dönüşümü korunur. [GÜVENLİK]: K-12 onaylı sanal robot madenciler kullanılır." },
+                    { id: "s1_b", text: "Fizik kuralları yok sayılsın, enerji sonsuz olsun." }
+                ],
+                step2Opts: [
+                    { id: "s2_a", text: "[ZORUNLU_KURAL]: Reaktör ısısı kritik eşiği geçemez. [ŞABLON]: [ENERJİ_TÜRÜ], [TASARRUF_ORANI] etiketleri." },
+                    { id: "s2_b", text: "Sıcaklık kuralı olmasın, şablonsuz olsun." }
+                ],
+                step3Opts: [
+                    { id: "s3_a", text: "[CEBİRSEL_TASARRUF]: %35 enerji geri kazanımı (E = 2x + 80 kW). [3D_GÖRSEL]: 3D Isometric Nova Reactor Lab, glowing gauges, 8k." },
+                    { id: "s3_b", text: "Tasarrufu sil, her yeri rastgele boya." }
+                ]
+            },
+            3: {
+                title: "Astra-Bio Modüler Keşif Üssü",
+                img: "images/ders4_art.png",
+                step1Opts: [
+                    { id: "s1_a", text: "[BİLİMSEL_DOĞRULUK]: Yerçekimsiz ortamda bitki oksijen döngüsü. [GÜVENLİK]: Gerçek yüz kullanılmaz, 3D sanal avatar bilim insanları." },
+                    { id: "s1_b", text: "Gerçek insan fotoğrafları yüklensin ve kuralsız olsun." }
+                ],
+                step2Opts: [
+                    { id: "s2_a", text: "[ZORUNLU_KURAL]: Oksijen seviyesi %98'de tutulmalıdır. [ŞABLON]: [MODÜL_TİPİ], [OKSİJEN_DEĞERİ] etiketleri." },
+                    { id: "s2_b", text: "Oksijen seviyesi önemsizdir." }
+                ],
+                step3Opts: [
+                    { id: "s3_a", text: "[CEBİRSEL_TASARRUF]: E = x * 45 kW modüler güç optimizasyonu. [3D_GÖRSEL]: 3D Pixar Modular Space Station Blueprint, glowing pods, 8k." },
+                    { id: "s3_b", text: "Güç harcamasını hesaplama." }
+                ]
+            }
+        };
+
+        function selectScenario(scId) {
+            selectedScenario = scId;
+            document.querySelectorAll('.s-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById(`scard-${scId}`).classList.add('selected');
+            document.getElementById('next-btn').disabled = false;
+            document.getElementById('step-hint-text').innerText = `Seçilen: ${scenariosData[scId].title}. Şimdi 2. Adıma ilerleyin!`;
+        }
+
+        function populateStep2() {
+            const sc = scenariosData[selectedScenario];
+            
+            function buildOpts(containerId, list, optKey) {
+                const c = document.getElementById(containerId);
+                c.innerHTML = '';
+                list.forEach((o, i) => {
+                    const div = document.createElement('div');
+                    div.className = `opt-chip ${selectedOpts[optKey] === o.id ? 'active' : ''}`;
+                    div.innerHTML = `<span>${o.text}</span> <span>${i === 0 ? '⭐ Rubrik 5/5' : '❌ Zayıf'}</span>`;
+                    div.onclick = () => {
+                        selectedOpts[optKey] = o.id;
+                        buildOpts(containerId, list, optKey);
+                        checkStep2Ready();
+                    };
+                    c.appendChild(div);
+                });
+            }
+
+            buildOpts('step1-opts', sc.step1Opts, 'step1');
+            buildOpts('step2-opts', sc.step2Opts, 'step2');
+            buildOpts('step3-opts', sc.step3Opts, 'step3');
+        }
+
+        function checkStep2Ready() {
+            if (selectedOpts.step1 === "s1_a" && selectedOpts.step2 === "s2_a" && selectedOpts.step3 === "s3_a") {
+                document.getElementById('next-btn').disabled = false;
+                document.getElementById('step-hint-text').innerText = "Mükemmel! 5/5 Tam puan alan rubrik seçimlerini yaptınız. Son adıma geçin!";
+            } else {
+                document.getElementById('next-btn').disabled = true;
+                document.getElementById('step-hint-text').innerText = "Her sütundan 5/5 Tam Puan alan şampiyon rubrik kriterini seçmelisiniz!";
+            }
+        }
+
+        function populateStep3() {
+            const sc = scenariosData[selectedScenario];
+            document.getElementById('final-img-preview').src = sc.img;
+            
+            const pText = `[PROJE]: 7. Sınıf Modül 1 Finali — Otonom Uzay Üssü Şampiyon Prototipi
+[ÜSSÜN_ADI]: ${sc.title}
+-------------------------------------------------------------
+1. [BİLİMSEL_DOĞRULUK & GÜVENLİK]:
+${sc.step1Opts[0].text}
+
+2. [ŞABLON_NETLİĞİ & KURAL_HİYERARŞİSİ]:
+${sc.step2Opts[0].text}
+
+3. [CEBİRSEL_TASARRUF & 3D_GÖRSEL_ÇIKTI]:
+${sc.step3Opts[0].text}
+-------------------------------------------------------------
+[RUBRİK TESTİ PUANI]: ⭐⭐⭐⭐⭐ 5 / 5 TAM PUAN
+[DEĞERLENDİRME SONUCU]: Onaylandı. Şampiyon prototip olarak seçildi!`;
+
+            document.getElementById('final-prompt-text').value = pText;
+        }
+
+        function nextStep() {
+            if (currentStep === 1 && selectedScenario) {
+                currentStep = 2;
+                document.getElementById('ind-1').classList.remove('active');
+                document.getElementById('ind-2').classList.add('active');
+                document.getElementById('pane-1').classList.remove('active');
+                document.getElementById('pane-2').classList.add('active');
+                document.getElementById('prev-btn').disabled = false;
+                populateStep2();
+                checkStep2Ready();
+            } else if (currentStep === 2 && selectedOpts.step1 && selectedOpts.step2 && selectedOpts.step3) {
+                currentStep = 3;
+                document.getElementById('ind-2').classList.remove('active');
+                document.getElementById('ind-3').classList.add('active');
+                document.getElementById('pane-2').classList.remove('active');
+                document.getElementById('pane-3').classList.add('active');
+                document.getElementById('next-btn').disabled = true;
+                document.getElementById('step-hint-text').innerText = "Tebrikler! Takım projesini başarıyla tamamladınız. Grup şifrenizi öğretmeninize iletin!";
+                populateStep3();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep === 2) {
+                currentStep = 1;
+                document.getElementById('ind-2').classList.remove('active');
+                document.getElementById('ind-1').classList.add('active');
+                document.getElementById('pane-2').classList.remove('active');
+                document.getElementById('pane-1').classList.add('active');
+                document.getElementById('prev-btn').disabled = true;
+                document.getElementById('next-btn').disabled = false;
+            } else if (currentStep === 3) {
+                currentStep = 2;
+                document.getElementById('ind-3').classList.remove('active');
+                document.getElementById('ind-2').classList.add('active');
+                document.getElementById('pane-3').classList.remove('active');
+                document.getElementById('pane-2').classList.add('active');
+                document.getElementById('next-btn').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

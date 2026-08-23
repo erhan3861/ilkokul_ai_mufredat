@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7. Sınıf Ders 10: Geri Bildirim Veren Yazı Asistanı | Hazırlanıyoruz 🚀</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.16);
+            --primary: #8B5CF6;
+            --accent: #FDE047;
+            --cyber-cyan: #06B6D4;
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1140px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        header {
+            text-align: center;
+            background: rgba(15, 23, 42, 0.75);
+            border: 1.5px solid var(--card-border);
+            border-radius: 24px;
+            padding: 32px 24px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .badge-main {
+            display: inline-block;
+            background: linear-gradient(90deg, #8B5CF6, #06B6D4);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 6px 18px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.3rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #FDE047, #C084FC, #06B6D4, #6EE7B7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 780px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .status-banner {
+            background: rgba(253, 224, 71, 0.12);
+            border: 1.5px solid rgba(253, 224, 71, 0.4);
+            border-radius: 16px;
+            padding: 12px 20px;
+            color: #FDE047;
+            font-weight: 800;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 18px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: #8B5CF6;
+            box-shadow: 0 22px 45px rgba(139, 92, 246, 0.3);
+            background: rgba(255, 255, 255, 0.09);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .card-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(6, 182, 212, 0.35));
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .card-title-group h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        .card-title-group span {
+            font-size: 0.82rem;
+            color: #C084FC;
+            font-weight: 600;
+        }
+
+        .card-body {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .btn-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            color: #F8FAFC;
+            border: 1.5px solid var(--card-border);
+            padding: 14px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(135deg, #8B5CF6, #06B6D4);
+            border-color: transparent;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 16px;
+            width: 100%;
+            max-width: 1140px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <span class="badge-main">🎭 Modül 2 • AI Asistanları & Görsel Tasarım (10. Hafta)</span>
+            <h1>7. Sınıf Ders 10: Geri Bildirim Veren Yazı Asistanı</h1>
+            <p>
+                Türkçe 7 *Anlatım Biçimleri, Hikâye Haritası (Serim-Düğüm-Çözüm) ve Karakter Çatışması* kazanımlarını yapay zekâ senaryo editörlüğüyle birleştiriyoruz!
+            </p>
+            <div class="status-banner">
+                <span>🚧 Bu Ders Şimdilik Hazırlanıyor Modundadır • Çok Yakında Yayında!</span>
+            </div>
+        </header>
+
+        <!-- Grid Cards -->
+        <div class="grid">
+            <!-- 10.1 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="card-icon">🧪</div>
+                        <div class="card-title-group">
+                            <h2>10.1 Bireysel Lab</h2>
+                            <span>Hikâye Haritası & Karakter Labı</span>
+                        </div>
+                    </div>
+                    <div class="card-body" style="margin-top: 14px;">
+                        Bilim kurgu hikâyesinin serim, düğüm ve çözüm aşamalarını adım adım kurgula ve yapay zekâ metin asistanını keşfet!
+                    </div>
+                </div>
+                <a href="ders10_1.html" class="btn-action">
+                    <span>Laboratuvarı İncele</span>
+                    <span>➔</span>
+                </a>
+            </div>
+
+            <!-- 10.2 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="card-icon">👥</div>
+                        <div class="card-title-group">
+                            <h2>10.2 Grup Atölyesi</h2>
+                            <span>Tiyatro Senaryosu Takım Oyunu</span>
+                        </div>
+                    </div>
+                    <div class="card-body" style="margin-top: 14px;">
+                        Grup arkadaşlarınla rol seç, replikleri yaz, yapay zekâ senaryo eleştirmeninden geri bildirim alarak şampiyon metni tamamla!
+                    </div>
+                </div>
+                <a href="ders10_2.html" class="btn-action">
+                    <span>Grup Atölyesini İncele</span>
+                    <span>➔</span>
+                </a>
+            </div>
+
+            <!-- 10.3 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="card-icon">🎨</div>
+                        <div class="card-title-group">
+                            <h2>10.3 Görsel Vitrin</h2>
+                            <span>Karakter Kartları & Video Rehberi</span>
+                        </div>
+                    </div>
+                    <div class="card-body" style="margin-top: 14px;">
+                        3D karakter storyboard tasarımları, canlı video rehberi ve kopyalanabilir senaryo istem şablonlarını keşfet!
+                    </div>
+                </div>
+                <a href="ders10_3.html" class="btn-action">
+                    <span>Görsel Vitrini İncele</span>
+                    <span>➔</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        AI-GALAXY — 7. Sınıf Türkiye Yüzyılı Maarif Modeli Dengeli Yapay Zekâ Müfredatı
+    </footer>
+</body>
+</html>

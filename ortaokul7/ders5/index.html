@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Sınıf Ders 5: Zaman İçinde Bilim ve Hipotez Tasarımı</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.16);
+            --primary: #EC4899;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .portal-container {
+            width: 100%;
+            max-width: 1120px;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(24px);
+            border: 2px solid var(--card-border);
+            border-radius: 28px;
+            padding: 36px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .portal-header {
+            text-align: center;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 24px;
+        }
+
+        .badge-modul {
+            display: inline-block;
+            background: linear-gradient(90deg, #EC4899, #8B5CF6, #06B6D4);
+            color: white;
+            padding: 6px 22px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+        }
+
+        .portal-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.3rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #FDE047, #EC4899, #818CF8, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .portal-header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 840px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 22px;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 24px;
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 18px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+        }
+
+        .step-card:hover {
+            transform: translateY(-8px);
+            border-color: #EC4899;
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.3);
+            background: rgba(255, 255, 255, 0.09);
+        }
+
+        .step-num {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.12);
+            position: absolute;
+            top: 14px;
+            right: 20px;
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 4px;
+        }
+
+        .step-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.35rem;
+            color: #FDE047;
+        }
+
+        .step-desc {
+            font-size: 0.95rem;
+            color: #CBD5E1;
+            line-height: 1.55;
+        }
+
+        .btn-launch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(90deg, #EC4899, #8B5CF6);
+            color: white;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1rem;
+            padding: 14px 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.35);
+            transition: all 0.25s ease;
+        }
+
+        .btn-launch:hover {
+            background: linear-gradient(90deg, #F472B6, #06B6D4);
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-container">
+        <div class="portal-header">
+            <span class="badge-modul">📜 Modül 1 • 2. Ay (5. Hafta)</span>
+            <h1>7. Sınıf Ders 5: Zaman İçinde Bilim ve Hipotez Tasarımı</h1>
+            <p>Sosyal Bilgiler 7 *Zaman İçinde Bilim (Matbaa'dan Yapay Zekâya)* ünitesiyle tarihi keşifleri inceliyor, yapay zekâya rastgele sorular sormak yerine **bağımsız ve bağımlı değişkenleri net belirlenmiş bilimsel hipotez istemleri** kuruyoruz!</p>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <div>
+                    <div class="step-num">01</div>
+                    <div class="step-icon">🔬</div>
+                    <div class="step-title">5.1 Bireysel Laboratuvar</div>
+                    <div class="step-desc">20 bölümlük interaktif çalışmada tarihi keşif sorularını araştırılabilir bilimsel hipotezlere dönüştür, Öğretmen Başarı Şifreni kazan!</div>
+                </div>
+                <a href="ders5_1.html" class="btn-launch">
+                    <span>Laboratuvara Başla</span>
+                    <span>🚀</span>
+                </a>
+            </div>
+
+            <div class="step-card">
+                <div>
+                    <div class="step-num">02</div>
+                    <div class="step-icon">⏳</div>
+                    <div class="step-title">5.2 Zaman Makinesi Takım Oyunu</div>
+                    <div class="step-desc">Sınıf arkadaşlarınla rol seç, Tarihi Keşif Zaman Makinesi'nde hipotez simülasyonunu test et, güç göstergesini %100 yap ve takım şifreni al!</div>
+                </div>
+                <a href="ders5_2.html" class="btn-launch" style="background: linear-gradient(90deg, #8B5CF6, #06B6D4);">
+                    <span>Takım Oyununa Katıl</span>
+                    <span>🎮</span>
+                </a>
+            </div>
+
+            <div class="step-card">
+                <div>
+                    <div class="step-num">03</div>
+                    <div class="step-icon">🖼️</div>
+                    <div class="step-title">5.3 Görsel Vitrin & Hipotez Rehberi</div>
+                    <div class="step-desc">Matbaa'dan Yapay Zekâya bilimsel devrim kartlarını, video rehberini ve kopyalanabilir şampiyon hipotez şablonlarını keşfet!</div>
+                </div>
+                <a href="ders5_3.html" class="btn-launch" style="background: linear-gradient(90deg, #06B6D4, #10B981);">
+                    <span>Görsel Rehberi Aç</span>
+                    <span>🎨</span>
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            AI-GALAXY — 7. Sınıf Türkiye Yüzyılı Maarif Modeli Dengeli Yapay Zekâ Müfredatı
+        </footer>
+    </div>
+</body>
+</html>

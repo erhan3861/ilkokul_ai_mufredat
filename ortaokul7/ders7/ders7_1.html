@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7. Sınıf Ders 7.1: Yapay Zekâda Bilgi Doğrulama & Halüsinasyon Avı 🤖🛡️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-light: #F472B6;
+            --primary-dark: #BE185D;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --success: #10B981;
+            --danger: #EF4444;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.14);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            background: var(--bg-grad);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1260px;
+            height: calc(100vh - 12px);
+            max-height: calc(100vh - 12px);
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(18px);
+            border: 1.5px solid var(--card-border);
+            border-radius: 20px;
+            padding: 12px 18px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #FFFFFF;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 999px;
+            letter-spacing: 0.05em;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #FFFFFF;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stat-badge.xp-box {
+            color: var(--accent-glow);
+            border-color: rgba(253, 224, 71, 0.3);
+        }
+
+        /* Slide Tracker */
+        .slides-tracker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .tracker-dot {
+            width: 26px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tracker-dot.active {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 48px;
+            box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+        }
+
+        .tracker-dot.completed {
+            background: var(--success);
+        }
+
+        /* 2-Kolonlu Ana Sunum Alanı */
+        .presentation-deck {
+            display: grid;
+            grid-template-columns: 390px 1fr;
+            gap: 14px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Sol Kolon: Canlı AI Terminal & Doğrulama Ekranı */
+        .ai-terminal-panel {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .visual-img-box {
+            position: relative;
+            width: 100%;
+            height: 160px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: #000;
+        }
+
+        .visual-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .visual-tag {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 3px 10px;
+            border-radius: 8px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--accent);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Canlı AI Terminal Konsolu */
+        .terminal-box {
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #A5F3FC;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .terminal-body {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.76rem;
+            line-height: 1.4;
+            color: #E2E8F0;
+            flex: 1;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            user-select: text;
+        }
+
+        .credibility-meter-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meter-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #94A3B8;
+        }
+
+        .meter-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            width: 30%;
+            background: linear-gradient(90deg, #EF4444, #F59E0B, #10B981);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+        }
+
+        /* Sağ Kolon - Eğlenceli AI Öğrenim Sunumu & İnteraktif Deney */
+        .slide-content-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 0;
+            gap: 12px;
+            overflow-y: auto;
+        }
+
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slide-topic-badge {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            background: rgba(236, 72, 153, 0.15);
+            padding: 4px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+
+        .slide-num-text {
+            font-size: 0.78rem;
+            color: #94A3B8;
+            font-weight: 600;
+        }
+
+        .slide-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            line-height: 1.3;
+        }
+
+        .slide-concept-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1.5px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.9rem;
+            color: #F8FAFC;
+            line-height: 1.45;
+        }
+
+        .slide-concept-box strong {
+            color: #FDE047;
+        }
+
+        /* 2'li Örnek Kutuları (Maarif & Hobi/Teknoloji) */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .example-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 8px 10px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #CBD5E1;
+        }
+
+        .example-card strong {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.82rem;
+            margin-bottom: 3px;
+        }
+
+        .example-card.maarif strong { color: #A78BFA; }
+        .example-card.hobby strong { color: #38BDF8; }
+
+        /* İnteraktif Deneyim / AI Denetleme Seçeneği */
+        .interactive-zone {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1.5px solid var(--accent);
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .interactive-title {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--accent-glow);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .opt-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.84rem;
+            color: #F8FAFC;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .opt-card:hover:not(.disabled) {
+            background: rgba(236, 72, 153, 0.2);
+            border-color: var(--primary-light);
+            transform: translateX(4px);
+        }
+
+        .opt-card.correct {
+            background: rgba(16, 185, 129, 0.25) !important;
+            border-color: var(--success) !important;
+            color: #A7F3D0 !important;
+        }
+
+        .opt-card.wrong {
+            background: rgba(239, 68, 68, 0.25) !important;
+            border-color: var(--danger) !important;
+            color: #FECACA !important;
+        }
+
+        .feedback-message {
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            line-height: 1.35;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback-message.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--success);
+            color: #D1FAE5;
+        }
+
+        .feedback-message.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid var(--danger);
+            color: #FEE2E2;
+        }
+
+        /* Alt Navigasyon Çubuğu */
+        .deck-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-prev {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-prev:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-prev:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
+        }
+
+        /* Başarı Şifre Modalı */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 15, 25, 0.88);
+            backdrop-filter: blur(14px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            background: #1E1B4B;
+            border: 2px solid var(--primary);
+            border-radius: 24px;
+            padding: 30px 24px;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .password-box {
+            background: rgba(236, 72, 153, 0.2);
+            border: 2px dashed var(--accent-glow);
+            padding: 14px 20px;
+            border-radius: 14px;
+            margin: 6px 0;
+            width: 100%;
+        }
+
+        .password-code {
+            font-family: monospace;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-glow);
+            letter-spacing: 3px;
+        }
+
+        .modal-btn {
+            background: var(--success);
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.04);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-4px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 860px) {
+            .presentation-deck {
+                grid-template-columns: 1fr;
+            }
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-left">
+                <span class="level-badge">DERS 7.1 • AI DOĞRULAMA</span>
+                <h1>Yapay Zekâda Bilgi Doğrulama & Halüsinasyon Avı</h1>
+            </div>
+            <div class="header-stats">
+                <div class="stat-badge xp-box">
+                    <span>⚡</span> XP: <strong id="xpScore">0</strong>
+                </div>
+                <div class="stat-badge">
+                    <span>🤖</span> AI Görevi: <strong id="slideCounter">1</strong>/10
+                </div>
+                <a href="index.html" style="text-decoration:none; font-size:0.8rem; color:#94A3B8; background:rgba(255,255,255,0.06); padding:4px 8px; border-radius:6px;">Portala Dön</a>
+            </div>
+        </header>
+
+        <!-- Slide Tracker Dots -->
+        <div class="slides-tracker" id="trackerContainer">
+            <!-- JS ile dolacak -->
+        </div>
+
+        <!-- 2 Kolonlu Sunum Alanı -->
+        <div class="presentation-deck">
+            <!-- Sol Kolon: Canlı AI Terminal Konsolu & Doğrulama Radarı -->
+            <div class="ai-terminal-panel">
+                <div class="visual-img-box">
+                    <img id="slideImage" src="images/ders7_hero.png" alt="AI Bilgi Ajanı">
+                    <div class="visual-tag" id="visualTag">🤖 AI Model Analizörü</div>
+                </div>
+
+                <div class="credibility-meter-box">
+                    <div class="meter-header">
+                        <span>🛡️ AI Çıktı Güvenilirlik Skoru</span>
+                        <strong id="meterScoreText" style="color:var(--accent);">%30</strong>
+                    </div>
+                    <div class="meter-bar">
+                        <div class="meter-fill" id="meterFill"></div>
+                    </div>
+                </div>
+
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <span>⚡ CANLI AI YANIT KONSOLU</span>
+                        <span id="modelStatus" style="color:#34D399;">Model: GPT-Vision/Text</span>
+                    </div>
+                    <div class="terminal-body" id="terminalText">// AI modeli çalıştırılıyor... Prompt girdiğinizde modelin yanıtı ve doğruluk analizi burada görüntülenecektir.</div>
+                </div>
+            </div>
+
+            <!-- Sağ Kolon: AI Eğitimi & İnteraktif Denetleme -->
+            <div class="slide-content-card">
+                <div>
+                    <div class="slide-header">
+                        <span class="slide-topic-badge" id="slideTopicBadge">AI Temelleri</span>
+                        <span class="slide-num-text" id="slideNumBadge">MODÜL 1 • ADIM 1/10</span>
+                    </div>
+
+                    <h2 class="slide-title" id="slideTitle" style="margin-top:6px;">Yapay Zekâ Bilgiyi Nereden Alır? 🧠</h2>
+                    
+                    <div class="slide-concept-box" id="conceptBox" style="margin-top:6px;">
+                        Yapay zekâ bir insan gibi 'düşünmez'. İnternetteki milyarlarca metni tarayarak bir sonraki en olası kelimeyi tahmin eder. Bu yüzden internetteki dedikoduları da bazen gerçek sanabilir!
+                    </div>
+
+                    <div class="examples-grid" style="margin-top:8px;">
+                        <div class="example-card maarif">
+                            <strong><span>🏛️</span> Maarif / Ders Örneği:</strong>
+                            <span id="maarifExample">Sosyal Bilgiler ödevinde 'İpek Yolu'nu sorarsan, doğru tarihi ve haritaları internetteki kaynaklardan derler.</span>
+                        </div>
+                        <div class="example-card hobby">
+                            <strong><span>🎮</span> Günlük Hayat & Hobi:</strong>
+                            <span id="hobbyExample">En sevdiğin online oyunun taktiklerini sorduğunda forumlardaki oyuncu yorumlarından bilgi üretir.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- İnteraktif Denetim Alanı -->
+                <div class="interactive-zone">
+                    <div class="interactive-title">
+                        <span>🎯</span> <span id="interactiveHeader">Yapay Zekâyı Denetle & Test Et:</span>
+                    </div>
+                    <div class="options-list" id="optionsContainer">
+                        <!-- JS ile dolacak -->
+                    </div>
+                    <div class="feedback-message" id="feedbackMsg"></div>
+                </div>
+
+                <!-- Alt Kontroller -->
+                <div class="deck-controls">
+                    <button class="btn-prev" id="prevBtn" onclick="changeSlide(-1)" disabled>◀ Önceki AI Konusu</button>
+                    <span style="font-size:0.82rem; color:#94A3B8;" id="statusNotice">Doğru AI kuralını seçerek modeli test et!</span>
+                    <button class="btn-next" id="nextBtn" onclick="changeSlide(1)">Sonraki AI Konusu ▶</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Başarı Şifre Modalı -->
+    <div class="modal-overlay" id="passwordModal">
+        <div class="modal-card">
+            <div style="font-size:3.5rem;">🌟</div>
+            <h2 style="font-family:'Outfit'; color:#FFFFFF; font-size:1.4rem;">Tebrikler AI Doğrulama Uzmanı!</h2>
+            <p style="font-size:0.88rem; color:#CBD5E1;">Yapay zekâda halüsinasyon yakalama ve kaynak doğrulama eğitimini başarıyla tamamladın!</p>
+            
+            <div class="password-box">
+                <div style="font-size:0.75rem; color:#DDD6FE; text-transform:uppercase; margin-bottom:4px;">Öğretmen Takip Şifresi</div>
+                <div class="password-code">medya7</div>
+            </div>
+
+            <p style="font-size:0.85rem; color:#A5F3FC;">Toplam AI Deneyim Puanın: <strong id="finalXp">100</strong> XP</p>
+            <button class="modal-btn" onclick="window.location.href='index.html'">Ders Portalına Dön</button>
+        </div>
+    </div>
+
+    <script>
+        // 10 AI-Odaklı, Öğretici, Eğlenceli ve Uygulamalı Slayt Verisi
+        const aiSlides = [
+            {
+                topic: "AI Mekaniği • Veri Kaynakları",
+                title: "1. Yapay Zekâ Bilgiyi Nereden Alır? 🧠",
+                concept: "Yapay zekâ (LLM) bir insan gibi düşünmez veya her şeyi 'ezbere bilmez'. Eğitildiği devasa internet kütüphanesindeki kelimelerin birbirini takip etme olasılığını hesaplar. Bu yüzden internette ne kadar yanlış bilgi varsa, AI da o kadar yanılabilir!",
+                maarif: "Sosyal bilgiler ödevinde bir tarih sorduğunda, internetteki resmî makaleleri tarayarak cevap oluşturur.",
+                hobby: "Oynadığın Roblox veya Minecraft için kod sorduğunda, açık kaynak forumlardaki kod parçacıklarını birleştirir.",
+                image: "images/ders7_hero.png",
+                tag: "🧠 AI Veri Havuzu",
+                terminalInitial: "PROMPT: 'Dünya'nın en yüksek dağı hangisidir?'\nAI YANITI: 'Dünya'nın en yüksek dağı Everest'tir (8.848 metre).'\nKAYNAK TESPİTİ: Coğrafi Atlas ve Bilimsel Veri Tabanları (Doğrulandı).",
+                initialCredibility: 90,
+                question: "Yapay zekânın verdiği her bilgi %100 kesin doğru mudur?",
+                options: [
+                    { 
+                        text: "Hayır! AI internetteki yanlış verileri veya dedikoduları da öğrenmiş olabilir, mutlaka kaynak kontrolü yapılmalıdır.", 
+                        correct: true,
+                        terminalSuccess: "✅ DOĞRULAMA AKTİF: Kaynak süzgeci devreye alındı. Yanıltıcı internet verileri elendi!"
+                    },
+                    { 
+                        text: "Evet, yapay zekâ asla hata yapmaz, sorgulamadan her söylediğine inanmalıyız.", 
+                        correct: false,
+                        terminalFail: "❌ HATA: Körlemesine güven riski! AI internetteki yalan haberleri de üretebilir."
+                    }
+                ],
+                explanation: "Mükemmel! Yapay zekâ bir tahmin motorudur, bu yüzden cevaplarını her zaman güvenilir kaynaklarla teyit etmeliyiz."
+            },
+            {
+                topic: "AI Hatası • Halüsinasyon Nedir?",
+                title: "2. Yapay Zekâ Neden 'Halüsinasyon' Görür? 🌀",
+                concept: "Yapay zekâ bilmediği bir soruyla karşılaştığında bazen 'Bilmiyorum' demek yerine, çok mantıklı ve kendinden emin görünen <strong>uydurma bilgiler (AI Halüsinasyonu)</strong> üretir. Var olmayan bir kitap yazarı veya sahte bir tarihî olay yaratabilir!",
+                maarif: "Sosyal bilgilerde hiç var olmamış bir padişah fermanını 'kesin kanıt' gibi uydurabilir.",
+                hobby: "En sevdiğin çizgi filmde hiç yayınlanmamış hayali bir bölüm varmış gibi anlatabilir.",
+                image: "images/ders7_1.png",
+                tag: "🌀 Halüsinasyon Avı",
+                terminalInitial: "PROMPT: '2024 yılında Ay'a giden ilk Türk astronotun adını ve bindiği gemiyi yaz.'\nAI YANITI: '2024 yılında Alper Gezeravcı Uluslararası Uzay İstasyonu'na (ISS) gitmiştir. (NOT: Ay'a değil, ISS'e gitmiştir!)'",
+                initialCredibility: 50,
+                question: "Bir yapay zekâ çıktısında halüsinasyon (uydurma) olduğunu nasıl anlarsın?",
+                options: [
+                    { 
+                        text: "İddia edilen bilgiyi resmî kurum arşivlerinden (.gov.tr / TÜBİTAK) çapraz kontrol ederek.", 
+                        correct: true,
+                        terminalSuccess: "🔍 HALÜSİNASYON DEDEKTÖRÜ: Bilgi resmî uzay ajansı bültenleriyle karşılaştırıldı ve düzeltildi!"
+                    },
+                    { 
+                        text: "AI çok kibar ve emin konuştuğu için her söylediğini doğru kabul ederek.", 
+                        correct: false,
+                        terminalFail: "⚠️ RİSK: Halüsinasyonlar zaten çok kibar ve inandırıcı bir dille uydurulur!"
+                    }
+                ],
+                explanation: "Harika tespit! AI halüsinasyonlarını yakalamanın tek yolu resmi belgelerle çapraz kontroldür."
+            },
+            {
+                topic: "AI Mühendisliği • Kaynak Kısıtlaması (Grounding)",
+                title: "3. Yapay Zekâya 'Kaynak Kalkanı' Koymak 🛡️",
+                concept: "Yapay zekânın uydurmasını engellemenin en güçlü yolu ona <strong>Kaynak Kısıtlaması (Grounding)</strong> vermektir. Yani ona: 'Sadece sana verdiğim bu resmî metne göre cevap ver, bilmediğin şeye bilmiyorum de' kuralı koymaktır!",
+                maarif: "AI'a 'Sadece MEB 7. Sınıf ders kitabındaki bilgilere dayanarak özet çıkar' demek bir kaynak kalkanıdır.",
+                hobby: "Oyun kuralı sorarken 'Sadece 2026 resmî oyun güncelleme notlarına göre cevap ver' demek.",
+                image: "images/ders7_art.png",
+                tag: "🛡️ Prompt Kalkanı",
+                terminalInitial: "PROMPT: 'Osmanlı Devleti'nin kuruluşunu anlat.'\nFİLTRE: Kaynaksız serbest arama.\nAI: Efsaneler ile tarihi gerçekleri birbirine karıştırabilir.",
+                initialCredibility: 40,
+                question: "Hangisi yapay zekâyı en doğru bilgiye zorlayan şampiyon prompt tekniğidir?",
+                options: [
+                    { 
+                        text: "'Yalnızca Türk Tarih Kurumu ve resmî akademik kaynaklara göre açıkla, doğrulanmamış iddiaları hariç tut.'", 
+                        correct: true,
+                        terminalSuccess: "🏆 ŞAMPİYON PROMPT UYGULANDI: Model sadece doğrulanmış akademik verilere kilitlendi. Halüsinasyon oranı %0'a indi!"
+                    },
+                    { 
+                        text: "'İnternette bulduğun bütün dedikoduları ve forum yazılarını bana sırala.'", 
+                        correct: false,
+                        terminalFail: "❌ HATA: Serbest arama yapay zekânın yanlış bilgi üretme riskini tavan yaptırır."
+                    }
+                ],
+                explanation: "Tebrikler! Kaynak sınırlandırması içeren promptlar yapay zekânın yanılma payını sıfıra indirir."
+            },
+            {
+                topic: "Bilgi Güvenliği • 5 Boyutlu Güvenilirlik Testi (CRAAP)",
+                title: "4. 5 Boyutlu Kaynak Puanlama (CRAAP Testi) 📊",
+                concept: "Bir AI modeline veri verirken veya AI'ın cevabını denetlerken 5 altın kuralı kullanırız: <strong>1) Güncellik</strong> (Eski mi?), <strong>2) Uygunluk</strong> (Konuyla ilgili mi?), <strong>3) Uzmanlık</strong> (.gov/.edu mu?), <strong>4) Doğruluk</strong> (Kanıt var mı?), <strong>5) Niyet</strong> (Reklam mı?).",
+                maarif: "İletişim ünitesinde doğru habere ulaşmak için kaynağın yazarını ve tarihini kontrol etmek.",
+                hobby: "Yeni çıkan bir telefon veya oyun konsolu haberinin tarihine bakarak eski modelle karıştırmamak.",
+                image: "images/ders7_medya.png",
+                tag: "📊 5 Boyutlu Test",
+                terminalInitial: "AI GÜVENİLİRLİK SKORLAMASI:\n1. Güncellik: 2026 Verisi (Yüksek)\n2. Otorite: .edu.tr Üniversitesi (Yüksek)\n3. Belge: TÜBİTAK Raporu (Tam)",
+                initialCredibility: 95,
+                question: "Bir internet sitesinde yazar adı yoksa ve reklamlarla doluysa CRAAP testine göre ne karar verilir?",
+                options: [
+                    { 
+                        text: "Uzmanlık ve Niyet puanı düşüktür; bu kaynak yapay zekâ araştırmasında güvenilmez sayılır.", 
+                        correct: true,
+                        terminalSuccess: "✅ DOĞRU KARAR: Şüpheli kaynak kara listeye alındı. Güvenilir üniversite kaynakları seçildi!"
+                    },
+                    { 
+                        text: "Çok renkli olduğu için kesinlikle en bilimsel sitedir.", 
+                        correct: false,
+                        terminalFail: "⚠️ HATA: Reklam dolu ve imzasız siteler güvenilirlik testinden geçemez."
+                    }
+                ],
+                explanation: "Harika analiz! CRAAP testi zayıf olan kaynaklar yapay zekâya asla referans verilmemelidir."
+            },
+            {
+                topic: "AI Görsel & Ses • Deepfake Tespiti",
+                title: "5. AI ile Üretilen Deepfake Medyayı Yakalamak 🎭",
+                concept: "Üretici Yapay Zekâ (GenAI), insanların sesini birkaç saniyelik ses kaydıyla klonlayabilir ve yüzlerini videolara kusursuzca yerleştirebilir. Buna <strong>Deepfake</strong> denir. Peki bir AI dedektifi bunu nasıl anlar?",
+                maarif: "Tarihî bir şahsiyetin veya günümüz devlet yetkilisinin sahte bir konuşma videosu gibi yayılması.",
+                hobby: "Sevdiğin bir YouTuber'ın sesinin klonlanıp sahte çekiliş yapılması.",
+                image: "images/ders7_hero.png",
+                tag: "🎭 Deepfake Avcısı",
+                terminalInitial: "VİDEO ANALİZİ: 'Ünlü bilim insanı şok iddialarda bulunuyor!'\nAI TESPİTİ: Dudak senkronizasyonunda 0.2 sn kayma ve piksel kenarlarında yapay gölgelenme tespit edildi.",
+                initialCredibility: 20,
+                question: "Bir videonun AI ile üretilmiş sahte bir Deepfake olduğunu gösteren en güçlü ipucu nedir?",
+                options: [
+                    { 
+                        text: "Dudak hareketleri ile sesin tam uyuşmaması, göz kırpma anormallikleri ve resmî kanallarda bu videonun olmaması.", 
+                        correct: true,
+                        terminalSuccess: "🛡️ DEEPFAKE TESPİT EDİLDİ: Video yapay zekâ manipülasyonu olarak etiketlendi ve engellendi!"
+                    },
+                    { 
+                        text: "Videonun çok popüler olması ve binlerce beğeni alması.", 
+                        correct: false,
+                        terminalFail: "❌ YANILGI: Popülerlik gerçeğin kanıtı değildir; sahte videolar çok hızlı yayılabilir."
+                    }
+                ],
+                explanation: "Bravo! AI görsel manipülasyonlarında fiziksel anomaliler ve resmî hesap doğrulaması hayat kurtarır."
+            },
+            {
+                topic: "Web & Otorite • Alan Adı Doğrulama",
+                title: "6. Resmî Alan Adları ve Veri Güvenliği 🌐",
+                concept: "Yapay zekâ botları web sitelerini tararken alan adı uzantılarına bakar. <strong>.gov.tr</strong> (Devlet Kurumları) ve <strong>.edu.tr</strong> (Akademik Üniversiteler) gibi uzantılar sadece resmî kurumlara verilir; sıradan kişiler bu uzantıları satın alamaz!",
+                maarif: "Sosyal bilgilerde Millî Eğitim Bakanlığı (meb.gov.tr) veya Türk Tarih Kurumu (ttk.gov.tr) kullanımı.",
+                hobby: "Oyun indirirken resmî yayıncı sitesi yerine sonu garip harflerle biten taklit sitelerden kaçınmak.",
+                image: "images/ders7_1.png",
+                tag: "🌐 Resmî Uzantılar",
+                terminalInitial: "WEB KONTROLÜ:\nSite A: www.meb.gov.tr -> ONAYLI (Resmî Devlet Kurumu)\nSite B: www.meb-sinav-sorulari.xyz -> UYARI (Anonim Sahte Site)",
+                initialCredibility: 85,
+                question: "Yapay zekâya ödev hazırlatırken hangi site uzantısından bilgi çekmesini istemek en güvenlidir?",
+                options: [
+                    { 
+                        text: "Yalnızca .gov.tr ve .edu.tr uzantılı resmî kurum ve üniversite arşivleri.", 
+                        correct: true,
+                        terminalSuccess: "✅ ALAN ADI DOĞRULANDI: AI botu yalnızca resmî devlet ve üniversite sunucularına bağlandı."
+                    },
+                    { 
+                        text: "Herhangi bir ücretsiz anonim blog (.xyz / .biz / .free).", 
+                        correct: false,
+                        terminalFail: "⚠️ GÜVENSİZ: Ücretsiz bloglar herkes tarafından kolayca manipüle edilebilir."
+                    }
+                ],
+                explanation: "Tebrikler! Resmî devlet (.gov) ve üniversite (.edu) uzantıları bilginin otorite kalkanıdır."
+            },
+            {
+                topic: "AI Algoritmaları • Tıklama Tuzağı (Clickbait)",
+                title: "7. Sosyal Medya Algoritmaları ve Clickbait 🎣",
+                concept: "Sosyal medya yapay zekâları (Öneri Algoritmaları), kullanıcıları ekranda daha uzun süre tutmak için en abartılı, şoke edici ve yanıltıcı başlıkları (Clickbait) öne çıkarır. Amaç doğru bilgi vermek değil, sadece reklam izletmektir!",
+                maarif: "Medya okuryazarlığı: Sansasyonel haberler yerine tarafsız haber kaynaklarını seçmek.",
+                hobby: "YouTube'da 'Bu Gizemi Görünce Ağlayacaksınız!' diyen ama içi boş olan video kapakları.",
+                image: "images/ders7_medya.png",
+                tag: "🎣 Algoritma Tuzağı",
+                terminalInitial: "ALGORİTMA ANALİZİ:\nBaşlık: 'Yarın Sabah Türkiye'de İnternet Tamamen Kapanıyor!'\nNİYET TESPİTİ: %98 Clickbait / Reklam Tıklama Tuzağı. Resmî bildiri yok.",
+                initialCredibility: 15,
+                question: "Bir AI öneri motoru sana aşırı şaşırtıcı ve panik yaratan bir video önerdiğinde ne yapmalısın?",
+                options: [
+                    { 
+                        text: "Bunun izlenme çekmek için kurgulanmış bir algoritma tuzağı olduğunu anlayıp resmî açıklamaları beklerim.", 
+                        correct: true,
+                        terminalSuccess: "🛡️ TUZAK ENGELLENDİ: Sansasyonel içerik elendi, güvenilir haber akışı sağlandı."
+                    },
+                    { 
+                        text: "Korkup hemen videodaki her iddiayı gerçek sanarak panik yaparım.", 
+                        correct: false,
+                        terminalFail: "❌ TUZAĞA DÜŞÜLDÜ: Tıklama tuzağı algoritması amacına ulaştı!"
+                    }
+                ],
+                explanation: "Doğru tutum! Panik ve merak sömürüsü yapan algoritmik tuzakları akılla etkisiz hale getiririz."
+            },
+            {
+                topic: "Kişisel Güvenlik • Biyometrik AI Gizliliği",
+                title: "8. AI Uygulamalarında Biyometrik Veri Koruması 🔐",
+                concept: "Yüzümüz, sesimiz, parmak izimiz ve göz retinamız <strong>Biyometrik Veri</strong>dir. Şifreniz çalınırsa değiştirebilirsiniz ama yüzünüzü veya sesinizi değiştiremezsiniz! Kaynağı belirsiz AI eğlence uygulamalarına gerçek yüzünüzü yüklemek risklidir.",
+                maarif: "Sosyal bilgilerde dijital vatandaşlık hakları ve kişisel verilerin korunması kanunu (KVKK).",
+                hobby: "Fotoğrafını anime veya yaşlılık karakterine dönüştüren güvenilmez üçüncü parti telefon uygulamaları.",
+                image: "images/ders7_art.png",
+                tag: "🔐 Biyometrik Kalkan",
+                terminalInitial: "GÜVENLİK PROTOKOLÜ: Biyometrik Veri Şifreleme\n- Gerçek Öğrenci Fotoğrafı: KESİNLİKLE ENGELLENDİ ❌\n- 3D Dijital Avatar / Sanal Karakter: GÜVENLİ ONAYLANDI ✅",
+                initialCredibility: 100,
+                question: "K-12 eğitiminde ve AI derslerinde neden gerçek insan yüzü yerine 3D sanal karakterler kullanılır?",
+                options: [
+                    { 
+                        text: "Öğrencilerin biyometrik yüz verilerini ve kişisel mahremiyetini siber risklerden korumak için.", 
+                        correct: true,
+                        terminalSuccess: "🔒 GİZLİLİK KALKANI DEVREDE: Biyometrik veriler %100 güvence altına alındı!"
+                    },
+                    { 
+                        text: "3D karakterler çizmesi daha zor olduğu için.", 
+                        correct: false,
+                        terminalFail: "⚠️ YANLIŞ CEVAP: Asıl sebep biyometrik veri güvenliği ve etik standartlardır."
+                    }
+                ],
+                explanation: "Mükemmel bilinç! Biyometrik veriler asla değiştirilemez, bu yüzden sanal avatarlar kullanılır."
+            },
+            {
+                topic: "AI Prompt Atölyesi • Doğruluk Denetçisi Ajanı",
+                title: "9. Kendi AI 'Doğruluk Ajanı'nı Tasarla 🤖",
+                concept: "Yapay zekâya sadece soru sormakla kalmayıp, onu bir <strong>Doğruluk Denetçisi (Fact-Checker)</strong> rolüne sokabiliriz. Sistem isteminde rolünü 'Tarafsız Araştırmacı' olarak tanımlamak kaliteyi katlar!",
+                maarif: "Sosyal bilgilerde tarihî bir iddiayı doğrulayan tarafsız bir hakem gibi çalıştırmak.",
+                hobby: "Bilgisayar toplarken veya yeni bir kulaklık alırken sahte kullanıcı yorumlarını filtreletmek.",
+                image: "images/ders7_hero.png",
+                tag: "🤖 Fact-Checker Ajanı",
+                terminalInitial: "SİSTEM İSTEMİ:\n'Sen bir Doğruluk Denetçisisin. Sana sunulan her cümleyi 3 bağımsız resmî kaynakla teyit et ve kanıt göster.'",
+                initialCredibility: 95,
+                question: "Yapay zekâyı bir doğruluk denetçisi gibi çalıştırmak için hangi rol komutunu verirsin?",
+                options: [
+                    { 
+                        text: "'Sen tarafsız bir doğruluk denetçisisin; iddiaları kanıtlarıyla test et ve kaynakçalarını belirt.'", 
+                        correct: true,
+                        terminalSuccess: "🚀 AJAN AKTİF: AI modeli 'Doğruluk Denetçisi' moduna geçti. Analitik filtreleme devrede!"
+                    },
+                    { 
+                        text: "'Sen hikâye uyduran bir masalcısın; gerçekleri boş ver eğlenceli yalanlar yaz.'", 
+                        correct: false,
+                        terminalFail: "❌ HATA: Bu komut yapay zekânın tamamen uydurma yapmasına yol açar."
+                    }
+                ],
+                explanation: "Harika! Sistem rolü tanımlamak yapay zekânın yanıt kalitesini ve ciddiyetini doğrudan belirler."
+            },
+            {
+                topic: "Mezuniyet • Dijital AI Lideri",
+                title: "10. Tebrikler Şampiyon AI Dedektifi! 🏆",
+                concept: "Artık yapay zekânın nasıl düşündüğünü, halüsinasyonların neden çıktığını, kaynak kalkanı koymayı, CRAAP testini ve deepfake tespitini bilen bir <strong>Yapay Zekâ Okuryazarısın!</strong>",
+                maarif: "Maarif Modeli erdemli, sorgulayan ve gerçeği savunan dijital vatandaşlık vizyonu.",
+                hobby: "Yapay zekâyı geleceğin projelerinde, kodlamada ve bilimde güvenle yönetme yetisi.",
+                image: "images/ders7_1.png",
+                tag: "🏆 Şampiyon Sertifikası",
+                terminalInitial: "AI SERTİFİKASYON RAPORU:\n- Halüsinasyon Tespiti: %100 Başarı\n- Kaynak Kalkanı Mühendisliği: Tamamlandı\n- CRAAP Doğrulama Skoru: A+\n- Durum: Mezuniyete Hazır!",
+                initialCredibility: 100,
+                question: "Yapay zekâ çağında başarılı bir araştırmacı olmanın altın kuralı nedir?",
+                options: [
+                    { 
+                        text: "Yapay zekâyı güçlü bir asistan olarak kullanmak ama son kararı ve doğrulamayı daima insan aklıyla yapmak.", 
+                        correct: true,
+                        terminalSuccess: "🌟 MEZUNİYET ONAYLANDI: Yapay Zekâ Doğrulama Uzmanlık Belgesi hazır!"
+                    },
+                    { 
+                        text: "Tüm düşünmeyi yapay zekâya bırakıp kendimiz hiç araştırmamak.", 
+                        correct: false,
+                        terminalFail: "❌ YANLIŞ: Yapay zekâ asistanımızdır, aklımızın yerine geçemez."
+                    }
+                ],
+                explanation: "Tebrikler Şampiyon! İnsan aklı ile yapay zekâ gücünü birleştiren geleceğin liderisin!"
+            }
+        ];
+
+        let currentIdx = 0;
+        let totalXp = 0;
+        let isAnswered = false;
+
+        function initTrackers() {
+            const container = document.getElementById('trackerContainer');
+            container.innerHTML = '';
+            aiSlides.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = `tracker-dot ${i === 0 ? 'active' : ''}`;
+                dot.id = `tracker_dot_${i}`;
+                dot.onclick = () => goToSlide(i);
+                container.appendChild(dot);
+            });
+        }
+
+        function loadSlide() {
+            const s = aiSlides[currentIdx];
+            isAnswered = false;
+
+            // Metinler
+            document.getElementById('slideCounter').innerText = currentIdx + 1;
+            document.getElementById('slideNumBadge').innerText = `MODÜL 1 • ADIM ${currentIdx + 1}/10`;
+            document.getElementById('slideTopicBadge').innerText = s.topic;
+            document.getElementById('slideTitle').innerText = s.title;
+            document.getElementById('conceptBox').innerHTML = s.concept;
+            document.getElementById('maarifExample').innerText = s.maarif;
+            document.getElementById('hobbyExample').innerText = s.hobby;
+
+            // Sol Panel
+            document.getElementById('slideImage').src = s.image;
+            document.getElementById('visualTag').innerText = s.tag;
+            document.getElementById('terminalText').innerText = s.terminalInitial;
+            document.getElementById('meterScoreText').innerText = `%${s.initialCredibility}`;
+            document.getElementById('meterFill').style.width = `${s.initialCredibility}%`;
+
+            // Tracker güncelle
+            aiSlides.forEach((_, i) => {
+                const d = document.getElementById(`tracker_dot_${i}`);
+                if (d) {
+                    if (i === currentIdx) d.className = 'tracker-dot active';
+                    else if (i < currentIdx) d.className = 'tracker-dot completed';
+                    else d.className = 'tracker-dot';
+                }
+            });
+
+            // Seçenekler
+            document.getElementById('interactiveHeader').innerText = s.question;
+            const optContainer = document.getElementById('optionsContainer');
+            optContainer.innerHTML = '';
+
+            s.options.forEach((opt, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'opt-card';
+                btn.id = `ai_opt_${i}`;
+                btn.innerHTML = `<span>🤖</span> ${opt.text}`;
+                btn.onclick = () => checkOption(i);
+                optContainer.appendChild(btn);
+            });
+
+            const fb = document.getElementById('feedbackMsg');
+            fb.style.display = 'none';
+            fb.className = 'feedback-message';
+
+            document.getElementById('prevBtn').disabled = (currentIdx === 0);
+            document.getElementById('statusNotice').innerText = "Doğru AI kuralını seçerek modeli test et!";
+        }
+
+        function checkOption(idx) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const s = aiSlides[currentIdx];
+            const chosen = s.options[idx];
+            const btnEl = document.getElementById(`ai_opt_${idx}`);
+            const fb = document.getElementById('feedbackMsg');
+
+            if (chosen.correct) {
+                btnEl.classList.add('correct');
+                totalXp += 10;
+                document.getElementById('xpScore').innerText = totalXp;
+                
+                // Terminali güncelle
+                document.getElementById('terminalText').innerText = `${s.terminalInitial}\n\n${chosen.terminalSuccess}`;
+                document.getElementById('meterScoreText').innerText = "%100 (Güvenli)";
+                document.getElementById('meterFill').style.width = "100%";
+
+                fb.className = 'feedback-message correct';
+                fb.innerHTML = `✅ <strong>Harika AI Yönetimi!</strong> ${s.explanation}`;
+                document.getElementById('statusNotice').innerText = "Model doğrulandı! Sonraki adıma geçebilirsiniz.";
+            } else {
+                btnEl.classList.add('wrong');
+                s.options.forEach((o, i) => {
+                    if (o.correct) document.getElementById(`ai_opt_${i}`).classList.add('correct');
+                });
+
+                document.getElementById('terminalText').innerText = `${s.terminalInitial}\n\n${chosen.terminalFail}`;
+                document.getElementById('meterScoreText').innerText = "%20 (Riskli)";
+                document.getElementById('meterFill').style.width = "20%";
+
+                fb.className = 'feedback-message wrong';
+                fb.innerHTML = `⚠️ <strong>AI Uyarısı:</strong> ${s.explanation}`;
+                document.getElementById('statusNotice').innerText = "Doğru yaklaşımı inceleyip devam edin.";
+            }
+
+            fb.style.display = 'block';
+
+            s.options.forEach((_, i) => {
+                document.getElementById(`ai_opt_${i}`).classList.add('disabled');
+            });
+        }
+
+        function changeSlide(dir) {
+            if (dir > 0 && currentIdx === aiSlides.length - 1) {
+                // Son Slayt -> Şifre Modalı
+                document.getElementById('finalXp').innerText = totalXp;
+                document.getElementById('passwordModal').style.display = 'flex';
+                return;
+            }
+
+            currentIdx += dir;
+            if (currentIdx < 0) currentIdx = 0;
+            if (currentIdx >= aiSlides.length) currentIdx = aiSlides.length - 1;
+            loadSlide();
+        }
+
+        function goToSlide(i) {
+            currentIdx = i;
+            loadSlide();
+        }
+
+        initTrackers();
+        loadSlide();
+    </script>
+</body>
+</html>

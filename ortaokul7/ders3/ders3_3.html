@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Sınıf Ders 3.3: Kuvvet, İş ve Şablon Yapılı İstemler Görsel Rehber Vitrini 🎨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EC4899;
+            --primary-light: #F472B6;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --success: #10B981;
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-grad);
+            color: var(--text-main);
+            padding: 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .tutorial-card-app {
+            width: 98vw;
+            max-width: 1200px;
+            min-height: 94vh;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--card-border);
+            border-radius: 28px;
+            padding: 24px 28px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            justify-content: space-between;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 12px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge-step {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6, #06B6D4);
+            color: white;
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+
+        .dots-container {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #FDE047;
+            width: 22px;
+            border-radius: 10px;
+        }
+
+        .page-view {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            flex-grow: 1;
+        }
+
+        .page-view.active {
+            display: flex;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        .box-bad, .box-good {
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .box-bad {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1.5px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .box-good {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1.5px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .box-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 12px;
+            display: inline-block;
+            align-self: flex-start;
+        }
+
+        .box-bad .box-tag { background: rgba(239, 68, 68, 0.25); color: #FCA5A5; }
+        .box-good .box-tag { background: rgba(16, 185, 129, 0.25); color: #6EE7B7; }
+
+        .prompt-text-display {
+            font-family: monospace;
+            font-size: 0.86rem;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            color: #A7F3D0;
+            white-space: pre-wrap;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            cursor: pointer;
+            align-self: flex-end;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover { transform: scale(1.04); }
+
+        .footer-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-top: 14px;
+        }
+
+        .btn-nav {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-nav.finish { background: linear-gradient(135deg, #10B981, #059669); }
+
+        .completion-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 16px;
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .badge-box {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(6, 182, 212, 0.2));
+            border: 2px dashed #EC4899;
+            border-radius: 20px;
+            padding: 20px 40px;
+            margin: 12px 0;
+        }
+
+        .pass-code {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #FDE047;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 850px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tutorial-card-app">
+        <!-- Header -->
+        <div class="app-header">
+            <span class="badge-step">🎨 7.3.3 GÖRSEL REHBER VİTRİNİ</span>
+            <div class="dots-container" id="dotsContainer"></div>
+            <span id="pageCounterText" style="font-weight: 800; color: #FDE047; font-size: 0.9rem;">Sayfa 1 / 9</span>
+        </div>
+
+        <!-- Pages Box -->
+        <div id="pagesBox" style="flex-grow: 1; display: flex; flex-direction: column;">
+            
+            <!-- Page 1: Video Gösterimi (EN BAŞTA) -->
+            <div class="page-view active" id="page-0">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">1. Canlı Video Rehberi: Kuvvet, İş ve Şablon Yapılı İstemler 🎬</h2>
+                <div style="background: rgba(0,0,0,0.5); border: 1.5px solid var(--card-border); border-radius: 20px; padding: 16px; text-align: center;">
+                    <video style="width: 100%; max-height: 320px; border-radius: 14px;" controls loop autoplay muted>
+                        <source src="./video1.mp4" type="video/mp4">
+                        Tarayıcınız video oynatmayı desteklemiyor.
+                    </video>
+                    <p style="font-size: 0.9rem; color: #CBD5E1; margin-top: 12px; line-height: 1.6;">
+                        🚀 <strong>Hoş Geldiniz!</strong> Kuvvet ve enerji simülasyonları üretirken yapay zekâya rastgele serbest cümleler kurmak yerine; <strong>[ENERJİ TÜRÜ]</strong>, <strong>[KUVVET & İŞ DETAYI]</strong> ve <strong>[3D GÖRSEL ÇİZİM]</strong> etiketleriyle şablonlanmış istemler verdiğinizde mükemmel çıktılar alırsınız! Videoyu izleyin ve şampiyon istemleri inceleyin!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 2: Temiz Enerji İstasyonu -->
+            <div class="page-view" id="page-1">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">2. Fen 7: Temiz Enerji İstasyonu Kurgusu</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Düzensiz Serbest İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Bana enerji anlat, resim çiz ve kuvveti göster."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Etiketler ve başlıklar olmadığı için enerji türleri birbirine karışır.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Şablonlu Etiketli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders3_hero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Temiz Enerji İstasyonu">
+                        </div>
+                        <div class="prompt-text-display">"[ENERJİ TÜRÜ]: Çekim potansiyel enerjisi ve yüksekliğin etkisi.
+[KUVVET & İŞ DETAYI]: Yükseğe çıkarılan cisimde yapılan fiziksel iş.
+[3D GÖRSEL ÇİZİM]: 'A 3D Pixar style render of a futuristic clean energy station, glowing kinetic energy coils' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 3: Lunapark Treni Enerji Dönüşümü -->
+            <div class="page-view" id="page-2">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">3. Fen 7: Lunapark Treni Enerji Dönüşümü</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Düzensiz Serbest İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Tren hızlı gitsin, tepeden insin, kinetik enerjiyi de yaz."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Potansiyel enerjinin kinetiğe dönüşme kuralı netleşmez.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Şablonlu Etiketli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders3_enerji.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Lunapark Treni">
+                        </div>
+                        <div class="prompt-text-display">"[ENERJİ DÖNÜŞÜMÜ]: Potansiyel enerjiden kinetik enerjiye geçiş.
+[HIZ ETKİSİ]: Tepeden aşağı inerken hız ve kinetik enerjinin artması.
+[3D GÖRSEL ÇİZİM]: 'A 3D isometric representation of potential and kinetic energy transformation on a roller coaster loop' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 4: Fiziksel Anlamda İş Yapılması -->
+            <div class="page-view" id="page-3">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">4. Fen 7: Fiziksel Anlamda İş ve Kuvvet</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Düzensiz Serbest İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Çantayı taşıyan çocuk resmi çizdir, iş yapsın."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Fiziksel anlamda iş için cismin kuvvet yönünde yol alma şartı unutulur.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Şablonlu Etiketli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders3_1.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Fiziksel İş">
+                        </div>
+                        <div class="prompt-text-display">"[İŞ ŞARTI]: Uygulanan kuvvet ve cismin hareket yönü aynı olmalıdır.
+[AÇIKLAMA]: Kutuyu iterek hareket ettiren robot fiziksel iş yapar.
+[3D GÖRSEL ÇİZİM]: 'A 3D Pixar style cute robot scientist pushing a glowing box on a track' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 5: Esneklik Potansiyel Enerjisi -->
+            <div class="page-view" id="page-4">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">5. Fen 7: Yaylar ve Esneklik Potansiyel Enerjisi</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Düzensiz Serbest İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Yay resmi çiz, sıkışsın dursun."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Yayın sıkışma miktarı ile biriken enerji ilişkisi kurulmaz.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Şablonlu Etiketli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders3_enerji.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Esneklik Enerjisi">
+                        </div>
+                        <div class="prompt-text-display">"[KAVRAM]: Esneklik potansiyel enerjisi.
+[KURAL]: Sıkışan veya gerilen yayda enerji birikir.
+[3D GÖRSEL ÇİZİM]: 'A 3D educational infographic of compressed glowing energy spring' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 6: 3D Enerji Mühendisi Robot -->
+            <div class="page-view" id="page-5">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">6. 3D Sanat: 3D Enerji Mühendisi Robot</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Düzensiz Serbest İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Mühendis robot çiz, elinde bir şeyler olsun."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Robotun enerji ölçüm cihazı ve kıyafet detayları çizilmez.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Şablonlu Etiketli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders3_art.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Enerji Robotu">
+                        </div>
+                        <div class="prompt-text-display">"[KARAKTER]: Enerji mühendisi robot.
+[DONANIM]: Elinde ışıklı lazer enerji ölçer panel tutmalı.
+[3D GÖRSEL ÇİZİM]: 'A 3D character design sheet of a futuristic energy engineer robot holding a glowing holographic energy meter' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 7: Sürtünme Kuvveti ve Isı Enerjisi -->
+            <div class="page-view" id="page-6">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">7. Fen 7: Sürtünme Kuvveti ve Isı Dönüşümü</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Düzensiz Serbest İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Sıcak zemin yap, sürtünme olsun."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: Kinetik enerjinin ısıya dönüşme ilkesi açıklanmaz.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Şablonlu Etiketli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders3_hero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Sürtünme Isı">
+                        </div>
+                        <div class="prompt-text-display">"[SÜRTÜNME ETKİSİ]: Kinetik enerjinin ısı enerjisine dönüşmesi.
+[AÇIKLAMA]: Pürüzlü yüzeyde kayan cisim yavaşlar ve ısınır.
+[3D GÖRSEL ÇİZİM]: 'A 3D illustration of friction heat particles on sliding surface' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 8: 360° Enerji İstasyonu Kartı -->
+            <div class="page-view" id="page-7">
+                <h2 style="color: #FDE047; font-family: 'Fredoka';">8. 3D Sanat: 360° Enerji İstasyonu Kartı</h2>
+                <div class="comparison-grid">
+                    <div class="box-bad">
+                        <span class="box-tag">❌ Düzensiz Serbest İstem</span>
+                        <p style="font-size: 0.9rem; color: #E2E8F0;">"Enerji kulesi resmi ver."</p>
+                        <div style="font-size: 0.78rem; color: #FCA5A5;">⚠️ Sorun: İstasyonun 360 derece açısı ve panelleri çizilmez.</div>
+                    </div>
+                    <div class="box-good">
+                        <span class="box-tag">✨ Şablonlu Etiketli Şampiyon İstem</span>
+                        <div style="width: 100%; height: 150px; overflow: hidden; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--card-border);">
+                            <img src="images/ders3_enerji.png" style="width: 100%; height: 100%; object-fit: cover;" alt="360 Enerji İstasyonu">
+                        </div>
+                        <div class="prompt-text-display">"[TASARIM KARTI]: 360 derece Enerji İstasyonu.
+[BÖLÜMLER]: Potansiyel kuleler ve kinetik bobinler.
+[3D GÖRSEL ÇİZİM]: 'A 360 model sheet view of a futuristic clean energy station' istemini üret."</div>
+                        <button class="btn-copy" onclick="copyPromptText(this)">📋 İstemi Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 9: Vitrin Tamamlama & Başarı Şifresi -->
+            <div class="page-view" id="page-8">
+                <div class="completion-container">
+                    <div style="font-size: 3.5rem;">🎉🏆</div>
+                    <h2 style="font-family: 'Outfit'; color: #FDE047; font-size: 2rem;">Görsel Rehber Vitrini Tamamlandı!</h2>
+                    <p style="color: #CBD5E1; font-size: 1rem; max-width: 650px; line-height: 1.6;">
+                        Tebrikler! Kuvvet, İş ve Şablon Yapılı İstemler 3D kartlarını başarıyla incelediniz. Şablonlu şampiyon istemleri projelerinizde kopyalayıp kullanabilirsiniz.
+                    </p>
+
+                    <div class="badge-box">
+                        <div style="font-size: 0.85rem; color: #F472B6; font-weight: 800; text-transform: uppercase;">7.3.3 GÖRSEL REHBER BAŞARI ŞİFRENİZ:</div>
+                        <div class="pass-code">şablonluistem7</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Controls -->
+        <div class="footer-controls">
+            <button class="btn-nav" id="prevBtn" onclick="changePage(-1)" disabled>⬅️ Önceki</button>
+            <button class="btn-nav" id="nextBtn" onclick="changePage(1)">Sonraki ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        const totalPages = 9;
+        let currentPage = 0;
+
+        function initDots() {
+            const container = document.getElementById('dotsContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                dot.onclick = () => goToPage(i);
+                container.appendChild(dot);
+            }
+        }
+
+        function goToPage(index) {
+            currentPage = index;
+            updateView();
+        }
+
+        function changePage(delta) {
+            currentPage += delta;
+            if (currentPage < 0) currentPage = 0;
+            if (currentPage >= totalPages) currentPage = totalPages - 1;
+            updateView();
+        }
+
+        function updateView() {
+            for (let i = 0; i < totalPages; i++) {
+                document.getElementById(`page-${i}`).classList.remove('active');
+            }
+            document.getElementById(`page-${currentPage}`).classList.add('active');
+
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((d, idx) => {
+                d.className = `dot ${idx === currentPage ? 'active' : ''}`;
+            });
+
+            document.getElementById('pageCounterText').innerText = `Sayfa ${currentPage + 1} / ${totalPages}`;
+            document.getElementById('prevBtn').disabled = currentPage === 0;
+
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentPage === totalPages - 1) {
+                nextBtn.innerText = "Tamamlandı ✔️";
+                nextBtn.className = "btn-nav finish";
+                nextBtn.disabled = true;
+            } else {
+                nextBtn.innerText = "Sonraki ➡️";
+                nextBtn.className = "btn-nav";
+                nextBtn.disabled = false;
+            }
+        }
+
+        function copyPromptText(btnEl) {
+            const textDisplay = btnEl.previousElementSibling.innerText;
+            navigator.clipboard.writeText(textDisplay).then(() => {
+                const origText = btnEl.innerText;
+                btnEl.innerText = "✅ Kopyalandı!";
+                btnEl.style.background = "#10B981";
+                setTimeout(() => {
+                    btnEl.innerText = origText;
+                    btnEl.style.background = "linear-gradient(135deg, #10B981, #059669)";
+                }, 1800);
+            });
+        }
+
+        window.onload = () => {
+            initDots();
+            updateView();
+        };
+    </script>
+</body>
+</html>

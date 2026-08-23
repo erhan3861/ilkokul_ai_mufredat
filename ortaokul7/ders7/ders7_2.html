@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7. Sınıf Ders 7.2: Siber Medya Dedektifi Takım Oyunu 🛡️🎮</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-grad: linear-gradient(135deg, #0B0F19 0%, #111827 40%, #1E1B4B 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.14);
+            --primary: #EC4899;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --cyber-green: #10B981;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            background: var(--bg-grad);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+        }
+
+        .game-app-container {
+            width: 100%;
+            max-width: 1240px;
+            height: calc(100vh - 12px);
+            max-height: calc(100vh - 12px);
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(20px);
+            border: 1.5px solid var(--card-border);
+            border-radius: 22px;
+            padding: 14px 18px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 8px;
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #FDE047, #EC4899, #818CF8, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p { color: var(--text-muted); font-size: 0.78rem; }
+
+        .team-stats {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .power-meter-box {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            width: 160px;
+        }
+
+        .power-meter-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #FDE047;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .power-meter-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .power-meter-fill {
+            height: 100%;
+            width: 25%;
+            background: linear-gradient(90deg, #EC4899, #06B6D4, #10B981);
+            transition: width 0.4s ease;
+        }
+
+        .step-indicators {
+            display: flex;
+            gap: 8px;
+        }
+
+        .step-ind {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .step-ind.active {
+            background: linear-gradient(90deg, #EC4899, #8B5CF6);
+            color: white;
+            border-color: #F472B6;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
+        }
+
+        /* Body & Panes */
+        .game-body {
+            flex-grow: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 14px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step-pane { display: none; flex-direction: column; gap: 12px; }
+        .step-pane.active { display: flex; }
+
+        /* Role Selector Cards */
+        .role-badge-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+        }
+
+        .role-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--card-border);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: #CBD5E1;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .role-chip:hover, .role-chip.selected {
+            background: rgba(236, 72, 153, 0.25);
+            border-color: #F472B6;
+            color: #FDE047;
+            transform: scale(1.03);
+        }
+
+        /* Scenario Visual Cards */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .s-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid var(--card-border);
+            border-radius: 18px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .s-card:hover {
+            background: rgba(236, 72, 153, 0.18);
+            border-color: #F472B6;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(236, 72, 153, 0.35);
+        }
+
+        .s-card.selected {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(6, 182, 212, 0.25));
+            border-color: #10B981;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
+        }
+
+        .s-card-img-frame {
+            position: relative;
+            width: 100%;
+            height: 135px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .s-card-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .s-card:hover .s-card-img-frame img {
+            transform: scale(1.05);
+        }
+
+        .s-card-content {
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .s-card-tag {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(15, 23, 42, 0.85);
+            color: #FBCFE8;
+            border: 1px solid rgba(244, 114, 182, 0.5);
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            z-index: 5;
+        }
+
+        /* Step 2 Hypothesis Workbench */
+        .workbench-container {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 14px;
+        }
+
+        .builder-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .builder-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #FDE047;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .opt-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 8px 10px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #E2E8F0;
+            margin-bottom: 4px;
+        }
+
+        .opt-chip:hover {
+            background: rgba(236, 72, 153, 0.2);
+            border-color: #F472B6;
+        }
+
+        .opt-chip.active {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #10B981;
+            color: #A7F3D0;
+            font-weight: 700;
+        }
+
+        .live-simulator-box {
+            background: rgba(5, 11, 24, 0.95);
+            border: 1.5px solid rgba(6, 182, 212, 0.4);
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.15);
+        }
+
+        .sim-console {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #6EE7B7;
+            min-height: 120px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .btn-fire-sim {
+            background: linear-gradient(90deg, #F59E0B, #EF4444);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-fire-sim:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+        }
+
+        .btn-fire-sim:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Step 3 Summary Grid */
+        .step3-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .visual-preview-frame {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1.5px solid var(--accent);
+            border-radius: 16px;
+            overflow: hidden;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+        }
+
+        .visual-preview-frame img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+        }
+
+        .prompt-summary-box {
+            background: rgba(5, 11, 24, 0.92);
+            border: 1.5px solid rgba(6, 182, 212, 0.4);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: inset 0 0 20px rgba(6, 182, 212, 0.15);
+        }
+
+        .summary-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.88rem;
+            color: #06B6D4;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed rgba(6, 182, 212, 0.3);
+            padding-bottom: 6px;
+        }
+
+        textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px;
+            color: #A7F3D0;
+            font-family: monospace;
+            font-size: 0.88rem;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 6px;
+            flex-shrink: 0;
+        }
+
+        .btn-nav {
+            background: linear-gradient(135deg, #EC4899, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <div class="game-app-container">
+        <!-- Header -->
+        <header>
+            <div class="header-title">
+                <h1>🛡️ 7.7.2 Siber Medya Dedektifi Takım Oyunu <span style="font-size: 0.85rem; color: #F472B6; font-weight: 500;">(Canlı Grup Oyunu)</span></h1>
+                <p>Takım rollerinizi seçin, şüpheli dijital haber vakalarını inceleyin ve sahte içerikleri filtreleyin!</p>
+            </div>
+
+            <div class="team-stats">
+                <div class="power-meter-box">
+                    <div class="power-meter-label">
+                        <span>🛡️ SİBER TEYİT GÜCÜ</span>
+                        <span id="power-percent">25%</span>
+                    </div>
+                    <div class="power-meter-bar">
+                        <div class="power-meter-fill" id="power-fill"></div>
+                    </div>
+                </div>
+
+                <div class="step-indicators">
+                    <div class="step-ind active" id="ind-1">1. Medya Vakası</div>
+                    <div class="step-ind" id="ind-2">2. Güvenilirlik Analizi</div>
+                    <div class="step-ind" id="ind-3">3. Şampiyon Teyit Kartı</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Game Body -->
+        <div class="game-body">
+            
+            <!-- STEP 1: Medya Vakası Seçimi -->
+            <div class="step-pane active" id="pane-1">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="font-family: 'Fredoka', sans-serif; color: #FDE047; font-size: 1.15rem;">📌 ADIM 1: Takım Rolünüzü ve İnceleyeceğiniz Siber Medya Vakasını Seçin:</h3>
+                </div>
+
+                <div class="role-badge-container">
+                    <div class="role-chip selected" onclick="toggleRole(this)">🛡️ Baş Editör</div>
+                    <div class="role-chip" onclick="toggleRole(this)">🕵️ Doğruluk & Teyit Ajanı</div>
+                    <div class="role-chip" onclick="toggleRole(this)">🔒 Dijital Güvenlik Uzmanı</div>
+                    <div class="role-chip" onclick="toggleRole(this)">🎨 3D Medya Sanatçısı</div>
+                </div>
+
+                <div class="scenario-grid">
+                    
+                    <div class="s-card" id="scard-1" onclick="selectScenario(1)">
+                        <div class="s-card-tag">📰 VAKA 1: CLICKBAIT & SAHTE HABER</div>
+                        <div class="s-card-img-frame">
+                            <img src="images/ders7_hero.png" alt="Clickbait Vaka">
+                        </div>
+                        <div class="s-card-content">
+                            <h4 style="font-family: 'Fredoka'; color: #FDE047; font-size: 0.95rem;">1. Şüpheli Uzay Keşfi Haberi</h4>
+                            <p style="font-size: 0.78rem; color: #CBD5E1; line-height: 1.35;">Yazarı belirsiz, abartılı sansasyonel başlık kullanan sahte haber sitesini doğrulama görevi.</p>
+                        </div>
+                    </div>
+
+                    <div class="s-card" id="scard-2" onclick="selectScenario(2)">
+                        <div class="s-card-tag">🎭 VAKA 2: DEEPFAKE VİDEO</div>
+                        <div class="s-card-img-frame">
+                            <img src="images/ders7_1.png" alt="Deepfake Vaka">
+                        </div>
+                        <div class="s-card-content">
+                            <h4 style="font-family: 'Fredoka'; color: #FDE047; font-size: 0.95rem;">2. Deepfake Sosyal Medya Kampanyası</h4>
+                            <p style="font-size: 0.78rem; color: #CBD5E1; line-height: 1.35;">Yapay zekâ ile üretilmiş sahte yüz ve ses manipülasyonunu görsel tutarlılıkla yakalama görevi.</p>
+                        </div>
+                    </div>
+
+                    <div class="s-card" id="scard-3" onclick="selectScenario(3)">
+                        <div class="s-card-tag">🎣 VAKA 3: OLTALAMA (PHISHING)</div>
+                        <div class="s-card-img-frame">
+                            <img src="images/ders7_medya.png" alt="Oltalama Vaka">
+                        </div>
+                        <div class="s-card-content">
+                            <h4 style="font-family: 'Fredoka'; color: #FDE047; font-size: 0.95rem;">3. Sahte Ödül & Oltalama Tuzağı</h4>
+                            <p style="font-size: 0.78rem; color: #CBD5E1; line-height: 1.35;">Öğrencilerin kişisel verilerini ve şifrelerini çalmayı hedefleyen sahte bağlantıyı engelleme görevi.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- STEP 2: Canlı Güvenilirlik Analizi -->
+            <div class="step-pane" id="pane-2">
+                <h3 style="font-family: 'Fredoka', sans-serif; color: #FDE047; font-size: 1.15rem;">📌 ADIM 2: Güvenilirlik İndeksini Hesaplayın & Siber Teyit Filtresini Ateşleyin:</h3>
+                
+                <div class="workbench-container">
+                    
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="builder-card">
+                            <div class="builder-title">🚨 1. [TEHDİT / İHLAL TÜRÜ TESPİTİ]</div>
+                            <div id="step1-opts"></div>
+                        </div>
+
+                        <div class="builder-card">
+                            <div class="builder-title">📊 2. [CRAAP GÜVENİLİRLİK İNDEKSİ KANITI]</div>
+                            <div id="step2-opts"></div>
+                        </div>
+
+                        <div class="builder-card">
+                            <div class="builder-title">🛡️ 3. [SİBER MEDYA DOĞRULAMA KISITI]</div>
+                            <div id="step3-opts"></div>
+                        </div>
+                    </div>
+
+                    <div class="live-simulator-box">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-size: 0.85rem; font-weight: 800; color: #06B6D4;">⚡ SİBER TEYİT & MEDYA KONSOLU</span>
+                                <span style="font-size: 0.72rem; color: #FDE047; font-weight: 700;">CYBER-SHIELD V7</span>
+                            </div>
+                            <div class="sim-console" id="sim-console-text">
+                                [SİBER MEDYA DEDEKTÖRÜ ÇEVRİMİÇİ]
+Analiz seçeneklerinizi belirleyin ve 'Siber Teyit Filtresini Ateşle' butonuna tıklayın...
+                            </div>
+                        </div>
+
+                        <button class="btn-fire-sim" id="btn-fire" onclick="fireSimulation()" disabled>
+                            <span>🔥 Siber Teyit Filtresini Ateşle!</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- STEP 3: Şampiyon Teyit İstem Kartı & Başarı Şifresi -->
+            <div class="step-pane" id="pane-3">
+                <h3 style="font-family: 'Fredoka', sans-serif; color: #FDE047; font-size: 1.15rem;">📌 ADIM 3: Doğrulanmış ve Güvenli Şampiyon İstem Kartınız ve Grup Şifresi:</h3>
+                
+                <div class="step3-grid">
+                    <div class="visual-preview-frame">
+                        <div style="font-size: 0.8rem; font-weight: 800; color: #FDE047;">📸 Doğrulanmış Siber Medya Görseli:</div>
+                        <img id="final-img-preview" src="images/ders7_hero.png" alt="Final 3D Preview">
+                        
+                        <div style="background: rgba(16, 185, 129, 0.15); border: 1.5px dashed #10B981; border-radius: 14px; padding: 12px; text-align: center; margin-top: 4px;">
+                            <div style="font-size: 0.8rem; color: #FDE047; font-weight: 700;">GRUP OYUNU BAŞARI ŞİFRENİZ:</div>
+                            <div style="font-size: 2rem; font-weight: 800; color: #FFF; letter-spacing: 2px; text-transform: lowercase;">güvenlik7</div>
+                            <div style="font-size: 0.75rem; color: #A7F3D0; margin-top: 2px;">Bu şifreyi öğretmeninize ileterek takım proje puanınızı onaylatın!</div>
+                        </div>
+                    </div>
+
+                    <div class="prompt-summary-box">
+                        <div class="summary-header">
+                            <span>📋 GÜVENLİK İNDEKSLİ ŞAMPİYON DOĞRULAMA İSTEMİ</span>
+                            <span style="color: #10B981;">✔ GÜVENİLİRLİK %100</span>
+                        </div>
+                        <textarea id="final-prompt-text" rows="9" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <button class="btn-nav" id="prev-btn" onclick="prevStep()" disabled style="background: rgba(255,255,255,0.12);">⬅️ Geri Adım</button>
+            <div style="font-size: 0.82rem; color: var(--text-muted);">
+                <span id="step-hint-text">Takımınız için bir siber medya vakası seçin ve 2. Adıma geçin!</span>
+            </div>
+            <button class="btn-nav" id="next-btn" onclick="nextStep()" disabled>Sonraki Adım ➡️</button>
+        </footer>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedScenario = null;
+        let selectedOpts = { step1: null, step2: null, step3: null };
+        let isSimulated = false;
+
+        const scenariosData = {
+            1: {
+                title: "Şüpheli Uzay Keşfi Haberi (Clickbait & Sahte Haber)",
+                img: "images/ders7_hero.png",
+                step1Opts: [
+                    { id: "s1_a", text: "[TEHDİT_TÜRÜ]: Tıklama tuzağı (Clickbait) ve yazarı belirsiz şüpheli kaynak." },
+                    { id: "s1_b", text: "Haber kesinlikle doğrudur, hemen yayılmalıdır." }
+                ],
+                step2Opts: [
+                    { id: "s2_a", text: "[CRAAP_KANITI]: Resmi kurum teyidi (TÜBİTAK/NASA) yok, yazarın akademik unvanı eksik." },
+                    { id: "s2_b", text: "Başlık çok heyecanlı olduğu için kanıta gerek yoktur." }
+                ],
+                step3Opts: [
+                    { id: "s3_a", text: "[DOĞRULAMA_KISITI]: Yapay zekâya 'Sadece resmi akademik DOI belgelerine dayan' kuralı ver." },
+                    { id: "s3_b", text: "Herhangi bir web sitesinden alıntı yap." }
+                ]
+            },
+            2: {
+                title: "Deepfake Sosyal Medya Kampanyası (Yapay Zekâ Manipülasyonu)",
+                img: "images/ders7_1.png",
+                step1Opts: [
+                    { id: "s1_a", text: "[TEHDİT_TÜRÜ]: Deepfake (Yapay zekâ ile üretilmiş sahte yüz ve ses manipülasyonu)." },
+                    { id: "s1_b", text: "Gerçek canlı yayın kaydı." }
+                ],
+                step2Opts: [
+                    { id: "s2_a", text: "[CRAAP_KANITI]: Işık açısı tutarsız, göz kırpma frekansı hatalı, ses dudak senkronu bozuk." },
+                    { id: "s2_b", text: "Görüntü kalitesi yüksekse gerçektir." }
+                ],
+                step3Opts: [
+                    { id: "s3_a", text: "[DOĞRULAMA_KISITI]: Görsel tutarlılık analizi ve resmi basın açıklaması çapraz kontrolü yap." },
+                    { id: "s3_b", text: "Videoyu hemen tüm gruplarda paylaş." }
+                ]
+            },
+            3: {
+                title: "Sahte Ödül & Oltalama Tuzağı (Phishing & Veri Güvenliği)",
+                img: "images/ders7_medya.png",
+                step1Opts: [
+                    { id: "s1_a", text: "[TEHDİT_TÜRÜ]: Oltalama (Phishing) ve kişisel veri / şifre hırsızlığı girişimi." },
+                    { id: "s1_b", text: "Şanslı günümüzdeyiz, gerçek ödül." }
+                ],
+                step2Opts: [
+                    { id: "s2_a", text: "[CRAAP_KANITI]: Güvensiz bağlantı (HTTP), aciliyet baskısı, T.C. kimlik ve şifre talebi var." },
+                    { id: "s2_b", text: "Ödül büyük olduğu için şifre verilebilir." }
+                ],
+                step3Opts: [
+                    { id: "s3_a", text: "[DOĞRULAMA_KISITI]: Bağlantıyı açmadan engelle, K-12 kişisel veri mahremiyeti kuralını uygula." },
+                    { id: "s3_b", text: "Bilgileri gir ve ödülü bekle." }
+                ]
+            }
+        };
+
+        function toggleRole(el) {
+            document.querySelectorAll('.role-chip').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function selectScenario(scId) {
+            selectedScenario = scId;
+            document.querySelectorAll('.s-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById(`scard-${scId}`).classList.add('selected');
+            document.getElementById('next-btn').disabled = false;
+            document.getElementById('power-fill').style.width = "40%";
+            document.getElementById('power-percent').innerText = "40%";
+            document.getElementById('step-hint-text').innerText = `Seçilen: ${scenariosData[scId].title}. Şimdi 2. Adıma ilerleyin!`;
+        }
+
+        function populateStep2() {
+            const sc = scenariosData[selectedScenario];
+            
+            function buildOpts(containerId, list, optKey) {
+                const c = document.getElementById(containerId);
+                c.innerHTML = '';
+                list.forEach((o, i) => {
+                    const div = document.createElement('div');
+                    div.className = `opt-chip ${selectedOpts[optKey] === o.id ? 'active' : ''}`;
+                    div.innerHTML = `<span>${o.text}</span> <span>${i === 0 ? '✔ Doğru Analiz' : '❌ Hatalı'}</span>`;
+                    div.onclick = () => {
+                        selectedOpts[optKey] = o.id;
+                        buildOpts(containerId, list, optKey);
+                        checkStep2Ready();
+                    };
+                    c.appendChild(div);
+                });
+            }
+
+            buildOpts('step1-opts', sc.step1Opts, 'step1');
+            buildOpts('step2-opts', sc.step2Opts, 'step2');
+            buildOpts('step3-opts', sc.step3Opts, 'step3');
+        }
+
+        function checkStep2Ready() {
+            const isAllCorrect = (selectedOpts.step1 === "s1_a" && selectedOpts.step2 === "s2_a" && selectedOpts.step3 === "s3_a");
+            
+            if (isAllCorrect) {
+                document.getElementById('btn-fire').disabled = false;
+                document.getElementById('power-fill').style.width = "75%";
+                document.getElementById('power-percent').innerText = "75%";
+                document.getElementById('sim-console-text').innerText = `[TÜM SİBER ANALİZLER ONAYLANDI]
+1. Tehdit Türü: Belirlendi ✔
+2. CRAAP Güvenilirlik Testi: Tamamlandı ✔
+3. İstem Doğrulama Kısıtı: Hazırlandı ✔
+
+'Siber Teyit Filtresini Ateşle' butonuna tıklayarak siber kalkanı aktif edin!`;
+            } else {
+                document.getElementById('btn-fire').disabled = true;
+                document.getElementById('next-btn').disabled = true;
+                document.getElementById('sim-console-text').innerText = `[SİBER ANALİZ SÜRÜYOR...]
+Lütfen her üç gruptan da doğru güvenlik ve teyit seçeneğini işaretleyin!`;
+            }
+        }
+
+        function fireSimulation() {
+            const btn = document.getElementById('btn-fire');
+            btn.disabled = true;
+            btn.innerHTML = "⏳ Siber Teyit Taranıyor...";
+
+            let logs = [
+                "🛡️ Siber Güvenlik Kalkanı devreye girdi...",
+                "🔍 Kaynak otoritesi ve CRAAP indeksi hesaplandı...",
+                "🚫 Clickbait ve sahte içerik filtrelendi...",
+                "✨ SİBER TEYİT BAŞARILI! Güvenilirlik %100 Onaylandı."
+            ];
+
+            let i = 0;
+            document.getElementById('sim-console-text').innerText = "";
+
+            let interval = setInterval(() => {
+                if (i < logs.length) {
+                    document.getElementById('sim-console-text').innerText += logs[i] + "\n";
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    isSimulated = true;
+                    btn.innerHTML = "✅ SİBER KALKAN AKTİF!";
+                    btn.style.background = "#10B981";
+                    document.getElementById('power-fill').style.width = "100%";
+                    document.getElementById('power-percent').innerText = "100%";
+                    document.getElementById('next-btn').disabled = false;
+                    document.getElementById('step-hint-text').innerText = "Harika! Sahte içerik elendi ve doğrulandı. Son adıma ilerleyin!";
+                }
+            }, 500);
+        }
+
+        function populateStep3() {
+            const sc = scenariosData[selectedScenario];
+            document.getElementById('final-img-preview').src = sc.img;
+            
+            const pText = `[GÖREV]: 7. Sınıf Medya Okuryazarlığı ve Dijital Güvenlik İstem Kartı
+[VAKA_ADI]: ${sc.title}
+-------------------------------------------------------------
+[TEHDİT_TÜRÜ]: ${sc.step1Opts[0].text.replace('[TEHDİT_TÜRÜ]: ', '')}
+[GÜVENİLİRLİK_KANITI]: ${sc.step2Opts[0].text.replace('[CRAAP_KANITI]: ', '')}
+[SİBER_KORUMA_KISITI]: ${sc.step3Opts[0].text.replace('[DOĞRULAMA_KISITI]: ', '')}
+-------------------------------------------------------------
+[GÜVENİLİRLİK DERECESİ]: ⭐⭐⭐⭐⭐ %100 Güvenli & Doğrulanmış
+[3D_GÖRSEL_İSTEM]: 'A 3D Pixar style Cyber Newsroom and Digital Media Observatory, glowing holographic news feeds and fact-checker shield, 8k render, no text'`;
+
+            document.getElementById('final-prompt-text').value = pText;
+        }
+
+        function nextStep() {
+            if (currentStep === 1 && selectedScenario) {
+                currentStep = 2;
+                document.getElementById('ind-1').classList.remove('active');
+                document.getElementById('ind-2').classList.add('active');
+                document.getElementById('pane-1').classList.remove('active');
+                document.getElementById('pane-2').classList.add('active');
+                document.getElementById('prev-btn').disabled = false;
+                populateStep2();
+                checkStep2Ready();
+            } else if (currentStep === 2 && isSimulated) {
+                currentStep = 3;
+                document.getElementById('ind-2').classList.remove('active');
+                document.getElementById('ind-3').classList.add('active');
+                document.getElementById('pane-2').classList.remove('active');
+                document.getElementById('pane-3').classList.add('active');
+                document.getElementById('next-btn').disabled = true;
+                document.getElementById('step-hint-text').innerText = "Tebrikler! Takım projesini başarıyla tamamladınız. Grup şifrenizi öğretmeninize iletin!";
+                populateStep3();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep === 2) {
+                currentStep = 1;
+                document.getElementById('ind-2').classList.remove('active');
+                document.getElementById('ind-1').classList.add('active');
+                document.getElementById('pane-2').classList.remove('active');
+                document.getElementById('pane-1').classList.add('active');
+                document.getElementById('prev-btn').disabled = true;
+                document.getElementById('next-btn').disabled = false;
+            } else if (currentStep === 3) {
+                currentStep = 2;
+                document.getElementById('ind-3').classList.remove('active');
+                document.getElementById('ind-2').classList.add('active');
+                document.getElementById('pane-3').classList.remove('active');
+                document.getElementById('pane-2').classList.add('active');
+                document.getElementById('next-btn').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

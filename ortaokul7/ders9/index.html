@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Sınıf Ders 9: Matematik ve Geometri İpucu Koçu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.16);
+            --primary: #10B981;
+            --accent: #06B6D4;
+            --accent-glow: #FDE047;
+            --text-main: #F8FAFC;
+            --text-muted: #CBD5E1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .portal-container {
+            width: 100%;
+            max-width: 1120px;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(24px);
+            border: 2px solid var(--card-border);
+            border-radius: 28px;
+            padding: 36px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .portal-header {
+            text-align: center;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 24px;
+        }
+
+        .badge-modul {
+            display: inline-block;
+            background: linear-gradient(90deg, #10B981, #06B6D4, #F59E0B);
+            color: #0B0F19;
+            padding: 6px 22px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .portal-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.3rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #FDE047, #10B981, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .portal-header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 840px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 22px;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 24px;
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 18px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+        }
+
+        .step-card:hover {
+            transform: translateY(-8px);
+            border-color: #10B981;
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
+            background: rgba(255, 255, 255, 0.09);
+        }
+
+        .step-num {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.12);
+            position: absolute;
+            top: 14px;
+            right: 20px;
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 4px;
+        }
+
+        .step-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.35rem;
+            color: #FDE047;
+        }
+
+        .step-desc {
+            font-size: 0.95rem;
+            color: #CBD5E1;
+            line-height: 1.55;
+        }
+
+        .btn-launch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(90deg, #10B981, #06B6D4);
+            color: #0B0F19;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1rem;
+            padding: 14px 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+            transition: all 0.25s ease;
+        }
+
+        .btn-launch:hover {
+            background: linear-gradient(90deg, #FDE047, #10B981);
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(253, 224, 71, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-container">
+        <div class="portal-header">
+            <span class="badge-modul">📐 Modül 2 • 3. Ay Açılışı (9. Hafta)</span>
+            <h1>7. Sınıf Ders 9: Matematik ve Geometri İpucu Koçu</h1>
+            <p>Matematik 7 *Doğrular ve Açılar* konusunu günlük yaşamla (kaykay rampaları, köprü makasları, bilardo açıları, güneş panelleri) birleştiriyor; yapay zekâya doğrudan cevap vermek yerine adım adım düşündüren **Sokratik İpucu Koçu** tasarımı yapıyoruz!</p>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <div>
+                    <div class="step-num">01</div>
+                    <div class="step-icon">🤖</div>
+                    <div class="step-title">9.1 Bireysel İpucu Labı</div>
+                    <div class="step-desc">20 bölümlük labda günlük yaşam açı problemlerini incele, Sokratik 3 kademeli ipucu sistemiyle doğrudan cevap veren tuzak şıkları ele ve şifreni kazan!</div>
+                </div>
+                <a href="ders9_1.html" class="btn-launch">
+                    <span>Laboratuvara Başla</span>
+                    <span>🚀</span>
+                </a>
+            </div>
+
+            <div class="step-card">
+                <div>
+                    <div class="step-num">02</div>
+                    <div class="step-icon">🛹</div>
+                    <div class="step-title">9.2 Geometri Koçu 10 Adımlı Takım Oyunu</div>
+                    <div class="step-desc">Sınıf arkadaşlarınla rol seç, kaykay rampasından Boğaz Köprüsüne 8 gerçek yaşam görevinde ipucu kurgula ve grup şifreni al!</div>
+                </div>
+                <a href="ders9_2.html" class="btn-launch" style="background: linear-gradient(90deg, #8B5CF6, #06B6D4); color: white;">
+                    <span>10 Adımlı Takım Oyununa Gir</span>
+                    <span>🎮</span>
+                </a>
+            </div>
+
+            <div class="step-card">
+                <div>
+                    <div class="step-num">03</div>
+                    <div class="step-icon">🖼️</div>
+                    <div class="step-title">9.3 Görsel Vitrin & Sokratik Rehber</div>
+                    <div class="step-desc">Günlük yaşamda açılar görsel galerisini, video rehberini ve şampiyon Sokratik ipucu istemlerini canlı incele!</div>
+                </div>
+                <a href="ders9_3.html" class="btn-launch" style="background: linear-gradient(90deg, #06B6D4, #F59E0B); color: #0B0F19;">
+                    <span>Görsel Rehberi Aç</span>
+                    <span>🎨</span>
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            AI-GALAXY — 7. Sınıf Türkiye Yüzyılı Maarif Modeli Dengeli Yapay Zekâ Müfredatı (3. Ay Başlangıcı)
+        </footer>
+    </div>
+</body>
+</html>
