@@ -1,0 +1,23 @@
+Adım1 CTF ismi : Blok Kodlama Mix Adım1 Jöle Surat  şifresi : j
+Adım2 CTF ismi : Blok Kodlama Mix Adım2 Küp Avcısı  şifresi : k
+Adım3 CTF ismi : Blok Kodlama Mix Adım3 Sürükle Bırak  şifresi : s
+Adım4 CTF ismi : Blok Kodlama Mix Adım4 Saklı Nesneler  şifresi : n
+Adım5 CTF ismi : Blok Kodlama Mix Adım5 Yön Tuşları  şifresi : y
+Adım6 CTF ismi : Blok Kodlama Mix Adım6 Space ve Enter  şifresi : e
+
+--- Oyun linkleri ---
+Adım1 Jöle Surat      : https://seviye1blokkodlama.vercel.app/jole_surat
+Adım2 Küp Avcısı      : https://seviye1blokkodlama.vercel.app/kup_avcisi
+Adım3 Sürükle Bırak   : https://seviye1blokkodlama.vercel.app/surukle_birak
+Adım4 Saklı Nesneler  : https://seviye1blokkodlama.vercel.app/sakli_nesneler
+Adım5 Yön Tuşları     : https://seviye1blokkodlama.vercel.app/yon_tuslari
+Adım6 Space ve Enter  : https://seviye1blokkodlama.vercel.app/space_enter
+Patika ana sayfa      : https://seviye1blokkodlama.vercel.app
+
+--- Öğretmen rehberleri ---
+Adım1 : https://seviye1blokkodlama.vercel.app/jole_surat/rehber.html
+Adım2 : https://seviye1blokkodlama.vercel.app/kup_avcisi/rehber.html
+Adım3 : https://seviye1blokkodlama.vercel.app/surukle_birak/rehber.html
+Adım4 : https://seviye1blokkodlama.vercel.app/sakli_nesneler/rehber.html
+Adım5 : https://seviye1blokkodlama.vercel.app/yon_tuslari/rehber.html
+Adım6 : https://seviye1blokkodlama.vercel.app/space_enter/rehber.html

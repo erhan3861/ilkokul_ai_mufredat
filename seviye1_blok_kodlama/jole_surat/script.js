@@ -76,6 +76,12 @@
   var gozlukVar = false, sapkaVar = false, sesAcik = true;
   var yildiz = 0, gozKapali = false;
 
+  /* --- Şifre (FLAG) modülü --- */
+  var HEDEF_YILDIZ = 20;          // bu yıldıza ulaşınca şifre açılır
+  var SIFRE_HARFI = 'j';          // CTF şifresi
+  var SIFRE_SESI = 'je';          // harfin Türkçe okunuşu (seslendirme için)
+  var sifreAcildi = false;
+
   var renderer, sahne, kamera, saat;
   var kafaGrubu, kafa, geo, pozAttr;
   var temelPoz, kayma, hiz, agirlik, kose = 0;
@@ -169,6 +175,13 @@
     ogeler.skorKutu.classList.remove('zipla');
     void ogeler.skorKutu.offsetWidth;
     ogeler.skorKutu.classList.add('zipla');
+
+    // hedefe ulaşınca şifre (FLAG) modülü açılır
+    if (!sifreAcildi && yildiz >= HEDEF_YILDIZ) {
+      sifreAcildi = true;
+      sifreDugmesiniAc();
+      setTimeout(sifreyiAc, 900);
+    }
   }
 
   function konfetiPatlat(adet) {
@@ -421,6 +434,181 @@
     if (gozlukVar) gozlukCiz();
 
     if (doku) doku.needsUpdate = true;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 4b) ŞİFRE (FLAG) MODÜLÜ                                             */
+  /*     Hedef yıldıza ulaşılınca açılır. Önce çocuğa şifre harfi        */
+  /*     gösterilip seslendirilir, sonra platform arayüzünün izlemelik   */
+  /*     (tıklanamaz) simülasyonu adım adım oynatılır.                   */
+  /* ------------------------------------------------------------------ */
+
+  function sifreDugmesiniAc() {
+    var b = ogeler.btnSifre;
+    if (!b) return;
+    b.classList.remove('kilitli');
+    b.classList.add('hazir');
+    b.title = 'Şifreni gör';
+    b.querySelector('.btn-emoji').textContent = '🔑';
+  }
+
+  /* stage içindeki (1280x800) yerel koordinat */
+  function ogeMerkezi(el) {
+    var s = document.getElementById('stage').getBoundingClientRect();
+    var r = el.getBoundingClientRect();
+    var o = window.__sahneOlcek || 1;
+    return { x: (r.left + r.width / 2 - s.left) / o, y: (r.top + r.height / 2 - s.top) / o };
+  }
+
+  function imleciGotur(el, kaydirX, kaydirY) {
+    var m = ogeMerkezi(el);
+    ogeler.sahteImlec.style.left = (m.x + (kaydirX || 0) - 10) + 'px';
+    ogeler.sahteImlec.style.top = (m.y + (kaydirY || 0) - 8) + 'px';
+  }
+
+  function imlecTikla() {
+    ogeler.sahteImlec.classList.remove('tikla');
+    void ogeler.sahteImlec.offsetWidth;
+    ogeler.sahteImlec.classList.add('tikla');
+  }
+
+  function anlat(metin) {
+    ogeler.anlatim.hidden = false;
+    ogeler.anlatimYazi.textContent = metin;
+    konus(metin.replace(/[👆✨⌨️🚀🎉🔑]/g, ''));
+  }
+
+  var simZaman = [];
+  function simDurdur() {
+    simZaman.forEach(clearTimeout);
+    simZaman = [];
+    if ('speechSynthesis' in window) { try { speechSynthesis.cancel(); } catch (e) { } }
+  }
+  function sonra(ms, fn) { simZaman.push(setTimeout(fn, ms)); }
+
+  function sifreyiAc() {
+    simDurdur();
+    ogeler.sifreKatman.hidden = false;
+    ogeler.sifreKart.hidden = false;
+    ogeler.simulasyon.hidden = true;
+    ogeler.anlatim.hidden = true;
+    ogeler.simDugmeler.hidden = true;
+    ogeler.sifreHarf.textContent = SIFRE_HARFI;
+    sesAlkis();
+    konfetiPatlat(40);
+    sonra(600, function () {
+      konus('Tebrikler! ' + HEDEF_YILDIZ + ' yıldız topladın. Senin şifren: ' + SIFRE_SESI + ' harfi.');
+    });
+  }
+
+  function sifreyiKapat() {
+    simDurdur();
+    ogeler.sifreKatman.hidden = true;
+    simSifirla();
+  }
+
+  function harfiSeslendir() {
+    var b = ogeler.btnHarfSes;
+    b.classList.add('okuyor');
+    sesPop();
+    if (!sesAcik) { sesAcik = true; sesDugmesiniYaz(); }
+    try {
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(SIFRE_SESI);
+      u.lang = 'tr-TR'; u.rate = 0.75; u.pitch = 1.2;
+      u.onend = u.onerror = function () { b.classList.remove('okuyor'); };
+      speechSynthesis.speak(u);
+    } catch (e) { b.classList.remove('okuyor'); }
+    setTimeout(function () { b.classList.remove('okuyor'); }, 2200);
+  }
+
+  function simSifirla() {
+    ogeler.plCubuk.classList.remove('gorunur');
+    ogeler.plSoru.classList.remove('vurgu', 'basildi');
+    ogeler.plModal.classList.remove('gorunur');
+    ogeler.plKontrol.classList.remove('basildi');
+    ogeler.plBasarili.classList.remove('gorunur');
+    ogeler.plGirdiYazi.textContent = 'Şifre (FLAG) değerini yaz...';
+    ogeler.plGirdiYazi.classList.remove('yazildi');
+    ogeler.plImlec.classList.remove('yanip');
+    ogeler.klavyeTus.classList.remove('basildi');
+    ogeler.sahteKlavye.classList.remove('gorunur');
+    ogeler.sahteImlec.classList.remove('gorunur', 'tikla');
+    ogeler.sahteImlec.style.left = '640px';
+    ogeler.sahteImlec.style.top = '700px';
+  }
+
+  function simulasyonBaslat() {
+    simDurdur();
+    simSifirla();
+    ogeler.sifreKart.hidden = true;
+    ogeler.simulasyon.hidden = false;
+    ogeler.simDugmeler.hidden = true;
+
+    sonra(60, function () {
+      ogeler.sahteImlec.classList.add('gorunur');
+      anlat('Şifreyi buraya yazacağız. Sağ üste bak! 👆');
+      ogeler.plCubuk.classList.add('gorunur');
+    });
+
+    sonra(2300, function () {
+      anlat('Mor renkli soru işaretine tıkla.');
+      ogeler.plSoru.classList.add('vurgu');
+      imleciGotur(ogeler.plSoru);
+    });
+
+    sonra(4100, function () {
+      imlecTikla();
+      ogeler.plSoru.classList.add('basildi');
+      sesPop();
+    });
+
+    sonra(4500, function () {
+      ogeler.plSoru.classList.remove('vurgu');
+      ogeler.plModal.classList.add('gorunur');
+      anlat('Şifre penceresi açıldı ✨');
+    });
+
+    sonra(6400, function () {
+      anlat('Şimdi klavyeden J harfine bas. ⌨️');
+      ogeler.sahteKlavye.classList.add('gorunur');
+      ogeler.plImlec.classList.add('yanip');
+      imleciGotur(ogeler.plGirdi, -180, 0);
+    });
+
+    sonra(8600, function () {
+      ogeler.klavyeTus.classList.add('basildi');
+      ogeler.plGirdiYazi.textContent = SIFRE_HARFI;
+      ogeler.plGirdiYazi.classList.add('yazildi');
+      sesTut();
+      konus(SIFRE_SESI);
+    });
+
+    sonra(9400, function () { ogeler.klavyeTus.classList.remove('basildi'); });
+
+    sonra(10200, function () {
+      anlat('Sonra yeşil düğmeye bas: Şifreyi Kontrol Et 🚀');
+      ogeler.plImlec.classList.remove('yanip');
+      imleciGotur(ogeler.plKontrol);
+    });
+
+    sonra(12000, function () {
+      imlecTikla();
+      ogeler.plKontrol.classList.add('basildi');
+      sesPop();
+    });
+
+    sonra(12600, function () {
+      ogeler.plBasarili.classList.add('gorunur');
+      anlat('Görev tamamlandı! 🎉 Aferin!');
+      sesAlkis();
+      konfetiPatlat(46);
+    });
+
+    sonra(14200, function () {
+      ogeler.simDugmeler.hidden = false;
+      ogeler.anlatim.hidden = true;
+    });
   }
 
   /* ------------------------------------------------------------------ */
@@ -849,6 +1037,12 @@
   /* 10) ARAYÜZ                                                          */
   /* ------------------------------------------------------------------ */
 
+  function sesDugmesiniYaz() {
+    ogeler.btnSes.classList.toggle('kapali', !sesAcik);
+    ogeler.btnSes.querySelector('.btn-yazi').textContent = sesAcik ? 'Ses Açık' : 'Ses Kapalı';
+    ogeler.btnSes.querySelector('.btn-emoji').textContent = sesAcik ? '🔊' : '🔇';
+  }
+
   function karakteriUygula(renkSifirla) {
     var K = karakter();
     if (renkSifirla) renkIx = 0;
@@ -918,11 +1112,27 @@
 
     ogeler.btnSes.addEventListener('click', function () {
       sesAcik = !sesAcik;
-      ogeler.btnSes.classList.toggle('kapali', !sesAcik);
-      ogeler.btnSes.querySelector('.btn-yazi').textContent = sesAcik ? 'Ses Açık' : 'Ses Kapalı';
-      ogeler.btnSes.querySelector('.btn-emoji').textContent = sesAcik ? '🔊' : '🔇';
+      sesDugmesiniYaz();
       if (!sesAcik) { if ('speechSynthesis' in window) speechSynthesis.cancel(); }
       else { sesKur(); sesPop(); }
+    });
+
+    /* --- şifre modülü düğmeleri --- */
+    ogeler.btnSifre.addEventListener('click', function () {
+      sesKur();
+      if (!sifreAcildi) {
+        balon('Önce ' + HEDEF_YILDIZ + ' yıldız topla! Şu an ' + yildiz + ' yıldızın var 🔒', 2600);
+        return;
+      }
+      sifreyiAc();
+    });
+    ogeler.btnHarfSes.addEventListener('click', function () { sesKur(); harfiSeslendir(); });
+    ogeler.btnGoster.addEventListener('click', function () { sesKur(); sesPop(); simulasyonBaslat(); });
+    ogeler.btnTekrar.addEventListener('click', function () { sesPop(); simulasyonBaslat(); });
+    ogeler.btnAnladim.addEventListener('click', function () {
+      sesPop();
+      sifreyiKapat();
+      balon('Şifren: ' + SIFRE_HARFI.toUpperCase() + ' — istediğinde 🔑 düğmesinden tekrar bakabilirsin.', 3600);
     });
 
     ogeler.btnSifirla.addEventListener('click', function () {
@@ -957,7 +1167,12 @@
     ['sahne', 'balon', 'hata', 'konfeti', 'skorSayi', 'skorKutu',
      'btnKarakter', 'karakterEmoji', 'karakterAd', 'btnSurat', 'suratEmoji', 'suratAd',
      'btnRenk', 'btnGozluk', 'gozlukDurum', 'btnSapka', 'sapkaDurum',
-     'btnSes', 'btnSifirla', 'btnFoto', 'btnDinle'].forEach(function (id) {
+     'btnSes', 'btnSifirla', 'btnFoto', 'btnDinle', 'btnSifre',
+     'sifreKatman', 'sifreKart', 'sifreHarf', 'btnHarfSes', 'btnGoster',
+     'simulasyon', 'plCubuk', 'plSoru', 'plModal', 'plGirdi', 'plGirdiYazi',
+     'plImlec', 'plKontrol', 'plBasarili', 'sahteKlavye', 'klavyeTus',
+     'sahteImlec', 'anlatim', 'anlatimYazi', 'simDugmeler', 'btnTekrar',
+     'btnAnladim'].forEach(function (id) {
       ogeler[id] = $(id);
     });
 
@@ -976,6 +1191,13 @@
 
     if (ogeler.hata) ogeler.hata.hidden = true;     // motor geldi, uyarıyı kapat
     dugmeleriBagla();
+
+    // Öğretmen önizlemesi: adres sonuna ?sifre yazınca modül hemen açılır
+    if (/sifre/i.test(location.search)) {
+      sifreAcildi = true;
+      sifreDugmesiniAc();
+      setTimeout(sifreyiAc, 700);
+    }
     karakteriUygula(false);
     balon('Beni tut ve çek! 😄', 4000);
 

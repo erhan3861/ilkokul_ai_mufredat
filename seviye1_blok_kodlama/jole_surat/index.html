@@ -87,9 +87,95 @@
       <button class="btn kucuk" id="btnSes" type="button"><span class="btn-emoji">🔊</span><span class="btn-yazi">Ses Açık</span></button>
       <button class="btn kucuk" id="btnSifirla" type="button"><span class="btn-emoji">🔁</span><span class="btn-yazi">Düzelt</span></button>
       <button class="btn kucuk" id="btnFoto" type="button"><span class="btn-emoji">📸</span><span class="btn-yazi">Fotoğraf</span></button>
+      <button class="btn kucuk kilitli" id="btnSifre" type="button" title="20 yıldız toplayınca açılır">
+        <span class="btn-emoji">🔒</span><span class="btn-yazi">Şifre</span>
+      </button>
     </section>
 
   </main>
+
+  <!-- ===================== ŞİFRE (FLAG) MODÜLÜ ===================== -->
+  <div class="sifre-katman" id="sifreKatman" hidden>
+
+    <!-- 1) Şifre kartı: büyük harf + seslendirme -->
+    <div class="sifre-kart" id="sifreKart">
+      <div class="kart-rozet">🎉 20 yıldız topladın!</div>
+      <p class="kart-ust">Görevi bitirdin. İşte senin şifren:</p>
+      <div class="harf-satir">
+        <div class="harf" id="sifreHarf">j</div>
+        <button class="btn-harf-ses" id="btnHarfSes" type="button" aria-label="Harfi dinle">
+          <span class="hoparlor">🔊</span><span>Dinle</span>
+        </button>
+      </div>
+      <p class="kart-alt">Şimdi bu şifreyi nereye yazacağını göstereceğim 👇</p>
+      <button class="btn-goster" id="btnGoster" type="button">▶ Bana Göster</button>
+    </div>
+
+    <!-- 2) Platform arayüzü simülasyonu (izlemelik, tıklanamaz) -->
+    <div class="simulasyon" id="simulasyon" hidden aria-hidden="true">
+
+      <!-- Araç çubuğu -->
+      <div class="pl-cubuk" id="plCubuk">
+        <span class="pl-tutamac"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        <span class="pl-daire pl-ev">🏠</span>
+        <span class="pl-daire pl-bir">1</span>
+        <span class="pl-daire pl-soru" id="plSoru">?</span>
+      </div>
+
+      <!-- Şifre penceresi -->
+      <div class="pl-modal" id="plModal">
+        <div class="pl-modal-serit"></div>
+        <div class="pl-modal-ic">
+          <div class="pl-baslik">
+            <span class="pl-bayrak">🚩</span>
+            <div class="pl-baslik-yazi">
+              <h3>Blok Kodlama Mix Adım1 Jöle Surat</h3>
+              <p>İpuçlarını dikkatlice incele, doğru şifreyi (FLAG'i) bul ve görevi tamamla.</p>
+            </div>
+            <span class="pl-kapat">✕</span>
+          </div>
+
+          <div class="pl-ipucu-satir">
+            <span class="pl-ipucu-baslik">💡 İpuçları</span>
+          </div>
+          <div class="pl-ipuclari"><span>1</span><span>2</span></div>
+
+          <div class="pl-cozuldu">🏆 0 öğrenci tarafından çözüldü</div>
+
+          <div class="pl-alan">
+            <div class="pl-alan-baslik">Bulduğun şifreyi (FLAG'i) buraya yaz</div>
+            <div class="pl-girdi" id="plGirdi">
+              <span class="pl-girdi-yazi" id="plGirdiYazi">Şifre (FLAG) değerini yaz...</span>
+              <span class="pl-imlec" id="plImlec"></span>
+              <span class="pl-anahtar">🔑</span>
+            </div>
+          </div>
+
+          <div class="pl-kontrol" id="plKontrol">Şifreyi (FLAG'i) Kontrol Et 🚀</div>
+          <div class="pl-basarili" id="plBasarili">✅ Görev tamamlandı!</div>
+        </div>
+      </div>
+
+      <!-- Sahte klavye tuşu -->
+      <div class="sahte-klavye" id="sahteKlavye">
+        <span class="klavye-yazi">Klavye</span>
+        <span class="klavye-tus" id="klavyeTus">J</span>
+      </div>
+
+      <!-- Sahte fare imleci -->
+      <div class="sahte-imlec" id="sahteImlec"><span class="halka"></span>➤</div>
+    </div>
+
+    <!-- Anlatım şeridi -->
+    <div class="anlatim" id="anlatim" hidden><span id="anlatimYazi"></span></div>
+
+    <!-- Bitiş düğmeleri -->
+    <div class="sim-dugmeler" id="simDugmeler" hidden>
+      <button class="btn-sim tekrar" id="btnTekrar" type="button">🔁 Tekrar İzle</button>
+      <button class="btn-sim tamam" id="btnAnladim" type="button">✅ Anladım</button>
+    </div>
+
+  </div>
 
 </div>
 </div>
