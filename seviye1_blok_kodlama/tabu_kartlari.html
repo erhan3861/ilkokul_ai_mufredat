@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Tabu Kartları — 1. Sınıf • Ders 8</title>
+<meta name="description" content="1. sınıf AI Tabu oyunu için 20 örnek kart: anlatılacak kelime ve yasaklı kelimeler.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mor: #8B3FD8; --mor-koyu: #6B21B8; --mor-acik: #F4EAFF;
+  --kirmizi: #E0435E; --kirmizi-acik: #FFEDF0;
+  --koyu: #23264D; --gri: #6B7794; --cizgi: #E5E2F2;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100vh; height: 100dvh; overflow: hidden; }
+body {
+  font-family: 'Baloo 2', 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  color: var(--koyu);
+  background: linear-gradient(180deg, #C9B4FF 0%, #E8DEFF 45%, #FFF3E6 100%);
+  -webkit-font-smoothing: antialiased;
+}
+.stage-kapsayici { position: fixed; inset: 0; overflow: hidden; }
+.tutorial-stage {
+  position: absolute; top: 0; left: 0; width: 1280px; height: 800px;
+  transform-origin: 0 0;
+  background: linear-gradient(180deg, #C9B4FF 0%, #E8DEFF 45%, #FFF3E6 100%);
+  display: flex; flex-direction: column; gap: 11px; padding: 14px 22px 12px;
+}
+
+/* üst */
+.ust {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 14px;
+  background: #fff; border: 3px solid #fff; border-radius: 20px;
+  padding: 10px 16px; box-shadow: 0 8px 22px rgba(35,38,77,.16);
+}
+.ust .logo { width: 50px; height: 50px; border-radius: 16px; display: grid; place-items: center;
+  font-size: 1.7rem; background: linear-gradient(135deg, #B478F0, var(--mor)); color: #fff; }
+.ust .yazi { flex: 1 1 auto; min-width: 0; }
+.ust h1 { font-size: 1.42rem; font-weight: 800; line-height: 1.1; }
+.ust p { font-size: .86rem; color: var(--gri); margin-top: 2px; }
+.ust-btn {
+  text-decoration: none; font: inherit; font-weight: 800; font-size: .95rem;
+  padding: 11px 17px; border-radius: 15px; border: 3px solid #fff; white-space: nowrap;
+}
+.ust-btn.geri { background: #EEF1F8; color: #465A80; box-shadow: 0 4px 0 #C9D3E4; }
+.ust-btn.oyun { background: linear-gradient(180deg, #B478F0, var(--mor)); color: #fff; box-shadow: 0 4px 0 var(--mor-koyu); }
+.ust-btn:active { transform: translateY(3px); box-shadow: none; }
+
+/* kurallar şeridi */
+.kurallar {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 9px;
+  background: rgba(255,255,255,.85); border: 3px dashed #C9A6F5; border-radius: 18px; padding: 8px 12px;
+}
+.kural {
+  display: flex; align-items: center; gap: 7px; background: #fff; border-radius: 13px;
+  padding: 6px 12px; font-size: .86rem; font-weight: 600; box-shadow: 0 3px 0 rgba(35,38,77,.08);
+}
+.kural b { font-weight: 800; }
+.kural .em { font-size: 1.2rem; }
+.sayfa-sec { margin-left: auto; display: flex; align-items: center; gap: 7px; }
+.sayfa-no { font-size: .95rem; font-weight: 800; color: var(--gri); min-width: 50px; text-align: center; }
+.sayfa-btn {
+  width: 40px; height: 40px; border-radius: 13px; border: 3px solid #fff; cursor: pointer;
+  background: linear-gradient(180deg, #B478F0, var(--mor)); color: #fff;
+  font: inherit; font-size: 1rem; font-weight: 800; box-shadow: 0 4px 0 var(--mor-koyu);
+}
+.sayfa-btn:active { transform: translateY(3px); box-shadow: none; }
+.sayfa-btn:disabled { opacity: .35; cursor: default; box-shadow: none; }
+.yazdir-btn {
+  border: 3px solid #fff; border-radius: 13px; cursor: pointer; font: inherit; font-weight: 800; font-size: .9rem;
+  padding: 9px 14px; background: #FFF3D6; color: #96631C; box-shadow: 0 4px 0 #F0CE7A;
+}
+
+/* kartlar */
+.izgara {
+  flex: 1 1 auto; min-height: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 12px;
+}
+.kart {
+  background: #fff; border: 3px solid #fff; border-radius: 18px; padding: 12px 13px;
+  box-shadow: 0 7px 18px rgba(35,38,77,.14);
+  display: flex; flex-direction: column; gap: 7px; min-height: 0;
+}
+.kart .ust-satir { display: flex; align-items: center; gap: 8px; }
+.kart .no {
+  width: 28px; height: 28px; border-radius: 9px; background: var(--mor-acik); color: var(--mor-koyu);
+  display: grid; place-items: center; font-size: .9rem; font-weight: 800; flex: 0 0 auto;
+}
+.kart .zorluk { margin-left: auto; font-size: .66rem; font-weight: 800; padding: 3px 9px; border-radius: 20px; }
+.zorluk.kolay { background: #E6FBEF; color: #14804A; border: 1.5px solid #A9E9C4; }
+.zorluk.orta  { background: #FFF6DF; color: #96631C; border: 1.5px solid #FFDFA0; }
+.kart .emoji { font-size: 1.5rem; }
+.kart .kelime {
+  font-size: 1.55rem; font-weight: 800; letter-spacing: .5px; line-height: 1.05; color: #2A1B4D;
+}
+.kart .etiket { font-size: .68rem; font-weight: 800; color: var(--kirmizi); letter-spacing: .4px; }
+.yasakli { display: flex; flex-direction: column; gap: 4px; }
+.yasakli span {
+  background: var(--kirmizi-acik); border: 2px solid #FFC9D2; border-radius: 10px;
+  padding: 4px 9px; font-family: 'Nunito', sans-serif; font-size: .86rem; font-weight: 700; color: #B02B44;
+}
+.kart .ipucu {
+  margin-top: auto; font-family: 'Nunito', sans-serif; font-size: .74rem; color: var(--gri);
+  background: #F5F7FB; border-radius: 10px; padding: 6px 9px; line-height: 1.3;
+}
+
+/* alt */
+.alt {
+  flex: 0 0 auto; background: rgba(255,255,255,.85); border: 3px solid #fff; border-radius: 16px;
+  padding: 7px 14px; font-family: 'Nunito', sans-serif; font-size: .78rem; color: var(--gri);
+  display: flex; align-items: center; gap: 14px;
+}
+.alt b { color: var(--koyu); }
+
+/* yazdırma: tüm kartlar alt alta */
+@media print {
+  html, body { height: auto; overflow: visible; background: #fff; }
+  .stage-kapsayici { position: static; }
+  .tutorial-stage { position: static; width: auto; height: auto; transform: none !important; background: #fff; padding: 0; }
+  .izgara { display: grid !important; grid-template-columns: repeat(3, 1fr); grid-template-rows: none; gap: 10px; }
+  .kart { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+  .sayfa-sec, .ust-btn, .yazdir-btn { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="stage-kapsayici">
+<div class="tutorial-stage" id="stage">
+
+  <header class="ust">
+    <span class="logo">🃏</span>
+    <div class="yazi">
+      <h1>AI Tabu Kartları — 20 Örnek</h1>
+      <p>Ders 8: Kurallar Ekliyorum • 1. sınıf seviyesinde, yapay zekânın temel kelimeleriyle</p>
+    </div>
+    <a class="ust-btn geri" id="btnGeri" href="./ai_rehber.html?ders=8&hafta=8">⬅️ Rehber</a>
+    <a class="ust-btn oyun" href="https://ilkokul1.vercel.app/ders8/ders8_2.html" target="_blank" rel="noopener">▶ Tabu Etkinliği</a>
+  </header>
+
+  <section class="kurallar">
+    <div class="kural"><span class="em">👥</span><span><b>2 grup</b> kurun, sırayla oynayın</span></div>
+    <div class="kural"><span class="em">🗣️</span><span>Kelimeyi <b>anlatan</b> öğrenci kartı görür</span></div>
+    <div class="kural"><span class="em">⛔</span><span>Kırmızı kelimeler <b>söylenemez</b></span></div>
+    <div class="kural"><span class="em">⏱️</span><span>Süre: <b>1 dakika</b></span></div>
+    <div class="kural"><span class="em">🔊</span><span>Okuyamayan öğrenciye <b>fısıldayın</b></span></div>
+    <div class="sayfa-sec">
+      <button class="yazdir-btn" id="yazdir" type="button">🖨️ Yazdır</button>
+      <button class="sayfa-btn" id="geri" type="button">◀</button>
+      <span class="sayfa-no" id="sayfaNo">1 / 3</span>
+      <button class="sayfa-btn" id="ileri" type="button">▶</button>
+    </div>
+  </section>
+
+  <main class="izgara" id="izgara"></main>
+
+  <footer class="alt">
+    <span>🎯 <b>Amaç:</b> Çocuk, yapay zekânın temel kelimelerini <b>kendi cümleleriyle</b> anlatsın.</span>
+    <span>🟢 Kolay: günlük kelimeler &nbsp;•&nbsp; 🟡 Orta: derste öğrenilen kelimeler</span>
+    <span>💡 Zorlanan gruba <b>ipucu satırını</b> okuyun.</span>
+  </footer>
+
+</div>
+</div>
+
+<script>
+var KARTLAR = [
+  { k: 'ROBOT',      e: '🤖', z: 'kolay', y: ['makine', 'insan', 'demir'],        i: 'Vızıl gibi! Yürür ama canlı değildir.' },
+  { k: 'BİLGİSAYAR', e: '💻', z: 'kolay', y: ['ekran', 'tuş', 'oyun'],            i: 'Üstünde yazı yazarız, oyun oynarız.' },
+  { k: 'EKRAN',      e: '🖥️', z: 'kolay', y: ['bakmak', 'televizyon', 'resim'],   i: 'Işıklı bir cam gibidir, üstünde şeyler görünür.' },
+  { k: 'KLAVYE',     e: '⌨️', z: 'kolay', y: ['tuş', 'harf', 'yazmak'],           i: 'Parmaklarımızla basarız, üstünde A B C vardır.' },
+  { k: 'FARE',       e: '🖱️', z: 'kolay', y: ['tıklamak', 'el', 'hayvan'],        i: 'Elimizle kaydırırız, oku hareket ettirir.' },
+  { k: 'İNTERNET',   e: '🌐', z: 'orta',  y: ['wifi', 'bağlantı', 'video'],       i: 'Bütün bilgisayarları birbirine bağlayan görünmez yol.' },
+  { k: 'YAPAY ZEKÂ', e: '🧠', z: 'orta',  y: ['robot', 'akıllı', 'bilgisayar'],   i: 'Ona söylediğimizi yapan yardımcımız.' },
+  { k: 'İSTEM',      e: '💬', z: 'orta',  y: ['prompt', 'yazmak', 'komut'],       i: 'Yapay zekâya söylediğimiz cümle.' },
+  { k: 'SORU',       e: '❓', z: 'kolay', y: ['cevap', 'sormak', 'merak'],        i: 'Sonunda küçük bir kanca işareti olur.' },
+  { k: 'CEVAP',      e: '✅', z: 'kolay', y: ['soru', 'doğru', 'söylemek'],       i: 'Bir şey sorulunca söylediğimiz şey.' },
+  { k: 'RESİM',      e: '🖼️', z: 'kolay', y: ['çizmek', 'boya', 'kâğıt'],         i: 'Duvara asarız, gözümüzle bakarız.' },
+  { k: 'SES',        e: '🔊', z: 'kolay', y: ['kulak', 'duymak', 'konuşmak'],     i: 'Gözle görülmez ama kulakla anlaşılır.' },
+  { k: 'KURAL',      e: '🚦', z: 'orta',  y: ['yasak', 'oyun', 'uymak'],          i: 'Sınıfta da vardır: koşmak yok, el kaldırmak var.' },
+  { k: 'SIFAT',      e: '🌈', z: 'orta',  y: ['özellik', 'büyük', 'güzel'],       i: 'Bir şeyin nasıl olduğunu söyleyen kelime.' },
+  { k: 'RENK',       e: '🎨', z: 'kolay', y: ['kırmızı', 'boya', 'gökkuşağı'],    i: 'Gözümüzle ayırt ederiz; sarı, mavi… hepsi budur.' },
+  { k: 'HİKÂYE',     e: '📖', z: 'kolay', y: ['masal', 'kitap', 'anlatmak'],      i: 'Başı, ortası ve sonu vardır.' },
+  { k: 'PANDA',      e: '🐼', z: 'kolay', y: ['siyah', 'beyaz', 'ayı'],           i: 'Bambu yer, gözleri lekelidir.' },
+  { k: 'YUNUS',      e: '🐬', z: 'kolay', y: ['deniz', 'balık', 'zıplamak'],      i: 'Suda yaşar, çok akıllıdır, ıslık sesi çıkarır.' },
+  { k: 'ASLAN',      e: '🦁', z: 'kolay', y: ['kral', 'orman', 'kükremek'],       i: 'Sarı, yeleli, çok gür sesi vardır.' },
+  { k: 'KEDİ',       e: '🐱', z: 'kolay', y: ['miyav', 'evcil', 'fare'],          i: 'Evde beslenir, tüylüdür, patileri yumuşaktır.' }
+];
+
+(function () {
+  var G = 1280, Y = 800, stage = document.getElementById('stage');
+  function olcekle() {
+    var vg = window.innerWidth, vy = window.innerHeight;
+    if (window.visualViewport) { vg = window.visualViewport.width; vy = window.visualViewport.height; }
+    var o = Math.min(vg / G, vy / Y);
+    stage.style.transform = 'translate(' + ((vg - G * o) / 2) + 'px,' + ((vy - Y * o) / 2) + 'px) scale(' + o + ')';
+  }
+  window.addEventListener('resize', olcekle);
+  window.addEventListener('orientationchange', olcekle);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', olcekle);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(olcekle).catch(function () { });
+  window.addEventListener('load', olcekle);
+  olcekle();
+})();
+
+(function () {
+  var SAYFADA = 8, sayfa = 0;
+  var izgara = document.getElementById('izgara');
+  var sayfaNo = document.getElementById('sayfaNo');
+  var btnGeri = document.getElementById('geri');
+  var btnIleri = document.getElementById('ileri');
+  var yazdirmaModu = false;
+
+  function sayfaSayisi() { return Math.ceil(KARTLAR.length / SAYFADA); }
+
+  function kartHtml(kart, ix) {
+    return '<article class="kart">' +
+      '<div class="ust-satir"><span class="no">' + (ix + 1) + '</span>' +
+        '<span class="emoji">' + kart.e + '</span>' +
+        '<span class="zorluk ' + kart.z + '">' + (kart.z === 'kolay' ? '🟢 KOLAY' : '🟡 ORTA') + '</span></div>' +
+      '<div class="kelime">' + kart.k + '</div>' +
+      '<div class="etiket">⛔ SÖYLENMEYECEK</div>' +
+      '<div class="yasakli">' + kart.y.map(function (w) { return '<span>' + w + '</span>'; }).join('') + '</div>' +
+      '<p class="ipucu">💡 ' + kart.i + '</p>' +
+    '</article>';
+  }
+
+  function ciz() {
+    if (yazdirmaModu) {
+      izgara.innerHTML = KARTLAR.map(kartHtml).join('');
+      return;
+    }
+    var bas = sayfa * SAYFADA;
+    izgara.innerHTML = KARTLAR.slice(bas, bas + SAYFADA)
+      .map(function (k, i) { return kartHtml(k, bas + i); }).join('');
+    sayfaNo.textContent = (sayfa + 1) + ' / ' + sayfaSayisi();
+    btnGeri.disabled = (sayfa === 0);
+    btnIleri.disabled = (sayfa >= sayfaSayisi() - 1);
+  }
+
+  btnGeri.addEventListener('click', function () { if (sayfa > 0) { sayfa--; ciz(); } });
+  btnIleri.addEventListener('click', function () { if (sayfa < sayfaSayisi() - 1) { sayfa++; ciz(); } });
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') btnGeri.click();
+    if (e.key === 'ArrowRight') btnIleri.click();
+  });
+
+  document.getElementById('yazdir').addEventListener('click', function () {
+    yazdirmaModu = true; ciz();
+    window.print();
+    setTimeout(function () { yazdirmaModu = false; ciz(); }, 500);
+  });
+
+  /* rehberden gelindiyse geri düğmesi oraya dönsün */
+  var geriBtn = document.getElementById('btnGeri');
+  if (document.referrer) {
+    try {
+      var r = new URL(document.referrer);
+      if (r.origin === location.origin && r.pathname !== location.pathname) geriBtn.href = r.href;
+    } catch (e) { }
+  }
+
+  ciz();
+})();
+</script>
+
+</body>
+</html>

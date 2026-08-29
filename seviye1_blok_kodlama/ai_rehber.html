@@ -35,6 +35,20 @@
   }
   .akis .adim b { color: #1D3557; }
   .akis .adim p { font-family: 'Nunito', sans-serif; font-size: .93rem; margin-top: 2px; }
+
+  .ust-btn.ek { background: linear-gradient(180deg, #FFE07A, #FFC42E); color: #6B4A00; box-shadow: 0 5px 0 #E09A0B; }
+  .ek-kutu {
+    display: flex; align-items: center; gap: 14px; text-decoration: none; margin-top: 10px;
+    background: linear-gradient(180deg, #FFF6E0, #FFEDC4); border: 3px solid #FFD98A;
+    border-radius: 18px; padding: 12px 18px; color: #6B4A00;
+    box-shadow: 0 5px 0 #F0CE7A; transition: transform .12s, box-shadow .12s;
+  }
+  .ek-kutu:active { transform: translateY(4px); box-shadow: 0 1px 0 #F0CE7A; }
+  .ek-em { font-size: 2.1rem; }
+  .ek-yazi { display: flex; flex-direction: column; }
+  .ek-yazi b { font-size: 1.12rem; }
+  .ek-yazi small { font-family: 'Nunito', sans-serif; font-size: .84rem; opacity: .85; }
+  .ek-ok { margin-left: auto; font-size: 1.3rem; font-weight: 800; }
   .tek-cumle {
     background: var(--vurgu-acik); border: 2px solid #DCC4FA; border-radius: 16px;
     padding: 14px 18px; font-size: 1.1rem; line-height: 1.5;
@@ -52,6 +66,7 @@
       <h1 id="baslik">👩‍🏫 AI-Galaxy Öğretmen Rehberi</h1>
       <p id="altBaslik">İlkokul 1 • 2026–2027</p>
     </div>
+    <a class="ust-btn ek" id="btnEk" href="#" hidden>🃏 Ek Kaynak</a>
     <a class="ust-btn etkinlik" id="btnEtkinlik" href="#" target="_blank" rel="noopener">▶ Etkinliği Aç</a>
   </header>
 
@@ -83,6 +98,12 @@
   var hafta = parseInt(par('hafta', ''), 10);
   var D = AI_DERSLER[dersNo];
 
+  /* derse özel ek kaynak sayfaları */
+  var EK_KAYNAK = {
+    8: { ad: '🃏 Tabu Kartları (20 örnek)', url: './tabu_kartlari.html', renk: 'tabu' }
+  };
+  var EK = EK_KAYNAK[dersNo];
+
   /* --- başlık --- */
   document.getElementById('baslik').innerHTML = '👩‍🏫 ' + D.emoji + ' Ders ' + dersNo + ' — ' + D.ad;
   document.getElementById('altBaslik').innerHTML =
@@ -90,6 +111,13 @@
     (hafta ? ' • <b>' + hafta + '. hafta</b>' : '') + ' • Süre: 40–45 dk';
   document.getElementById('btnEtkinlik').href =
     AI_TEMEL + '/ders' + dersNo + '/ders' + dersNo + '_' + adimNo + '.html';
+
+  if (EK) {
+    var eb = document.getElementById('btnEk');
+    eb.hidden = false;
+    eb.textContent = EK.ad;
+    eb.href = EK.url;
+  }
 
   /* --- slaytlar --- */
   var s = [];
@@ -151,6 +179,11 @@
         '</div>';
       }).join('') +
     '</div>' +
+    (EK ? '<a class="ek-kutu" href="' + EK.url + '">' +
+            '<span class="ek-em">🃏</span>' +
+            '<span class="ek-yazi"><b>' + EK.ad + '</b>' +
+            '<small>Anlatılacak kelimeler ve yasaklı kelimeler hazır — tıkla, aç, yazdır.</small></span>' +
+            '<span class="ek-ok">▶</span></a>' : '') +
     '<p class="not">Üç etkinlik aynı derste sırayla da işlenebilir, üç ayrı haftaya da yayılabilir. Yıllık programda <b>haftada bir etkinlik</b> olarak planlandı.</p>'
   );
 
