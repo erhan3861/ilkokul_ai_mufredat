@@ -193,7 +193,7 @@
     kamera.position.set(0, 5.4, 6.4);
     kamera.lookAt(0, 0.3, 0.2);
 
-    sahne.add(new THREE.HemisphereLight(0xFFF3DC, 0xC98A3E, 0.62));
+    sahne.add(new THREE.HemisphereLight(0xFFF7E8, 0xD9A662, 0.72));
     var isik = new THREE.DirectionalLight(0xfff6e4, 1.15);
     isik.position.set(3, 6, 4);
     sahne.add(isik);
@@ -203,7 +203,7 @@
 
     zemin = new THREE.Mesh(
       new THREE.PlaneGeometry(30, 22),
-      new THREE.MeshStandardMaterial({ color: 0xE9B978, roughness: 1 })
+      new THREE.MeshStandardMaterial({ color: 0xF2D3A2, roughness: 1 })
     );
     zemin.rotation.x = -Math.PI / 2;
     sahne.add(zemin);
@@ -262,7 +262,7 @@
       var renk = sec(RENKLER);
 
       var mesh = new THREE.Mesh(geometriler[sekilIx], new THREE.MeshStandardMaterial({
-        color: renk, roughness: 0.32, metalness: 0.08
+        color: renk, roughness: 0.42, metalness: 0.05
       }));
       var yer = rastgeleYer();
       var olcek = Z.olcek * rastgele(0.85, 1.12);

@@ -23,10 +23,10 @@
   ];
 
   var KARAKTERLER = [
-    { ad: 'Vızıl',  emoji: '🤖', govde: 0x7FD4FF, detay: 0x2C6FA8 },
-    { ad: 'Pati',   emoji: '🐱', govde: 0xFFB45C, detay: 0xB96A16 },
-    { ad: 'Zıpzıp', emoji: '🐸', govde: 0x86E27E, detay: 0x2E8B45 },
-    { ad: 'Uzo',    emoji: '👽', govde: 0xC0A6FF, detay: 0x6A45E8 }
+    { ad: 'Vızıl',  emoji: '🤖', govde: 0x2FB4F0, detay: 0x15588F },
+    { ad: 'Pati',   emoji: '🐱', govde: 0xFF9A2E, detay: 0x9C5410 },
+    { ad: 'Zıpzıp', emoji: '🐸', govde: 0x4ACB4F, detay: 0x1E6F35 },
+    { ad: 'Uzo',    emoji: '👽', govde: 0x9A78FF, detay: 0x5326C4 }
   ];
 
   var YERCEKIMI = -15.5, ZIPLAMA_HIZI = 6.6;
@@ -151,7 +151,8 @@
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(kap.clientWidth, Math.max(1, kap.clientHeight), false);
-    if (THREE.sRGBEncoding !== undefined) renderer.outputEncoding = THREE.sRGBEncoding;
+    // Not: r128'de malzeme renkleri lineer uzaya cevrilmedigi icin sRGB cikis
+    // kodlamasi sahneyi solduruyor; canli renk icin kapali birakiyoruz.
     kap.appendChild(renderer.domElement);
 
     sahne = new THREE.Scene();
@@ -159,21 +160,21 @@
     kamera.position.set(0, 2.3, 6.6);
     kamera.lookAt(0, 1.15, 0);
 
-    sahne.add(new THREE.HemisphereLight(0xffffff, 0xc9b8ff, 1.05));
-    var isik = new THREE.DirectionalLight(0xfff2e0, 0.9);
+    sahne.add(new THREE.HemisphereLight(0xF3ECFF, 0x6E58B8, 0.62));
+    var isik = new THREE.DirectionalLight(0xfff6e4, 1.15);
     isik.position.set(3, 6, 5);
     sahne.add(isik);
-    var yan = new THREE.DirectionalLight(0xbfa8ff, 0.4);
+    var yan = new THREE.DirectionalLight(0x9B7BFF, 0.45);
     yan.position.set(-4, 2, -3);
     sahne.add(yan);
 
     zemin = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.8, 0.5, 34),
-      new THREE.MeshStandardMaterial({ color: 0xB6E5C4, roughness: 0.95 }));
+      new THREE.MeshStandardMaterial({ color: 0x74CB9C, roughness: 0.9 }));
     zemin.position.y = -0.25;
     sahne.add(zemin);
 
     var cim = new THREE.Mesh(new THREE.PlaneGeometry(40, 30),
-      new THREE.MeshStandardMaterial({ color: 0xDCF5E4, roughness: 1 }));
+      new THREE.MeshStandardMaterial({ color: 0xB2E5C6, roughness: 1 }));
     cim.rotation.x = -Math.PI / 2;
     cim.position.y = -0.52;
     sahne.add(cim);
@@ -256,7 +257,7 @@
     sandik = new THREE.Group();
 
     var govde = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.66, 0.85),
-      new THREE.MeshStandardMaterial({ color: 0xC98C4A, roughness: 0.7 }));
+      new THREE.MeshStandardMaterial({ color: 0xB4711F, roughness: 0.65 }));
     govde.position.y = 0.33;
 
     var bant = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.14, 0.9),
@@ -266,7 +267,7 @@
     // kapak: arka kenardan dönsün diye pivot grubu
     sandikKapak = new THREE.Group();
     var kapak = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.22, 0.85),
-      new THREE.MeshStandardMaterial({ color: 0xA8702F, roughness: 0.7 }));
+      new THREE.MeshStandardMaterial({ color: 0x8E5518, roughness: 0.65 }));
     kapak.position.set(0, 0.11, 0.42);
     sandikKapak.add(kapak);
     sandikKapak.position.set(0, 0.66, -0.42);

@@ -1,14 +1,14 @@
 /* Space & Enter — tema (ortak kabuk: ../oyun.css) */
 
 :root {
-  --t1: #C6B4FF;
-  --t2: #E6DEFF;
+  --t1: #A98EFF;
+  --t2: #D5C7FF;
   --t3: #FFF2E4;
   --t-baslik: #40257F;
   --t-alt: #5B4699;
   --t-cizgi: #C3B0F0;
-  --t-sahne1: #EDE6FF;
-  --t-sahne2: #FFEFD8;
+  --t-sahne1: #DACCFF;
+  --t-sahne2: #FFE3B8;
   --t-yazi: #33235C;
   --t-hud-cizgi: #C3B0F0;
   --t-hud-yazi: #5B33C4;
