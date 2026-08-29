@@ -10,11 +10,11 @@ Burada kodlamadan önce **mouse ve klavye kontrolünün oturması** önemli. Ard
 
 | #  | İçerik                         | Ana hedef                        |
 | -- | ------------------------------ | -------------------------------- |
-| 1  | Mouse – Küp Avcısı             | Tıklama                          |
-| 2  | Mouse – Sürükle Bırak          | Nesne taşıma                     |
-| 3  | Mouse – 3B Çizim               | Hassas mouse kontrolü            |
-| 4  | Mouse – Saklı Nesneler         | Görsel dikkat                    |
-| 5  | Klavye – Yön Tuşları           | Sağ-sol-yukarı-aşağı             |
+| 1  | Mouse – Jöle Surat             | Tıklama               |  şifre : j
+| 2  | Mouse – Küp Avcısı             | Nesne taşıma             şifre : k      |
+| 3  | Mouse – Sürükle Bırak          | Hassas mouse kontrolü    şifre : s      |
+| 4  | Mouse – Saklı Nesneler         | Görsel dikkat            şifre : n      |
+| 5  | Klavye – Yön Tuşları           | Sağ-sol-yukarı-aşağı     şifre : y      |
 | 6  | Klavye – Space / Enter         | Temel tuş kontrolü               |
 | 7  | CodeAli 1                      | Hareket blokları                 |
 | 8  | CodeAli 1 – Pekiştirme         | Komut sıralama                   |

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Jöle Surat — Tut, Çek, Bırak</title>
-<meta name="description" content="1. ve 2. sınıflar için Three.js ile hazırlanmış 3B Jöle Surat oyunu: surata bas, tut, çek ve bırak; zıp zıp geri gelsin.">
+<title>Sürükle Bırak — Şekilleri Kutusuna Taşı</title>
+<meta name="description" content="1. ve 2. sınıflar için Three.js ile hazırlanmış 3B Sürükle Bırak oyunu: şekilleri tut, taşı ve doğru kutuya bırak.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -12,24 +12,21 @@
 </head>
 <body>
 
-<!-- Genially benzeri sabit sahne: 1280x800 tasarım, ekrana orantılı ölçeklenir -->
 <div class="stage-kapsayici" id="stageKapsayici">
 <div class="tutorial-stage" id="stage">
 
-  <!-- Arka plan süsleri -->
   <div class="gokyuzu" aria-hidden="true">
     <div class="gunes"></div>
     <div class="bulut bulut1"></div>
     <div class="bulut bulut2"></div>
-    <div class="bulut bulut3"></div>
   </div>
 
   <main class="sayfa">
 
     <header class="ust">
       <div class="baslik-kutu">
-        <h1>🫠 Jöle Surat</h1>
-        <p class="alt-baslik">İlkokul • Mouse Becerileri • <b>Adım 1</b></p>
+        <h1>🖱️ Sürükle Bırak</h1>
+        <p class="alt-baslik">İlkokul • Mouse Becerileri • <b>Adım 3</b></p>
       </div>
       <div class="skor-kutu" id="skorKutu" title="Yıldızların">
         <span class="skor-emoji">⭐</span>
@@ -37,19 +34,24 @@
       </div>
     </header>
 
-    <!-- Nasıl oynanır -->
     <section class="adimlar" aria-label="Nasıl oynanır">
-      <div class="adim"><span class="adim-emoji">👆</span><span class="adim-yazi">1. Surata <b>bas ve tut</b></span></div>
-      <div class="adim"><span class="adim-emoji">↔️</span><span class="adim-yazi">2. Fareni <b>çek</b></span></div>
-      <div class="adim"><span class="adim-emoji">🎈</span><span class="adim-yazi">3. <b>Bırak</b>, zıp zıp!</span></div>
+      <div class="adim"><span class="adim-emoji">👆</span><span class="adim-yazi">1. Şekle <b>bas ve tut</b></span></div>
+      <div class="adim"><span class="adim-emoji">➡️</span><span class="adim-yazi">2. Kutusuna <b>taşı</b></span></div>
+      <div class="adim"><span class="adim-emoji">🎁</span><span class="adim-yazi">3. Orada <b>bırak</b></span></div>
       <button class="btn-dinle" id="btnDinle" type="button">🔊 Dinle</button>
     </section>
 
-    <!-- Oyun sahnesi -->
     <section class="sahne-kutu">
-      <div id="sahne" class="sahne" role="application" aria-label="3 boyutlu jöle surat. Basılı tutup çek."></div>
+      <div id="sahne" class="sahne" role="application" aria-label="Şekilleri tutup doğru kutuya taşı."></div>
 
-      <div class="balon" id="balon">Beni tut ve çek! 😄</div>
+      <div class="hud" id="hud">
+        <span class="hud-yazi">Kalan şekil</span>
+        <span class="hud-sayi" id="kalanSayi">6</span>
+      </div>
+
+      <div class="tur" id="turKutu">Tur <b id="turSayi">1</b></div>
+
+      <div class="balon" id="balon">Şekli tut ve kutusuna taşı! 🎁</div>
 
       <div class="hata" id="hata" hidden>
         <h2>😢 3B motoru yüklenemedi</h2>
@@ -59,34 +61,31 @@
       <div class="konfeti" id="konfeti" aria-hidden="true"></div>
     </section>
 
-    <!-- Büyük kontroller -->
     <section class="kontroller" aria-label="Oyun düğmeleri">
-      <button class="btn buyuk mor" id="btnKarakter" type="button">
-        <span class="btn-emoji" id="karakterEmoji">🧒</span>
-        <span class="btn-yazi">Karakter<small id="karakterAd">Zıpzıp</small></span>
+      <button class="btn buyuk mor" id="btnMod" type="button">
+        <span class="btn-emoji" id="modEmoji">🎨</span>
+        <span class="btn-yazi">Eşleştir<small id="modAd">Renkleri</small></span>
       </button>
-      <button class="btn buyuk pembe" id="btnSurat" type="button">
-        <span class="btn-emoji" id="suratEmoji">😀</span>
-        <span class="btn-yazi">Surat<small id="suratAd">Mutlu</small></span>
+      <button class="btn buyuk pembe" id="btnZorluk" type="button">
+        <span class="btn-emoji" id="zorlukEmoji">🎈</span>
+        <span class="btn-yazi">Zorluk<small id="zorlukAd">Kolay</small></span>
       </button>
-      <button class="btn buyuk turkuaz" id="btnRenk" type="button">
-        <span class="btn-emoji">🎨</span>
-        <span class="btn-yazi">Renk<small>Değiştir</small></span>
+      <button class="btn buyuk turkuaz" id="btnYeni" type="button">
+        <span class="btn-emoji">🔁</span>
+        <span class="btn-yazi">Yeni Tur<small>Baştan</small></span>
       </button>
-      <button class="btn buyuk sari" id="btnGozluk" type="button">
-        <span class="btn-emoji">🕶️</span>
-        <span class="btn-yazi">Gözlük<small id="gozlukDurum">Tak</small></span>
+      <button class="btn buyuk sari" id="btnYardim" type="button">
+        <span class="btn-emoji">💡</span>
+        <span class="btn-yazi">İpucu<small>Göster</small></span>
       </button>
-      <button class="btn buyuk yesil" id="btnSapka" type="button">
-        <span class="btn-emoji">🎩</span>
-        <span class="btn-yazi">Şapka<small id="sapkaDurum">Tak</small></span>
+      <button class="btn buyuk yesil" id="btnFoto" type="button">
+        <span class="btn-emoji">📸</span>
+        <span class="btn-yazi">Fotoğraf<small>Kaydet</small></span>
       </button>
     </section>
 
     <section class="kontroller kucuk-satir">
       <button class="btn kucuk" id="btnSes" type="button"><span class="btn-emoji">🔊</span><span class="btn-yazi">Ses Açık</span></button>
-      <button class="btn kucuk" id="btnSifirla" type="button"><span class="btn-emoji">🔁</span><span class="btn-yazi">Düzelt</span></button>
-      <button class="btn kucuk" id="btnFoto" type="button"><span class="btn-emoji">📸</span><span class="btn-yazi">Fotoğraf</span></button>
     </section>
 
   </main>
@@ -94,27 +93,19 @@
 </div>
 </div>
 
-<!-- ===== Sahne ölçekleme (Genially mantığı) ===== -->
+<!-- ===== Sahne ölçekleme ===== -->
 <script>
 (function () {
   var SAHNE_G = 1280, SAHNE_Y = 800;
   var stage = document.getElementById('stage');
-
   function olcekle() {
-    var vg = window.innerWidth;
-    var vy = window.innerHeight;
-    if (window.visualViewport) {
-      vg = window.visualViewport.width;
-      vy = window.visualViewport.height;
-    }
+    var vg = window.innerWidth, vy = window.innerHeight;
+    if (window.visualViewport) { vg = window.visualViewport.width; vy = window.visualViewport.height; }
     var o = Math.min(vg / SAHNE_G, vy / SAHNE_Y);
-    var x = (vg - SAHNE_G * o) / 2;
-    var y = (vy - SAHNE_Y * o) / 2;
-    stage.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + o + ')';
+    stage.style.transform = 'translate(' + ((vg - SAHNE_G * o) / 2) + 'px,' + ((vy - SAHNE_Y * o) / 2) + 'px) scale(' + o + ')';
     window.__sahneOlcek = o;
     if (window.__olcekDegisti) window.__olcekDegisti(o);
   }
-
   window.addEventListener('resize', olcekle);
   window.addEventListener('orientationchange', olcekle);
   if (window.visualViewport) window.visualViewport.addEventListener('resize', olcekle);
@@ -124,7 +115,7 @@
 })();
 </script>
 
-<!-- ===== Three.js yükleyici: CDN'leri sırayla dener ===== -->
+<!-- ===== Three.js yükleyici ===== -->
 <script>
 (function () {
   var kaynaklar = [
@@ -133,13 +124,11 @@
     'https://unpkg.com/three@0.128.0/build/three.min.js'
   ];
   var i = 0, oyunYuklendi = false;
-
   function hataGoster() {
-    if (typeof THREE !== 'undefined') return;      // motor geldiyse uyarı gösterme
+    if (typeof THREE !== 'undefined') return;
     var g = document.getElementById('hata');
     if (g) g.hidden = false;
   }
-
   function oyunuYukle() {
     if (oyunYuklendi) return;
     oyunYuklendi = true;
@@ -148,7 +137,6 @@
     o.onerror = hataGoster;
     document.body.appendChild(o);
   }
-
   function sonraki() {
     if (typeof THREE !== 'undefined') { oyunuYukle(); return; }
     if (i >= kaynaklar.length) { hataGoster(); return; }
@@ -158,7 +146,6 @@
     s.onerror = sonraki;
     document.head.appendChild(s);
   }
-
   sonraki();
 })();
 </script>

@@ -1,0 +1,29 @@
+/* Saklı Nesneler — tema (ortak kabuk: ../oyun.css) */
+
+:root {
+  --t1: #FFCF8F;
+  --t2: #FFE9C4;
+  --t3: #FFF7E4;
+  --t-baslik: #8A4A12;
+  --t-alt: #96613A;
+  --t-cizgi: #F0C48C;
+  --t-sahne1: #FFF3DC;
+  --t-sahne2: #FFE2C0;
+  --t-yazi: #4A2E14;
+  --t-hud-cizgi: #F5C48D;
+  --t-hud-yazi: #B5641A;
+}
+
+/* Aranan şeklin canlı 3B önizlemesi (kelimeye değil, şekle bakılsın) */
+.hud-hedef {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 1.05rem; font-weight: 700; color: #8A4A12;
+  background: #FFF0D6; border: 2px solid #F5C48D;
+  border-radius: 14px; padding: 3px 12px 3px 4px;
+}
+.hud-hedef canvas {
+  width: 52px; height: 52px; display: block;
+  background: #FFFDF7; border: 2px solid #F0D3A8; border-radius: 12px;
+}
+
+.sahne { cursor: crosshair; }

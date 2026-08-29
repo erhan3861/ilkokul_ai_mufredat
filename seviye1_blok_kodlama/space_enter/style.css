@@ -1,0 +1,36 @@
+/* Space & Enter — tema (ortak kabuk: ../oyun.css) */
+
+:root {
+  --t1: #C6B4FF;
+  --t2: #E6DEFF;
+  --t3: #FFF2E4;
+  --t-baslik: #40257F;
+  --t-alt: #5B4699;
+  --t-cizgi: #C3B0F0;
+  --t-sahne1: #EDE6FF;
+  --t-sahne2: #FFEFD8;
+  --t-yazi: #33235C;
+  --t-hud-cizgi: #C3B0F0;
+  --t-hud-yazi: #5B33C4;
+}
+
+.sahne { cursor: default; }
+
+.hud-tus {
+  font-size: 1.05rem; font-weight: 800; letter-spacing: .5px; color: #4A2E9E;
+  background: #EFE8FF; border: 2px solid #C3B0F0;
+  border-radius: 12px; padding: 3px 12px;
+}
+
+/* ekran tuşları alt alta iki geniş tuş */
+.tuslar { grid-template-columns: repeat(3, 58px); gap: 8px; }
+.tus.genis { font-weight: 700; }
+
+.tus.ipucu {
+  animation: tusIpucu .7s ease-in-out infinite;
+  background: linear-gradient(180deg, #FFE87C, #FFD84D);
+}
+@keyframes tusIpucu {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px) scale(1.04); }
+}

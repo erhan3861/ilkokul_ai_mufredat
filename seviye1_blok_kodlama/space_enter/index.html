@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Space &amp; Enter — Zıpla ve Onayla</title>
+<meta name="description" content="1. ve 2. sınıflar için Three.js ile hazırlanmış 3B Space/Enter oyunu: boşluk tuşuyla zıpla, enter tuşuyla sandığı aç.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../oyun.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="stage-kapsayici">
+<div class="tutorial-stage" id="stage">
+
+  <div class="gokyuzu" aria-hidden="true">
+    <div class="gunes"></div>
+    <div class="bulut bulut1"></div>
+    <div class="bulut bulut2"></div>
+  </div>
+
+  <main class="sayfa">
+
+    <header class="ust">
+      <div class="baslik-kutu">
+        <h1>⏎ Space &amp; Enter</h1>
+        <p class="alt-baslik">İlkokul • Klavye Becerileri • <b>Adım 6</b></p>
+      </div>
+      <div class="skor-kutu" id="skorKutu" title="Yıldızların">
+        <span class="skor-emoji">⭐</span>
+        <span class="skor-sayi" id="skorSayi">0</span>
+      </div>
+    </header>
+
+    <section class="adimlar" aria-label="Nasıl oynanır">
+      <div class="adim"><span class="adim-emoji">👀</span><span class="adim-yazi">1. <b>Hangi tuş?</b> yazısına bak</span></div>
+      <div class="adim"><span class="adim-emoji">␣</span><span class="adim-yazi">2. <b>BOŞLUK</b> ile zıpla</span></div>
+      <div class="adim"><span class="adim-emoji">⏎</span><span class="adim-yazi">3. <b>ENTER</b> ile sandığı aç</span></div>
+      <button class="btn-dinle" id="btnDinle" type="button">🔊 Dinle</button>
+    </section>
+
+    <section class="sahne-kutu">
+      <div id="sahne" class="sahne" role="application" aria-label="Boşluk tuşuyla zıpla, enter tuşuyla sandığı aç."></div>
+
+      <div class="hud" id="hud">
+        <span class="hud-yazi">Şimdi bas</span>
+        <span class="hud-tus" id="hedefTus">BOŞLUK</span>
+        <span class="hud-yazi">• kalan</span>
+        <span class="hud-sayi" id="kalanSayi">6</span>
+      </div>
+
+      <div class="tur" id="turKutu">Tur <b id="turSayi">1</b></div>
+
+      <div class="balon" id="balon">BOŞLUK tuşuna bas ve zıpla! ␣</div>
+
+      <div class="tuslar" aria-label="Ekran tuşları">
+        <button class="tus genis" id="tusSpace" type="button" title="Boşluk">␣ BOŞLUK</button>
+        <button class="tus genis" id="tusEnter" type="button" title="Enter">⏎ ENTER</button>
+      </div>
+
+      <div class="hata" id="hata" hidden>
+        <h2>😢 3B motoru yüklenemedi</h2>
+        <p>Bu oyun için <b>internet bağlantısı</b> gerekiyor. Bağlantını kontrol edip sayfayı yenile.</p>
+      </div>
+
+      <div class="konfeti" id="konfeti" aria-hidden="true"></div>
+    </section>
+
+    <section class="kontroller" aria-label="Oyun düğmeleri">
+      <button class="btn buyuk mor" id="btnZorluk" type="button">
+        <span class="btn-emoji" id="zorlukEmoji">🎈</span>
+        <span class="btn-yazi">Zorluk<small id="zorlukAd">Kolay</small></span>
+      </button>
+      <button class="btn buyuk pembe" id="btnKarakter" type="button">
+        <span class="btn-emoji" id="karakterEmoji">🤖</span>
+        <span class="btn-yazi">Karakter<small id="karakterAd">Vızıl</small></span>
+      </button>
+      <button class="btn buyuk sari" id="btnYardim" type="button">
+        <span class="btn-emoji">💡</span>
+        <span class="btn-yazi">İpucu<small>Hangi tuş?</small></span>
+      </button>
+      <button class="btn buyuk turkuaz" id="btnYeni" type="button">
+        <span class="btn-emoji">🔁</span>
+        <span class="btn-yazi">Yeni Tur<small>Baştan</small></span>
+      </button>
+      <button class="btn buyuk yesil" id="btnFoto" type="button">
+        <span class="btn-emoji">📸</span>
+        <span class="btn-yazi">Fotoğraf<small>Kaydet</small></span>
+      </button>
+    </section>
+
+    <section class="kontroller kucuk-satir">
+      <button class="btn kucuk" id="btnSes" type="button"><span class="btn-emoji">🔊</span><span class="btn-yazi">Ses Açık</span></button>
+    </section>
+
+  </main>
+
+</div>
+</div>
+
+<script src="../yukleyici.js"></script>
+</body>
+</html>

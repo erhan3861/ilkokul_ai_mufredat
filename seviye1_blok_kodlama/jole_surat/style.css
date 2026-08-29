@@ -34,7 +34,7 @@ html, body {
 }
 
 body {
-  font-family: 'Fredoka', 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Baloo 2', 'Nunito', 'Segoe UI', system-ui, sans-serif;
   color: var(--koyu);
   background: linear-gradient(180deg, var(--gok1) 0%, var(--gok2) 55%, #FFF6D8 100%);
   -webkit-font-smoothing: antialiased;
