@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Küp Avcısı — Işık Tüneli</title>
+<meta name="description" content="1. ve 2. sınıflar için Three.js ile hazırlanmış 3B Küp Avcısı: ışık tünelinde uç, parlayan küplere tıkla, hepsini topla.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Sabit tasarım sahnesi: 1280x800, ekrana orantılı ölçeklenir -->
+<div class="stage-kapsayici" id="stageKapsayici">
+<div class="tutorial-stage" id="stage">
+
+  <div class="yildizlar" aria-hidden="true"></div>
+
+  <main class="sayfa">
+
+    <header class="ust">
+      <div class="baslik-kutu">
+        <h1>🎯 Küp Avcısı</h1>
+        <p class="alt-baslik">1–2. Sınıf • Mouse Becerileri • <b>Adım 1: Tıklama</b></p>
+      </div>
+      <div class="skor-kutu" id="skorKutu" title="Yıldızların">
+        <span class="skor-emoji">⭐</span>
+        <span class="skor-sayi" id="skorSayi">0</span>
+      </div>
+    </header>
+
+    <!-- Nasıl oynanır -->
+    <section class="adimlar" aria-label="Nasıl oynanır">
+      <div class="adim"><span class="adim-emoji">🚀</span><span class="adim-yazi">1. Tünelde <b>uç</b></span></div>
+      <div class="adim"><span class="adim-emoji">👆</span><span class="adim-yazi">2. Parlayan küpe <b>tıkla</b></span></div>
+      <div class="adim"><span class="adim-emoji">⭐</span><span class="adim-yazi">3. Hepsini <b>topla</b></span></div>
+      <button class="btn-dinle" id="btnDinle" type="button">🔊 Dinle</button>
+    </section>
+
+    <!-- Oyun sahnesi -->
+    <section class="sahne-kutu">
+      <div id="sahne" class="sahne" role="application" aria-label="Işık tüneli. Küplere tıkla."></div>
+
+      <div class="hud" id="hud">
+        <span class="hud-yazi">Kalan küp</span>
+        <span class="hud-sayi" id="kalanSayi">24</span>
+      </div>
+
+      <div class="tur" id="turKutu">Tur <b id="turSayi">1</b></div>
+
+      <div class="balon" id="balon">Küplere tıkla! 🎯</div>
+
+      <div class="hata" id="hata" hidden>
+        <h2>😢 3B motoru yüklenemedi</h2>
+        <p>Bu oyun için <b>internet bağlantısı</b> gerekiyor. Bağlantını kontrol edip sayfayı yenile.</p>
+      </div>
+
+      <div class="konfeti" id="konfeti" aria-hidden="true"></div>
+    </section>
+
+    <!-- Büyük kontroller -->
+    <section class="kontroller" aria-label="Oyun düğmeleri">
+      <button class="btn buyuk mor" id="btnHiz" type="button">
+        <span class="btn-emoji" id="hizEmoji">🐢</span>
+        <span class="btn-yazi">Hız<small id="hizAd">Yavaş</small></span>
+      </button>
+      <button class="btn buyuk pembe" id="btnDurakla" type="button">
+        <span class="btn-emoji" id="duraklaEmoji">⏸️</span>
+        <span class="btn-yazi">Dur<small id="duraklaAd">Duraklat</small></span>
+      </button>
+      <button class="btn buyuk turkuaz" id="btnTema" type="button">
+        <span class="btn-emoji">🎨</span>
+        <span class="btn-yazi">Renk<small id="temaAd">Gökkuşağı</small></span>
+      </button>
+      <button class="btn buyuk sari" id="btnYeni" type="button">
+        <span class="btn-emoji">🔁</span>
+        <span class="btn-yazi">Yeni Tünel<small>Baştan</small></span>
+      </button>
+      <button class="btn buyuk yesil" id="btnFoto" type="button">
+        <span class="btn-emoji">📸</span>
+        <span class="btn-yazi">Fotoğraf<small>Kaydet</small></span>
+      </button>
+    </section>
+
+    <section class="kontroller kucuk-satir">
+      <button class="btn kucuk" id="btnSes" type="button"><span class="btn-emoji">🔊</span><span class="btn-yazi">Ses Açık</span></button>
+      <button class="btn kucuk" id="btnKolay" type="button"><span class="btn-emoji">🎈</span><span class="btn-yazi">Büyük Küpler</span></button>
+    </section>
+
+  </main>
+
+</div>
+</div>
+
+<!-- ===== Sahne ölçekleme (Genially mantığı) ===== -->
+<script>
+(function () {
+  var SAHNE_G = 1280, SAHNE_Y = 800;
+  var stage = document.getElementById('stage');
+
+  function olcekle() {
+    var vg = window.innerWidth, vy = window.innerHeight;
+    if (window.visualViewport) { vg = window.visualViewport.width; vy = window.visualViewport.height; }
+    var o = Math.min(vg / SAHNE_G, vy / SAHNE_Y);
+    stage.style.transform = 'translate(' + ((vg - SAHNE_G * o) / 2) + 'px,' + ((vy - SAHNE_Y * o) / 2) + 'px) scale(' + o + ')';
+    window.__sahneOlcek = o;
+    if (window.__olcekDegisti) window.__olcekDegisti(o);
+  }
+
+  window.addEventListener('resize', olcekle);
+  window.addEventListener('orientationchange', olcekle);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', olcekle);
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(olcekle).catch(function () { }); }
+  window.addEventListener('load', olcekle);
+  olcekle();
+})();
+</script>
+
+<!-- ===== Three.js yükleyici ===== -->
+<script>
+(function () {
+  var kaynaklar = [
+    'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
+    'https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js',
+    'https://unpkg.com/three@0.128.0/build/three.min.js'
+  ];
+  var i = 0, oyunYuklendi = false;
+
+  function hataGoster() {
+    if (typeof THREE !== 'undefined') return;
+    var g = document.getElementById('hata');
+    if (g) g.hidden = false;
+  }
+  function oyunuYukle() {
+    if (oyunYuklendi) return;
+    oyunYuklendi = true;
+    var o = document.createElement('script');
+    o.src = 'script.js';
+    o.onerror = hataGoster;
+    document.body.appendChild(o);
+  }
+  function sonraki() {
+    if (typeof THREE !== 'undefined') { oyunuYukle(); return; }
+    if (i >= kaynaklar.length) { hataGoster(); return; }
+    var s = document.createElement('script');
+    s.src = kaynaklar[i++];
+    s.onload = oyunuYukle;
+    s.onerror = sonraki;
+    document.head.appendChild(s);
+  }
+  sonraki();
+})();
+</script>
+
+</body>
+</html>
