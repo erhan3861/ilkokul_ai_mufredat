@@ -178,6 +178,12 @@ body {
 .panel.ai  .ac { background: linear-gradient(180deg, #B478F0, var(--ai));  color: #fff; box-shadow: 0 4px 0 var(--ai-koyu); }
 .rehber-buyuk { background: linear-gradient(180deg, #FFE07A, #FFC42E); color: #6B4A00; box-shadow: 0 4px 0 #E09A0B; }
 
+
+.adimcik.pasif span {
+  font-family: 'Nunito', sans-serif; font-size: .72rem; font-weight: 700;
+  padding: 3px 8px; border-radius: 8px; background: #F1ECFA; color: #7A6BA8;
+  border: 1.5px solid #E2D8F5;
+}
 .panel.plan { background: repeating-linear-gradient(45deg, #FBF8FF, #FBF8FF 12px, #F5EEFF 12px, #F5EEFF 24px); }
 .panel.plan h3 { color: #5B4699; }
 .hazirlaniyor {
@@ -331,32 +337,32 @@ var DERSLER = [
 
 /* --- 11–36. hafta: planlanan AI-Galaxy dersleri (içerik hazırlanıyor) --- */
 var PLAN_DERSLER = [
-  { no: 11, ad: 'Kelime Hazinem Büyüyor',        emoji: '📚', ozet: 'Eş ve zıt anlamlı sıfatlarla istemi zenginleştirme.' },
-  { no: 12, ad: 'Adım Adım Anlatıyorum',         emoji: '🪜', ozet: 'Önce–sonra sırasıyla anlatma; sıralı istem kurma.' },
-  { no: 13, ad: 'Neden ve Sonuç',                emoji: '🔗', ozet: '“Çünkü” ile cümle kurma; sebep-sonuç isteme.' },
-  { no: 14, ad: 'Karşılaştırıyorum',             emoji: '⚖️', ozet: 'İki şeyi karşılaştıran istem yazma (büyük–küçük, hızlı–yavaş).' },
-  { no: 15, ad: 'Sayılarla Anlatım',             emoji: '🔢', ozet: 'Matematikle birleşen istemler: kaç tane, kaçıncı, ne kadar.' },
-  { no: 16, ad: 'Renk ve Şekil Dünyam',          emoji: '🔷', ozet: 'Renk ve şekil sıfatlarıyla görsel istem tasarımı.' },
-  { no: 17, ad: 'Kahramanımı Yaratıyorum',       emoji: '🦸', ozet: 'Kendi hikâye kahramanını tarif etme ve çizdirme.' },
-  { no: 18, ad: 'Hikâyemin Sonunu Değiştiriyorum', emoji: '🔄', ozet: 'Aynı hikâyeye farklı son yazdırma; alternatif düşünme.' },
-  { no: 19, ad: 'Doğru mu, Yanlış mı?',          emoji: '🤔', ozet: 'Yapay zekâ hata yapabilir; cevabı kontrol etme alışkanlığı.' },
-  { no: 20, ad: 'Kaynağı Sorgula',               emoji: '🔍', ozet: 'Bilgi nereden geliyor? Öğretmene/kitaba danışma refleksi.' },
-  { no: 21, ad: 'Kişisel Bilgim Bende Kalır',    emoji: '🔒', ozet: 'Ad, adres, telefon paylaşmama; güvenli kullanım.' },
-  { no: 22, ad: 'Nazik Konuşuyorum',             emoji: '💬', ozet: 'Dijital nezaket: lütfen–teşekkür ederim, kırıcı dil yok.' },
-  { no: 23, ad: 'Görselden Hikâye',              emoji: '🖼️', ozet: 'Bir resme bakıp hikâye kurma ve istem yazma.' },
-  { no: 24, ad: 'Sesli Anlatım ve Şarkı',        emoji: '🎵', ozet: 'Tekerleme/şarkı biçiminde çıktı isteme.' },
-  { no: 25, ad: 'Robot Arkadaşım',               emoji: '🤖', ozet: 'Kendi yardımcı robotunu tasarlama ve tanıtma.' },
-  { no: 26, ad: 'Sınıf Panom İçin İçerik',       emoji: '📌', ozet: 'Panoya asılacak afiş/başlık üretme.' },
-  { no: 27, ad: 'Bilmece Ustası',                emoji: '❓', ozet: 'Bilmece biçiminde çıktı isteme ve tahmin oyunu.' },
-  { no: 28, ad: 'Şiir ve Tekerleme',             emoji: '📝', ozet: 'Kafiyeli kısa metin isteme; ritim duygusu.' },
-  { no: 29, ad: 'Küçük Araştırmacı',             emoji: '🔬', ozet: 'Merak ettiğini soru cümlesiyle sorma.' },
-  { no: 30, ad: 'İki Görsel, İki İstem',         emoji: '🖇️', ozet: 'Aynı konuda iki farklı istemin sonuçlarını kıyaslama.' },
-  { no: 31, ad: 'Hayal Şehrim',                  emoji: '🏙️', ozet: 'Grup projesi: hayalindeki şehri tarif etme.' },
-  { no: 32, ad: 'Yardımcı Robotum',              emoji: '🛠️', ozet: 'Bir problemi çözen robot tasarlama (problem çözme).' },
-  { no: 33, ad: 'Sunum Hazırlıyorum',            emoji: '📊', ozet: 'Sınıfa anlatmak için 3 maddelik özet üretme.' },
-  { no: 34, ad: 'Oyun Tasarlıyorum',             emoji: '🎮', ozet: 'Kendi oyununun kurallarını istemle anlatma.' },
-  { no: 35, ad: 'Sergi Hazırlığı',               emoji: '🎪', ozet: 'Yıl boyunca üretilenlerden en iyilerini seçme.' },
-  { no: 36, ad: 'Büyük Sergi ve Değerlendirme',  emoji: '🏆', ozet: 'Yıl sonu sergisi, veli sunumu ve değerlendirme.' }
+  { no: 11, ad: 'Yapay Zekâ Hata Yapabilir', emoji: '🤔', ozet: 'Doğruluk ve güvenlik: cevabı kontrol etme alışkanlığı.' },
+  { no: 12, ad: 'Özgür Prompt Tasarımı', emoji: '✨', ozet: 'Öğrendiklerini birleştirip kendi promptunu tasarlama.' },
+  { no: 13, ad: 'Ana Karakter ve Maskot Tasarımı', emoji: '🦸', ozet: 'Kendi kahramanını/maskotunu tarif etme ve üretme.' },
+  { no: 14, ad: 'Mekân ve Ortam Oluşturma', emoji: '🏞️', ozet: 'Olayın geçtiği yeri anlatma: orman, uzay, sınıf…' },
+  { no: 15, ad: 'Renk Paletleri ve Görsel Uyum', emoji: '🎨', ozet: 'Renkleri birlikte kullanma; uyumlu palet seçme.' },
+  { no: 16, ad: 'Görsel Sanat Stilleri', emoji: '🖌️', ozet: '3D Pixar, kil, suluboya gibi stilleri tanıma ve isteme.' },
+  { no: 17, ad: 'Duygu ve Yüz İfadesi Ekleme', emoji: '😊', ozet: 'Karakterin ne hissettiğini yüz ifadesiyle anlatma.' },
+  { no: 18, ad: 'Işık ve Zaman Ayarları', emoji: '🌅', ozet: 'Sabah, gece, gün batımı: ışığın anlatımı değiştirmesi.' },
+  { no: 19, ad: 'Bakış Açısı ve Kadraj', emoji: '🎥', ozet: 'Yakın ve uzak çekim: nereden bakıyoruz?' },
+  { no: 20, ad: 'Arka Plan Ayrıntıları ve Kompozisyon', emoji: '🖼️', ozet: 'Arka plandaki ayrıntılar ve düzen.' },
+  { no: 21, ad: 'Hikâye Kahramanı Kartı Tasarımı', emoji: '🃏', ozet: 'Kahramanın özelliklerini kart hâline getirme.' },
+  { no: 22, ad: 'Sihirli Kitap Kapağı Tasarımı', emoji: '📕', ozet: 'Başlık + görsel: kendi kitabının kapağı.' },
+  { no: 23, ad: 'Sosyal Sorumluluk Posteri', emoji: '🌍', ozet: 'Çevre ve iyilik mesajı taşıyan afiş üretme.' },
+  { no: 24, ad: 'Üç Karelik Çizgi Hikâye', emoji: '🧩', ozet: 'Üç kutuda başı-ortası-sonu olan hikâye.' },
+  { no: 25, ad: 'Hikâye Kurgusu', emoji: '📖', ozet: 'Başlangıç, gelişme, sonuç sırasını kurma.' },
+  { no: 26, ad: 'Kahramanın Amacı ve İsteği', emoji: '🎯', ozet: 'Kahraman ne istiyor? Amaç belirleme.' },
+  { no: 27, ad: 'Hikâyedeki Engel ve Küçük Sorun', emoji: '⛰️', ozet: 'Kahramanın önüne çıkan sorun.' },
+  { no: 28, ad: 'Sorunun Çözümü ve Mutlu Son', emoji: '🌟', ozet: 'Sorunu çözme ve hikâyeyi bitirme.' },
+  { no: 29, ad: 'Sahnelere Ayırma — 1. Sahne', emoji: '1️⃣', ozet: 'Hikâyenin giriş sahnesini kurma.' },
+  { no: 30, ad: 'Sahnelere Ayırma — Gelişme', emoji: '2️⃣', ozet: 'Olayın geliştiği sahne.' },
+  { no: 31, ad: 'Sahnelere Ayırma — Sonuç', emoji: '3️⃣', ozet: 'Kapanış sahnesi ve final.' },
+  { no: 32, ad: 'Storyboard (Görsel Senaryo Tahtası)', emoji: '🗂️', ozet: 'Sahneleri sırayla tahtaya dizme.' },
+  { no: 33, ad: 'Harekete Geçiş (Hareket Fiilleri)', emoji: '🏃', ozet: 'Koşuyor, zıplıyor, uçuyor: hareket ekleme.' },
+  { no: 34, ad: 'Tek Hareketli Kısa Video', emoji: '🎬', ozet: 'Tek bir hareketle kısa video isteme.' },
+  { no: 35, ad: 'Görselden Videoya Dönüşüm', emoji: '📽️', ozet: 'Kendi görselini canlandırma.' },
+  { no: 36, ad: 'Yıl Sonu Mini Film Festivali', emoji: '🏆', ozet: 'Gala, sergi ve diploma: yıl sonu projesi.' }
 ];
 var TOPLAM_HAFTA = 36;          /* yıllık plan 36 hafta; AI'da 10, kodlamada 18 hafta içerik hazır */
 var HAFTALAR = [];
@@ -449,6 +455,9 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
         '<span class="tur">🚀 AI-GALAXY • DERS ' + h.ai.no + '</span>' +
         '<h3>' + h.ai.emoji + ' ' + h.ai.ad + '</h3>' +
         '<p class="hedef">' + h.ai.ozet + '</p>' +
+        '<div class="adimcik pasif">' +
+          '<span>1️⃣ Laboratuvar</span><span>2️⃣ Grup Etkinliği</span><span>3️⃣ Görsel Rehber</span>' +
+        '</div>' +
         '<span class="hazirlaniyor">⏳ İçerik hazırlanıyor</span>' +
         '<div class="dugmeler"><a class="ac" href="#">⏳ Yakında</a></div></div>';
     }
