@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Galaxy — Öğretmen Rehberi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rehber.css">
+<style>
+  :root { --vurgu: #8B3FD8; --vurgu-koyu: #6B21B8; --vurgu-acik: #F4EAFF; }
+  .ust-btn.etkinlik { background: linear-gradient(180deg, #B478F0, #8B3FD8); color: #fff; box-shadow: 0 5px 0 #6B21B8; }
+  .adim-kart { position: relative; }
+  .adim-kart.bu-hafta { border-color: #FFC94D; background: #FFF9E8; }
+  .adim-kart.bu-hafta::after {
+    content: 'BU HAFTA'; position: absolute; top: -11px; right: 12px;
+    background: #FFC94D; color: #6B4A00; font-size: .66rem; font-weight: 800;
+    padding: 3px 10px; border-radius: 20px; letter-spacing: .5px;
+  }
+  .ornek { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; margin-bottom: 8px; }
+  .ornek .kotu {
+    background: #FFF0F0; border: 2px solid #FFC9C9; border-radius: 12px; padding: 8px 12px;
+    font-family: 'Nunito', sans-serif; font-size: .95rem; color: #A33; text-decoration: line-through;
+  }
+  .ornek .ok { font-size: 1.3rem; color: var(--vurgu); font-weight: 800; }
+  .ornek .iyi {
+    background: #EDFBF1; border: 2px solid #B9EFC9; border-radius: 12px; padding: 8px 12px;
+    font-family: 'Nunito', sans-serif; font-size: .95rem; color: #16663E; font-weight: 700;
+  }
+  .ornek-not { font-size: .8rem; color: #6B7E96; font-family: 'Nunito', sans-serif; margin: -4px 0 10px 2px; }
+  .akis { display: flex; flex-direction: column; gap: 8px; }
+  .akis .adim {
+    background: #F7FAFE; border-left: 5px solid var(--vurgu); border-radius: 12px; padding: 9px 14px;
+  }
+  .akis .adim b { color: #1D3557; }
+  .akis .adim p { font-family: 'Nunito', sans-serif; font-size: .93rem; margin-top: 2px; }
+  .tek-cumle {
+    background: var(--vurgu-acik); border: 2px solid #DCC4FA; border-radius: 16px;
+    padding: 14px 18px; font-size: 1.1rem; line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage-kapsayici">
+<div class="tutorial-stage" id="stage">
+
+  <header class="rehber-ust">
+    <a class="ust-btn geri" id="btnPatika" href="blok_kodlama_ai_galaxy_26_27.html">⬅️ Program</a>
+    <div class="orta">
+      <h1 id="baslik">👩‍🏫 AI-Galaxy Öğretmen Rehberi</h1>
+      <p id="altBaslik">İlkokul 1 • 2026–2027</p>
+    </div>
+    <a class="ust-btn etkinlik" id="btnEtkinlik" href="#" target="_blank" rel="noopener">▶ Etkinliği Aç</a>
+  </header>
+
+  <div class="slaytlar" id="slaytlar"></div>
+
+  <nav class="gezinme">
+    <button class="gez-btn" id="onceki" type="button">◀ Önceki</button>
+    <div class="noktalar" id="noktalar"></div>
+    <span class="sayfa-no" id="sayfaNo">1 / 5</span>
+    <button class="gez-btn ana" id="sonraki" type="button">Sonraki ▶</button>
+    <button class="gez-btn yazdir" id="yazdir" type="button">🖨️ Yazdır</button>
+  </nav>
+
+</div>
+</div>
+
+<script src="ai_rehber_veri.js"></script>
+<script>
+(function () {
+  var AI_TEMEL = 'https://ilkokul1.vercel.app';
+
+  function par(ad, vars) {
+    var m = new RegExp('[?&]' + ad + '=([^&]+)').exec(location.search);
+    return m ? decodeURIComponent(m[1]) : vars;
+  }
+
+  var dersNo = Math.max(1, Math.min(10, parseInt(par('ders', '1'), 10) || 1));
+  var adimNo = Math.max(1, Math.min(3, parseInt(par('adim', '1'), 10) || 1));
+  var hafta = parseInt(par('hafta', ''), 10);
+  var D = AI_DERSLER[dersNo];
+
+  /* --- başlık --- */
+  document.getElementById('baslik').innerHTML = '👩‍🏫 ' + D.emoji + ' Ders ' + dersNo + ' — ' + D.ad;
+  document.getElementById('altBaslik').innerHTML =
+    'AI-Galaxy • İlkokul 1 • <b>Etkinlik ' + dersNo + '.' + adimNo + '</b>' +
+    (hafta ? ' • <b>' + hafta + '. hafta</b>' : '') + ' • Süre: 40–45 dk';
+  document.getElementById('btnEtkinlik').href =
+    AI_TEMEL + '/ders' + dersNo + '/ders' + dersNo + '_' + adimNo + '.html';
+
+  /* --- slaytlar --- */
+  var s = [];
+
+  /* 1 — NEDEN? */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">' + D.emoji + '</span>' +
+      '<span class="rozet">1 • NEDEN?</span><h2>Bu ders neden işleniyor?</h2></div>' +
+    '<div class="tek-cumle">🎯 ' + D.tekCumle + '</div>' +
+    '<div class="iki-sutun">' +
+      '<div class="kutu vurgulu"><h3>💡 Faydası</h3><ul>' +
+        D.neden.map(function (x) { return '<li>' + x + '</li>'; }).join('') +
+      '</ul></div>' +
+      '<div class="kutu yesil"><h3>🎓 Kazanımlar</h3><ul>' +
+        D.kazanim.map(function (x) { return '<li>' + x + '</li>'; }).join('') +
+      '</ul>' +
+      '<p class="not">1. sınıf seviyesi: okuma-yazma yeni başladığı için etkinlikler <b>sözlü</b> de yürütülebilir; öğretmen yazar, çocuk söyler.</p></div>' +
+    '</div>'
+  );
+
+  /* 2 — NASIL ANLATILIR? */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🗺️</span>' +
+      '<span class="rozet">2 • NASIL ANLATILIR?</span><h2>Ders akışı — adım adım</h2></div>' +
+    '<div class="akis">' +
+      D.nasil.map(function (a) {
+        return '<div class="adim"><b>' + a.b + '</b><p>' + a.m + '</p></div>';
+      }).join('') +
+    '</div>'
+  );
+
+  /* 3 — ÖRNEKLER */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">✏️</span>' +
+      '<span class="rozet">3 • ÖRNEKLER</span><h2>Böyle değil, şöyle!</h2></div>' +
+    '<p class="not">Soldakini tahtaya yazın, çocuklara sağdakini <b>birlikte</b> buldurun. Kırmızıdan yeşile geçmek dersin özüdür.</p>' +
+    D.ornekler.map(function (o) {
+      return '<div class="ornek"><div class="kotu">' + o.kotu + '</div>' +
+             '<div class="ok">➜</div><div class="iyi">' + o.iyi + '</div></div>' +
+             '<p class="ornek-not">💬 ' + o.not + '</p>';
+    }).join('') +
+    '<div class="kutu sari"><h3>🖐️ Sınıfta hemen deneyin</h3>' +
+      '<p>Bir çocuğa kırmızı cümleyi, başka bir çocuğa yeşil cümleyi okutun. Sonuçları ekranda yan yana gösterin: <b>fark kendini anlatır.</b></p></div>'
+  );
+
+  /* 4 — 3 ETKİNLİK */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🧩</span>' +
+      '<span class="rozet">4 • ETKİNLİKLER</span><h2>Bu dersin 3 etkinliği</h2></div>' +
+    '<div class="uc-sutun">' +
+      D.adimlar.map(function (a, i) {
+        return '<div class="kutu adim-kart' + ((i + 1) === adimNo ? ' bu-hafta' : '') + '">' +
+          '<h3>' + (i + 1) + '️⃣ ' + a.ad + '</h3>' +
+          '<p><b>⏱️ ' + a.sure + '</b></p>' +
+          '<p><b>Ne yapar:</b> ' + a.ne + '</p>' +
+          '<p><b>Nasıl işlenir:</b> ' + a.nasil + '</p>' +
+          '<p class="not"><a href="' + AI_TEMEL + '/ders' + dersNo + '/ders' + dersNo + '_' + (i + 1) + '.html" target="_blank" rel="noopener">▶ Bu etkinliği aç</a></p>' +
+        '</div>';
+      }).join('') +
+    '</div>' +
+    '<p class="not">Üç etkinlik aynı derste sırayla da işlenebilir, üç ayrı haftaya da yayılabilir. Yıllık programda <b>haftada bir etkinlik</b> olarak planlandı.</p>'
+  );
+
+  /* 5 — SORULAR & İPUÇLARI */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🗣️</span>' +
+      '<span class="rozet">5 • SORULAR & İPUÇLARI</span><h2>Sınıfa sorun, tuzaklardan kaçının</h2></div>' +
+    '<div class="iki-sutun">' +
+      '<div class="kutu"><h3>❓ Sınıf soruları</h3><div class="soru-listesi">' +
+        D.sorular.map(function (q) { return '<div class="soru">👉 ' + q + '</div>'; }).join('') +
+      '</div></div>' +
+      '<div class="kutu sari"><h3>⚠️ İpuçları ve sık hatalar</h3><ul>' +
+        D.ipuclari.map(function (x) { return '<li>' + x + '</li>'; }).join('') +
+      '</ul>' +
+      '<p class="not">🌐 Etkinlikler tarayıcıda açılır, kurulum gerekmez. Akıllı tahtada tam ekran için <b>F11</b>.</p></div>' +
+    '</div>'
+  );
+
+  var kap = document.getElementById('slaytlar');
+  kap.innerHTML = s.map(function (ic, i) {
+    return '<section class="slayt' + (i === 0 ? ' aktif' : '') + '">' + ic + '</section>';
+  }).join('');
+})();
+</script>
+<script src="rehber.js"></script>
+</body>
+</html>

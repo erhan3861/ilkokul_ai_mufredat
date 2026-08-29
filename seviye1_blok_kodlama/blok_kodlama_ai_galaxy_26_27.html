@@ -148,6 +148,13 @@ body {
 .panel.kod .ac { background: linear-gradient(180deg, #7FB6F5, var(--kod)); color: #fff; box-shadow: 0 3px 0 var(--kod-koyu); }
 .panel.ai  .ac { background: linear-gradient(180deg, #B478F0, var(--ai));  color: #fff; box-shadow: 0 3px 0 var(--ai-koyu); }
 .panel .reh { background: #F1F5FA; color: #4A6788; box-shadow: 0 3px 0 #D3DFEC; }
+.panel .rehber-buyuk {
+  background: linear-gradient(180deg, #FFE07A, #FFC42E); color: #6B4A00;
+  box-shadow: 0 3px 0 #E09A0B; font-size: .8rem; padding: 6px 11px; border-radius: 11px;
+  text-decoration: none; font-weight: 800; white-space: nowrap;
+}
+.panel .rehber-buyuk.kod { background: linear-gradient(180deg, #BBD9FA, #86B8F0); color: #133A66; box-shadow: 0 3px 0 #4B85CC; }
+.panel.bos .rehber-buyuk { opacity: .9; }
 .panel.bos { opacity: .55; }
 .panel.bos .ac { background: #DCE4EE; color: #7C8CA0; box-shadow: 0 3px 0 #C2CEDC; pointer-events: none; }
 
@@ -382,7 +389,7 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
       '<p class="hedef">🎯 ' + h.kod.hedef + '</p>' +
       '<div class="dugmeler">' +
         (link ? '<a class="ac" href="' + link + '">▶ Aç</a>' : '<a class="ac" href="#">⏳ Yakında</a>') +
-        (rehber ? '<a class="reh" href="' + rehber + '" title="Öğretmen rehberi">👩‍🏫</a>' : '') +
+        (rehber ? '<a class="rehber-buyuk kod" href="' + rehber + '">👩‍🏫 Rehber</a>' : '') +
       '</div></div>';
   }
 
@@ -394,7 +401,7 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
       '<p class="hedef">📘 ' + a.dersAd + '</p>' +
       '<div class="dugmeler">' +
         '<a class="ac" href="' + a.link + '" target="_blank" rel="noopener">▶ Aç</a>' +
-        '<a class="reh" href="' + a.portal + '" target="_blank" rel="noopener" title="Dersin tüm etkinlikleri">📚</a>' +
+        '<a class="rehber-buyuk" href="./ai_rehber.html?ders=' + a.ders + '&adim=' + a.adim + '&hafta=' + h.no + '">👩‍🏫 Rehber</a>' +
       '</div></div>';
   }
 
