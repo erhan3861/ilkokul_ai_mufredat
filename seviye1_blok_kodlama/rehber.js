@@ -35,6 +35,16 @@
     window.addEventListener('load', olcekle);
     olcekle();
 
+    /* 'Patika' düğmesi: aynı siteden gelindiyse tam olarak gelinen sayfaya
+       döner (18 haftalık program ya da eski portal); yoksa varsayılana gider. */
+    var geriBtn = document.getElementById('btnPatika');
+    if (geriBtn && document.referrer) {
+      try {
+        var r = new URL(document.referrer);
+        if (r.origin === location.origin && r.pathname !== location.pathname) geriBtn.href = r.href;
+      } catch (e) { }
+    }
+
     if (!slaytlar.length) return;
 
     /* --- noktalar --- */
