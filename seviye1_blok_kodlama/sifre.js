@@ -345,5 +345,7 @@ window.SIFRE = (function () {
     }
   }
 
-  return { kur: kur, yildiz: yildiz, ac: ac, kapat: kapat };
+  function kalan() { return C ? Math.max(0, C.hedef - sayac) : 0; }
+
+  return { kur: kur, yildiz: yildiz, ac: ac, kapat: kapat, kalan: kalan };
 })();

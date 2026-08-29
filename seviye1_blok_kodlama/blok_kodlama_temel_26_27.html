@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blok Kodlama Temel • 1–2. Sınıf • 2026–2027</title>
+<meta name="description" content="1–2. sınıf blok kodlama patikası: 18 haftalık program. Hafta ara, seç ve etkinliğe gir.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   Sabit tasarım sahnesi: 1280x800, ekrana orantılı ölçeklenir.
+   Kaydırma yok — her ekranda tüm sayfa görünür.
+   ========================================================= */
+:root {
+  --mouse: #4C8BF5;  --mouse-bg: #E8F1FF;
+  --klavye: #E0912B; --klavye-bg: #FFF1DC;
+  --codeali: #8B6BFF; --codeali-bg: #EFEAFF;
+  --galaksi: #21A8A0; --galaksi-bg: #E0F7F5;
+  --uzay: #E0517E;   --uzay-bg: #FFE7EE;
+  --koyu: #1D3557;   --gri: #5A7290;  --cizgi: #DDE7F3;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100vh; height: 100dvh; overflow: hidden; }
+body {
+  font-family: 'Baloo 2', 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  color: var(--koyu);
+  background: linear-gradient(180deg, #8FD8FF 0%, #D6EEFF 45%, #FFF6E2 100%);
+  -webkit-font-smoothing: antialiased;
+}
+.stage-kapsayici { position: fixed; inset: 0; overflow: hidden; }
+.tutorial-stage {
+  position: absolute; top: 0; left: 0; width: 1280px; height: 800px;
+  transform-origin: 0 0;
+  background: linear-gradient(180deg, #8FD8FF 0%, #D6EEFF 45%, #FFF6E2 100%);
+  display: flex; flex-direction: column; gap: 13px; padding: 18px 26px 16px;
+}
+
+/* ---------- Başlık ---------- */
+.ust {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 16px;
+  background: rgba(255,255,255,.86); border: 3px solid #fff; border-radius: 24px;
+  padding: 12px 20px; box-shadow: 0 10px 26px rgba(29,53,87,.16);
+}
+.ust .logo { font-size: 2.4rem; }
+.ust .yazi { flex: 1 1 auto; }
+.ust h1 { font-size: 1.7rem; font-weight: 800; line-height: 1.1; }
+.ust p { font-size: .95rem; color: var(--gri); margin-top: 2px; }
+.rozet {
+  background: linear-gradient(90deg, #8B6BFF, #FF7BAC); color: #fff;
+  font-weight: 800; font-size: .95rem; padding: 9px 20px; border-radius: 30px;
+  box-shadow: 0 5px 14px rgba(139,107,255,.35); white-space: nowrap;
+}
+
+/* ---------- Araç şeridi ---------- */
+.arac {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,.86); border: 3px solid #fff; border-radius: 22px;
+  padding: 10px 16px; box-shadow: 0 8px 20px rgba(29,53,87,.14);
+}
+.ara-kutu {
+  flex: 1 1 auto; display: flex; align-items: center; gap: 10px;
+  background: #fff; border: 3px solid var(--cizgi); border-radius: 16px; padding: 0 14px; height: 52px;
+  transition: border-color .2s;
+}
+.ara-kutu:focus-within { border-color: #7FB6FF; box-shadow: 0 0 0 4px rgba(127,182,255,.25); }
+.ara-kutu span { font-size: 1.3rem; }
+.ara-kutu input {
+  flex: 1 1 auto; border: 0; outline: 0; font: inherit; font-size: 1.05rem;
+  color: var(--koyu); background: transparent;
+}
+.ara-kutu input::placeholder { color: #9DAFC4; }
+.ara-temizle {
+  border: 0; background: #EEF3F9; color: #6B819B; font: inherit; font-weight: 700;
+  width: 30px; height: 30px; border-radius: 50%; cursor: pointer; line-height: 1;
+}
+
+.hafta-sec {
+  display: flex; align-items: center; gap: 8px;
+  background: #FFF7E4; border: 3px solid #FFE0A6; border-radius: 16px; padding: 5px 10px; height: 52px;
+}
+.hafta-sec .etiket { font-size: .8rem; font-weight: 700; color: #96631C; letter-spacing: .4px; }
+.hafta-sec input {
+  width: 62px; height: 40px; border: 3px solid #FFD27A; border-radius: 12px;
+  font: inherit; font-size: 1.4rem; font-weight: 800; text-align: center; color: #8A5A12;
+  background: #fff; outline: 0; -moz-appearance: textfield;
+}
+.hafta-sec input::-webkit-outer-spin-button, .hafta-sec input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.ok-btn {
+  width: 40px; height: 40px; border-radius: 12px; border: 3px solid #fff;
+  background: linear-gradient(180deg, #FFE87C, #FFD84D); color: #6B4A00;
+  font: inherit; font-size: 1.1rem; font-weight: 800; cursor: pointer;
+  box-shadow: 0 4px 0 #E9B417; transition: transform .1s, box-shadow .1s;
+}
+.ok-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #E9B417; }
+.ok-btn:disabled { opacity: .4; cursor: default; box-shadow: none; }
+
+.sayfa-sec { display: flex; align-items: center; gap: 8px; }
+.sayfa-sec .sayfa-no { font-size: 1.05rem; font-weight: 800; color: var(--gri); min-width: 62px; text-align: center; }
+.sayfa-btn {
+  width: 46px; height: 52px; border-radius: 16px; border: 3px solid #fff;
+  background: linear-gradient(180deg, #A491FF, #8B6BFF); color: #fff;
+  font: inherit; font-size: 1.2rem; font-weight: 800; cursor: pointer;
+  box-shadow: 0 5px 0 #6A45E8; transition: transform .1s, box-shadow .1s;
+}
+.sayfa-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #6A45E8; }
+.sayfa-btn:disabled { opacity: .35; cursor: default; box-shadow: none; }
+
+/* ---------- Kart ızgarası ---------- */
+.izgara {
+  flex: 1 1 auto; min-height: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 14px;
+}
+.kart {
+  position: relative; display: flex; flex-direction: column; gap: 6px;
+  background: #fff; border: 3px solid #fff; border-left: 9px solid var(--renk, #4C8BF5);
+  border-radius: 20px; padding: 12px 16px 12px 14px;
+  box-shadow: 0 8px 20px rgba(29,53,87,.14);
+  transition: transform .16s, box-shadow .16s;
+}
+.kart:hover { transform: translateY(-4px); box-shadow: 0 14px 28px rgba(29,53,87,.2); }
+.kart .satir { display: flex; align-items: center; gap: 10px; }
+.kart .no {
+  width: 42px; height: 42px; flex: 0 0 auto; border-radius: 13px;
+  background: var(--renk-bg, #E8F1FF); color: var(--renk, #4C8BF5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; font-weight: 800;
+}
+.kart .emoji { font-size: 1.9rem; margin-left: auto; }
+.kart .tur {
+  font-size: .68rem; font-weight: 800; letter-spacing: .5px; color: var(--renk, #4C8BF5);
+  background: var(--renk-bg, #E8F1FF); border-radius: 20px; padding: 3px 10px; align-self: flex-start;
+}
+.kart h3 { font-size: 1.16rem; font-weight: 800; line-height: 1.15; }
+.kart .hedef {
+  font-family: 'Nunito', sans-serif; font-size: .84rem; color: var(--gri); line-height: 1.35;
+}
+.kart .dugmeler { margin-top: auto; display: flex; gap: 8px; }
+.kart .dugmeler a {
+  flex: 1 1 auto; text-align: center; text-decoration: none; font-weight: 800; font-size: .95rem;
+  padding: 9px 8px; border-radius: 14px; transition: transform .1s, box-shadow .1s;
+}
+.kart .ac { background: linear-gradient(180deg, #86EFA6, #4ED97B); color: #08421F; box-shadow: 0 4px 0 #26B355; }
+.kart .reh { flex: 0 0 auto; background: #F1F5FA; color: #4A6788; box-shadow: 0 4px 0 #D3DFEC; padding: 9px 14px; }
+.kart .dugmeler a:active { transform: translateY(3px); box-shadow: none; }
+.kart.bos .ac { background: #DCE4EE; color: #7C8CA0; box-shadow: 0 4px 0 #C2CEDC; pointer-events: none; }
+.kart.bos { opacity: .72; }
+.kart.parla {
+  animation: parla 1.6s ease;
+  border-color: #FFD84D; border-left-color: var(--renk, #4C8BF5);
+}
+@keyframes parla {
+  0%, 100% { box-shadow: 0 8px 20px rgba(29,53,87,.14); }
+  25%, 75% { box-shadow: 0 0 0 6px rgba(255,216,77,.85), 0 10px 24px rgba(29,53,87,.2); transform: translateY(-4px); }
+}
+
+.bosluk {
+  grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; color: var(--gri); font-size: 1.2rem; font-weight: 700;
+}
+.bosluk span { font-size: 3rem; }
+
+/* ---------- Alt şerit ---------- */
+.alt {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,.8); border: 3px solid #fff; border-radius: 20px;
+  padding: 8px 16px; box-shadow: 0 6px 16px rgba(29,53,87,.12);
+  font-family: 'Nunito', sans-serif; font-size: .82rem; color: var(--gri);
+}
+.anahtar { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+.anahtar i { width: 13px; height: 13px; border-radius: 4px; display: block; }
+.alt .ipucu { margin-left: auto; font-weight: 700; }
+.alt kbd {
+  background: #fff; border: 2px solid var(--cizgi); border-bottom-width: 3px; border-radius: 6px;
+  padding: 1px 7px; font-family: inherit; font-size: .8rem; color: var(--koyu);
+}
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="stage-kapsayici">
+<div class="tutorial-stage" id="stage">
+
+  <header class="ust">
+    <span class="logo">🧩</span>
+    <div class="yazi">
+      <h1>Blok Kodlama Temel • 1–2. Sınıf</h1>
+      <p>2026–2027 Eğitim Yılı • Mouse → Klavye → CodeAli → Galaksi → Uzay</p>
+    </div>
+    <span class="rozet">📅 18 HAFTA</span>
+  </header>
+
+  <section class="arac">
+    <label class="ara-kutu">
+      <span>🔍</span>
+      <input type="text" id="ara" placeholder="Hafta ara: oyun adı, hedef ya da konu yaz…" autocomplete="off">
+      <button class="ara-temizle" id="araTemizle" type="button" title="Aramayı temizle" hidden>✕</button>
+    </label>
+
+    <div class="hafta-sec">
+      <span class="etiket">HAFTA</span>
+      <button class="ok-btn" id="haftaAsagi" type="button" title="Önceki hafta">▼</button>
+      <input type="number" id="hafta" min="1" max="18" value="1" inputmode="numeric" title="1–18 arası yaz, Enter'a bas">
+      <button class="ok-btn" id="haftaYukari" type="button" title="Sonraki hafta">▲</button>
+    </div>
+
+    <div class="sayfa-sec">
+      <button class="sayfa-btn" id="geri" type="button" title="Önceki sayfa">◀</button>
+      <span class="sayfa-no" id="sayfaNo">1 / 3</span>
+      <button class="sayfa-btn" id="ileri" type="button" title="Sonraki sayfa">▶</button>
+    </div>
+  </section>
+
+  <main class="izgara" id="izgara"></main>
+
+  <footer class="alt">
+    <span class="anahtar"><i style="background:#4C8BF5"></i>Mouse</span>
+    <span class="anahtar"><i style="background:#E0912B"></i>Klavye</span>
+    <span class="anahtar"><i style="background:#8B6BFF"></i>CodeAli</span>
+    <span class="anahtar"><i style="background:#21A8A0"></i>Galaksi</span>
+    <span class="anahtar"><i style="background:#E0517E"></i>Uzay</span>
+    <span class="ipucu">Sayfa: <kbd>←</kbd> <kbd>→</kbd> &nbsp;•&nbsp; Hafta: <kbd>▲</kbd> <kbd>▼</kbd> ya da kutuya numara yaz</span>
+  </footer>
+
+</div>
+</div>
+
+<script>
+/* =========================================================================
+   18 HAFTALIK PROGRAM
+   -------------------------------------------------------------------------
+   LINKLER: Her haftanın açılacağı adres. 1–6 hazır oyunlara bağlı.
+   7–18 (CodeAli / Galaksi / Uzay) için CodeMino adreslerini buraya yapıştır;
+   boş bırakılan haftalar kartta "Yakında" görünür.
+   ========================================================================= */
+
+var LINKLER = {
+  1: './jole_surat/',
+  2: './kup_avcisi/',
+  3: './surukle_birak/',
+  4: './sakli_nesneler/',
+  5: './yon_tuslari/',
+  6: './space_enter/',
+  7: '',    /* CodeAli 1                      */
+  8: '',    /* CodeAli 1 – Pekiştirme         */
+  9: '',    /* CodeAli 2                      */
+  10: '',   /* CodeAli 2 – Challenge          */
+  11: '',   /* Galaksi Macerası 1             */
+  12: '',   /* Galaksi Macerası 1 – Challenge */
+  13: '',   /* Galaksi Macerası 2             */
+  14: '',   /* Galaksi Macerası 2 – Challenge */
+  15: '',   /* Uzay Macerası 1                */
+  16: '',   /* Uzay Macerası 1 – Challenge    */
+  17: '',   /* Uzay Macerası 2                */
+  18: ''    /* Uzay Final Görevi              */
+};
+
+/* Öğretmen rehberi olan haftalar */
+var REHBERLER = {
+  1: './jole_surat/rehber.html',
+  2: './kup_avcisi/rehber.html',
+  3: './surukle_birak/rehber.html',
+  4: './sakli_nesneler/rehber.html',
+  5: './yon_tuslari/rehber.html',
+  6: './space_enter/rehber.html'
+};
+
+var HAFTALAR = [
+  { no: 1,  ad: 'Jöle Surat',            tam: 'Mouse – Jöle Surat',              hedef: 'Tıklama',                            emoji: '🫠', grup: 'mouse' },
+  { no: 2,  ad: 'Küp Avcısı',            tam: 'Mouse – Küp Avcısı',              hedef: 'Nesne taşıma',                       emoji: '🎯', grup: 'mouse' },
+  { no: 3,  ad: 'Sürükle Bırak',         tam: 'Mouse – Sürükle Bırak',           hedef: 'Hassas mouse kontrolü',              emoji: '🖱️', grup: 'mouse' },
+  { no: 4,  ad: 'Saklı Nesneler',        tam: 'Mouse – Saklı Nesneler',          hedef: 'Görsel dikkat',                      emoji: '🔍', grup: 'mouse' },
+  { no: 5,  ad: 'Yön Tuşları',           tam: 'Klavye – Yön Tuşları',            hedef: 'Sağ-sol-yukarı-aşağı',               emoji: '⌨️', grup: 'klavye' },
+  { no: 6,  ad: 'Space / Enter',         tam: 'Klavye – Space / Enter',          hedef: 'Temel tuş kontrolü',                 emoji: '⏎', grup: 'klavye' },
+  { no: 7,  ad: 'CodeAli 1',             tam: 'CodeAli 1',                       hedef: 'Hareket blokları',                   emoji: '🧱', grup: 'codeali' },
+  { no: 8,  ad: 'CodeAli 1 – Pekiştirme',tam: 'CodeAli 1 – Pekiştirme',          hedef: 'Komut sıralama',                     emoji: '🧱', grup: 'codeali' },
+  { no: 9,  ad: 'CodeAli 2',             tam: 'CodeAli 2',                       hedef: 'Hareket + bekleme',                  emoji: '⏱️', grup: 'codeali' },
+  { no: 10, ad: 'CodeAli 2 – Challenge', tam: 'CodeAli 2 – Challenge',           hedef: 'Birden fazla komut',                 emoji: '🏅', grup: 'codeali' },
+  { no: 11, ad: 'Galaksi Macerası 1',    tam: 'Galaksi Macerası 1',              hedef: 'Karakter hareketi',                  emoji: '🌌', grup: 'galaksi' },
+  { no: 12, ad: 'Galaksi 1 – Challenge', tam: 'Galaksi Macerası 1 – Challenge',  hedef: 'Doğru yön seçimi',                   emoji: '🧭', grup: 'galaksi' },
+  { no: 13, ad: 'Galaksi Macerası 2',    tam: 'Galaksi Macerası 2',              hedef: 'Birleşik hareketler',                emoji: '🌠', grup: 'galaksi' },
+  { no: 14, ad: 'Galaksi 2 – Challenge', tam: 'Galaksi Macerası 2 – Challenge',  hedef: 'Rota oluşturma',                     emoji: '🗺️', grup: 'galaksi' },
+  { no: 15, ad: 'Uzay Macerası 1',       tam: 'Uzay Macerası 1',                 hedef: 'Hareketleri uygulama',               emoji: '🚀', grup: 'uzay' },
+  { no: 16, ad: 'Uzay 1 – Challenge',    tam: 'Uzay Macerası 1 – Challenge',     hedef: 'Komut dizisi',                       emoji: '🛰️', grup: 'uzay' },
+  { no: 17, ad: 'Uzay Macerası 2',       tam: 'Uzay Macerası 2',                 hedef: 'Daha uzun rota',                     emoji: '🪐', grup: 'uzay' },
+  { no: 18, ad: 'Uzay Final Görevi',     tam: 'Uzay Final Görevi',               hedef: 'Temel blokları birlikte kullanma',   emoji: '🏆', grup: 'uzay' }
+];
+
+var GRUP_ADI = { mouse: 'MOUSE', klavye: 'KLAVYE', codeali: 'CODEALİ', galaksi: 'GALAKSİ', uzay: 'UZAY' };
+var GRUP_RENK = {
+  mouse:   ['#4C8BF5', '#E8F1FF'],
+  klavye:  ['#E0912B', '#FFF1DC'],
+  codeali: ['#8B6BFF', '#EFEAFF'],
+  galaksi: ['#21A8A0', '#E0F7F5'],
+  uzay:    ['#E0517E', '#FFE7EE']
+};
+
+/* ------------------------------------------------------------------ */
+/* Sahne ölçekleme (kaydırma olmasın, her ekrana sığsın)               */
+/* ------------------------------------------------------------------ */
+(function () {
+  var G = 1280, Y = 800, stage = document.getElementById('stage');
+  function olcekle() {
+    var vg = window.innerWidth, vy = window.innerHeight;
+    if (window.visualViewport) { vg = window.visualViewport.width; vy = window.visualViewport.height; }
+    var o = Math.min(vg / G, vy / Y);
+    stage.style.transform = 'translate(' + ((vg - G * o) / 2) + 'px,' + ((vy - Y * o) / 2) + 'px) scale(' + o + ')';
+  }
+  window.addEventListener('resize', olcekle);
+  window.addEventListener('orientationchange', olcekle);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', olcekle);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(olcekle).catch(function () { });
+  window.addEventListener('load', olcekle);
+  olcekle();
+})();
+
+/* ------------------------------------------------------------------ */
+/* Kartlar, arama, hafta seçimi, sayfalama                             */
+/* ------------------------------------------------------------------ */
+(function () {
+  var SAYFADA = 6;
+  var izgara = document.getElementById('izgara');
+  var araGirdi = document.getElementById('ara');
+  var araTemizle = document.getElementById('araTemizle');
+  var haftaGirdi = document.getElementById('hafta');
+  var sayfaNo = document.getElementById('sayfaNo');
+  var btnGeri = document.getElementById('geri');
+  var btnIleri = document.getElementById('ileri');
+
+  var liste = HAFTALAR.slice();   // filtrelenmiş liste
+  var sayfa = 0;
+  var parlayan = 0;
+
+  function normal(s) {
+    return (s || '').toLocaleLowerCase('tr')
+      .replace(/ı/g, 'i').replace(/İ/g, 'i').replace(/ş/g, 's')
+      .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o').replace(/ç/g, 'c');
+  }
+
+  function filtrele() {
+    var q = normal(araGirdi.value.trim());
+    araTemizle.hidden = (q === '');
+    liste = HAFTALAR.filter(function (h) {
+      if (!q) return true;
+      return normal(h.ad).indexOf(q) >= 0 ||
+             normal(h.tam).indexOf(q) >= 0 ||
+             normal(h.hedef).indexOf(q) >= 0 ||
+             normal(GRUP_ADI[h.grup]).indexOf(q) >= 0 ||
+             String(h.no) === q;
+    });
+    sayfa = 0;
+    ciz();
+  }
+
+  function sayfaSayisi() { return Math.max(1, Math.ceil(liste.length / SAYFADA)); }
+
+  function ciz() {
+    izgara.innerHTML = '';
+    if (!liste.length) {
+      izgara.innerHTML = '<div class="bosluk"><span>🔎</span>Aramana uyan hafta bulunamadı.<br>Başka bir kelime dene.</div>';
+      sayfaNo.textContent = '0 / 0';
+      btnGeri.disabled = btnIleri.disabled = true;
+      return;
+    }
+
+    var bas = sayfa * SAYFADA;
+    var dilim = liste.slice(bas, bas + SAYFADA);
+
+    dilim.forEach(function (h) {
+      var renk = GRUP_RENK[h.grup];
+      var link = LINKLER[h.no];
+      var rehber = REHBERLER[h.no];
+
+      var k = document.createElement('article');
+      k.className = 'kart' + (link ? '' : ' bos');
+      k.style.setProperty('--renk', renk[0]);
+      k.style.setProperty('--renk-bg', renk[1]);
+      k.dataset.no = h.no;
+      k.innerHTML =
+        '<div class="satir"><span class="no">' + h.no + '</span>' +
+        '<span class="emoji">' + h.emoji + '</span></div>' +
+        '<span class="tur">' + GRUP_ADI[h.grup] + '</span>' +
+        '<h3>' + h.ad + '</h3>' +
+        '<p class="hedef">🎯 ' + h.hedef + '</p>' +
+        '<div class="dugmeler">' +
+          (link ? '<a class="ac" href="' + link + '">▶ Aç</a>'
+                : '<a class="ac" href="#">⏳ Yakında</a>') +
+          (rehber ? '<a class="reh" href="' + rehber + '" title="Öğretmen rehberi">👩‍🏫</a>' : '') +
+        '</div>';
+      izgara.appendChild(k);
+
+      if (parlayan === h.no) {
+        k.classList.add('parla');
+        setTimeout(function () { k.classList.remove('parla'); }, 1700);
+        parlayan = 0;
+      }
+    });
+
+    // ızgara hep dolu görünsün (son sayfa yarım kalırsa boşluk bırak)
+    for (var i = dilim.length; i < SAYFADA; i++) {
+      var bosluk = document.createElement('div');
+      izgara.appendChild(bosluk);
+    }
+
+    sayfaNo.textContent = (sayfa + 1) + ' / ' + sayfaSayisi();
+    btnGeri.disabled = (sayfa === 0);
+    btnIleri.disabled = (sayfa >= sayfaSayisi() - 1);
+  }
+
+  function haftayaGit(no) {
+    no = Math.max(1, Math.min(18, parseInt(no, 10) || 1));
+    haftaGirdi.value = no;
+    araGirdi.value = '';                 // seçim yapılınca filtre kalkar
+    araTemizle.hidden = true;
+    liste = HAFTALAR.slice();
+    var ix = liste.findIndex ? liste.findIndex(function (h) { return h.no === no; }) : (no - 1);
+    sayfa = Math.floor(ix / SAYFADA);
+    parlayan = no;
+    ciz();
+  }
+
+  /* --- olaylar --- */
+  araGirdi.addEventListener('input', filtrele);
+  araTemizle.addEventListener('click', function () { araGirdi.value = ''; filtrele(); araGirdi.focus(); });
+
+  haftaGirdi.addEventListener('change', function () { haftayaGit(haftaGirdi.value); });
+  haftaGirdi.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); haftayaGit(haftaGirdi.value); haftaGirdi.blur(); }
+  });
+  document.getElementById('haftaYukari').addEventListener('click', function () {
+    haftayaGit((parseInt(haftaGirdi.value, 10) || 0) + 1);
+  });
+  document.getElementById('haftaAsagi').addEventListener('click', function () {
+    haftayaGit((parseInt(haftaGirdi.value, 10) || 2) - 1);
+  });
+
+  btnGeri.addEventListener('click', function () { if (sayfa > 0) { sayfa--; ciz(); } });
+  btnIleri.addEventListener('click', function () { if (sayfa < sayfaSayisi() - 1) { sayfa++; ciz(); } });
+
+  window.addEventListener('keydown', function (e) {
+    var yaziyor = (document.activeElement === araGirdi);
+    if (e.key === 'ArrowLeft' && !yaziyor) { btnGeri.click(); }
+    if (e.key === 'ArrowRight' && !yaziyor) { btnIleri.click(); }
+    if (e.key === 'ArrowUp' && document.activeElement !== haftaGirdi && !yaziyor) {
+      e.preventDefault(); haftayaGit((parseInt(haftaGirdi.value, 10) || 0) + 1);
+    }
+    if (e.key === 'ArrowDown' && document.activeElement !== haftaGirdi && !yaziyor) {
+      e.preventDefault(); haftayaGit((parseInt(haftaGirdi.value, 10) || 2) - 1);
+    }
+  });
+
+  ciz();
+})();
+</script>
+
+</body>
+</html>

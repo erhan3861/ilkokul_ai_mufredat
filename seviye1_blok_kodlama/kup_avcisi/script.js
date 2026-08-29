@@ -146,6 +146,13 @@
     if (window.SIFRE) SIFRE.yildiz(yildiz);
   }
 
+
+  /* Tur sonu mesaji oyunun bittigi izlenimi vermesin: sifreye kac yildiz
+     kaldigini da soyler. */
+  function kalanYazi() {
+    var kk = (window.SIFRE && SIFRE.kalan) ? SIFRE.kalan() : 0;
+    return kk > 0 ? ' Şifre için ' + kk + ' yıldız kaldı ⭐' : '';
+  }
   function konfetiPatlat(adet) {
     var kap = ogeler.konfeti;
     if (!kap) return;
@@ -317,8 +324,8 @@
     if (kalan === 0) {
       konfetiPatlat(50);
       sesAlkis();
-      balon('Bütün küpleri topladın! ' + sec(ALKISLAR));
-      konus('Bütün küpleri topladın. Harikasın! Yeni tünel geliyor.');
+      balon('Tur bitti! Bütün küpleri topladın 🎉' + kalanYazi());
+      konus('Tur bitti. Yeni tünel geliyor.');
       setTimeout(yeniTur, 2800);
     } else if (kalan % 6 === 0) {
       balon(sec(ALKISLAR) + ' ' + kalan + ' küp kaldı.', 2000);

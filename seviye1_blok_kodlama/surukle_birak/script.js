@@ -164,6 +164,13 @@
     if (window.SIFRE) SIFRE.yildiz(yildiz);
   }
 
+
+  /* Tur sonu mesaji oyunun bittigi izlenimi vermesin: sifreye kac yildiz
+     kaldigini da soyler. */
+  function kalanYazi() {
+    var kk = (window.SIFRE && SIFRE.kalan) ? SIFRE.kalan() : 0;
+    return kk > 0 ? ' Şifre için ' + kk + ' yıldız kaldı ⭐' : '';
+  }
   function konfetiPatlat(adet) {
     var kap = ogeler.konfeti;
     if (!kap) return;
@@ -499,8 +506,8 @@
     turBitiyor = true;
     konfetiPatlat(50);
     sesAlkis();
-    balon('Bütün şekiller yerine gitti! ' + sec(ALKISLAR));
-    konus('Bütün şekilleri doğru kutulara koydun. Harikasın!');
+    balon('Tur bitti! Bütün şekiller yerine gitti 🎉' + kalanYazi());
+    konus('Tur bitti. Yeni şekiller geliyor.');
     setTimeout(function () {
       turNo++;
       turKur();

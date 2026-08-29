@@ -135,6 +135,13 @@
     if (window.SIFRE) SIFRE.yildiz(yildiz);
   }
 
+
+  /* Tur sonu mesaji oyunun bittigi izlenimi vermesin: sifreye kac yildiz
+     kaldigini da soyler. */
+  function kalanYazi() {
+    var kk = (window.SIFRE && SIFRE.kalan) ? SIFRE.kalan() : 0;
+    return kk > 0 ? ' Şifre için ' + kk + ' yıldız kaldı ⭐' : '';
+  }
   function konfetiPatlat(adet) {
     var kap = ogeler.konfeti;
     if (!kap) return;
@@ -414,8 +421,8 @@
     if (kalanHedef <= 0) {
       konfetiPatlat(50);
       sesAlkis();
-      balon('Bütün yıldızları topladın! ' + sec(ALKISLAR));
-      konus('Bütün yıldızları topladın. Harikasın!');
+      balon('Tur bitti! Bütün yıldızları topladın 🎉' + kalanYazi());
+      konus('Tur bitti. Yeni tahta geliyor.');
       setTimeout(function () {
         turNo++;
         turKur();
