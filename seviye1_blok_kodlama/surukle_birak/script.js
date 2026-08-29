@@ -73,6 +73,7 @@
   var sesAcik = true;
   var tutulan = null, tutOfset = new THREE.Vector3(), vurguKutu = null;
   var ipucuKutu = null, ipucuSure = 0;
+  var turBitiyor = false;          // tur bitişi bir kez tetiklensin
 
   var ogeler = {}, sesCtx = null;
 
@@ -327,6 +328,7 @@
   }
 
   function turKur() {
+    turBitiyor = false;
     turTemizle();
     var Z = zorluk();
 
@@ -374,9 +376,14 @@
     if (ogeler.turSayi) ogeler.turSayi.textContent = turNo;
   }
 
+  /* Kutuya girme animasyonu sürerken de o şekil 'yerleşmiş' sayılır;
+     yoksa son şekilde tur asla tamamlanmıyordu. */
   function kalanSayisi() {
     var n = 0;
-    for (var i = 0; i < nesneler.length; i++) if (nesneler[i].durum !== 'bitti') n++;
+    for (var i = 0; i < nesneler.length; i++) {
+      var d = nesneler[i].durum;
+      if (d !== 'bitti' && d !== 'yerlesiyor') n++;
+    }
     return n;
   }
 
@@ -488,7 +495,8 @@
 
   function turKontrol() {
     kalaniYaz();
-    if (kalanSayisi() > 0) return;
+    if (kalanSayisi() > 0 || turBitiyor) return;
+    turBitiyor = true;
     konfetiPatlat(50);
     sesAlkis();
     balon('Bütün şekiller yerine gitti! ' + sec(ALKISLAR));
