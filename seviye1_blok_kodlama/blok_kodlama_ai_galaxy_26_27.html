@@ -212,7 +212,7 @@ body {
       <p>Her hafta: bir <b>blok kodlama etkinliği</b> + bir <b>AI-Galaxy dersi</b> (3 adım)</p>
     </div>
     <div class="rozetler">
-      <span class="rozet kod">🧩 18 KODLAMA ADIMI</span>
+      <span class="rozet hafta">📅 36 HAFTA</span> <span class="rozet kod">🧩 18 KODLAMA</span>
       <span class="rozet ai">🚀 10 AI DERSİ</span>
     </div>
   </header>
@@ -226,12 +226,12 @@ body {
     <div class="hafta-sec">
       <span class="etiket">HAFTA</span>
       <button class="ok-btn" id="haftaAsagi" type="button" title="Önceki hafta">▼</button>
-      <input type="number" id="hafta" min="1" max="18" value="1" inputmode="numeric">
+      <input type="number" id="hafta" min="1" max="36" value="1" inputmode="numeric">
       <button class="ok-btn" id="haftaYukari" type="button" title="Sonraki hafta">▲</button>
     </div>
     <div class="sayfa-sec">
       <button class="sayfa-btn" id="geri" type="button">◀</button>
-      <span class="sayfa-no" id="sayfaNo">1 / 5</span>
+      <span class="sayfa-no" id="sayfaNo">1 / 9</span>
       <button class="sayfa-btn" id="ileri" type="button">▶</button>
     </div>
   </section>
@@ -242,7 +242,7 @@ body {
     <span class="anahtar"><i style="background:#2F7BD6"></i>Blok Kodlama (sol)</span>
     <span class="anahtar"><i style="background:#8B3FD8"></i>AI-Galaxy (sağ)</span>
     <span class="anahtar"><i style="background:#2FB673"></i>Seçili hafta</span>
-    <span>1–10. hafta: iki müfredat birlikte &nbsp;•&nbsp; 11–18. hafta: kodlama tek başına</span>
+    <span>1–10. hafta: iki müfredat birlikte &nbsp;•&nbsp; 11–18: kodlama &nbsp;•&nbsp; 19–36: içerik hazırlanıyor</span>
     <span class="ipucu">Sayfa <kbd>←</kbd><kbd>→</kbd> &nbsp; Hafta <kbd>▲</kbd><kbd>▼</kbd></span>
   </footer>
 
@@ -312,7 +312,7 @@ var DERSLER = [
   { no: 10, ad: 'İlk Sonuç Son Sonuç Değildir',         emoji: '🔁', adimlar: ['Laboratuvar', 'Grup Çalışması', 'Görsel Rehber'] }
 ];
 
-var TOPLAM_HAFTA = 18;
+var TOPLAM_HAFTA = 36;          /* yıllık plan 36 hafta; AI'da 10, kodlamada 18 hafta içerik hazır */
 var HAFTALAR = [];
 for (var w = 1; w <= TOPLAM_HAFTA; w++) {
   HAFTALAR.push({
@@ -373,9 +373,9 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
 
   function panelKod(h) {
     if (!h.kod) {
-      return '<div class="panel kod bos"><span class="tur">🧩 BLOK KODLAMA</span>' +
-        '<h3>Tekrar & Proje</h3><p class="hedef">Bu haftada öğrenciler sevdikleri oyunu tekrar oynar.</p>' +
-        '<div class="dugmeler"><a class="ac" href="#">—</a></div></div>';
+      return '<div class="panel kod bos"><span class="tur">🧩 BLOK KODLAMA • ADIM ' + h.no + '</span>' +
+        '<h3>⏳ Tekrar & Proje</h3><p class="hedef">18 adım tamamlandı. Bu haftalarda öğrenciler sevdikleri oyunu tekrar oynar ya da proje yapar; yeni adımlar eklendiğinde burada görünür.</p>' +
+        '<div class="dugmeler"><a class="ac" href="#">⏳ Yakında</a></div></div>';
     }
     var link = KOD_LINK[h.kod.no], rehber = KOD_REHBER[h.kod.no], onz = ONIZLEME.kod[h.no];
     return '<div class="panel kod' + (link ? '' : ' bos') + '">' +
@@ -391,10 +391,10 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
 
   function panelAi(h) {
     if (!h.ai) {
-      return '<div class="panel ai bos"><span class="tur">🚀 AI-GALAXY</span>' +
-        '<h3>10 ders tamamlandı 🎉</h3>' +
-        '<p class="hedef">Bu haftalarda AI-Galaxy dersi yok; istenirse sevilen etkinlikler tekrarlanır.</p>' +
-        '<div class="dugmeler"><a class="ac" href="#">—</a></div></div>';
+      return '<div class="panel ai bos"><span class="tur">🚀 AI-GALAXY • DERS ' + h.no + '</span>' +
+        '<h3>⏳ İçerik hazırlanıyor</h3>' +
+        '<p class="hedef">Yıllık planda bu hafta AI-Galaxy dersi olarak ayrıldı; etkinlikler yayınlandığında burada görünecek.</p>' +
+        '<div class="dugmeler"><a class="ac" href="#">⏳ Yakında</a></div></div>';
     }
     var a = h.ai, onz = ONIZLEME.ai[h.no];
     var adimlar = a.adimlar.map(function (ad, i) {

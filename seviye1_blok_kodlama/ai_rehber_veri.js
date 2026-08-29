@@ -673,3 +673,89 @@ var AI_ETKINLIK = {
 for (var _d in AI_ETKINLIK) {
   if (AI_DERSLER[_d]) AI_DERSLER[_d].adimlar = AI_ETKINLIK[_d];
 }
+/* =========================================================================
+   EKRAN KULLANIMI — çocuk ekranda ne yapacak, hangi sırayla?
+   (Uygulamadaki gerçek düğmeler ve akış. Okuma bilmeyen öğrenci için
+    🔊 düğmeleri kritiktir: önce dinle, sonra seç.)
+   ========================================================================= */
+
+var AI_GENEL_EKRAN = [
+  { b: '🔊 Önce DİNLE', m: 'Her metnin ve her seçeneğin yanında <b>hoparlör düğmesi</b> vardır. Öğrenci önce ona basıp cümleyi dinler. <b>1. sınıfta okuma yeni başladığı için bu adım atlanmamalıdır.</b>' },
+  { b: '👀 Ekrandaki soruyu incele', m: 'Üstteki mavi şeritte görev yazar (“Öğrendiklerini hatırla ve doğru seçeneği işaretle!”). Sınıfça yüksek sesle okuyun.' },
+  { b: '👆 Seçeneklerden seç', m: 'Alttaki kartlardan doğru olanı tıklar. Her kartın da kendi 🔊 düğmesi vardır — emin olamayan öğrenci dinleyerek karar verir.' },
+  { b: '✅ Tepkiyi izle', m: 'Doğru seçimde ekran anında değişir (renk/animasyon/görsel netleşir). <b>Sonucu birlikte yorumlayın:</b> “Ne değişti?”' },
+  { b: '📊 İlerleme çubuğu', m: 'Üstteki ince çubuk kaçıncı bölümde olunduğunu gösterir. 20 bölümün tamamı zorunlu değildir; <b>sınıf süresine göre 8–10 bölüm yeterlidir.</b>' }
+];
+
+var AI_EKRAN = {
+
+  1: [
+    { b: '1️⃣ Bulanık resmi göster', m: 'Ekranda <b>“Mod 1: Bulanıklık Çözücü”</b> yazar ve resim <b>%100 bulanıktır</b>. Sınıfa sorun: <b>“Bu ne olabilir? Neden göremiyoruz?”</b> Tahmin aldırın.' },
+    { b: '2️⃣ Cümlenin sesini dinlet 🔊', m: 'Resmin altında <b>“Canlı İstem (Prompt) Cümlen”</b> kutusu vardır: <i>“Ekranda ?(Sıfat 1), ?(Sıfat 2) ve ?(Sıfat 3) bir Ejderha var.”</i> Sağdaki <b>hoparlör düğmesine</b> basıp cümleyi dinletin. Boşluklar sarı kutularla gösterilir — <b>“Bu ‘?’ işaretlerini biz dolduracağız.”</b>' },
+    { b: '3️⃣ Sıfat Torbasından seçtirin', m: 'Sağ bölümde <b>“🎒 Sıfat Torbasından Seç”</b> başlığı ve seçenek kartları vardır (Hızlıca, Devasa, Koşmak, Alev Kırmızısı, Masa, Gülümseyen). <b>Her kartın kendi 🔊 düğmesi vardır</b>; öğrenci önce dinler, sonra seçer.' },
+    { b: '4️⃣ Tuzakları sınıfça konuşun', m: 'Torbada <b>sıfat olmayan</b> seçenekler bilerek konulmuştur: <b>“Koşmak”</b> bir iştir (fiil), <b>“Masa”</b> bir eşyadır (isim). Sorun: <b>“Ejderha nasıl? diye sorunca ‘masa’ cevabı olur mu?”</b> Bu, dersin en öğretici anıdır.' },
+    { b: '5️⃣ Bulanıklık azalsın', m: 'Doğru sıfat seçildikçe sağ üstteki <b>“Bulanıklık: %100”</b> göstergesi düşer ve resim netleşir. Her seferinde durup gösterin: <b>“Bir kelime ekledik, resim biraz daha netleşti.”</b> Dersin ana fikri budur.' },
+    { b: '6️⃣ Prompt kartını tamamlayın', m: 'Üç sıfat da seçilince altta <b>“Doğru sıfatları seçerek prompt kartını oluştur!”</b> yazan kart tamamlanır. Tamamlanan cümleyi bir öğrenciye <b>yüksek sesle okutun</b> ve tahtaya yazın.' },
+    { b: '7️⃣ Diğer modlara geçin', m: 'Sonraki bölümlerde <b>dedektiflik</b> (doğru sıfatı bulma) ve <b>sanat stili</b> (çizgi film / suluboya vb.) görevleri gelir. Aynı akış tekrarlanır: <b>dinle → seç → sonucu izle.</b>' }
+  ],
+
+  2: [
+    { b: '1️⃣ Cümleyi dinlet 🔊', m: 'Ekrandaki cümlenin hoparlörüne basın. Sınıf hep birlikte karar versin: <b>“SORU mu, KOMUT mu?”</b>' },
+    { b: '2️⃣ İki kutudan birini seçtirin', m: 'Öğrenci soru/komut kartlarından birini tıklar. Yanlışta panik yok: <b>“Neden böyle düşündün?”</b> diye sordurun.' },
+    { b: '3️⃣ Belirsiz cümleyi düzelttirin', m: '“Belirsiz Göreve Son!” bölümünde yarım cümleyi tamamlatın: eksik olan genelde <b>fiildir</b> (yaz/çiz/anlat).' },
+    { b: '4️⃣ Rozeti gösterin', m: '20 bölüm sonunda <b>kaşif rozeti</b> çıkar; rozeti alan öğrenciyi sınıfa alkışlatın.' }
+  ],
+
+  3: [
+    { b: '1️⃣ Konuyu seçtirin', m: 'Ekranda konu kartları (uzay, doğa, masal, spor) vardır. Önce 🔊 ile adını dinletin.' },
+    { b: '2️⃣ Görsel stiliyle eşleştirin', m: 'Seçilen konuya uygun görseli/stili tıklar. Yan yana görselleri sınıfça karşılaştırın: <b>“Hangisi uzayda geçiyor?”</b>' },
+    { b: '3️⃣ Çarkı çevirin', m: '2. etkinlikte Konu / Kahraman / Stil / Mekân çarkları döner. Çıkan dörtlüyü <b>cümleye çevirtin.</b>' }
+  ],
+
+  4: [
+    { b: '1️⃣ Sınırı seçtirin', m: 'Ekranda 1 Cümle / 3 Madde / 5 Kelime seçenekleri vardır. Önce dinletin, sonra seçtirin.' },
+    { b: '2️⃣ Gelen cevabı SAYDIRIN', m: 'Ekrana gelen cevabı sınıfça <b>parmakla sayın</b>. İstenen sayı ile gelen sayı tutuyor mu?' },
+    { b: '3️⃣ Farkı gösterin', m: 'Sınırsız ve sınırlı cevabı yan yana koyup <b>“hangisini okumak daha kolay?”</b> diye sorun.' }
+  ],
+
+  5: [
+    { b: '1️⃣ Hayvan + ton kartını dinletin 🔊', m: 'Her bölümde bir hayvan bir tonu temsil eder (Komik Rakun, Bilge Baykuş…). Önce cümleyi <b>o tonda siz okuyun.</b>' },
+    { b: '2️⃣ Tonu eşleştirtin', m: 'Öğrenci doğru ton kartını seçer. Yanlışsa iki tonu da sesli okuyup farkı hissettirin.' },
+    { b: '3️⃣ Duygu maskesiyle canlandırın', m: '2. etkinlikte gruplar maske seçip cümleyi <b>canlandırarak</b> okur; sınıf duyguyu tahmin eder.' }
+  ],
+
+  6: [
+    { b: '1️⃣ Dinleyiciyi tanıtın', m: 'Ekranda dinleyici kartları vardır: 1. sınıf arkadaşı, minik kardeş, bilim insanı, dede/büyükanne.' },
+    { b: '2️⃣ İki cevabı karşılaştırın', m: 'Aynı bilginin iki farklı anlatımını 🔊 ile dinletin: <b>“Hangisi kardeşim için?”</b>' },
+    { b: '3️⃣ Zor kelimeleri sadeleştirin', m: 'Çocukların anlamadığı kelimeleri birlikte değiştirin. Bu, dersin asıl kazanımıdır.' }
+  ],
+
+  7: [
+    { b: '1️⃣ Biçimi sesli örnekleyin 🔊', m: 'Liste, bilmece, masal, diyalog… Her birini önce <b>siz seslendirin</b>, sonra ekrandan dinletin.' },
+    { b: '2️⃣ Görünüşe dikkat çektirin', m: 'Listenin alt alta, diyaloğun karşılıklı olduğunu ekranda parmakla gösterin.' },
+    { b: '3️⃣ Pasaporta damga vurdurun', m: '2. etkinlikte öğrenilen kelimeler damgalanır; her damgada kelimeyi sınıfça tekrar edin.' }
+  ],
+
+  8: [
+    { b: '1️⃣ Kuralı okuyun/dinletin 🔊', m: 'Ekranda “Üç Cümle Kuralı”, “Yasaklı Kelime Kuralı” gibi kurallar çıkar. Sınıfça yüksek sesle tekrar ettirin.' },
+    { b: '2️⃣ Güvenlik kuralını vurgulayın', m: '“Korkutucu ifadeler kullanma” bölümü bir <b>güvenlik</b> konusudur; sınıf kuralı hâline getirin.' },
+    { b: '3️⃣ Tabuyu oynatın', m: '2. etkinlikte yasaklı kelimeleri söylemeden tarif ettirin. <b>Öğretmen uyarısı ve oyun kuralları etkinliğin içinde yazılıdır</b>, başlamadan okutun.' }
+  ],
+
+  9: [
+    { b: '1️⃣ Bozuk promptu dinletin 🔊', m: 'Ekrandaki eksik cümleyi dinletin: <b>“Bir şey çiz.”</b> Sınıf ne eksik olduğunu bulur.' },
+    { b: '2️⃣ Dört soruyu sordurun', m: 'Bölümler sırasıyla <b>Kahraman kim? / Nerede geçiyor? / Nasıl olsun? / Kaç cümle?</b> diye ilerler. Bu dörtlüyü panoya asın.' },
+    { b: '3️⃣ Önce–sonra karşılaştırın', m: 'Tamamlanan promptu ilk hâliyle yan yana okutun. Fark çocuğun kendi eseridir.' }
+  ],
+
+  10: [
+    { b: 'ℹ️ İçerik hazırlanıyor', m: 'Bu dersin üç etkinliği kaynak projede <b>henüz yayınlanmadı</b>. Hafta boş kalmasın diye yıl özeti yapın:' },
+    { b: '1️⃣ Eski etkinliği tekrar açın', m: 'Öğrenciler 1–9. derslerden en sevdikleri etkinliği açıp promptlarını <b>geliştirir.</b>' },
+    { b: '2️⃣ Basamak basamak büyütün', m: 'Tahtaya basamak çizin: konu → sayı → duygu → kime → biçim → kural. Cümleyi birlikte büyütün.' },
+    { b: '3️⃣ Sergi yapın', m: 'En iyi 3 prompt ve sonucu panoya asılsın; veliler de görsün.' }
+  ]
+};
+
+for (var _e in AI_EKRAN) {
+  if (AI_DERSLER[_e]) AI_DERSLER[_e].ekran = AI_EKRAN[_e];
+}

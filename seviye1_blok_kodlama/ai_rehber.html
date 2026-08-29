@@ -60,7 +60,7 @@
   <nav class="gezinme">
     <button class="gez-btn" id="onceki" type="button">◀ Önceki</button>
     <div class="noktalar" id="noktalar"></div>
-    <span class="sayfa-no" id="sayfaNo">1 / 5</span>
+    <span class="sayfa-no" id="sayfaNo">1 / 6</span>
     <button class="gez-btn ana" id="sonraki" type="button">Sonraki ▶</button>
     <button class="gez-btn yazdir" id="yazdir" type="button">🖨️ Yazdır</button>
   </nav>
@@ -154,10 +154,21 @@
     '<p class="not">Üç etkinlik aynı derste sırayla da işlenebilir, üç ayrı haftaya da yayılabilir. Yıllık programda <b>haftada bir etkinlik</b> olarak planlandı.</p>'
   );
 
-  /* 5 — SORULAR & İPUÇLARI */
+  /* 5 — EKRANDA NASIL KULLANILIR? */
+  var ekran = D.ekran || AI_GENEL_EKRAN;
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🖥️</span>' +
+      '<span class="rozet">5 • EKRAN KULLANIMI</span><h2>Çocuk ekranda ne yapacak?</h2></div>' +
+    '<p class="not">Aşağıdaki sıra <b>uygulamadaki gerçek düğmelerle</b> aynıdır. Okuma bilmeyen öğrenci için <b>🔊 önce dinle, sonra seç</b> kuralını her adımda hatırlatın.</p>' +
+    '<div class="akis">' +
+      ekran.map(function (a) { return '<div class="adim"><b>' + a.b + '</b><p>' + a.m + '</p></div>'; }).join('') +
+    '</div>'
+  );
+
+  /* 6 — SORULAR & İPUÇLARI */
   s.push(
     '<div class="slayt-baslik"><span class="emoji">🗣️</span>' +
-      '<span class="rozet">5 • SORULAR & İPUÇLARI</span><h2>Sınıfa sorun, tuzaklardan kaçının</h2></div>' +
+      '<span class="rozet">6 • SORULAR & İPUÇLARI</span><h2>Sınıfa sorun, tuzaklardan kaçının</h2></div>' +
     '<div class="iki-sutun">' +
       '<div class="kutu"><h3>❓ Sınıf soruları</h3><div class="soru-listesi">' +
         D.sorular.map(function (q) { return '<div class="soru">👉 ' + q + '</div>'; }).join('') +
