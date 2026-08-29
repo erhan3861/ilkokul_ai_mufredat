@@ -49,8 +49,8 @@ Burada artık mouse eğitimini çıkartabiliriz. CodeMino ana platform olur. Ö�
 | 2  | Galaksi Macerası 2   | Birleşik hareket        |
 | 3  | Galaksi Macerası 4   | Hata ayıklama           |
 | 4  | Galaksi Challenge    | En kısa çözüm           |
-| 5  | Uzay Macerası 1      | Rota oluşturma          |
-| 6  | Uzay Macerası 2      | Çoklu hareket           |
+| 5  | Uzay Macerası 1      | Hareketler1             |
+| 6  | Uzay Macerası 2      | Hareketler2             |
 | 7  | Uzay Macerası 4      | Hata bulma              |
 | 8  | CodeAli 3            | Döngüye giriş           |
 | 9  | Uzay Macerası 3      | Gelişmiş döngü          |
