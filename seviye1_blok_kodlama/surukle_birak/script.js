@@ -186,7 +186,8 @@
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(kap.clientWidth, Math.max(1, kap.clientHeight), false);
-    if (THREE.sRGBEncoding !== undefined) renderer.outputEncoding = THREE.sRGBEncoding;
+    // Not: r128'de malzeme renkleri lineer uzaya cevrilmedigi icin sRGB cikis
+    // kodlamasi sahneyi solduruyor; canli renk icin kapali birakiyoruz.
     kap.appendChild(renderer.domElement);
 
     sahne = new THREE.Scene();
@@ -194,17 +195,17 @@
     kamera.position.set(0, 5.6, 6.6);
     kamera.lookAt(0, 0.3, 0.3);
 
-    sahne.add(new THREE.HemisphereLight(0xffffff, 0x9ad8b0, 1.0));
-    var isik = new THREE.DirectionalLight(0xfff6e0, 0.85);
+    sahne.add(new THREE.HemisphereLight(0xEFFFF6, 0x3E9E70, 0.62));
+    var isik = new THREE.DirectionalLight(0xfff6e4, 1.15);
     isik.position.set(3.5, 6, 4);
     sahne.add(isik);
-    var yan = new THREE.DirectionalLight(0xbfe8ff, 0.4);
+    var yan = new THREE.DirectionalLight(0x8FD0FF, 0.45);
     yan.position.set(-4, 2.5, -3);
     sahne.add(yan);
 
     zemin = new THREE.Mesh(
       new THREE.PlaneGeometry(30, 22),
-      new THREE.MeshStandardMaterial({ color: 0xC9EED6, roughness: 0.95 })
+      new THREE.MeshStandardMaterial({ color: 0x86D6A6, roughness: 0.95 })
     );
     zemin.rotation.x = -Math.PI / 2;
     sahne.add(zemin);
@@ -212,7 +213,7 @@
     // kutuların durduğu halı
     var hali = new THREE.Mesh(
       new THREE.PlaneGeometry(13, 2.6),
-      new THREE.MeshStandardMaterial({ color: 0xB7E4C7, roughness: 1 })
+      new THREE.MeshStandardMaterial({ color: 0x64C48D, roughness: 1 })
     );
     hali.rotation.x = -Math.PI / 2;
     hali.position.set(0, 0.01, AYAR.kutuZ);
@@ -266,7 +267,7 @@
     grup.position.set(x, 0, AYAR.kutuZ);
 
     var malzeme = new THREE.MeshStandardMaterial({
-      color: renkHex, roughness: 0.6, side: THREE.DoubleSide
+      color: renkHex, roughness: 0.45, side: THREE.DoubleSide
     });
     var govde = new THREE.Mesh(new THREE.CylinderGeometry(0.78, 0.62, 0.72, 28, 1, true), malzeme);
     govde.position.y = 0.36;
@@ -305,7 +306,7 @@
   function nesneYap(sekilIx, renkIx, anahtar, x, z) {
     var S = SEKILLER[sekilIx];
     var mesh = new THREE.Mesh(S.yap(), new THREE.MeshStandardMaterial({
-      color: RENKLER[renkIx].hex, roughness: 0.45, metalness: 0.05
+      color: RENKLER[renkIx].hex, roughness: 0.30, metalness: 0.10
     }));
     mesh.position.set(x, S.y, z);
     mesh.rotation.y = rastgele(0, Math.PI * 2);
@@ -338,7 +339,7 @@
     // kutuları yerleştir
     var basX = -(anahtarlar.length - 1) * Z.aralik / 2;
     for (i = 0; i < anahtarlar.length; i++) {
-      var renkHex = (mod().tur === 'renk') ? RENKLER[anahtarlar[i]].hex : 0xD9C3A5;
+      var renkHex = (mod().tur === 'renk') ? RENKLER[anahtarlar[i]].hex : 0xC08A4A;
       kutular.push(kutuYap(basX + i * Z.aralik, anahtarlar[i], renkHex));
     }
 

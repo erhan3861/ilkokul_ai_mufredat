@@ -24,10 +24,10 @@
   ];
 
   var ROBOTLAR = [
-    { ad: 'Vızıl', emoji: '🤖', govde: 0x7FD4FF, detay: 0x2C6FA8 },
-    { ad: 'Pati',  emoji: '🐱', govde: 0xFFB45C, detay: 0xB96A16 },
-    { ad: 'Zıpzıp', emoji: '🐸', govde: 0x86E27E, detay: 0x2E8B45 },
-    { ad: 'Uzo',   emoji: '👽', govde: 0xC0A6FF, detay: 0x6A45E8 }
+    { ad: 'Vızıl', emoji: '🤖', govde: 0x2FB4F0, detay: 0x15588F },
+    { ad: 'Pati',  emoji: '🐱', govde: 0xFF9A2E, detay: 0x9C5410 },
+    { ad: 'Zıpzıp', emoji: '🐸', govde: 0x4ACB4F, detay: 0x1E6F35 },
+    { ad: 'Uzo',   emoji: '👽', govde: 0x9A78FF, detay: 0x5326C4 }
   ];
 
   var YONLER = {
@@ -158,17 +158,18 @@
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(kap.clientWidth, Math.max(1, kap.clientHeight), false);
-    if (THREE.sRGBEncoding !== undefined) renderer.outputEncoding = THREE.sRGBEncoding;
+    // Not: r128'de malzeme renkleri lineer uzaya cevrilmedigi icin sRGB cikis
+    // kodlamasi sahneyi solduruyor; canli renk icin kapali birakiyoruz.
     kap.appendChild(renderer.domElement);
 
     sahne = new THREE.Scene();
     kamera = new THREE.PerspectiveCamera(42, kap.clientWidth / Math.max(1, kap.clientHeight), 0.1, 100);
 
-    sahne.add(new THREE.HemisphereLight(0xffffff, 0xb8d8ff, 1.0));
-    var isik = new THREE.DirectionalLight(0xfff4e0, 0.9);
+    sahne.add(new THREE.HemisphereLight(0xE8F6FF, 0x4E86B8, 0.62));
+    var isik = new THREE.DirectionalLight(0xfff6e4, 1.15);
     isik.position.set(4, 7, 5);
     sahne.add(isik);
-    var yan = new THREE.DirectionalLight(0x9fd0ff, 0.4);
+    var yan = new THREE.DirectionalLight(0x7FB6FF, 0.45);
     yan.position.set(-4, 3, -4);
     sahne.add(yan);
 
@@ -304,7 +305,7 @@
       for (var j = 0; j < n; j++) {
         var acik = ((i + j) % 2 === 0);
         var m = new THREE.Mesh(kareGeo.clone(), new THREE.MeshStandardMaterial({
-          color: acik ? 0xDCF0FF : 0xBEE0F7, roughness: 0.9
+          color: acik ? 0x86D2F5 : 0x4FA9E0, roughness: 0.75
         }));
         var p = kareDunya(i, j);
         m.position.set(p.x, 0, p.z);
@@ -320,7 +321,7 @@
       if (k.i === 0 && k.j === 0) continue;                 // başlangıç karesi boş kalsın
       engeller.push(k);
       var kaya = new THREE.Mesh(kayaGeo.clone(), new THREE.MeshStandardMaterial({
-        color: 0x9AA6B4, roughness: 0.95, flatShading: true
+        color: 0x6E7C8E, roughness: 0.9, flatShading: true
       }));
       var pk = kareDunya(k.i, k.j);
       kaya.position.set(pk.x, 0.36, pk.z);

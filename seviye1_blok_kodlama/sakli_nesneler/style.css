@@ -1,14 +1,14 @@
 /* Saklı Nesneler — tema (ortak kabuk: ../oyun.css) */
 
 :root {
-  --t1: #FFCF8F;
-  --t2: #FFE9C4;
+  --t1: #FFB963;
+  --t2: #FFDCA8;
   --t3: #FFF7E4;
   --t-baslik: #8A4A12;
   --t-alt: #96613A;
   --t-cizgi: #F0C48C;
-  --t-sahne1: #FFF3DC;
-  --t-sahne2: #FFE2C0;
+  --t-sahne1: #FFDFB0;
+  --t-sahne2: #F6BF7E;
   --t-yazi: #4A2E14;
   --t-hud-cizgi: #F5C48D;
   --t-hud-yazi: #B5641A;

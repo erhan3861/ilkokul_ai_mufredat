@@ -1,14 +1,14 @@
 /* Yön Tuşları — tema (ortak kabuk: ../oyun.css) */
 
 :root {
-  --t1: #9FD5FF;
-  --t2: #D8ECFF;
+  --t1: #6FBEFF;
+  --t2: #BFE2FF;
   --t3: #F2F7FF;
   --t-baslik: #123E6B;
   --t-alt: #3E6389;
   --t-cizgi: #A9C9F5;
-  --t-sahne1: #E4F1FF;
-  --t-sahne2: #FFF1D8;
+  --t-sahne1: #B9DDFF;
+  --t-sahne2: #FFDFA6;
   --t-yazi: #17324F;
   --t-hud-cizgi: #A8CDF0;
   --t-hud-yazi: #14639B;

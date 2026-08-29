@@ -184,7 +184,8 @@
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(kap.clientWidth, Math.max(1, kap.clientHeight), false);
-    if (THREE.sRGBEncoding !== undefined) renderer.outputEncoding = THREE.sRGBEncoding;
+    // Not: r128'de malzeme renkleri lineer uzaya cevrilmedigi icin sRGB cikis
+    // kodlamasi sahneyi solduruyor; canli renk icin kapali birakiyoruz.
     kap.appendChild(renderer.domElement);
 
     sahne = new THREE.Scene();
@@ -192,17 +193,17 @@
     kamera.position.set(0, 5.4, 6.4);
     kamera.lookAt(0, 0.3, 0.2);
 
-    sahne.add(new THREE.HemisphereLight(0xffffff, 0xffd9a8, 1.0));
-    var isik = new THREE.DirectionalLight(0xfff4e0, 0.9);
+    sahne.add(new THREE.HemisphereLight(0xFFF3DC, 0xC98A3E, 0.62));
+    var isik = new THREE.DirectionalLight(0xfff6e4, 1.15);
     isik.position.set(3, 6, 4);
     sahne.add(isik);
-    var yan = new THREE.DirectionalLight(0xbfe8ff, 0.35);
+    var yan = new THREE.DirectionalLight(0x8FD0FF, 0.45);
     yan.position.set(-4, 3, -3);
     sahne.add(yan);
 
     zemin = new THREE.Mesh(
       new THREE.PlaneGeometry(30, 22),
-      new THREE.MeshStandardMaterial({ color: 0xFFE6BE, roughness: 1 })
+      new THREE.MeshStandardMaterial({ color: 0xE9B978, roughness: 1 })
     );
     zemin.rotation.x = -Math.PI / 2;
     sahne.add(zemin);
@@ -261,7 +262,7 @@
       var renk = sec(RENKLER);
 
       var mesh = new THREE.Mesh(geometriler[sekilIx], new THREE.MeshStandardMaterial({
-        color: renk, roughness: 0.45, metalness: 0.05
+        color: renk, roughness: 0.32, metalness: 0.08
       }));
       var yer = rastgeleYer();
       var olcek = Z.olcek * rastgele(0.85, 1.12);
