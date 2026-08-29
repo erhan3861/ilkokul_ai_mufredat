@@ -529,3 +529,147 @@ var AI_DERSLER = {
     ]
   }
 };
+
+/* =========================================================================
+   GERÇEK ETKİNLİK İÇERİKLERİ (uygulamadaki sayfalarla birebir)
+   Aşağıdaki tablo, yukarıdaki genel tanımların yerine geçer:
+   her etkinliğin gerçek adı, gerçek bölümleri ve sınıfta nasıl
+   yürütüleceği yazılıdır.
+   ========================================================================= */
+
+var AI_ETKINLIK = {
+
+  1: [
+    { ad: 'Kelime Avcısı & AI Dedektifi', sure: '15–20 dk', tur: 'Bireysel · 20 bölüm',
+      ne: 'Sıfat seçerek bulanık görselleri netleştirme, dedektiflik ve sanat stili görevleri.',
+      sayfalar: ['Sihirli Aşçı Yapay Zekâ!', 'Prompt (İstem) Nedir?', 'Sıfatların Sihirli Gücü!', '3 Farklı Dedektiflik Görevi!'],
+      nasil: 'İlk iki sayfayı <b>tahtadan birlikte</b> okuyun (kavram tanıtımı). 3. sayfada sıfat türlerini (renk, boyut, durum, ışık) sınıfça sayın. 4. sayfadaki 20 görevi öğrenciler tek tek yapar; her doğru sıfatta bulanık görsel netleşir — <b>çocuk sebep-sonucu gözüyle görür.</b>' },
+    { ad: 'Kim, Nerede, Ne Zaman, Ne Yapıyor?', sure: '15 dk', tur: 'Grup · 5N1K oyunu',
+      ne: 'Emojili 5N1K prompt oyunu, sesli okuma desteği ve sınıfça “en komik prompt” yarışması.',
+      nasil: 'Grupları 3–4 kişi yapın. Her grup dört kutuyu (kim/nerede/ne zaman/ne yapıyor) emoji seçerek doldurur. <b>Okuma bilmeyen öğrenci için 🔊 sesli okuma düğmesini kullandırın.</b> Sonunda her grup cümlesini okur, sınıf en komiğini seçer.' },
+    { ad: 'Sıfat Rehberi & Prompt Sihirbazı', sure: '10 dk', tur: 'Kapanış · videolu rehber',
+      ne: 'Videolu eğitim rehberi, sıfat formülleri, nitelikleştirme kartları ve istem cümlesi stüdyosu.',
+      nasil: 'Videoyu tahtadan izletin, sonra “Prompt Sihirbazı”nda sınıfça <b>tek bir cümle</b> kurun. Kurulan cümleyi deftere yazdırın.' }
+  ],
+
+  2: [
+    { ad: 'Prompt Kaşifi & Komut Dedektifi', sure: '15–20 dk', tur: 'Bireysel · 20 bölüm',
+      ne: 'Soru ile komutu ayırt etme, belirsiz cümleleri netleştirme; sonunda “kaşif rozeti”.',
+      sayfalar: ['Soru mu, Komut mu?', 'Belirsiz Göreve Son!', 'Çıktı Biçimini Seç!', '20 Harika Kaşif Görevi!'],
+      nasil: '1. sayfayı tahtada birlikte yapın: her cümle için sınıf hep bir ağızdan “SORU!” ya da “KOMUT!” desin. 2. sayfada belirsiz cümleleri <b>çocuklara tamamlatın</b>. 20 görev bireysel yapılır; rozeti alan alkışlanır.' },
+    { ad: '5 Adımda Süper Prompt Laboratuvarı', sure: '15 dk', tur: 'Grup · kart atölyesi',
+      ne: 'Ne / Konu / Nasıl / Kaç Cümle kartlarını seçerek grupla açık prompt tasarlama.',
+      nasil: 'Her gruba kart seçtirin; kartlar seçildikçe cümle büyür. <b>Her adımda durup “şimdi ne eklendi?” diye sorun.</b> Grupların cümlelerini yan yana okuyun.' },
+    { ad: 'Soru, Komut ve Ayrıntı Rehberi', sure: '10 dk', tur: 'Kapanış · video + görsel',
+      ne: 'Açık ve detaylı prompt vermenin püf noktaları, örneklerle.',
+      nasil: 'Örnekleri sesli dinletin. Panoya “Bana … yaz/çiz/anlat” kalıbını asın.' }
+  ],
+
+  3: [
+    { ad: 'Konu Kaşifleri & Görsel Stüdyosu', sure: '15–20 dk', tur: 'Bireysel · 20 bölüm',
+      ne: '6 ana konuyu inceleyip doğru görsel stilini eşleştirme; “Görsel Kaşif” rozeti.',
+      sayfalar: ['Görselin Konusunu Seç!', 'Doğa ve Masal Evrenleri!', 'Spor ve Hareketli Konular!', '20 Harika Konu Görevi!'],
+      nasil: 'Her sayfada önce <b>konuyu birlikte adlandırın</b> (“Bu hangi evren?”), sonra eşleştirmeyi çocuk yapsın. Yanlış eşleşmede “peki neresi uymadı?” diye sorun.' },
+    { ad: 'Sihirli Konu Çarkı & Resim Yapbozu', sure: '15 dk', tur: 'Grup · çark oyunu',
+      ne: 'Konu, Kahraman, Sanat Stili ve Mekân kartlarını döndürüp resim yapbozu oluşturma.',
+      nasil: 'Çarkı gruplar sırayla döndürsün. Çıkan dörtlüyü cümleye çevirtin: “<b>uzayda</b> <b>panda</b> <b>çizgi film stilinde</b> bisiklet sürüyor”. En komik kombinasyona alkış.' },
+    { ad: '6 Konu 6 Muhteşem Görsel Rehberi', sure: '10 dk', tur: 'Kapanış · sesli rehber',
+      ne: 'Uzaydan masallara 6 konunun görselleri ve promptları; sesli dinleme ve kopyalama.',
+      nasil: 'Görselleri gösterip “bu prompt neyi söylüyor?” diye çözümletin. Bir promptu deftere yazdırın.' }
+  ],
+
+  4: [
+    { ad: 'Cümle Ölçer & Prompt Dedektifi', sure: '15–20 dk', tur: 'Bireysel · 20 bölüm',
+      ne: 'Cevaba cümle/madde/kelime sınırı koymayı öğrenme; “Cümle Ölçer” rozeti.',
+      sayfalar: ['Cümle Sınırı Koymayı Öğren!', 'Maddeli Liste İstiyorum!', 'Kelime Sayısı Belirleme!', '20 Harika Cümle Ölçer Görevi!'],
+      nasil: 'Her sayfada gelen cevabı <b>sınıfça parmakla sayın</b> (bir… iki… üç). Sayı tutmuyorsa “istediğimiz kaçtı?” diye sorun. Bu ders matematikle birleşir.' },
+    { ad: 'Sihirli Sayı Seçici & Hikâye Fabrikası', sure: '15 dk', tur: 'Grup · sayı seçici',
+      ne: '1 Cümle / 3 Madde / 5 Kelime sınırını belirleyip en net komutu üretme yarışı.',
+      nasil: 'Her grup farklı bir sınır seçsin. Sonuçları yan yana okuyup <b>“hangisi bize daha kolay geldi?”</b> diye tartıştırın (1. sınıfta cevap genelde 2–3 cümledir).' },
+    { ad: '1. Sınıf Çok Basit Prompt Rehberi', sure: '10 dk', tur: 'Kapanış · 6 kural',
+      ne: 'Kısa ve net prompt yazmanın 6 basit kuralı, sesli dinleme.',
+      nasil: 'Altı kuralı sınıfça yüksek sesle okuyun ve panoya asın.' }
+  ],
+
+  5: [
+    { ad: 'Duygu Tonu & Sıfat Laboratuvarı', sure: '15–20 dk', tur: 'Bireysel · 20 bölüm',
+      ne: 'Konuşma havasını (komik, sakin, meraklı, bilgili) keşfedip eşleştirme.',
+      sayfalar: ['Komik Rakun ve Neşeli Ton!', 'Bilge Baykuş ve Meraklı Ton!', 'Neşeli Yunus ve Sakin Ton!', 'Zeki Tilki ve Akıllı Bilgi Tonu!'],
+      nasil: 'Her hayvan bir tonu temsil eder. <b>Önce siz o tonda konuşarak canlandırın</b> (rakun gibi neşeli, baykuş gibi meraklı), sonra çocuk eşleştirsin. Bu dramatizasyon dersin kalbidir.' },
+    { ad: 'Duygu Tiyatrosu & Renkli Ton Çarkı', sure: '15 dk', tur: 'Grup · drama',
+      ne: 'Duygu maskesi seçip öğretmenin sıfatlarını ekleyerek şampiyon komut üretme.',
+      nasil: 'Gruplar maske çeker ve o duyguyla cümleyi <b>canlandırarak</b> okur. Sınıf duyguyu tahmin eder.' },
+    { ad: '1. Sınıf 5 Sihirli Duygu Rengi Rehberi', sure: '10 dk', tur: 'Kapanış · sesli rehber',
+      ne: 'Komik, Meraklı, Sakin, Bilgili, Sevimli anlatım kuralları.',
+      nasil: 'Beş rengi panoya asın; yıl boyunca “bugün hangi renkle anlatalım?” diye kullanın.' }
+  ],
+
+  6: [
+    { ad: 'Hedef Kitle & Dinleyici Laboratuvarı', sure: '15–20 dk', tur: 'Bireysel · 20 bölüm',
+      ne: 'Cevabın kime anlatıldığını keşfetme, doğru seviyeyi seçme.',
+      sayfalar: ['1. Sınıf Arkadaşına Anlatım!', 'Minik Kardeşe Anlatım!', 'Uzay Bilim İnsanına Anlatım!', 'Tatlı Dedeye / Büyükanneye Anlatım!'],
+      nasil: 'Dört dinleyici gerçek hayattan tanıdık: arkadaş, kardeş, bilim insanı, dede. Her sayfada <b>“bu kelimeyi kardeşim anlar mı?”</b> sorusunu tekrarlayın. Anlamayacağı kelimeleri birlikte sadeleştirin.' },
+    { ad: 'Dinleyici Radyosu & Hedef Kitle Kulesi', sure: '15 dk', tur: 'Grup · frekans oyunu',
+      ne: 'Dinleyici frekansını ayarlayıp (Koala, Flamingo, Zürafa) kurala uygun komut üretme.',
+      nasil: 'Her grup bir dinleyici çeker; ürettiği cümleyi <b>o dinleyiciymiş gibi</b> başka bir gruba okur. Anlaşıldıysa puan.' },
+    { ad: '1. Sınıf Hedef Kitle Rehberi', sure: '10 dk', tur: 'Kapanış · sesli rehber',
+      ne: 'Arkadaşa, bebeğe, dedeye, bilim insanına uygun anlatım kuralları.',
+      nasil: 'Kapanışta her çocuk “ben bunu … anlatacağım” diye bir dinleyici seçsin.' }
+  ],
+
+  7: [
+    { ad: 'Çıktı Biçimi & Tür Laboratuvarı', sure: '15–20 dk', tur: 'Bireysel · 20 bölüm',
+      ne: 'Liste, bilmece, masal, diyalog biçimlerini tanıyıp eşleştirme.',
+      sayfalar: ['Düzenli Liste Biçimi!', 'Eğlenceli Bilmece Biçimi!', 'Sihirli Masal Biçimi!', 'Karşılıklı Diyalog Biçimi!'],
+      nasil: 'Her biçimi <b>önce sesli örnekle</b> tanıtın (bir bilmece sorun, bir masal cümlesi okuyun). Sonra çocuk eşleştirsin. Biçimlerin görünüşü (alt alta / karşılıklı) dikkat çekilecek asıl noktadır.' },
+    { ad: 'AI Pasaportu & Kelime Avı Haritası', sure: '15 dk', tur: 'Grup · pasaport oyunu',
+      ne: '10 AI kelimesine pasaport damgası; Tekboynuz, Kanguru, Papağan ile biçim üretme.',
+      nasil: 'Öğrenilen kelimeler damgalandıkça sınıfça yüksek sesle tekrar edin. Pasaportu tamamlayan gruba rozet.' },
+    { ad: '1. Sınıf Çıktı Türleri Rehberi', sure: '10 dk', tur: 'Kapanış · sesli rehber',
+      ne: 'Liste, bilmece, masal, şiir, diyalog biçimleri özeti.',
+      nasil: 'Biçim menüsünü (📝 📖 🎵 ❓) panoya asın.' }
+  ],
+
+  8: [
+    { ad: 'Kural & Tabu Laboratuvarı', sure: '15–20 dk', tur: 'Bireysel · 20 bölüm',
+      ne: 'Cümle sınırı ve yasaklı kelime kurallarını belirleme.',
+      sayfalar: ['Üç Cümle Kuralı!', 'Yasaklı Kelime Kuralı!', 'Korkutucu İfadeler Kullanma!', 'Basit Kelimeler Kullan!'],
+      nasil: '3. sayfa (“korkutucu ifadeler”) bir <b>güvenlik</b> konusudur: “Yapay zekâdan korkutucu şeyler istemeyiz” cümlesini sınıfça tekrar ettirin. Bu, yıl boyu geçerli sınıf kuralı olsun.' },
+    { ad: 'AI Tabu Oyunu & Yasaklı Kelime Kulesi', sure: '15–20 dk', tur: 'Grup · tabu',
+      ne: 'Yasaklı kelimeleri söylemeden Panda, Yunus, Aslan’ı tarif etme.',
+      nasil: 'Klasik tabu gibi oynatın. <b>Öğretmen uyarısı ve oyun kuralları etkinliğin içinde yazılıdır</b>, başlamadan okutun. Kuralı bozan grup sırayı devreder.' },
+    { ad: '1. Sınıf Prompt Kuralları Rehberi', sure: '10 dk', tur: 'Kapanış · karşılaştırma',
+      ne: 'Kelime sınırlama, korkutucu öğeleri eleme, iki promptu karşılaştırma.',
+      nasil: 'İki promptu yan yana okutup “hangisi daha güvenli ve net?” diye oylatın.' }
+  ],
+
+  9: [
+    { ad: 'Eksik Prompt Dedektifliği', sure: '15–20 dk', tur: 'Bireysel · 20 bölüm',
+      ne: 'Eksik kalan ayrıntıyı bulup promptu tamamlama.',
+      sayfalar: ['Kahraman Kim?', 'Nerede Geçiyor?', 'Hikâye Nasıl Olsun?', 'Kaç Cümle Olsun?'],
+      nasil: 'Dört sayfa tam olarak dört dedektif sorusudur. <b>Bu dörtlüyü panoya asın</b> ve her eksik promptta sırayla sordurun: KİM? NEREDE? NASIL? KAÇ CÜMLE?' },
+    { ad: 'Eksik Prompt Dedektifleri & Hikâye Çarkı', sure: '15 dk', tur: 'Grup · dedektiflik',
+      ne: 'Bozuk promptları grupla düzeltme; Sihirli Tavşan ve Ejderha hikâyesini tamamlama.',
+      nasil: 'Her gruba bir bozuk prompt verin. Grup <b>eksiği bulup</b> düzeltilmiş hâlini okur. Düzeltmeden önce/sonra farkını tahtaya yazın.' },
+    { ad: '1. Sınıf Örnek Promptlar & Tamamlama Rehberi', sure: '10 dk', tur: 'Kapanış · önce/sonra',
+      ne: 'Bozuk ve tamamlanmış prompt karşılaştırmaları, sesli inceleme.',
+      nasil: 'Kapanışta “bugün hangi soruyu sormayı öğrendik?” diye özetletin.' }
+  ],
+
+  10: [
+    { ad: '10.1 Laboratuvar', sure: '15 dk', tur: 'Bireysel · hazırlanıyor',
+      ne: 'Bireysel çalışma ve etkileşimli laboratuvar adımı (içerik hazırlanmaktadır).',
+      nasil: 'İçerik yayınlanana kadar bu haftayı <b>yıl özeti</b> olarak işleyin: öğrenciler 1–9. derslerden en sevdikleri etkinliği tekrar açıp promptlarını geliştirsin.' },
+    { ad: '10.2 Grup Çalışması', sure: '15 dk', tur: 'Grup · hazırlanıyor',
+      ne: 'Takım atölyesi ve grup istem çalışması (içerik hazırlanmaktadır).',
+      nasil: 'Gruplar yıl boyunca öğrendikleri 6 ögeyi (konu, sayı, duygu, kime, biçim, kural) kullanarak <b>tek bir şampiyon prompt</b> yazsın.' },
+    { ad: '10.3 Görsel Rehber', sure: '10 dk', tur: 'Kapanış · hazırlanıyor',
+      ne: 'Karşılaştırmalı görsel rehber ve sunum (içerik hazırlanmaktadır).',
+      nasil: 'Yıl sonu sergisi yapın: en iyi 3 prompt ve sonucu panoya asılsın.' }
+  ]
+};
+
+/* Gerçek içerikler genel tanımların yerine geçsin */
+for (var _d in AI_ETKINLIK) {
+  if (AI_DERSLER[_d]) AI_DERSLER[_d].adimlar = AI_ETKINLIK[_d];
+}

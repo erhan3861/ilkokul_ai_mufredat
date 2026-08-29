@@ -101,7 +101,7 @@ body {
 /* ---------- Hafta kartları ---------- */
 .izgara {
   flex: 1 1 auto; min-height: 0;
-  display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); gap: 12px;
+  display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 14px;
 }
 .hafta-kart {
   display: flex; background: #fff; border: 3px solid #fff; border-radius: 18px;
@@ -115,13 +115,20 @@ body {
   25%, 75% { box-shadow: 0 0 0 5px rgba(255,216,77,.9), 0 10px 24px rgba(29,53,87,.2); transform: translateY(-3px); }
 }
 
-.hafta-no {
-  flex: 0 0 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+
+/* seçili hafta */
+.hafta-kart { cursor: pointer; }
+.hafta-kart.secili { border-color: #34C77B; box-shadow: 0 0 0 4px rgba(52,199,123,.28), 0 10px 24px rgba(29,53,87,.18); }
+.hafta-kart.secili .hafta-no { background: linear-gradient(180deg, #5FE0A0, #2FB673); color: #fff; border-right-color: #2FB673; }
+.hafta-kart.secili .hafta-no small { color: rgba(255,255,255,.9); }
+.hafta-kart.secili .hafta-no::after { content: '✓'; font-size: .9rem; font-weight: 800; }
+
+  flex: 0 0 84px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   background: linear-gradient(180deg, #F2F6FC, #E6EDF7); color: #3F5E85;
-  border-right: 2px solid #E4EBF4;
+  border-right: 2px solid #E4EBF4; transition: background .2s, color .2s;
 }
-.hafta-no b { font-size: 1.5rem; font-weight: 800; line-height: 1; }
-.hafta-no small { font-size: .58rem; font-weight: 800; letter-spacing: .5px; color: #7F94AE; }
+.hafta-no b { font-size: 3rem; font-weight: 800; line-height: .95; }
+.hafta-no small { font-size: .68rem; font-weight: 800; letter-spacing: .6px; color: #7F94AE; }
 
 .panel { flex: 1 1 0; padding: 9px 11px; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .panel + .panel { border-left: 2px dashed #E4EBF4; }
@@ -139,7 +146,14 @@ body {
   font-family: 'Nunito', sans-serif; font-size: .72rem; color: var(--gri); line-height: 1.25;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.panel .dugmeler { margin-top: auto; display: flex; gap: 6px; }
+
+.panel .ic { display: flex; gap: 10px; min-width: 0; }
+.panel .ic .metin { min-width: 0; flex: 1 1 auto; display: flex; flex-direction: column; gap: 3px; }
+.onizleme {
+  flex: 0 0 132px; width: 132px; height: 84px; border-radius: 10px; object-fit: cover;
+  border: 2px solid #E4EBF4; background: #F4F7FB;
+}
+ display: flex; gap: 6px; }
 .panel .dugmeler a {
   text-decoration: none; font-weight: 800; font-size: .8rem; padding: 6px 10px; border-radius: 11px;
   transition: transform .1s, box-shadow .1s;
@@ -240,7 +254,13 @@ body {
    kodlama tarafı "tekrar/proje" olur, AI-Galaxy devam eder.
    ========================================================================= */
 
-var AI_TEMEL = 'https://ilkokul1.vercel.app';        /* AI-Galaxy yayın adresi */
+var AI_TEMEL = 'https://ilkokul1.vercel.app';
+/* Önizleme görselleri — şimdilik yalnızca 1. hafta (CodeMino adımlarına konmayacak) */
+var ONIZLEME = {
+  kod: { 1: './onizleme/hafta1_kodlama.jpg' },
+  ai:  { 1: './onizleme/hafta1_ai.jpg' }
+};
+        /* AI-Galaxy yayın adresi */
 
 /* --- Blok kodlama: 18 adım --- */
 var KOD_LINK = {
@@ -341,7 +361,7 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
 /* Kartlar / arama / hafta seçimi / sayfalama                          */
 /* ------------------------------------------------------------------ */
 (function () {
-  var SAYFADA = 6;
+  var SAYFADA = 4;
   var izgara = document.getElementById('izgara');
   var araGirdi = document.getElementById('ara');
   var araTemizle = document.getElementById('araTemizle');
@@ -350,7 +370,7 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
   var btnGeri = document.getElementById('geri');
   var btnIleri = document.getElementById('ileri');
 
-  var liste = HAFTALAR.slice(), sayfa = 0, parlayan = 0;
+  var liste = HAFTALAR.slice(), sayfa = 0, parlayan = 0, seciliHafta = 1;
   haftaGirdi.max = TOPLAM_HAFTA;
 
   function normal(s) {
@@ -383,10 +403,15 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
         '<div class="dugmeler"><a class="ac" href="#">—</a></div></div>';
     }
     var link = KOD_LINK[h.kod.no], rehber = KOD_REHBER[h.kod.no];
+    var onz = ONIZLEME.kod[h.kod.no];
     return '<div class="panel kod' + (link ? '' : ' bos') + '">' +
       '<span class="tur">🧩 BLOK KODLAMA • ADIM ' + h.kod.no + '</span>' +
-      '<h3>' + h.kod.emoji + ' ' + h.kod.ad + '</h3>' +
-      '<p class="hedef">🎯 ' + h.kod.hedef + '</p>' +
+      '<div class="ic">' +
+        (onz ? '<img class="onizleme" src="' + onz + '" alt="Oyundan görüntü" loading="lazy">' : '') +
+        '<div class="metin">' +
+          '<h3>' + h.kod.emoji + ' ' + h.kod.ad + '</h3>' +
+          '<p class="hedef">🎯 ' + h.kod.hedef + '</p>' +
+        '</div></div>' +
       '<div class="dugmeler">' +
         (link ? '<a class="ac" href="' + link + '">▶ Aç</a>' : '<a class="ac" href="#">⏳ Yakında</a>') +
         (rehber ? '<a class="rehber-buyuk kod" href="' + rehber + '">👩‍🏫 Rehber</a>' : '') +
@@ -395,10 +420,15 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
 
   function panelAi(h) {
     var a = h.ai;
+    var onzA = ONIZLEME.ai[h.no];
     return '<div class="panel ai">' +
       '<span class="tur">🚀 AI-GALAXY • D' + a.ders + ' · ADIM ' + a.adim + '</span>' +
-      '<h3>' + a.emoji + ' ' + a.ad + '</h3>' +
-      '<p class="hedef">📘 ' + a.dersAd + '</p>' +
+      '<div class="ic">' +
+        (onzA ? '<img class="onizleme" src="' + onzA + '" alt="Etkinlikten görüntü" loading="lazy">' : '') +
+        '<div class="metin">' +
+          '<h3>' + a.emoji + ' ' + a.ad + '</h3>' +
+          '<p class="hedef">📘 ' + a.dersAd + '</p>' +
+        '</div></div>' +
       '<div class="dugmeler">' +
         '<a class="ac" href="' + a.link + '" target="_blank" rel="noopener">▶ Aç</a>' +
         '<a class="rehber-buyuk" href="./ai_rehber.html?ders=' + a.ders + '&adim=' + a.adim + '&hafta=' + h.no + '">👩‍🏫 Rehber</a>' +
@@ -417,11 +447,17 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
 
     dilim.forEach(function (h) {
       var k = document.createElement('article');
-      k.className = 'hafta-kart';
+      k.className = 'hafta-kart' + (h.no === seciliHafta ? ' secili' : '');
       k.dataset.no = h.no;
       k.innerHTML =
         '<div class="hafta-no"><small>HAFTA</small><b>' + h.no + '</b></div>' +
         panelKod(h) + panelAi(h);
+      k.addEventListener('click', function (ev) {
+        if (ev.target.closest('a')) return;      /* düğmeye basıldıysa karışma */
+        seciliHafta = h.no;
+        haftaGirdi.value = h.no;
+        ciz();
+      });
       izgara.appendChild(k);
 
       if (parlayan === h.no) {
@@ -444,6 +480,7 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
     liste = HAFTALAR.slice();
     sayfa = Math.floor((no - 1) / SAYFADA);
     parlayan = no;
+    seciliHafta = no;
     ciz();
   }
 

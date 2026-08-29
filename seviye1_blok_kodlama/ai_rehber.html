@@ -143,8 +143,9 @@
       D.adimlar.map(function (a, i) {
         return '<div class="kutu adim-kart' + ((i + 1) === adimNo ? ' bu-hafta' : '') + '">' +
           '<h3>' + (i + 1) + '️⃣ ' + a.ad + '</h3>' +
-          '<p><b>⏱️ ' + a.sure + '</b></p>' +
+          '<p><b>⏱️ ' + a.sure + '</b>' + (a.tur ? ' · ' + a.tur : '') + '</p>' +
           '<p><b>Ne yapar:</b> ' + a.ne + '</p>' +
+          (a.sayfalar ? '<p><b>İçindeki bölümler:</b></p><ul>' + a.sayfalar.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul>' : '') +
           '<p><b>Nasıl işlenir:</b> ' + a.nasil + '</p>' +
           '<p class="not"><a href="' + AI_TEMEL + '/ders' + dersNo + '/ders' + dersNo + '_' + (i + 1) + '.html" target="_blank" rel="noopener">▶ Bu etkinliği aç</a></p>' +
         '</div>';

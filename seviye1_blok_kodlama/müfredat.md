@@ -16,10 +16,10 @@ Burada kodlamadan önce **mouse ve klavye kontrolünün oturması** önemli. Ard
 | 4  | Mouse – Saklı Nesneler         | Görsel dikkat            şifre : n      |
 | 5  | Klavye – Yön Tuşları           | Sağ-sol-yukarı-aşağı     şifre : y      |
 | 6  | Klavye – Space / Enter         | Temel tuş kontrolü               |
-| 7  | CodeAli 1                      | Hareket blokları                 |
-| 8  | CodeAli 1 – Pekiştirme         | Komut sıralama                   |
-| 9  | CodeAli 2                      | Hareket + bekleme                |
-| 10 | CodeAli 2 – Challenge          | Birden fazla komut               |
+| 7  | CodeAli 1                      | Temeller 1.Bölüm                        |
+| 8  | CodeAli 1 – Pekiştirme         | Temeller 2.Bölüm                        |
+| 9  | CodeAli 2                      | Temeller2 1.Bölüm                     |
+| 10 | CodeAli 2 – Challenge          | Temeller2   2.Bölüm                    |
 | 11 | Galaksi Macerası 1             | Karakter hareketi                |
 | 12 | Galaksi Macerası 1 – Challenge | Doğru yön seçimi                 |
 | 13 | Galaksi Macerası 2             | Birleşik hareketler              |
