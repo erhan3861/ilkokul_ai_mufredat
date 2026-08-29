@@ -101,6 +101,7 @@
 
   /* derse özel ek kaynak sayfaları */
   var EK_KAYNAK = {
+    7: { ad: '🎡 Canlı Passaparola', alt: 'Akıllı tahtada oyna, cevabı düğmeyle aç', url: './pasaparola.html', adim: 2, yeniSekme: true },
     8: { ad: '🃏 Tabu Kartları', alt: '20 hazır kelime + yasaklılar', url: './tabu_kartlari.html', adim: 2 }
   };
   var EK = EK_KAYNAK[dersNo];
@@ -118,6 +119,7 @@
     eb.hidden = false;
     eb.textContent = EK.ad;
     eb.href = EK.url;
+    if (EK.yeniSekme) { eb.target = '_blank'; eb.rel = 'noopener'; }
   }
 
   /* --- slaytlar --- */
@@ -178,7 +180,7 @@
           '<p><b>Nasıl işlenir:</b> ' + a.nasil + '</p>' +
           '<p class="not"><a href="' + AI_TEMEL + '/ders' + dersNo + '/ders' + dersNo + '_' + (i + 1) + '.html" target="_blank" rel="noopener">▶ Bu etkinliği aç</a></p>' +
           ((EK && EK.adim === (i + 1)) ?
-            '<a class="ek-kutu" href="' + EK.url + '">' +
+            '<a class="ek-kutu" href="' + EK.url + '"' + (EK.yeniSekme ? ' target="_blank" rel="noopener"' : '') + '>' +
               '<span class="ek-em">🃏</span>' +
               '<span class="ek-yazi"><b>' + EK.ad + '</b><small>' + EK.alt + '</small></span>' +
               '<span class="ek-ok">▶</span></a>' : '') +

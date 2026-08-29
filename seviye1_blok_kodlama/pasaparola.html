@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canlı Passaparola — AI Kelimeleri • 1. Sınıf</title>
+<meta name="description" content="Öğretmenin akıllı tahtada oynatacağı canlı passaparola: harfe tıkla, soruyu oku, cevabı düğmeyle aç.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Ders 7.2'deki passaparola tahtasının canlı, öğretmen sürümü */
+:root {
+  --bg1: #090D16; --bg2: #111827; --bg3: #1F2937;
+  --kart: rgba(17,24,39,.95); --kenar: rgba(255,255,255,.15);
+  --gold: #FBBF24; --green: #10B981; --red: #EF4444; --blue: #38BDF8; --pink: #F472B6;
+  --yazi: #F8FAFC; --sonuk: #94A3B8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100vh; height: 100dvh; overflow: hidden; }
+body {
+  font-family: 'Baloo 2', 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  color: var(--yazi);
+  background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 50%, var(--bg3) 100%);
+}
+.stage-kapsayici { position: fixed; inset: 0; overflow: hidden; }
+.tutorial-stage {
+  position: absolute; top: 0; left: 0; width: 1280px; height: 800px;
+  transform-origin: 0 0;
+  background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 50%, var(--bg3) 100%);
+  display: flex; flex-direction: column; gap: 12px; padding: 14px 22px 12px;
+}
+
+/* üst */
+.ust {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 14px;
+  background: var(--kart); border: 2px solid var(--kenar); border-radius: 20px; padding: 10px 16px;
+}
+.ust .logo { width: 48px; height: 48px; border-radius: 15px; display: grid; place-items: center;
+  font-size: 1.6rem; background: linear-gradient(135deg, var(--pink), var(--blue)); }
+.ust .yazi { flex: 1 1 auto; min-width: 0; }
+.ust h1 { font-size: 1.35rem; font-weight: 800; }
+.ust p { font-size: .84rem; color: var(--sonuk); margin-top: 1px; }
+.ust-btn {
+  text-decoration: none; font: inherit; font-weight: 800; font-size: .92rem; cursor: pointer;
+  padding: 10px 16px; border-radius: 14px; border: 2px solid var(--kenar); white-space: nowrap;
+  background: rgba(255,255,255,.08); color: var(--yazi);
+}
+.ust-btn.ana { background: linear-gradient(180deg, #FBBF24, #F59E0B); color: #3A2A00; border-color: #FCD34D; }
+.ust-btn:active { transform: translateY(2px); }
+
+/* orta alan */
+.orta { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 210px 1fr 210px; gap: 14px; }
+
+.sutun { display: flex; flex-direction: column; gap: 12px; }
+.olcer {
+  background: var(--kart); border: 2px solid var(--kenar); border-radius: 18px;
+  padding: 12px; text-align: center;
+}
+.olcer .baslik { font-size: .78rem; font-weight: 800; letter-spacing: .5px; color: var(--sonuk); }
+.olcer .deger { font-size: 2.6rem; font-weight: 800; line-height: 1.05; }
+.olcer.dogru .deger { color: var(--green); }
+.olcer.pas .deger { color: var(--gold); }
+.olcer.yanlis .deger { color: var(--red); }
+.olcer.sure .deger { color: var(--blue); }
+
+.sure-dugmeler { display: flex; gap: 8px; }
+.sure-dugmeler button {
+  flex: 1 1 0; font: inherit; font-weight: 800; font-size: .84rem; cursor: pointer;
+  padding: 9px 6px; border-radius: 12px; border: 2px solid var(--kenar);
+  background: rgba(255,255,255,.08); color: var(--yazi);
+}
+.sure-dugmeler button:active { transform: translateY(2px); }
+
+/* çark */
+.cark-kutu { position: relative; display: grid; place-items: center; }
+.cark { position: relative; width: 430px; height: 430px; }
+.harf {
+  position: absolute; width: 54px; height: 54px; margin: -27px 0 0 -27px;
+  border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  font-size: 1.35rem; font-weight: 800; color: var(--yazi);
+  background: rgba(255,255,255,.10); border: 2px solid var(--kenar);
+  transition: transform .15s, background .2s, border-color .2s, box-shadow .2s;
+  user-select: none;
+}
+.harf:hover { transform: scale(1.12); border-color: var(--blue); }
+.harf.aktif {
+  background: linear-gradient(180deg, #60A5FA, #2563EB); border-color: #93C5FD;
+  box-shadow: 0 0 0 6px rgba(56,189,248,.22); transform: scale(1.2);
+}
+.harf.dogru { background: linear-gradient(180deg, #34D399, #059669); border-color: #6EE7B7; }
+.harf.yanlis { background: linear-gradient(180deg, #F87171, #DC2626); border-color: #FCA5A5; }
+.harf.pas { background: linear-gradient(180deg, #FCD34D, #D97706); border-color: #FDE68A; color: #2A1C00; }
+
+.cark-ic {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: 240px; height: 240px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, rgba(56,189,248,.22), rgba(17,24,39,.9));
+  border: 2px solid var(--kenar); display: grid; place-items: center; text-align: center; padding: 16px;
+}
+.cark-ic .buyuk-harf { font-size: 4.2rem; font-weight: 800; color: var(--gold); line-height: 1; }
+.cark-ic small { font-size: .8rem; color: var(--sonuk); }
+
+/* soru paneli */
+.soru-kutu {
+  background: var(--kart); border: 2px solid var(--kenar); border-radius: 18px;
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; min-height: 0;
+}
+.soru-ust { display: flex; align-items: center; gap: 10px; }
+.rozet {
+  background: rgba(56,189,248,.15); color: var(--blue); border: 2px solid rgba(56,189,248,.35);
+  font-size: .74rem; font-weight: 800; padding: 4px 11px; border-radius: 20px;
+}
+.soru-metin { font-size: 1.28rem; font-weight: 700; line-height: 1.35; }
+.cevap-alan {
+  background: rgba(255,255,255,.06); border: 2px dashed rgba(255,255,255,.25);
+  border-radius: 14px; padding: 14px; text-align: center; min-height: 84px;
+  display: grid; place-items: center;
+}
+.btn-cevap {
+  font: inherit; font-weight: 800; font-size: 1.15rem; cursor: pointer;
+  padding: 13px 26px; border-radius: 16px; border: 3px solid #FCD34D;
+  background: linear-gradient(180deg, #FBBF24, #F59E0B); color: #3A2A00;
+  box-shadow: 0 5px 0 #B45309;
+}
+.btn-cevap:active { transform: translateY(4px); box-shadow: 0 1px 0 #B45309; }
+.cevap-yazi { font-size: 2rem; font-weight: 800; color: var(--green); letter-spacing: 1px; }
+
+.karar { display: flex; gap: 10px; }
+.karar button {
+  flex: 1 1 0; font: inherit; font-weight: 800; font-size: 1rem; cursor: pointer;
+  padding: 12px 8px; border-radius: 14px; border: 2px solid var(--kenar); color: var(--yazi);
+  background: rgba(255,255,255,.08);
+}
+.karar .d { background: linear-gradient(180deg, #34D399, #059669); border-color: #6EE7B7; color: #04241A; }
+.karar .p { background: linear-gradient(180deg, #FCD34D, #D97706); border-color: #FDE68A; color: #2A1C00; }
+.karar .y { background: linear-gradient(180deg, #F87171, #DC2626); border-color: #FCA5A5; }
+.karar button:active { transform: translateY(3px); }
+.karar button:disabled { opacity: .35; cursor: default; }
+
+/* alt */
+.alt {
+  flex: 0 0 auto; background: var(--kart); border: 2px solid var(--kenar); border-radius: 16px;
+  padding: 8px 14px; font-family: 'Nunito', sans-serif; font-size: .8rem; color: var(--sonuk);
+  display: flex; align-items: center; gap: 16px;
+}
+.alt b { color: var(--yazi); }
+</style>
+</head>
+<body>
+
+<div class="stage-kapsayici">
+<div class="tutorial-stage" id="stage">
+
+  <header class="ust">
+    <span class="logo">🎡</span>
+    <div class="yazi">
+      <h1>Canlı Passaparola — Yapay Zekâ Kelimeleri</h1>
+      <p>Öğretmen sürümü • Harfe tıkla, soruyu oku, cevabı düğmeyle aç • 1. sınıf</p>
+    </div>
+    <a class="ust-btn" id="btnGeri" href="./ai_rehber.html?ders=7&hafta=7">⬅️ Rehber</a>
+    <button class="ust-btn ana" id="btnYeni" type="button">🔄 Yeni Oyun</button>
+  </header>
+
+  <div class="orta">
+
+    <div class="sutun">
+      <div class="olcer dogru"><div class="baslik">DOĞRU</div><div class="deger" id="skorDogru">0</div></div>
+      <div class="olcer pas"><div class="baslik">PAS</div><div class="deger" id="skorPas">0</div></div>
+      <div class="olcer yanlis"><div class="baslik">YANLIŞ</div><div class="deger" id="skorYanlis">0</div></div>
+    </div>
+
+    <div class="cark-kutu">
+      <div class="cark" id="cark">
+        <div class="cark-ic">
+          <div>
+            <div class="buyuk-harf" id="buyukHarf">?</div>
+            <small id="carkAlt">Bir harfe dokun</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sutun">
+      <div class="olcer sure"><div class="baslik">SÜRE</div><div class="deger" id="sure">180</div></div>
+      <div class="sure-dugmeler">
+        <button id="btnBasla" type="button">▶ Başlat</button>
+        <button id="btnDur" type="button">⏸ Dur</button>
+      </div>
+      <div class="olcer"><div class="baslik">KALAN HARF</div><div class="deger" id="kalanHarf">24</div></div>
+    </div>
+
+  </div>
+
+  <section class="soru-kutu">
+    <div class="soru-ust">
+      <span class="rozet" id="soruRozet">HARF SEÇ</span>
+      <span class="rozet" id="ipucuRozet" style="display:none">💡 İPUCU</span>
+    </div>
+    <p class="soru-metin" id="soru">Çarktan bir harfe dokun; o harfle başlayan kelimenin sorusu burada görünecek.</p>
+    <div class="cevap-alan" id="cevapAlan">
+      <button class="btn-cevap" id="btnCevap" type="button">👁️ Cevabı Göster</button>
+    </div>
+    <div class="karar">
+      <button class="d" id="btnDogru" type="button" disabled>✅ Doğru</button>
+      <button class="p" id="btnPas" type="button" disabled>⏭️ Pas</button>
+      <button class="y" id="btnYanlis" type="button" disabled>❌ Yanlış</button>
+    </div>
+  </section>
+
+  <footer class="alt">
+    <span>👥 <b>2 grup</b> sırayla oynar</span>
+    <span>🗣️ Soruyu <b>öğretmen okur</b>, sınıf cevaplar</span>
+    <span>👁️ Cevap <b>gizlidir</b>, düğmeye basınca açılır</span>
+    <span>🟢 doğru &nbsp; 🟡 pas &nbsp; 🔴 yanlış — harfin rengi değişir</span>
+  </footer>
+
+</div>
+</div>
+
+<script>
+/* ---- Sorular: 1. sınıf seviyesinde, yapay zekânın temel kelimeleri ---- */
+var SORULAR = [
+  { h: 'A', s: 'Bilgisayarda bir şeyi bulmak için yaptığımız iş.', c: 'ARAMA',       i: 'Kayıp eşyayı da böyle yaparız.' },
+  { h: 'B', s: 'Yapay zekânın içinde çalıştığı alet.',              c: 'BİLGİSAYAR', i: 'Ekranı ve klavyesi vardır.' },
+  { h: 'C', s: 'Bir soru sorulunca söylediğimiz şey.',              c: 'CEVAP',      i: 'Sorunun ikizi gibidir.' },
+  { h: 'Ç', s: 'Kalemle yaptığımız iş; yapay zekâ da yapabilir.',   c: 'ÇİZİM',      i: 'Kâğıda yaparız, resim olur.' },
+  { h: 'D', s: 'İpucu arayıp bulan kişi.',                          c: 'DEDEKTİF',   i: '1. derste bu olmuştuk.' },
+  { h: 'E', s: 'Bilgisayarın resimleri gösterdiği parlak yüzey.',   c: 'EKRAN',      i: 'Televizyonda da vardır.' },
+  { h: 'F', s: 'Elimizle kaydırdığımız, tıklayan küçük alet.',      c: 'FARE',       i: 'Adı bir hayvanla aynı.' },
+  { h: 'G', s: 'Gözümüzle baktığımız, yapay zekânın çizdiği şey.',  c: 'GÖRSEL',     i: 'Resim demenin başka yolu.' },
+  { h: 'H', s: 'Başı, ortası ve sonu olan anlatı.',                 c: 'HİKÂYE',     i: 'Kitapta okuruz.' },
+  { h: 'I', s: 'Yapay zekâya yazdığımız cümlenin adı.',             c: 'İSTEM',      i: 'İngilizcesi prompt.' },
+  { h: 'K', s: 'Uyulması gereken şey; sınıfta da vardır.',          c: 'KURAL',      i: '8. dersin konusu.' },
+  { h: 'L', s: 'Alt alta yazılan sıra.',                            c: 'LİSTE',      i: 'Markete giderken yazarız.' },
+  { h: 'M', s: 'İçinde dev, peri, ejderha olan hikâye.',            c: 'MASAL',      i: '“Bir varmış bir yokmuş…”' },
+  { h: 'N', s: 'Kibar konuşmak, lütfen ve teşekkür demek.',         c: 'NEZAKET',    i: 'Yapay zekâya da kibar oluruz.' },
+  { h: 'O', s: 'Eğlenmek için yaptığımız şey.',                     c: 'OYUN',       i: 'Şu an bunu yapıyoruz!' },
+  { h: 'Ö', s: 'Bir şeyin nasıl olduğunu söyleyen bilgi.',          c: 'ÖZELLİK',    i: 'Sıfatlar bunu anlatır.' },
+  { h: 'P', s: 'İstem kelimesinin İngilizcesi.',                    c: 'PROMPT',     i: 'Derste hep söylüyoruz.' },
+  { h: 'R', s: 'Kırmızı, mavi, sarı… hepsinin ortak adı.',          c: 'RENK',       i: 'Gökkuşağında çok var.' },
+  { h: 'S', s: 'Kulağımızla duyduğumuz şey.',                       c: 'SES',        i: 'Hoparlör bunu çıkarır.' },
+  { h: 'Ş', s: 'Kafiyeli, kısa satırlardan oluşan metin.',          c: 'ŞİİR',       i: 'Bayramlarda okuruz.' },
+  { h: 'T', s: 'Yasaklı kelimeleri söylemeden anlatma oyunu.',      c: 'TABU',       i: '8. derste oynadık.' },
+  { h: 'U', s: 'Yıldızların ve gezegenlerin olduğu yer.',           c: 'UZAY',       i: 'Roket oraya gider.' },
+  { h: 'Y', s: 'Bize yardım eden akıllı programın adı: … zekâ.',    c: 'YAPAY ZEKÂ', i: 'Dersimizin adı.' },
+  { h: 'Z', s: 'Havaya sıçramak.',                                  c: 'ZIPLAMAK',   i: 'Tavşan bunu çok yapar.' }
+];
+
+/* ---- sahne ölçekleme ---- */
+(function () {
+  var G = 1280, Y = 800, stage = document.getElementById('stage');
+  function olcekle() {
+    var vg = window.innerWidth, vy = window.innerHeight;
+    if (window.visualViewport) { vg = window.visualViewport.width; vy = window.visualViewport.height; }
+    var o = Math.min(vg / G, vy / Y);
+    stage.style.transform = 'translate(' + ((vg - G * o) / 2) + 'px,' + ((vy - Y * o) / 2) + 'px) scale(' + o + ')';
+  }
+  window.addEventListener('resize', olcekle);
+  window.addEventListener('orientationchange', olcekle);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', olcekle);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(olcekle).catch(function () { });
+  window.addEventListener('load', olcekle);
+  olcekle();
+})();
+
+/* ---- oyun ---- */
+(function () {
+  var cark = document.getElementById('cark');
+  var soru = document.getElementById('soru');
+  var rozet = document.getElementById('soruRozet');
+  var ipucuRozet = document.getElementById('ipucuRozet');
+  var cevapAlan = document.getElementById('cevapAlan');
+  var buyukHarf = document.getElementById('buyukHarf');
+  var carkAlt = document.getElementById('carkAlt');
+  var sureEl = document.getElementById('sure');
+  var kalanEl = document.getElementById('kalanHarf');
+  var btnDogru = document.getElementById('btnDogru');
+  var btnPas = document.getElementById('btnPas');
+  var btnYanlis = document.getElementById('btnYanlis');
+
+  var durum = {}, aktif = -1, skor = { d: 0, p: 0, y: 0 }, kalanSure = 180, sayac = null;
+  var harfler = [];
+
+  function carkiKur() {
+    harfler.forEach(function (el) { cark.removeChild(el); });
+    harfler = [];
+    var n = SORULAR.length, r = 190;
+    SORULAR.forEach(function (q, i) {
+      var a = (i / n) * Math.PI * 2 - Math.PI / 2;
+      var el = document.createElement('div');
+      el.className = 'harf';
+      el.textContent = q.h;
+      el.style.left = (215 + Math.cos(a) * r) + 'px';
+      el.style.top = (215 + Math.sin(a) * r) + 'px';
+      el.addEventListener('click', function () { harfSec(i); });
+      cark.appendChild(el);
+      harfler.push(el);
+    });
+  }
+
+  function harfSec(i) {
+    if (durum[i]) return;                       /* bitmiş harf tekrar açılmaz */
+    aktif = i;
+    var q = SORULAR[i];
+    harfler.forEach(function (el, j) { el.classList.toggle('aktif', j === i && !durum[j]); });
+    buyukHarf.textContent = q.h;
+    carkAlt.textContent = q.h + ' ile başlıyor';
+    rozet.textContent = q.h + ' HARFİ';
+    soru.textContent = q.s;
+    ipucuRozet.style.display = 'none';
+    cevapAlan.innerHTML = '<button class="btn-cevap" type="button">👁️ Cevabı Göster</button>';
+    cevapAlan.firstChild.addEventListener('click', cevabiAc);
+    btnDogru.disabled = btnPas.disabled = btnYanlis.disabled = true;
+  }
+
+  function cevabiAc() {
+    if (aktif < 0) return;
+    var q = SORULAR[aktif];
+    cevapAlan.innerHTML = '<div><div class="cevap-yazi">' + q.c + '</div>' +
+      '<p style="margin-top:6px;font-size:.85rem;color:#94A3B8">💡 ' + q.i + '</p></div>';
+    ipucuRozet.style.display = '';
+    btnDogru.disabled = btnPas.disabled = btnYanlis.disabled = false;
+  }
+
+  function isaretle(tip) {
+    if (aktif < 0) return;
+    durum[aktif] = tip;
+    harfler[aktif].classList.remove('aktif');
+    harfler[aktif].classList.add(tip === 'd' ? 'dogru' : (tip === 'p' ? 'pas' : 'yanlis'));
+    skor[tip]++;
+    document.getElementById('skorDogru').textContent = skor.d;
+    document.getElementById('skorPas').textContent = skor.p;
+    document.getElementById('skorYanlis').textContent = skor.y;
+    kalanEl.textContent = SORULAR.length - Object.keys(durum).length;
+    aktif = -1;
+    rozet.textContent = 'SIRADAKİ HARF';
+    soru.textContent = 'Çarktan yeni bir harfe dokun.';
+    ipucuRozet.style.display = 'none';
+    cevapAlan.innerHTML = '<button class="btn-cevap" type="button">👁️ Cevabı Göster</button>';
+    cevapAlan.firstChild.addEventListener('click', cevabiAc);
+    btnDogru.disabled = btnPas.disabled = btnYanlis.disabled = true;
+    buyukHarf.textContent = '?';
+    carkAlt.textContent = 'Bir harfe dokun';
+
+    if (Object.keys(durum).length === SORULAR.length) {
+      soru.textContent = '🎉 Bütün harfler bitti! Doğru: ' + skor.d + ' • Pas: ' + skor.p + ' • Yanlış: ' + skor.y;
+      durdur();
+    }
+  }
+
+  function baslat() {
+    if (sayac) return;
+    sayac = setInterval(function () {
+      kalanSure--;
+      sureEl.textContent = kalanSure;
+      if (kalanSure <= 0) { durdur(); soru.textContent = '⏰ Süre bitti! Sıra diğer grupta.'; }
+    }, 1000);
+  }
+  function durdur() { clearInterval(sayac); sayac = null; }
+
+  function yeniOyun() {
+    durdur();
+    durum = {}; aktif = -1; skor = { d: 0, p: 0, y: 0 }; kalanSure = 180;
+    sureEl.textContent = kalanSure;
+    document.getElementById('skorDogru').textContent = '0';
+    document.getElementById('skorPas').textContent = '0';
+    document.getElementById('skorYanlis').textContent = '0';
+    kalanEl.textContent = SORULAR.length;
+    carkiKur();
+    buyukHarf.textContent = '?';
+    carkAlt.textContent = 'Bir harfe dokun';
+    rozet.textContent = 'HARF SEÇ';
+    ipucuRozet.style.display = 'none';
+    soru.textContent = 'Çarktan bir harfe dokun; o harfle başlayan kelimenin sorusu burada görünecek.';
+    cevapAlan.innerHTML = '<button class="btn-cevap" type="button">👁️ Cevabı Göster</button>';
+    cevapAlan.firstChild.addEventListener('click', cevabiAc);
+    btnDogru.disabled = btnPas.disabled = btnYanlis.disabled = true;
+  }
+
+  btnDogru.addEventListener('click', function () { isaretle('d'); });
+  btnPas.addEventListener('click', function () { isaretle('p'); });
+  btnYanlis.addEventListener('click', function () { isaretle('y'); });
+  document.getElementById('btnBasla').addEventListener('click', baslat);
+  document.getElementById('btnDur').addEventListener('click', durdur);
+  document.getElementById('btnYeni').addEventListener('click', yeniOyun);
+
+  window.addEventListener('keydown', function (e) {
+    if (e.key === ' ') { e.preventDefault(); cevabiAc(); }
+    if (e.key === '1') btnDogru.click();
+    if (e.key === '2') btnPas.click();
+    if (e.key === '3') btnYanlis.click();
+  });
+
+  /* rehberden gelindiyse geri düğmesi oraya dönsün */
+  var geriBtn = document.getElementById('btnGeri');
+  if (document.referrer) {
+    try {
+      var r = new URL(document.referrer);
+      if (r.origin === location.origin && r.pathname !== location.pathname) geriBtn.href = r.href;
+    } catch (e) { }
+  }
+
+  yeniOyun();
+})();
+</script>
+
+</body>
+</html>
