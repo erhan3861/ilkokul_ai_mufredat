@@ -12,6 +12,7 @@
   :root { --vurgu: #8B3FD8; --vurgu-koyu: #6B21B8; --vurgu-acik: #F4EAFF; }
   .ust-btn.etkinlik { background: linear-gradient(180deg, #B478F0, #8B3FD8); color: #fff; box-shadow: 0 5px 0 #6B21B8; }
   .adim-kart { position: relative; }
+  .adim-kart > .not:last-of-type { margin-bottom: 2px; }
   .adim-kart.bu-hafta { border-color: #FFC94D; background: #FFF9E8; }
   .adim-kart.bu-hafta::after {
     content: 'BU HAFTA'; position: absolute; top: -11px; right: 12px;
@@ -38,16 +39,16 @@
 
   .ust-btn.ek { background: linear-gradient(180deg, #FFE07A, #FFC42E); color: #6B4A00; box-shadow: 0 5px 0 #E09A0B; }
   .ek-kutu {
-    display: flex; align-items: center; gap: 14px; text-decoration: none; margin-top: 10px;
-    background: linear-gradient(180deg, #FFF6E0, #FFEDC4); border: 3px solid #FFD98A;
-    border-radius: 18px; padding: 12px 18px; color: #6B4A00;
-    box-shadow: 0 5px 0 #F0CE7A; transition: transform .12s, box-shadow .12s;
+    display: flex; align-items: center; gap: 10px; text-decoration: none; margin-top: auto;
+    background: linear-gradient(180deg, #FFE9A8, #FFD25C); border: 3px solid #fff;
+    border-radius: 14px; padding: 10px 12px; color: #6B4A00;
+    box-shadow: 0 4px 0 #E0A21A; transition: transform .12s, box-shadow .12s;
   }
   .ek-kutu:active { transform: translateY(4px); box-shadow: 0 1px 0 #F0CE7A; }
-  .ek-em { font-size: 2.1rem; }
+  .ek-em { font-size: 1.7rem; }
   .ek-yazi { display: flex; flex-direction: column; }
-  .ek-yazi b { font-size: 1.12rem; }
-  .ek-yazi small { font-family: 'Nunito', sans-serif; font-size: .84rem; opacity: .85; }
+  .ek-yazi b { font-size: .98rem; line-height: 1.1; }
+  .ek-yazi small { font-family: 'Nunito', sans-serif; font-size: .76rem; opacity: .85; }
   .ek-ok { margin-left: auto; font-size: 1.3rem; font-weight: 800; }
   .tek-cumle {
     background: var(--vurgu-acik); border: 2px solid #DCC4FA; border-radius: 16px;
@@ -100,7 +101,7 @@
 
   /* derse özel ek kaynak sayfaları */
   var EK_KAYNAK = {
-    8: { ad: '🃏 Tabu Kartları (20 örnek)', url: './tabu_kartlari.html', renk: 'tabu' }
+    8: { ad: '🃏 Tabu Kartları', alt: '20 hazır kelime + yasaklılar', url: './tabu_kartlari.html', adim: 2 }
   };
   var EK = EK_KAYNAK[dersNo];
 
@@ -176,14 +177,14 @@
           (a.sayfalar ? '<p><b>İçindeki bölümler:</b></p><ul>' + a.sayfalar.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul>' : '') +
           '<p><b>Nasıl işlenir:</b> ' + a.nasil + '</p>' +
           '<p class="not"><a href="' + AI_TEMEL + '/ders' + dersNo + '/ders' + dersNo + '_' + (i + 1) + '.html" target="_blank" rel="noopener">▶ Bu etkinliği aç</a></p>' +
+          ((EK && EK.adim === (i + 1)) ?
+            '<a class="ek-kutu" href="' + EK.url + '">' +
+              '<span class="ek-em">🃏</span>' +
+              '<span class="ek-yazi"><b>' + EK.ad + '</b><small>' + EK.alt + '</small></span>' +
+              '<span class="ek-ok">▶</span></a>' : '') +
         '</div>';
       }).join('') +
     '</div>' +
-    (EK ? '<a class="ek-kutu" href="' + EK.url + '">' +
-            '<span class="ek-em">🃏</span>' +
-            '<span class="ek-yazi"><b>' + EK.ad + '</b>' +
-            '<small>Anlatılacak kelimeler ve yasaklı kelimeler hazır — tıkla, aç, yazdır.</small></span>' +
-            '<span class="ek-ok">▶</span></a>' : '') +
     '<p class="not">Üç etkinlik aynı derste sırayla da işlenebilir, üç ayrı haftaya da yayılabilir. Yıllık programda <b>haftada bir etkinlik</b> olarak planlandı.</p>'
   );
 
