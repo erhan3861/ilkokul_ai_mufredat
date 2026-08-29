@@ -49,6 +49,18 @@
     <section class="sahne-kutu">
       <div id="sahne" class="sahne" role="application" aria-label="3 boyutlu jöle surat. Basılı tutup çek."></div>
 
+      <!-- Hedef yolu: 20 çekişe kadar kaplumbağa ilerler, sonda kilit açılır -->
+      <div class="hedef-yol" id="hedefYol">
+        <span class="yol-bas">⭐</span>
+        <div class="yol-cizgi" id="yolCizgi">
+          <div class="yol-dolgu" id="yolDolgu"></div>
+          <div class="yol-noktalar" id="yolNoktalar"></div>
+          <div class="yol-tas" id="yolTas">🐢</div>
+        </div>
+        <span class="yol-hedef" id="yolHedef">🔒</span>
+        <span class="yol-sayi"><b id="yolSayi">0</b>/20</span>
+      </div>
+
       <div class="balon" id="balon">Beni tut ve çek! 😄</div>
 
       <div class="hata" id="hata" hidden>

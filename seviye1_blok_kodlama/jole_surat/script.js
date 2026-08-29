@@ -175,6 +175,7 @@
     ogeler.skorKutu.classList.remove('zipla');
     void ogeler.skorKutu.offsetWidth;
     ogeler.skorKutu.classList.add('zipla');
+    yoluGuncelle(true);
 
     // hedefe ulaşınca şifre (FLAG) modülü açılır
     if (!sifreAcildi && yildiz >= HEDEF_YILDIZ) {
@@ -442,6 +443,43 @@
   /*     gösterilip seslendirilir, sonra platform arayüzünün izlemelik   */
   /*     (tıklanamaz) simülasyonu adım adım oynatılır.                   */
   /* ------------------------------------------------------------------ */
+
+  /* --- Hedef yolu: okuma bilmeyen çocuk nereye gittiğini görsün --- */
+  function yoluKur() {
+    if (!ogeler.yolNoktalar) return;
+    ogeler.yolNoktalar.innerHTML = '';
+    for (var i = 0; i < HEDEF_YILDIZ; i++) {
+      ogeler.yolNoktalar.appendChild(document.createElement('i'));
+    }
+    var son = ogeler.yolSayi.parentNode.lastChild;
+    if (son && son.nodeType === 3) son.textContent = '/' + HEDEF_YILDIZ;
+    yoluGuncelle(false);
+  }
+
+  function yoluGuncelle(hareketVar) {
+    if (!ogeler.yolCizgi) return;
+    var oran = Math.min(1, yildiz / HEDEF_YILDIZ);
+    ogeler.yolCizgi.style.setProperty('--p', oran);
+    ogeler.yolSayi.textContent = Math.min(yildiz, HEDEF_YILDIZ);
+
+    var noktalar = ogeler.yolNoktalar.children;
+    for (var i = 0; i < noktalar.length; i++) {
+      noktalar[i].classList.toggle('gecildi', i < yildiz);
+    }
+
+    if (hareketVar) {
+      ogeler.yolTas.classList.remove('zipla');
+      void ogeler.yolTas.offsetWidth;
+      ogeler.yolTas.classList.add('zipla');
+    }
+
+    ogeler.yolHedef.classList.toggle('yakin', oran >= 0.75 && oran < 1);
+    if (oran >= 1 && ogeler.yolHedef.textContent !== '🔑') {
+      ogeler.yolHedef.textContent = '🔑';
+      ogeler.yolHedef.classList.remove('yakin');
+      ogeler.yolHedef.classList.add('acildi');
+    }
+  }
 
   function sifreDugmesiniAc() {
     var b = ogeler.btnSifre;
@@ -1168,6 +1206,7 @@
      'btnKarakter', 'karakterEmoji', 'karakterAd', 'btnSurat', 'suratEmoji', 'suratAd',
      'btnRenk', 'btnGozluk', 'gozlukDurum', 'btnSapka', 'sapkaDurum',
      'btnSes', 'btnSifirla', 'btnFoto', 'btnDinle', 'btnSifre',
+     'hedefYol', 'yolCizgi', 'yolDolgu', 'yolNoktalar', 'yolTas', 'yolHedef', 'yolSayi',
      'sifreKatman', 'sifreKart', 'sifreHarf', 'btnHarfSes', 'btnGoster',
      'simulasyon', 'plCubuk', 'plSoru', 'plModal', 'plGirdi', 'plGirdiYazi',
      'plImlec', 'plKontrol', 'plBasarili', 'sahteKlavye', 'klavyeTus',
@@ -1191,6 +1230,7 @@
 
     if (ogeler.hata) ogeler.hata.hidden = true;     // motor geldi, uyarıyı kapat
     dugmeleriBagla();
+    yoluKur();
 
     // Öğretmen önizlemesi: adres sonuna ?sifre yazınca modül hemen açılır
     if (/sifre/i.test(location.search)) {
