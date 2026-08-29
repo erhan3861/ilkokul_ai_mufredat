@@ -138,6 +138,41 @@ body {
 .karar button:active { transform: translateY(3px); }
 .karar button:disabled { opacity: .35; cursor: default; }
 
+
+.sure-girdi {
+  width: 100%; background: transparent; border: 2px dashed rgba(56,189,248,.45); border-radius: 12px;
+  color: var(--blue); font: inherit; font-size: 2.4rem; font-weight: 800; text-align: center;
+  padding: 2px 0; cursor: pointer; -moz-appearance: textfield;
+}
+.sure-girdi:focus { outline: none; border-style: solid; background: rgba(56,189,248,.08); }
+.sure-girdi::-webkit-outer-spin-button, .sure-girdi::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.ust-btn.bitir { background: linear-gradient(180deg, #34D399, #059669); color: #04241A; border-color: #6EE7B7; }
+
+.sonuc-katman {
+  position: absolute; inset: 0; z-index: 20; display: grid; place-items: center;
+  background: rgba(5,8,16,.82); backdrop-filter: blur(3px);
+}
+.sonuc-katman[hidden] { display: none; }
+.sonuc-kart {
+  background: var(--kart); border: 3px solid var(--kenar); border-radius: 26px;
+  padding: 22px 34px 26px; text-align: center; max-width: 620px;
+}
+.sonuc-emoji { font-size: 3.4rem; }
+.sonuc-kart h2 { font-size: 1.7rem; font-weight: 800; margin-top: 4px; }
+.sonuc-sayilar { display: flex; gap: 26px; justify-content: center; margin: 16px 0 10px; }
+.sonuc-sayilar div { display: flex; flex-direction: column; }
+.sonuc-sayilar b { font-size: 2.4rem; font-weight: 800; line-height: 1; }
+.sonuc-sayilar .ys { color: var(--green); } .sonuc-sayilar .sr { color: var(--gold); } .sonuc-sayilar .kr { color: var(--red); }
+.sonuc-sayilar small { font-size: .78rem; color: var(--sonuk); margin-top: 3px; }
+.puan-kutu {
+  background: rgba(16,185,129,.12); border: 2px solid rgba(16,185,129,.4); border-radius: 18px;
+  padding: 10px 18px; display: inline-block; margin-top: 4px;
+}
+.puan-kutu small { font-size: .74rem; font-weight: 800; letter-spacing: .6px; color: var(--sonuk); }
+.puan-kutu div { font-size: 3rem; font-weight: 800; color: var(--green); line-height: 1; }
+.puan-kutu span { font-size: 1.4rem; }
+.sonuc-not { font-family: 'Nunito', sans-serif; font-size: .92rem; color: var(--sonuk); margin-top: 12px; line-height: 1.45; }
+.sonuc-dugmeler { display: flex; gap: 10px; justify-content: center; margin-top: 16px; }
 /* alt */
 .alt {
   flex: 0 0 auto; background: var(--kart); border: 2px solid var(--kenar); border-radius: 16px;
@@ -159,6 +194,7 @@ body {
       <p>Öğretmen sürümü • Harfe tıkla, soruyu oku, cevabı düğmeyle aç • 1. sınıf</p>
     </div>
     <a class="ust-btn" id="btnGeri" href="./ai_rehber.html?ders=7&hafta=7">⬅️ Rehber</a>
+    <button class="ust-btn bitir" id="btnBitir" type="button" title="Oyunu bitir ve sınıf puanını gör">🏁 Bitir &amp; Puan</button>
     <button class="ust-btn ana" id="btnYeni" type="button">🔄 Yeni Oyun</button>
   </header>
 
@@ -182,7 +218,9 @@ body {
     </div>
 
     <div class="sutun">
-      <div class="olcer sure"><div class="baslik">SÜRE</div><div class="deger" id="sure">180</div></div>
+      <div class="olcer sure"><div class="baslik">SÜRE (saniye)</div>
+        <input class="deger sure-girdi" id="sure" type="number" min="10" max="900" step="10" value="180"
+          title="Tıkla ve süreyi SANİYE olarak yaz. Örnek: 180 = 3 dakika, 300 = 5 dakika."></div>
       <div class="sure-dugmeler">
         <button id="btnBasla" type="button">▶ Başlat</button>
         <button id="btnDur" type="button">⏸ Dur</button>
@@ -202,9 +240,9 @@ body {
       <button class="btn-cevap" id="btnCevap" type="button">👁️ Cevabı Göster</button>
     </div>
     <div class="karar">
-      <button class="d" id="btnDogru" type="button" disabled>✅ Doğru</button>
-      <button class="p" id="btnPas" type="button" disabled>⏭️ Pas</button>
-      <button class="y" id="btnYanlis" type="button" disabled>❌ Yanlış</button>
+      <button class="d" id="btnDogru" type="button" title="Bildi — harf yeşil olur">✅ Doğru</button>
+      <button class="p" id="btnPas" type="button" title="Pas geçti — harf sarı olur">⏭️ Pas</button>
+      <button class="y" id="btnYanlis" type="button" title="Bilemedi — harf kırmızı olur">❌ Yanlış</button>
     </div>
   </section>
 
@@ -215,36 +253,55 @@ body {
     <span>🟢 doğru &nbsp; 🟡 pas &nbsp; 🔴 yanlış — harfin rengi değişir</span>
   </footer>
 
+  <div class="sonuc-katman" id="sonucKatman" hidden>
+    <div class="sonuc-kart">
+      <div class="sonuc-emoji" id="sonucEmoji">🏆</div>
+      <h2 id="sonucBaslik">Oyun bitti!</h2>
+      <div class="sonuc-sayilar">
+        <div><b class="ys" id="sDogru">0</b><small>🟢 Bildi</small></div>
+        <div><b class="sr" id="sPas">0</b><small>🟡 Pas</small></div>
+        <div><b class="kr" id="sYanlis">0</b><small>🔴 Bilemedi</small></div>
+      </div>
+      <div class="puan-kutu"><small>SINIF PUANI</small><div id="sPuan">0</div><span id="sYildiz">⭐</span></div>
+      <p class="sonuc-not" id="sonucNot"></p>
+      <div class="sonuc-dugmeler">
+        <button class="ust-btn" id="btnKapat" type="button">↩︎ Tahtaya Dön</button>
+        <button class="ust-btn ana" id="btnTekrar" type="button">🔄 Yeni Oyun</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 </div>
 
 <script>
 /* ---- Sorular: 1. sınıf seviyesinde, yapay zekânın temel kelimeleri ---- */
 var SORULAR = [
-  { h: 'A', s: 'Bilgisayarda bir şeyi bulmak için yaptığımız iş.', c: 'ARAMA',       i: 'Kayıp eşyayı da böyle yaparız.' },
-  { h: 'B', s: 'Yapay zekânın içinde çalıştığı alet.',              c: 'BİLGİSAYAR', i: 'Ekranı ve klavyesi vardır.' },
-  { h: 'C', s: 'Bir soru sorulunca söylediğimiz şey.',              c: 'CEVAP',      i: 'Sorunun ikizi gibidir.' },
-  { h: 'Ç', s: 'Kalemle yaptığımız iş; yapay zekâ da yapabilir.',   c: 'ÇİZİM',      i: 'Kâğıda yaparız, resim olur.' },
-  { h: 'D', s: 'İpucu arayıp bulan kişi.',                          c: 'DEDEKTİF',   i: '1. derste bu olmuştuk.' },
-  { h: 'E', s: 'Bilgisayarın resimleri gösterdiği parlak yüzey.',   c: 'EKRAN',      i: 'Televizyonda da vardır.' },
-  { h: 'F', s: 'Elimizle kaydırdığımız, tıklayan küçük alet.',      c: 'FARE',       i: 'Adı bir hayvanla aynı.' },
-  { h: 'G', s: 'Gözümüzle baktığımız, yapay zekânın çizdiği şey.',  c: 'GÖRSEL',     i: 'Resim demenin başka yolu.' },
-  { h: 'H', s: 'Başı, ortası ve sonu olan anlatı.',                 c: 'HİKÂYE',     i: 'Kitapta okuruz.' },
-  { h: 'I', s: 'Yapay zekâya yazdığımız cümlenin adı.',             c: 'İSTEM',      i: 'İngilizcesi prompt.' },
-  { h: 'K', s: 'Uyulması gereken şey; sınıfta da vardır.',          c: 'KURAL',      i: '8. dersin konusu.' },
-  { h: 'L', s: 'Alt alta yazılan sıra.',                            c: 'LİSTE',      i: 'Markete giderken yazarız.' },
-  { h: 'M', s: 'İçinde dev, peri, ejderha olan hikâye.',            c: 'MASAL',      i: '“Bir varmış bir yokmuş…”' },
-  { h: 'N', s: 'Kibar konuşmak, lütfen ve teşekkür demek.',         c: 'NEZAKET',    i: 'Yapay zekâya da kibar oluruz.' },
-  { h: 'O', s: 'Eğlenmek için yaptığımız şey.',                     c: 'OYUN',       i: 'Şu an bunu yapıyoruz!' },
-  { h: 'Ö', s: 'Bir şeyin nasıl olduğunu söyleyen bilgi.',          c: 'ÖZELLİK',    i: 'Sıfatlar bunu anlatır.' },
-  { h: 'P', s: 'İstem kelimesinin İngilizcesi.',                    c: 'PROMPT',     i: 'Derste hep söylüyoruz.' },
-  { h: 'R', s: 'Kırmızı, mavi, sarı… hepsinin ortak adı.',          c: 'RENK',       i: 'Gökkuşağında çok var.' },
-  { h: 'S', s: 'Kulağımızla duyduğumuz şey.',                       c: 'SES',        i: 'Hoparlör bunu çıkarır.' },
-  { h: 'Ş', s: 'Kafiyeli, kısa satırlardan oluşan metin.',          c: 'ŞİİR',       i: 'Bayramlarda okuruz.' },
-  { h: 'T', s: 'Yasaklı kelimeleri söylemeden anlatma oyunu.',      c: 'TABU',       i: '8. derste oynadık.' },
-  { h: 'U', s: 'Yıldızların ve gezegenlerin olduğu yer.',           c: 'UZAY',       i: 'Roket oraya gider.' },
-  { h: 'Y', s: 'Bize yardım eden akıllı programın adı: … zekâ.',    c: 'YAPAY ZEKÂ', i: 'Dersimizin adı.' },
-  { h: 'Z', s: 'Havaya sıçramak.',                                  c: 'ZIPLAMAK',   i: 'Tavşan bunu çok yapar.' }
+  { h: 'A', s: 'Sınıfta üstüne dokunarak yazdığımız kocaman ekran.', c: 'AKILLI TAHTA', i: 'Her gün ona bakıyoruz.' },
+  { h: 'B', s: 'Ekranı ve klavyesi olan alet.',                      c: 'BİLGİSAYAR',   i: 'Oyun da oynarız, yazı da yazarız.' },
+  { h: 'C', s: 'Bir soru sorulunca söylediğimiz şey.',               c: 'CEVAP',        i: 'Sorunun arkadaşı.' },
+  { h: 'Ç', s: 'Kalemle kâğıda yaptığımız şey.',                     c: 'ÇİZİM',        i: 'Resim yapmak gibi.' },
+  { h: 'D', s: 'İpucu arayıp bulan kişi.',                           c: 'DEDEKTİF',     i: '1. derste biz olmuştuk.' },
+  { h: 'E', s: 'Bilgisayarda resimlerin göründüğü parlak yüzey.',    c: 'EKRAN',        i: 'Televizyonda da var.' },
+  { h: 'F', s: 'Elimizle kaydırdığımız, tıklayan küçük alet.',       c: 'FARE',         i: 'Adı bir hayvanla aynı.' },
+  { h: 'G', s: 'Bakmak için kullandığımız organ.',                   c: 'GÖZ',          i: 'İki tane var, kaşın altında.' },
+  { h: 'H', s: 'Başı, ortası ve sonu olan anlatı.',                  c: 'HİKÂYE',       i: 'Kitapta okuruz.' },
+  { h: 'I', s: 'Karanlıkta bize yol gösteren şey; lambadan gelir.',  c: 'IŞIK',         i: 'Güneş de verir.' },
+  { h: 'İ', s: 'Bütün bilgisayarları birbirine bağlayan yol.',       c: 'İNTERNET',     i: 'Onsuz video izleyemeyiz.' },
+  { h: 'K', s: 'Üstünde harfler olan, yazı yazdığımız alet.',        c: 'KLAVYE',       i: 'Parmakla tuşlarına basarız.' },
+  { h: 'L', s: 'Alt alta yazılan sıra.',                             c: 'LİSTE',        i: 'Markete giderken yazarız.' },
+  { h: 'M', s: 'İçinde dev, peri ya da ejderha olan hikâye.',        c: 'MASAL',        i: '“Bir varmış bir yokmuş…”' },
+  { h: 'N', s: 'Cümlenin sonuna koyduğumuz küçük işaret.',           c: 'NOKTA',        i: 'Yuvarlacık ve minicik.' },
+  { h: 'O', s: 'Eğlenmek için yaptığımız şey.',                      c: 'OYUN',         i: 'Şu anda bunu yapıyoruz!' },
+  { h: 'Ö', s: 'Sınıfta bize öğreten kişi.',                         c: 'ÖĞRETMEN',     i: 'Şu an karşınızda duruyor.' },
+  { h: 'P', s: 'Ekrana dokunduğumuz, elimizdeki beş taneden biri.',  c: 'PARMAK',       i: 'Bir elde beş tane var.' },
+  { h: 'R', s: 'Kırmızı, mavi, sarı… hepsinin ortak adı.',           c: 'RENK',         i: 'Gökkuşağında çok var.' },
+  { h: 'S', s: 'Kulağımızla duyduğumuz şey.',                        c: 'SES',          i: 'Hoparlör bunu çıkarır.' },
+  { h: 'Ş', s: 'Kafiyeli, kısa satırlardan oluşan metin.',           c: 'ŞİİR',         i: 'Bayramlarda okuruz.' },
+  { h: 'T', s: 'Yasaklı kelimeleri söylemeden anlatma oyunu.',       c: 'TABU',         i: '8. derste oynayacağız.' },
+  { h: 'U', s: 'Yıldızların ve gezegenlerin olduğu yer.',            c: 'UZAY',         i: 'Roket oraya gider.' },
+  { h: 'Y', s: 'Bize yardım eden akıllı programın adı: … zekâ.',     c: 'YAPAY ZEKÂ',   i: 'Dersimizin adı.' },
+  { h: 'Z', s: 'Havaya sıçramak.',                                   c: 'ZIPLAMAK',     i: 'Tavşan bunu çok yapar.' }
 ];
 
 /* ---- sahne ölçekleme ---- */
@@ -280,6 +337,11 @@ var SORULAR = [
   var btnYanlis = document.getElementById('btnYanlis');
 
   var durum = {}, aktif = -1, skor = { d: 0, p: 0, y: 0 }, kalanSure = 180, sayac = null;
+  sureEl.addEventListener('change', function () {
+    kalanSure = Math.max(10, Math.min(900, parseInt(sureEl.value, 10) || 180));
+    sureEl.value = kalanSure;
+  });
+  sureEl.addEventListener('focus', function () { durdur(); sureEl.select(); });
   var harfler = [];
 
   function carkiKur() {
@@ -311,7 +373,6 @@ var SORULAR = [
     ipucuRozet.style.display = 'none';
     cevapAlan.innerHTML = '<button class="btn-cevap" type="button">👁️ Cevabı Göster</button>';
     cevapAlan.firstChild.addEventListener('click', cevabiAc);
-    btnDogru.disabled = btnPas.disabled = btnYanlis.disabled = true;
   }
 
   function cevabiAc() {
@@ -320,7 +381,6 @@ var SORULAR = [
     cevapAlan.innerHTML = '<div><div class="cevap-yazi">' + q.c + '</div>' +
       '<p style="margin-top:6px;font-size:.85rem;color:#94A3B8">💡 ' + q.i + '</p></div>';
     ipucuRozet.style.display = '';
-    btnDogru.disabled = btnPas.disabled = btnYanlis.disabled = false;
   }
 
   function isaretle(tip) {
@@ -339,13 +399,12 @@ var SORULAR = [
     ipucuRozet.style.display = 'none';
     cevapAlan.innerHTML = '<button class="btn-cevap" type="button">👁️ Cevabı Göster</button>';
     cevapAlan.firstChild.addEventListener('click', cevabiAc);
-    btnDogru.disabled = btnPas.disabled = btnYanlis.disabled = true;
     buyukHarf.textContent = '?';
     carkAlt.textContent = 'Bir harfe dokun';
 
     if (Object.keys(durum).length === SORULAR.length) {
-      soru.textContent = '🎉 Bütün harfler bitti! Doğru: ' + skor.d + ' • Pas: ' + skor.p + ' • Yanlış: ' + skor.y;
-      durdur();
+      soru.textContent = '🎉 Bütün harfler bitti!';
+      setTimeout(puanla, 500);
     }
   }
 
@@ -353,7 +412,7 @@ var SORULAR = [
     if (sayac) return;
     sayac = setInterval(function () {
       kalanSure--;
-      sureEl.textContent = kalanSure;
+      sureEl.value = kalanSure;
       if (kalanSure <= 0) { durdur(); soru.textContent = '⏰ Süre bitti! Sıra diğer grupta.'; }
     }, 1000);
   }
@@ -375,9 +434,37 @@ var SORULAR = [
     soru.textContent = 'Çarktan bir harfe dokun; o harfle başlayan kelimenin sorusu burada görünecek.';
     cevapAlan.innerHTML = '<button class="btn-cevap" type="button">👁️ Cevabı Göster</button>';
     cevapAlan.firstChild.addEventListener('click', cevabiAc);
-    btnDogru.disabled = btnPas.disabled = btnYanlis.disabled = true;
   }
 
+
+  function puanla() {
+    var toplam = SORULAR.length;
+    var puan = Math.round((skor.d / toplam) * 100);
+    var yildiz = puan >= 90 ? '⭐⭐⭐⭐⭐' : puan >= 75 ? '⭐⭐⭐⭐' : puan >= 55 ? '⭐⭐⭐' : puan >= 35 ? '⭐⭐' : '⭐';
+    var emoji = puan >= 75 ? '🏆' : puan >= 45 ? '🎉' : '💪';
+    var baslik = puan >= 75 ? 'Harika bir sınıf!' : puan >= 45 ? 'Güzel iş!' : 'İyi deneme!';
+    document.getElementById('sDogru').textContent = skor.d;
+    document.getElementById('sPas').textContent = skor.p;
+    document.getElementById('sYanlis').textContent = skor.y;
+    document.getElementById('sPuan').textContent = puan;
+    document.getElementById('sYildiz').textContent = yildiz;
+    document.getElementById('sonucEmoji').textContent = emoji;
+    document.getElementById('sonucBaslik').textContent = baslik;
+    document.getElementById('sonucNot').innerHTML =
+      'Puan, <b>yeşil olan harflerin oranından</b> hesaplandı: ' + skor.d + ' / ' + toplam + ' harf bilindi.' +
+      '<br>Pas geçilen ' + skor.p + ' harfi ikinci turda tekrar sorabilirsiniz.';
+    document.getElementById('sonucKatman').hidden = false;
+    durdur();
+  }
+
+  document.getElementById('btnBitir').addEventListener('click', puanla);
+  document.getElementById('btnKapat').addEventListener('click', function () {
+    document.getElementById('sonucKatman').hidden = true;
+  });
+  document.getElementById('btnTekrar').addEventListener('click', function () {
+    document.getElementById('sonucKatman').hidden = true;
+    yeniOyun();
+  });
   btnDogru.addEventListener('click', function () { isaretle('d'); });
   btnPas.addEventListener('click', function () { isaretle('p'); });
   btnYanlis.addEventListener('click', function () { isaretle('y'); });

@@ -177,10 +177,13 @@ body {
 .panel.kod .ac { background: linear-gradient(180deg, #7FB6F5, var(--kod)); color: #fff; box-shadow: 0 4px 0 var(--kod-koyu); }
 .panel.ai  .ac { background: linear-gradient(180deg, #B478F0, var(--ai));  color: #fff; box-shadow: 0 4px 0 var(--ai-koyu); }
 
-.panel .ek-btn {
+.panel .ek-mini {
+  align-self: flex-start; margin-top: 3px; text-decoration: none;
+  font-size: .74rem; font-weight: 800; padding: 4px 11px; border-radius: 9px;
   background: linear-gradient(180deg, #FFD98A, #FFB627); color: #5C3B00;
-  box-shadow: 0 4px 0 #D98A00; border: 2px solid #fff;
+  border: 2px solid #fff; box-shadow: 0 3px 0 #D98A00;
 }
+.panel .ek-mini:active { transform: translateY(2px); box-shadow: none; }
 .rehber-buyuk { background: linear-gradient(180deg, #FFE07A, #FFC42E); color: #6B4A00; box-shadow: 0 4px 0 #E09A0B; }
 
 
@@ -479,11 +482,12 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
       '<span class="tur">🚀 AI-GALAXY • DERS ' + a.no + ' • 3 ADIM</span>' +
       '<h3>' + a.emoji + ' ' + a.ad + '</h3>' +
       '<div class="adimcik">' + adimlar + '</div>' +
+      (EK_KAYNAK[a.no] ? '<a class="ek-mini" href="' + EK_KAYNAK[a.no].url + '"' +
+        (EK_KAYNAK[a.no].yeniSekme ? ' target="_blank" rel="noopener"' : '') +
+        ' title="Bu ders için ek oyun sayfası">' + EK_KAYNAK[a.no].ad + '</a>' : '') +
       '<div class="dugmeler">' +
         '<a class="ac" href="' + AI_TEMEL + '/ders' + a.no + '/index.html" target="_blank" rel="noopener">▶ Dersi Aç</a>' +
         '<a class="rehber-buyuk" href="./ai_rehber.html?ders=' + a.no + '&hafta=' + h.no + '">👩‍🏫 Rehber</a>' +
-        (EK_KAYNAK[a.no] ? '<a class="ek-btn" href="' + EK_KAYNAK[a.no].url + '"' +
-          (EK_KAYNAK[a.no].yeniSekme ? ' target="_blank" rel="noopener"' : '') + '>' + EK_KAYNAK[a.no].ad + '</a>' : '') +
       '</div></div>';
   }
 
