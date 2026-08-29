@@ -176,6 +176,11 @@ body {
 .panel .dugmeler a:active { transform: translateY(3px); box-shadow: none !important; }
 .panel.kod .ac { background: linear-gradient(180deg, #7FB6F5, var(--kod)); color: #fff; box-shadow: 0 4px 0 var(--kod-koyu); }
 .panel.ai  .ac { background: linear-gradient(180deg, #B478F0, var(--ai));  color: #fff; box-shadow: 0 4px 0 var(--ai-koyu); }
+
+.panel .ek-btn {
+  background: linear-gradient(180deg, #FFD98A, #FFB627); color: #5C3B00;
+  box-shadow: 0 4px 0 #D98A00; border: 2px solid #fff;
+}
 .rehber-buyuk { background: linear-gradient(180deg, #FFE07A, #FFC42E); color: #6B4A00; box-shadow: 0 4px 0 #E09A0B; }
 
 
@@ -291,7 +296,11 @@ var ONIZLEME = {
   }
 };
 
-var KOD_LINK = {
+/* Derse özel ek oyun/kaynak sayfaları — ana kartta ve rehberde sarı düğme */ EK_KAYNAK = {
+  7: { ad: '🎡 Passaparola', url: './pasaparola.html', yeniSekme: true },
+  8: { ad: '🃏 Tabu', url: './tabu_kartlari.html' }
+};
+ KOD_LINK = {
   1: './jole_surat/', 2: './kup_avcisi/', 3: './surukle_birak/',
   4: './sakli_nesneler/', 5: './yon_tuslari/', 6: './space_enter/',
   7: '', 8: '', 9: '', 10: '', 11: '', 12: '', 13: '', 14: '', 15: '', 16: '', 17: '', 18: ''
@@ -473,6 +482,8 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
       '<div class="dugmeler">' +
         '<a class="ac" href="' + AI_TEMEL + '/ders' + a.no + '/index.html" target="_blank" rel="noopener">▶ Dersi Aç</a>' +
         '<a class="rehber-buyuk" href="./ai_rehber.html?ders=' + a.no + '&hafta=' + h.no + '">👩‍🏫 Rehber</a>' +
+        (EK_KAYNAK[a.no] ? '<a class="ek-btn" href="' + EK_KAYNAK[a.no].url + '"' +
+          (EK_KAYNAK[a.no].yeniSekme ? ' target="_blank" rel="noopener"' : '') + '>' + EK_KAYNAK[a.no].ad + '</a>' : '') +
       '</div></div>';
   }
 
