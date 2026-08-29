@@ -569,7 +569,7 @@
 
     if (ogeler.hata) ogeler.hata.hidden = true;
     dugmeleriBagla();
-    if (window.SIFRE) {
+    try { if (window.SIFRE) {
       SIFRE.kur({
         hedef: 29, harf: 'n', ses: 'ne', hayvan: '🦉', adim: 4,
         baslik: 'Blok Kodlama Mix Adım4 Saklı Nesneler',
@@ -578,7 +578,7 @@
         konus: konus, konfeti: konfetiPatlat,
         efekt: { pop: sesTik, alkis: sesAlkis, tut: sesBuldu }
       });
-    }
+    } } catch (e) { }
     zorlukYaz();
     balon('Aranan şekli bul ve tıkla! 🔍', 4000);
 

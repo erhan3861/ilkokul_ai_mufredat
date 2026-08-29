@@ -591,7 +591,7 @@
 
     if (ogeler.hata) ogeler.hata.hidden = true;
     dugmeleriBagla();
-    if (window.SIFRE) {
+    try { if (window.SIFRE) {
       SIFRE.kur({
         hedef: 35, harf: 'e', ses: 'e', hayvan: '🦘', adim: 6,
         baslik: 'Blok Kodlama Mix Adım6 Space ve Enter',
@@ -600,7 +600,7 @@
         konus: konus, konfeti: konfetiPatlat,
         efekt: { pop: sesTik, alkis: sesAlkis, tut: sesZipla }
       });
-    }
+    } } catch (e) { }
     zorlukYaz(); karakterYaz();
 
     window.__olcekDegisti = function () { boyutGuncelle(); };

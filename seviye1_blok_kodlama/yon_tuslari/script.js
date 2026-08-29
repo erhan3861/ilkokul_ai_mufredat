@@ -606,7 +606,7 @@
 
     if (ogeler.hata) ogeler.hata.hidden = true;
     dugmeleriBagla();
-    if (window.SIFRE) {
+    try { if (window.SIFRE) {
       SIFRE.kur({
         hedef: 32, harf: 'y', ses: 'ye', hayvan: '🐰', adim: 5,
         baslik: 'Blok Kodlama Mix Adım5 Yön Tuşları',
@@ -615,7 +615,7 @@
         konus: konus, konfeti: konfetiPatlat,
         efekt: { pop: sesTik, alkis: sesAlkis, tut: sesAdim }
       });
-    }
+    } } catch (e) { }
     zorlukYaz(); robotYaz();
     balon('Ok tuşlarıyla robotu yıldıza götür! ⭐', 4000);
 

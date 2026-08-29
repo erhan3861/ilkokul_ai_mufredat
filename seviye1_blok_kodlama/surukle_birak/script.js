@@ -719,7 +719,7 @@
 
     if (ogeler.hata) ogeler.hata.hidden = true;
     dugmeleriBagla();
-    if (window.SIFRE) {
+    try { if (window.SIFRE) {
       SIFRE.kur({
         hedef: 26, harf: 's', ses: 'se', hayvan: '🐜', adim: 3,
         baslik: 'Blok Kodlama Mix Adım3 Sürükle Bırak',
@@ -728,7 +728,7 @@
         konus: konus, konfeti: konfetiPatlat,
         efekt: { pop: sesTik, alkis: sesAlkis, tut: sesTut }
       });
-    }
+    } } catch (e) { }
     modYaz(); zorlukYaz();
     balon('Şekli tut ve kendi kutusuna taşı! 🎁', 4000);
 
