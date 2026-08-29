@@ -158,6 +158,7 @@
     ogeler.skorKutu.classList.remove('zipla');
     void ogeler.skorKutu.offsetWidth;
     ogeler.skorKutu.classList.add('zipla');
+    if (window.SIFRE) SIFRE.yildiz(yildiz);
   }
 
   function konfetiPatlat(adet) {
@@ -561,6 +562,16 @@
 
     if (ogeler.hata) ogeler.hata.hidden = true;
     dugmeleriBagla();
+    if (window.SIFRE) {
+      SIFRE.kur({
+        hedef: 29, harf: 'n', ses: 'ne', hayvan: '🦉', adim: 4,
+        baslik: 'Blok Kodlama Mix Adım4 Saklı Nesneler',
+        kap: document.querySelector('.sahne-kutu'),
+        stage: document.getElementById('stage'),
+        konus: konus, konfeti: konfetiPatlat,
+        efekt: { pop: sesTik, alkis: sesAlkis, tut: sesBuldu }
+      });
+    }
     zorlukYaz();
     balon('Aranan şekli bul ve tıkla! 🔍', 4000);
 

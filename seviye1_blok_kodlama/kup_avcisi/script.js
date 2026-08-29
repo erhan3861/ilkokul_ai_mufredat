@@ -1,6 +1,6 @@
 /* =========================================================================
    Küp Avcısı — Işık Tüneli  |  Three.js
-   1–2. Sınıf • Mouse Becerileri • Adım 1 (Ana hedef: TIKLAMA)
+   1–2. Sınıf • Mouse Becerileri • Adım 2 (Ana hedef: TIKLAMA)
    -------------------------------------------------------------------------
    Teknik mantık (flythru wireframe wormhole):
      1) Rastgele noktalardan kapalı bir CatmullRomCurve3 (spline) üretilir.
@@ -143,6 +143,7 @@
     ogeler.skorKutu.classList.remove('zipla');
     void ogeler.skorKutu.offsetWidth;
     ogeler.skorKutu.classList.add('zipla');
+    if (window.SIFRE) SIFRE.yildiz(yildiz);
   }
 
   function konfetiPatlat(adet) {
@@ -568,6 +569,16 @@
 
     if (ogeler.hata) ogeler.hata.hidden = true;
     dugmeleriBagla();
+    if (window.SIFRE) {
+      SIFRE.kur({
+        hedef: 23, harf: 'k', ses: 'ke', hayvan: '🦋', adim: 2,
+        baslik: 'Blok Kodlama Mix Adım2 Küp Avcısı',
+        kap: document.querySelector('.sahne-kutu'),
+        stage: document.getElementById('stage'),
+        konus: konus, konfeti: konfetiPatlat,
+        efekt: { pop: sesTik, alkis: sesAlkis, tut: sesPop }
+      });
+    }
     hiziYaz();
     balon('Parlayan küplere tıkla! 🎯', 4000);
 

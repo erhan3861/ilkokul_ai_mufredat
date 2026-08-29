@@ -132,6 +132,7 @@
     ogeler.skorKutu.classList.remove('zipla');
     void ogeler.skorKutu.offsetWidth;
     ogeler.skorKutu.classList.add('zipla');
+    if (window.SIFRE) SIFRE.yildiz(yildiz);
   }
 
   function konfetiPatlat(adet) {
@@ -598,6 +599,16 @@
 
     if (ogeler.hata) ogeler.hata.hidden = true;
     dugmeleriBagla();
+    if (window.SIFRE) {
+      SIFRE.kur({
+        hedef: 32, harf: 'y', ses: 'ye', hayvan: '🐰', adim: 5,
+        baslik: 'Blok Kodlama Mix Adım5 Yön Tuşları',
+        kap: document.querySelector('.sahne-kutu'),
+        stage: document.getElementById('stage'),
+        konus: konus, konfeti: konfetiPatlat,
+        efekt: { pop: sesTik, alkis: sesAlkis, tut: sesAdim }
+      });
+    }
     zorlukYaz(); robotYaz();
     balon('Ok tuşlarıyla robotu yıldıza götür! ⭐', 4000);
 

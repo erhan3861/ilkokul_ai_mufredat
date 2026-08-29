@@ -160,6 +160,7 @@
     ogeler.skorKutu.classList.remove('zipla');
     void ogeler.skorKutu.offsetWidth;
     ogeler.skorKutu.classList.add('zipla');
+    if (window.SIFRE) SIFRE.yildiz(yildiz);
   }
 
   function konfetiPatlat(adet) {
@@ -703,6 +704,16 @@
 
     if (ogeler.hata) ogeler.hata.hidden = true;
     dugmeleriBagla();
+    if (window.SIFRE) {
+      SIFRE.kur({
+        hedef: 26, harf: 's', ses: 'se', hayvan: '🐜', adim: 3,
+        baslik: 'Blok Kodlama Mix Adım3 Sürükle Bırak',
+        kap: document.querySelector('.sahne-kutu'),
+        stage: document.getElementById('stage'),
+        konus: konus, konfeti: konfetiPatlat,
+        efekt: { pop: sesTik, alkis: sesAlkis, tut: sesTut }
+      });
+    }
     modYaz(); zorlukYaz();
     balon('Şekli tut ve kendi kutusuna taşı! 🎁', 4000);
 

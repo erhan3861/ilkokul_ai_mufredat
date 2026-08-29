@@ -125,6 +125,7 @@
     ogeler.skorKutu.classList.remove('zipla');
     void ogeler.skorKutu.offsetWidth;
     ogeler.skorKutu.classList.add('zipla');
+    if (window.SIFRE) SIFRE.yildiz(yildiz);
   }
 
   function konfetiPatlat(adet) {
@@ -583,6 +584,16 @@
 
     if (ogeler.hata) ogeler.hata.hidden = true;
     dugmeleriBagla();
+    if (window.SIFRE) {
+      SIFRE.kur({
+        hedef: 35, harf: 'e', ses: 'e', hayvan: '🦘', adim: 6,
+        baslik: 'Blok Kodlama Mix Adım6 Space ve Enter',
+        kap: document.querySelector('.sahne-kutu'),
+        stage: document.getElementById('stage'),
+        konus: konus, konfeti: konfetiPatlat,
+        efekt: { pop: sesTik, alkis: sesAlkis, tut: sesZipla }
+      });
+    }
     zorlukYaz(); karakterYaz();
 
     window.__olcekDegisti = function () { boyutGuncelle(); };
