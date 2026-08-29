@@ -1,6 +1,6 @@
 # Küp Avcısı (Işık Tüneli) — Öğretmen Notu
 
-**Patika:** 1. Kademe — Temel • **1–2. Sınıf** • **Adım 1**
+**Patika:** 1. Kademe — Temel • **1–2. Sınıf** • **Adım 2**
 **Ana hedef:** **Tıklama** (imleci hedefe götür → tek tıkla)
 **Süre:** 8–12 dk
 **Dosya:** `index.html` (tek başına açılır, kurulum gerekmez)
