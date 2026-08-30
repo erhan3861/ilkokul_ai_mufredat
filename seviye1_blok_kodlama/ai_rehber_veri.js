@@ -147,7 +147,7 @@ var AI_DERSLER = {
         nasil: 'Önce sınıfça bir tane kurun, sonra bireysel.' },
       { ad: 'Sihirli Konu Çarkı & Resim Yapbozu', sure: '15 dk',
         ne: 'Rastgele konu çarkı ve eşleştirme oyunu.',
-        nasil: 'Grup yarışması olarak oynatın; en yaratıcı konuya alkış.' },
+        nasil: 'Grup yarışması olarak oynatın; en üretken konuya alkış.' },
       { ad: '6 Konu 6 Muhteşem Görsel Rehberi', sure: '10 dk',
         ne: 'Örnek konu-görsel eşleşmeleri.',
         nasil: 'Kapanışta örnekleri gösterip “sen hangisini seçerdin?” diye sorun.' }
@@ -394,7 +394,7 @@ var AI_DERSLER = {
         m: '“Bir hikâye yaz” → “Bir hikâye yaz ama <b>zor kelime kullanma</b>.”' },
       { b: '3️⃣ Etkinlik (20 dk)', m: 'Üç etkinlik sırayla; tabu oyunu sınıfı çok canlandırır.' },
       { b: '4️⃣ Kapanış (5 dk)',
-        m: 'Herkes bir kural söylesin; en yaratıcı kurala alkış.' }
+        m: 'Herkes bir kural söylesin; en üretken kurala alkış.' }
     ],
     ornekler: [
       { kotu: 'hikâye yaz', iyi: '2 cümlelik hikâye yaz, zor kelime kullanma.', not: 'Sayı + kural.' },

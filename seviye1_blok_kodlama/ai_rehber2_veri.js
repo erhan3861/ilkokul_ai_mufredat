@@ -115,7 +115,7 @@ var AI_DERSLER = {
         m: 'Tahtaya “bir kedi çiz” yazın. Sonra sırayla ekleyin: <i>uzayda</i>, <i>ormanda</i>, <i>okulda</i>. Her eklemede sınıf hayalindeki resmi anlatsın.' },
       { b: '3️⃣ Etkinlik (20 dk)', m: 'Laboratuvar → çark oyunu → rehber sırasıyla ilerleyin.' },
       { b: '4️⃣ Kapanış (5 dk)',
-        m: 'Her grup bir dörtlü kursun: <b>konu + kahraman + stil + mekân</b>. En yaratıcı kombinasyona alkış.' }
+        m: 'Her grup bir dörtlü kursun: <b>konu + kahraman + stil + mekân</b>. En üretken kombinasyona alkış.' }
     ],
     ornekler: [
       { kotu: 'bir kedi çiz', iyi: 'Uzayda astronot kıyafeti giymiş bir kedi çiz.', not: 'Konu (uzay) + kıyafet ayrıntısı.' },
@@ -309,7 +309,7 @@ var AI_DERSLER = {
     konu: 'Kurallar ekliyorum',
     tekCumle: 'İsteme <b>kural</b> ekleriz: “şu kelimeyi kullanma”, “korkutucu olmasın”, “basit kelimeler kullan”. Kural koymak sonucu güvenli ve bize uygun yapar.',
     neden: [
-      'Yasak kelime koymak, çocuğu <b>başka yoldan anlatmaya</b> zorlar; kelime dağarcığı ve yaratıcılık birlikte çalışır.',
+      'Yasak kelime koymak, çocuğu <b>başka yoldan anlatmaya</b> zorlar; kelime dağarcığı ve üretkenlik birlikte çalışır.',
       '“Korkutucu şeyler istemeyiz” kuralı bir <b>güvenlik</b> konusudur ve yıl boyu geçerli sınıf kuralı olmalıdır.',
       'Kural koymak, kodlamadaki koşul ve sınır kavramlarının dil tarafındaki ilk hâlidir.'
     ],
@@ -476,7 +476,7 @@ var AI_ETKINLIK = {
     { ad: 'Sihirli Konu Çarkı & Resim Yapbozu', sure: '15 dk', tur: 'Grup · çark oyunu',
       ne: 'Konu, kahraman, sanat stili ve mekân kartlarını birleştirip görsel yapboz kurma.',
       sayfalar: ['Konu Kartını Seç!', 'Kahraman Kartını Seç!', 'Sanat Stili Kartını Seç!', 'Mekân ve Detay Kartı!', 'Grubunuzun Tamamlanan Yapbozu!', 'Resim Oylaması ve Şampiyon!'],
-      nasil: 'Gruplar sırayla kart seçer. Çıkan dörtlüyü <b>cümleye çevirtin</b>: “uzayda, çizgi film stilinde, paten kayan bir panda”. En yaratıcıya alkış.' },
+      nasil: 'Gruplar sırayla kart seçer. Çıkan dörtlüyü <b>cümleye çevirtin</b>: “uzayda, çizgi film stilinde, paten kayan bir panda”. En üretkene alkış.' },
     { ad: 'Soru, Komut ve Ayrıntı Rehberi (Görsel Konular)', sure: '10 dk', tur: 'Kapanış · 6 konu 6 görsel',
       ne: 'Altı farklı konunun görselleri ve istemleri; usta görsel konu kartı.',
       sayfalar: ['Uzay Konusu (Astronot Kedi)', 'Doğa Konusu (Masalsı Orman)', 'Spor Konusu (Patenli Panda)', 'Okul Konusu (Sihirli Sınıf)', 'Masallar Konusu (Alev Ejderhası)', 'Usta Görsel Konu Kartı'],
