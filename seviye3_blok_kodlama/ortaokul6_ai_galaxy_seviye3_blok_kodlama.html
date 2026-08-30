@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yıllık Program • Kodlama + AI-Galaxy • 6. Sınıf • 2026–2027</title>
+<meta name="description" content="6. sınıf Seviye 3 yıllık programı: her hafta bir ileri blok kodlama adımı ve bir AI-Galaxy dersi (3 adım) yan yana.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   Sabit sahne 1280x800 — kaydırma yok, ekrana orantılı sığar
+   ========================================================= */
+:root {
+  --kod: #1E9E8A;  --kod-bg: #E3F7F3;  --kod-koyu: #11705F;
+  --ai:  #2F6BFF;  --ai-bg:  #EAF0FF;  --ai-koyu:  #1F47B8;
+  --yesil: #2FB673; --yesil-acik: #5FE0A0;
+  --koyu: #1D3557; --gri: #5A7290;     --cizgi: #DDE7F3;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100vh; height: 100dvh; overflow: hidden; }
+body {
+  font-family: 'Baloo 2', 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  color: var(--koyu);
+  background: linear-gradient(180deg, #9FD8D0 0%, #CFE0FF 50%, #EDE8FF 100%);
+  -webkit-font-smoothing: antialiased;
+}
+.stage-kapsayici { position: fixed; inset: 0; overflow: hidden; }
+.tutorial-stage {
+  position: absolute; top: 0; left: 0; width: 1280px; height: 800px;
+  transform-origin: 0 0;
+  background: linear-gradient(180deg, #9FD8D0 0%, #CFE0FF 50%, #EDE8FF 100%);
+  display: flex; flex-direction: column; gap: 11px; padding: 13px 20px 11px;
+}
+
+/* ---------- Başlık ---------- */
+.ust {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,.9); border: 3px solid #fff; border-radius: 20px;
+  padding: 8px 16px; box-shadow: 0 8px 22px rgba(29,53,87,.15);
+}
+.ust .logo {
+  width: 44px; height: 44px; border-radius: 15px; display: grid; place-items: center;
+  font-size: 1.5rem; color: #fff; background: linear-gradient(135deg, var(--kod), var(--ai));
+}
+.ust .yazi { flex: 1 1 auto; min-width: 0; }
+.ust h1 { font-size: 1.35rem; font-weight: 800; line-height: 1.1; }
+.ust p { font-size: .82rem; color: var(--gri); margin-top: 1px; }
+.rozetler { display: flex; gap: 7px; }
+.rozet { font-weight: 800; font-size: .78rem; padding: 6px 12px; border-radius: 30px; white-space: nowrap; }
+.rozet.kod { background: var(--kod-bg); color: var(--kod-koyu); border: 2px solid #A9E5DB; }
+.rozet.ai  { background: var(--ai-bg);  color: var(--ai-koyu);  border: 2px solid #BFD0FF; }
+.rozet.hafta { background: #FFF3D6; color: #96631C; border: 2px solid #FFDFA0; }
+
+/* ---------- Araç şeridi ---------- */
+.arac {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 11px;
+  background: rgba(255,255,255,.9); border: 3px solid #fff; border-radius: 18px;
+  padding: 7px 13px; box-shadow: 0 7px 18px rgba(29,53,87,.13);
+}
+.ara-kutu {
+  flex: 1 1 auto; display: flex; align-items: center; gap: 9px;
+  background: #fff; border: 3px solid var(--cizgi); border-radius: 14px; padding: 0 12px; height: 44px;
+}
+.ara-kutu:focus-within { border-color: #8ED8CB; box-shadow: 0 0 0 4px rgba(142,216,203,.3); }
+.ara-kutu input { flex: 1 1 auto; border: 0; outline: 0; font: inherit; font-size: .98rem; background: transparent; color: var(--koyu); }
+.ara-kutu input::placeholder { color: #9DAFC4; }
+.ara-temizle { border: 0; background: #EEF3F9; color: #6B819B; font: inherit; font-weight: 700; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; }
+
+.hafta-sec {
+  display: flex; align-items: center; gap: 6px;
+  background: #FFF7E4; border: 3px solid #FFE0A6; border-radius: 14px; padding: 4px 8px; height: 44px;
+}
+.hafta-sec .etiket { font-size: .7rem; font-weight: 800; color: #96631C; letter-spacing: .4px; }
+.hafta-sec input {
+  width: 54px; height: 32px; border: 3px solid #FFD27A; border-radius: 10px;
+  font: inherit; font-size: 1.15rem; font-weight: 800; text-align: center; color: #8A5A12;
+  background: #fff; outline: 0; -moz-appearance: textfield;
+}
+.hafta-sec input::-webkit-outer-spin-button, .hafta-sec input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.ok-btn {
+  width: 32px; height: 32px; border-radius: 10px; border: 3px solid #fff;
+  background: linear-gradient(180deg, #FFE87C, #FFD84D); color: #6B4A00;
+  font: inherit; font-size: .9rem; font-weight: 800; cursor: pointer; box-shadow: 0 3px 0 #E9B417;
+  display: grid; place-items: center;
+}
+.ok-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #E9B417; }
+
+.sayfa-sec { display: flex; align-items: center; gap: 6px; }
+.sayfa-sec .sayfa-no { font-size: .98rem; font-weight: 800; color: var(--gri); min-width: 52px; text-align: center; }
+.sayfa-btn {
+  width: 40px; height: 44px; border-radius: 14px; border: 3px solid #fff;
+  background: linear-gradient(180deg, #A491FF, #8B6BFF); color: #fff;
+  font: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 0 #6A45E8;
+}
+.sayfa-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #6A45E8; }
+.sayfa-btn:disabled { opacity: .35; cursor: default; box-shadow: none; }
+
+/* ---------- Hafta kartları: sayfa başına 4 ---------- */
+.izgara {
+  flex: 1 1 auto; min-height: 0;
+  display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 12px;
+}
+.hafta-kart {
+  display: flex; background: #fff; border: 3px solid #fff; border-radius: 18px;
+  box-shadow: 0 7px 18px rgba(29,53,87,.14); overflow: hidden; cursor: pointer;
+  transition: box-shadow .16s, border-color .2s;
+  min-height: 0;
+}
+.hafta-kart:hover { box-shadow: 0 12px 24px rgba(29,53,87,.2); }
+.hafta-kart.secili {
+  border-color: var(--yesil);
+  box-shadow: 0 0 0 4px rgba(52,199,123,.3), 0 10px 22px rgba(29,53,87,.18);
+}
+.hafta-kart.parla { animation: parla 1.6s ease; }
+@keyframes parla {
+  0%, 100% { box-shadow: 0 7px 18px rgba(29,53,87,.14); }
+  25%, 75% { box-shadow: 0 0 0 6px rgba(255,216,77,.9), 0 10px 22px rgba(29,53,87,.2); }
+}
+
+/* sol hafta sütunu */
+.hafta-no {
+  flex: 0 0 76px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+  background: linear-gradient(180deg, #F2F6FC, #E6EDF7); color: #3F5E85;
+  border-right: 2px solid #E4EBF4; transition: background .2s, color .2s;
+}
+.hafta-no small { font-size: .62rem; font-weight: 800; letter-spacing: .6px; color: #7F94AE; }
+.hafta-no b { font-size: 2.9rem; font-weight: 800; line-height: .95; }
+.hafta-no .tik { font-size: .6rem; font-weight: 800; opacity: 0; margin-top: 2px; }
+.hafta-kart.secili .hafta-no {
+  background: linear-gradient(180deg, var(--yesil-acik), var(--yesil)); color: #fff; border-right-color: var(--yesil);
+}
+.hafta-kart.secili .hafta-no small { color: rgba(255,255,255,.92); }
+.hafta-kart.secili .hafta-no .tik { opacity: 1; }
+
+/* paneller */
+.panel {
+  flex: 1 1 0; min-width: 0; padding: 9px 11px 10px;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.panel + .panel { border-left: 2px dashed #E4EBF4; }
+.panel .tur {
+  font-size: .62rem; font-weight: 800; letter-spacing: .5px; align-self: flex-start;
+  padding: 3px 9px; border-radius: 20px; white-space: nowrap;
+}
+.panel.kod .tur { background: var(--kod-bg); color: var(--kod-koyu); }
+.panel.ai  .tur { background: var(--ai-bg);  color: var(--ai-koyu); }
+
+.panel h3 {
+  font-size: 1rem; font-weight: 800; line-height: 1.2;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.panel .hedef {
+  font-family: 'Nunito', sans-serif; font-size: .78rem; color: var(--gri); line-height: 1.3;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.patika {
+  align-self: flex-start; font-size: .62rem; font-weight: 800; letter-spacing: .3px;
+  background: #EAF6FF; color: #1E5F8F; border: 1.5px solid #BEE0F7;
+  padding: 2px 9px; border-radius: 20px; white-space: nowrap;
+}
+.aile {
+  align-self: flex-start; font-size: .62rem; font-weight: 800; letter-spacing: .3px;
+  background: #EFFAF7; color: var(--kod-koyu); border: 1.5px solid #B6E8DD;
+  padding: 2px 9px; border-radius: 20px; white-space: nowrap;
+}
+.kavram {
+  align-self: flex-start; font-family: 'Nunito', sans-serif;
+  font-size: .72rem; font-weight: 800; padding: 3px 10px; border-radius: 9px;
+  background: #FFF3D6; color: #96631C; border: 1.5px solid #FFDFA0;
+}
+.adimcik { display: flex; flex-direction: column; gap: 3px; }
+.adimcik a {
+  font-family: 'Nunito', sans-serif; font-size: .74rem; font-weight: 700; text-decoration: none;
+  padding: 3px 8px; border-radius: 8px; background: var(--ai-bg); color: var(--ai-koyu);
+  border: 1.5px solid #CBD8FA; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.adimcik a:hover { background: #DDE7FF; border-color: #91ACF5; }
+.adimcik.pasif span {
+  font-family: 'Nunito', sans-serif; font-size: .72rem; font-weight: 700;
+  padding: 3px 8px; border-radius: 8px; background: #F2F6FF; color: #5F73AA;
+  border: 1.5px solid #D8E1FA;
+}
+
+.panel .dugmeler { margin-top: auto; padding-top: 6px; display: flex; gap: 8px; flex-wrap: wrap; }
+.panel .dugmeler a {
+  flex: 0 0 auto; text-decoration: none; font-weight: 800; font-size: .86rem;
+  padding: 8px 14px; border-radius: 12px; white-space: nowrap;
+  transition: transform .1s, box-shadow .1s;
+}
+.panel .dugmeler a:active { transform: translateY(3px); box-shadow: none !important; }
+.panel.kod .ac { background: linear-gradient(180deg, #5FCBB8, var(--kod)); color: #fff; box-shadow: 0 4px 0 var(--kod-koyu); }
+.panel.ai  .ac { background: linear-gradient(180deg, #6F94FF, var(--ai));  color: #fff; box-shadow: 0 4px 0 var(--ai-koyu); }
+.rehber-buyuk { background: linear-gradient(180deg, #FFE07A, #FFC42E); color: #6B4A00; box-shadow: 0 4px 0 #E09A0B; }
+
+.panel.plan { background: repeating-linear-gradient(45deg, #FAFCFF, #FAFCFF 12px, #EEF3FF 12px, #EEF3FF 24px); }
+.panel.plan h3 { color: #1F47B8; }
+.panel.kod.plan { background: repeating-linear-gradient(45deg, #F7FCFB, #F7FCFB 12px, #EAF7F4 12px, #EAF7F4 24px); }
+.panel.kod.plan h3 { color: var(--kod-koyu); }
+.hazirlaniyor {
+  align-self: flex-start; font-size: .68rem; font-weight: 800; letter-spacing: .3px;
+  background: #FFF3D6; color: #96631C; border: 2px solid #FFDFA0;
+  padding: 3px 10px; border-radius: 20px;
+}
+.panel.plan .ac { background: #DDE6FA; color: #5F73AA; box-shadow: 0 4px 0 #BCCAF0; pointer-events: none; }
+.panel.kod.plan .ac { background: #D8ECE7; color: #5E8B82; box-shadow: 0 4px 0 #BADCD3; pointer-events: none; }
+.panel.bos { opacity: .62; }
+.panel.bos .ac { background: #DCE4EE; color: #7C8CA0; box-shadow: 0 4px 0 #C2CEDC; pointer-events: none; }
+
+.bosluk {
+  grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; color: var(--gri); font-size: 1.1rem; font-weight: 700;
+}
+.bosluk span { font-size: 2.4rem; }
+
+/* ---------- Alt şerit ---------- */
+.alt {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 13px;
+  background: rgba(255,255,255,.85); border: 3px solid #fff; border-radius: 16px;
+  padding: 6px 13px; box-shadow: 0 5px 14px rgba(29,53,87,.12);
+  font-family: 'Nunito', sans-serif; font-size: .76rem; color: var(--gri);
+}
+.alt .anahtar { display: flex; align-items: center; gap: 5px; font-weight: 700; }
+.alt .anahtar i { width: 11px; height: 11px; border-radius: 4px; display: block; }
+.alt .ipucu { margin-left: auto; font-weight: 700; }
+.alt kbd { background: #fff; border: 2px solid var(--cizgi); border-bottom-width: 3px; border-radius: 6px; padding: 0 5px; font-family: inherit; font-size: .74rem; color: var(--koyu); }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="stage-kapsayici">
+<div class="tutorial-stage" id="stage">
+
+  <header class="ust">
+    <span class="logo">🧭</span>
+    <div class="yazi">
+      <h1>Yıllık Program • 6. Sınıf • 2026–2027</h1>
+      <p>Her hafta: bir <b>blok kodlama adımı</b> (3. Kademe – İleri) + bir <b>AI-Galaxy dersi</b> (3 adım)</p>
+    </div>
+    <div class="rozetler">
+      <span class="rozet hafta">📅 36 HAFTA</span> <span class="rozet kod">🧩 18 KODLAMA</span>
+      <span class="rozet ai">🚀 9 AI DERSİ</span>
+    </div>
+  </header>
+
+  <section class="arac">
+    <label class="ara-kutu">
+      <span>🔍</span>
+      <input type="text" id="ara" placeholder="Ara: adım adı, ders adı, kavram…  (örn: boolean, akıllı şehir)" autocomplete="off">
+      <button class="ara-temizle" id="araTemizle" type="button" title="Temizle" hidden>✕</button>
+    </label>
+    <div class="hafta-sec">
+      <span class="etiket">HAFTA</span>
+      <button class="ok-btn" id="haftaAsagi" type="button" title="Önceki hafta">▼</button>
+      <input type="number" id="hafta" min="1" max="36" value="1" inputmode="numeric">
+      <button class="ok-btn" id="haftaYukari" type="button" title="Sonraki hafta">▲</button>
+    </div>
+    <div class="sayfa-sec">
+      <button class="sayfa-btn" id="geri" type="button">◀</button>
+      <span class="sayfa-no" id="sayfaNo">1 / 9</span>
+      <button class="sayfa-btn" id="ileri" type="button">▶</button>
+    </div>
+  </section>
+
+  <main class="izgara" id="izgara"></main>
+
+  <footer class="alt">
+    <span class="anahtar"><i style="background:#1E9E8A"></i>Blok Kodlama (sol)</span>
+    <span class="anahtar"><i style="background:#2F6BFF"></i>AI-Galaxy (sağ)</span>
+    <span class="anahtar"><i style="background:#2FB673"></i>Seçili hafta</span>
+    <span>1–9. hafta: iki müfredat birlikte &nbsp;•&nbsp; 10–18: ileri kodlama sürer &nbsp;•&nbsp; 19–36: AI projeleri planlı</span>
+    <span class="ipucu">Sayfa <kbd>←</kbd><kbd>→</kbd> &nbsp; Hafta <kbd>▲</kbd><kbd>▼</kbd></span>
+  </footer>
+
+</div>
+</div>
+
+<script>
+/* =========================================================================
+   YILLIK PROGRAM • 6. SINIF (SEVİYE 3)
+   -------------------------------------------------------------------------
+   EŞLEŞTİRME
+   • Blok kodlama: "3. KADEME — İLERİ (6–7–9–10–11. Sınıf | 18 Adım)" -> 1–18. hafta
+     Mouse/klavye oyunları bu kademede YOKTUR; CodeMino ana platformdur.
+     Sıra: Uzay → Kutup → Çiftlik (gelişmiş hareketten Boolean ve değişkenlere)
+   • AI-Galaxy Ortaokul 6: 36 ders -> 1–36. hafta (haftada bir DERS)
+     Bir dersin üç adımı (dersN_1 / dersN_2 / dersN_3) AYNI haftanın içindedir.
+   • 1–9. ders yayında; 10. ders hazırlık ekranında, 11–36 planlanmıştır.
+   VERİ KAYNAĞI
+   • Kodlama adımları : seviye1_blok_kodlama/blok_kodlama_müfredat.md → "3. KADEME — İLERİ"
+   • Ders adları      : ortaokul6/ders_linkleri_ve_sifreleri.md
+   • Etkinlik adları  : ortaokul6/dersN/dersN_M.html gerçek başlıkları
+   ========================================================================= */
+
+var AI_TEMEL = 'https://ortaokul6.vercel.app';
+
+/* Kodlama adımları henüz yerel oyun olarak kurulmadı; hazır olanlar buraya eklenecek */
+var KOD_LINK = {};
+var KOD_REHBER = {};
+
+var KOD = [
+  { no: 1,  ad: 'Uzay Macerası 2',            hedef: 'Gelişmiş hareket ve yönlendirme',                           aile: 'UZAY',    emoji: '🛰️' },
+  { no: 2,  ad: 'Uzay Macerası 3',            hedef: 'Hareket + döngü kullanımı',                                 aile: 'UZAY',    emoji: '🪐' },
+  { no: 3,  ad: 'Uzay Macerası 4',            hedef: 'Hata ayıklama',                                             aile: 'UZAY',    emoji: '🔧' },
+  { no: 4,  ad: 'Uzay Macerası 5',            hedef: 'Gelişmiş döngüler',                                         aile: 'UZAY',    emoji: '♻️' },
+  { no: 5,  ad: 'Uzay Macerası 6',            hedef: 'Karmaşık hareket ve döngü',                                 aile: 'UZAY',    emoji: '🚀' },
+  { no: 6,  ad: 'Kutup Macerası 1',           hedef: 'İç içe döngüler',                                           aile: 'KUTUP',   emoji: '🧊' },
+  { no: 7,  ad: 'Kutup Macerası 2',           hedef: 'While döngüsü',                                             aile: 'KUTUP',   emoji: '❄️' },
+  { no: 8,  ad: 'Kutup Macerası 3',           hedef: 'If koşulları',                                              aile: 'KUTUP',   emoji: '🐧' },
+  { no: 9,  ad: 'Kutup Macerası 4',           hedef: 'If / Else kullanımı',                                       aile: 'KUTUP',   emoji: '🔀' },
+  { no: 10, ad: 'Kutup Macerası 5',           hedef: 'While + koşul',                                             aile: 'KUTUP',   emoji: '⏳' },
+  { no: 11, ad: 'Kutup Macerası 6',           hedef: 'Hata ayıklama ve karmaşık yapı',                            aile: 'KUTUP',   emoji: '🛠️' },
+  { no: 12, ad: 'Çiftlik Macerası 1',         hedef: 'Yeni bloklar',                                              aile: 'ÇİFTLİK', emoji: '🚜' },
+  { no: 13, ad: 'Çiftlik Macerası 2',         hedef: 'Boolean / karar verme',                                     aile: 'ÇİFTLİK', emoji: '✅' },
+  { no: 14, ad: 'Çiftlik Macerası 3',         hedef: 'Değişken mantığı',                                          aile: 'ÇİFTLİK', emoji: '📦' },
+  { no: 15, ad: 'Çiftlik Macerası 4',         hedef: 'Karmaşık koşullar',                                         aile: 'ÇİFTLİK', emoji: '🧠' },
+  { no: 16, ad: 'Çiftlik Macerası 5',         hedef: 'Döngü + koşul birlikte kullanım',                           aile: 'ÇİFTLİK', emoji: '🔁' },
+  { no: 17, ad: 'Çiftlik Macerası 6',         hedef: 'Gelişmiş problem çözme',                                    aile: 'ÇİFTLİK', emoji: '🧩' },
+  { no: 18, ad: 'Çiftlik Macerası 8 – Final', hedef: 'Hareket + döngü + koşul + yeni blokları birlikte kullanma', aile: 'ÇİFTLİK', emoji: '🏆' }
+];
+
+/* --- 1–9. hafta: yayında olan Ortaokul 6 AI-Galaxy dersleri (gerçek etkinlik adlarıyla) --- */
+var DERSLER = [
+  { no: 1, ad: 'Akıllı Şehir ve Görev Parçalama', emoji: '🏙️',
+    konu: 'Akıllı şehir problemlerini küçük görevlere ayırma ve uzman AI rolleriyle çözme',
+    adimlar: ['Akıllı Şehir & Uzman AI Görev Parçalama Labı (20 bölüm)', '2080 Siberpunk Şehri Uzman AI Takım Atölyesi', '8 Bilim & Gelecek Görev Parçalama Rehberi'] },
+  { no: 2, ad: '3D Siber Ajan Kural Hiyerarşisi', emoji: '🤖',
+    konu: 'Oran-orantı ve komut hiyerarşisiyle tutarlı bir siber ajan tasarlama',
+    adimlar: ['3D Siber Ajan Kural Hiyerarşisi Labı (20 bölüm)', '2080 Siberpunk Kural Protokolü Stüdyosu', '8 Bilim & Kural Hiyerarşisi Rehberi'] },
+  { no: 3, ad: 'Multi-Shot Prompting ve JSON Çıktı Mimarisi', emoji: '🧬',
+    konu: 'Örnekli istemlerle hücre ve organel verisini düzenli bilgi kartına dönüştürme',
+    adimlar: ['Örnekli İstem & Bilgi Kartı Labı (20 bölüm)', '3D Hücre Şehri Kart Stüdyosu', '8 Bilim & Örnekli Kart Rehberi'] },
+  { no: 4, ad: 'Rubrik Matrisi ile Siber Şehir Testi', emoji: '📊',
+    konu: 'Akıllı şehir çıktısını rubrik ve kontrol listesiyle nesnel biçimde değerlendirme',
+    adimlar: ['Rubrik & Kontrol Listesi Labı (20 bölüm)', 'Akıllı Şehir Değerlendirme Stüdyosu', '8 Bilim & Rubrik Test Rehberi'] },
+  { no: 5, ad: 'Dijital İpek Yolu Hipotez Sorusu', emoji: '🛤️',
+    konu: 'İpek Yolu ve dijital ticaret rotaları üzerine sınanabilir hipotezler kurma',
+    adimlar: ['Hipotez Sorusu Tasarım Labı (20 bölüm)', 'Dijital İpek Yolu Hipotez Stüdyosu', '8 Bilim & Hipotez Sorusu Rehberi'] },
+  { no: 6, ad: 'Siber Efsaneler ve Gerçekler', emoji: '🕵️',
+    konu: 'Bilimsel iddialarda yanılsama tespiti, kanıt inceleme ve bilgi doğrulama',
+    adimlar: ['Efsane Avcısı & Gerçeklik Dedektifi Labı (20 bölüm)', 'Siber Efsane Avcıları Stüdyosu', '8 Bilim & Gerçeklik Kontrolü Rehberi'] },
+  { no: 7, ad: 'Akademik Kaynak Okuryazarlığı ve Dijital Etik', emoji: '📚',
+    konu: 'Kaynak güvenilirliği, kaynakça oluşturma, dijital haklar ve etik',
+    adimlar: ['Dijital Etik & Kaynak Okuryazarlığı Labı (20 bölüm)', 'Dijital Etik & Kaynakça Stüdyosu', '8 Bilim & Dijital Etik Rehberi'] },
+  { no: 8, ad: 'Yapay Zekâ Modellerini Karşılaştırmak', emoji: '⚖️',
+    konu: 'AI modellerini ortak ölçütlerle karşılaştırıp iklim ve enerji raporu hazırlama',
+    adimlar: ['AI Model Benchmark Labı (20 bölüm)', 'İklim & Gelecek Enerjisi Raporu Stüdyosu', '8 Bilim & AI Benchmark Rehberi'] },
+  { no: 9, ad: 'Derin Sokratik Öğrenme Koçu', emoji: '💡',
+    konu: 'Açılar ve veri analizi konularında düşündüren, kademeli ipuçları tasarlama',
+    adimlar: ['Sokratik AI Koçu Labı (20 bölüm)', 'Sokratik Matematik Koçu Stüdyosu', '8 Bilim & Sokratik Rehberi'] }
+];
+
+/* --- 10–36. hafta: ortaokul6 müfredatında hazırlanan ve planlanan AI-Galaxy dersleri --- */
+var PLAN_DERSLER = [
+  { no: 10, ad: 'Siberpunk Tiyatro Senaryosu & Metin Editörü', emoji: '🎭', ozet: 'Tiyatro metnini yapay zekâ eleştirmeniyle inceleyip anlatımını geliştirme.', rehber: true },
+  { no: 11, ad: 'Dinamik Ders ve Alışkanlık Planlayıcısı', emoji: '📅', ozet: 'Veri analiziyle sürdürülebilir ders ve alışkanlık planı oluşturma.' },
+  { no: 12, ad: 'Kendi Uzman AI Asistanım', emoji: '🏆', ozet: 'Çalışan bir uzman AI koçu tasarlayıp Siber Şehir & İstem Mimarı rozetini kazanma.' },
+  { no: 13, ad: 'Profesyonel Görsel Brief ve Siber Çıkartma', emoji: '🏷️', ozet: 'Gelecek İstanbul temalı profesyonel görsel brief ve çıkartma tasarlama.' },
+  { no: 14, ad: 'Perspektif, Derinlik ve Üçler Kuralı', emoji: '📐', ozet: 'Geometri ve açıları kullanarak derinlikli, dengeli kompozisyon kurma.' },
+  { no: 15, ad: 'Sinematik Kamera Dili ve Kadraj', emoji: '📷', ozet: 'Kamera açısı ve sinema diliyle etkili sahne anlatımı oluşturma.' },
+  { no: 16, ad: 'Volümetrik Siberpunk Işıkları', emoji: '🌃', ozet: 'Işık ve ses bilgisini kullanarak aynı şehrin üç zamanını tasarlama.' },
+  { no: 17, ad: '360° Karakter Model Kartı', emoji: '🦸', ozet: 'Karakterin farklı açılardan tutarlı göründüğü bir model sheet hazırlama.' },
+  { no: 18, ad: 'Karakteri Karmaşık İklimlere Taşımak', emoji: '🌦️', ozet: 'Aynı karakteri farklı iklim koşullarında tutarlı biçimde yeniden üretme.' },
+  { no: 19, ad: 'Poz Referansı ve K-12 Sanat Etiği', emoji: '🖼️', ozet: 'Poz referansı, görsel telif, dijital haklar ve güvenli sanat ilkelerini uygulama.' },
+  { no: 20, ad: 'İleri Görsel Hata Ayıklama', emoji: '🛠️', ozet: 'Inpainting mantığıyla görsel hataları bölgesel olarak düzeltme ve yeniden test etme.' },
+  { no: 21, ad: 'Gelecek Medyası ve Afiş Tasarımı', emoji: '📣', ozet: 'Konferans afişi ve medya bannerı için açık bir görsel iletişim sistemi kurma.' },
+  { no: 22, ad: 'Soyut Bilimi Görselleştirmek', emoji: '🫀', ozet: 'Dolaşım sistemini otoyol metaforuyla anlaşılır bir infografiğe dönüştürme.' },
+  { no: 23, ad: 'Adli Deepfake İnceleme', emoji: '🔎', ozet: 'Sahte görsel ipuçlarını inceleyip kanıta dayalı doğrulama raporu hazırlama.' },
+  { no: 24, ad: '3D Siberpunk Sanat Galeri Kampanyası', emoji: '🎨', ozet: 'Akıllı şehir ve enerji kampanyası hazırlayıp 3D Konsept & Sanat Yönetmeni rozetini kazanma.' },
+  { no: 25, ad: 'İleri Sistem Promptu ve Fen Yarışması', emoji: '🎙️', ozet: 'Kuralları açık bir fen yarışması sunucusu için ileri sistem istemi tasarlama.' },
+  { no: 26, ad: 'Değişken Hafızası ve Skor Takibi', emoji: '📈', ozet: 'Cebirsel ifadelerle değişken, hafıza ve skor durumunu yönetme.' },
+  { no: 27, ad: 'Dallanan Karar Kuralları', emoji: '🌳', ozet: 'İç içe if–then kurallarıyla birden çok sonuca açılan karar sistemi kurma.' },
+  { no: 28, ad: 'Prompt Injection Koruması ve Stres Testi', emoji: '🛡️', ozet: 'Bir uzay simülatörü botunu saldırı istemlerine karşı kurallarla koruyup test etme.' },
+  { no: 29, ad: 'Karmaşık Proje Akış Şeması', emoji: '🧭', ozet: 'Fen ve mühendislik tasarım sürecini ayrıntılı bir akış şemasında gösterme.' },
+  { no: 30, ad: 'İleri İstem Zincirleme', emoji: '⛓️', ozet: 'Metin, görsel ve storyboard üretimini dört adımlı bir işlem hattında birleştirme.' },
+  { no: 31, ad: 'Multi-Agent Komitesi', emoji: '👥', ozet: 'Yazar, eleştirmen ve doğrulayıcı AI rollerini tek bir üretim sürecinde koordine etme.' },
+  { no: 32, ad: 'Otonom AI İçerik Üretim Fabrikası', emoji: '🏭', ozet: 'On adımlı, kontrollü ve otonom bir içerik üretim süreci tasarlama.' },
+  { no: 33, ad: 'Profesyonel Storyboard ve Sahne Yönetimi', emoji: '🎞️', ozet: 'Sahne, kamera ve efekt kataloğuyla ayrıntılı storyboard mimarisi kurma.' },
+  { no: 34, ad: 'Obje Hareketi ve Kamera Fiziği', emoji: '🎥', ozet: 'Video isteminde nesne hareketiyle kamera hareketini fizik kurallarına göre ayırma.' },
+  { no: 35, ad: 'Biyometrik Klonlama Yasağı & Video Güvenliği', emoji: '🔐', ozet: 'Yüz ve ses klonlamadan kaçınarak güvenli 3D sanal avatar üretme.' },
+  { no: 36, ad: 'Final: AI Gelecek Medya Stüdyosu', emoji: '🏆', ozet: 'Yıl sonu sergisini tamamlayıp Sistem Mimarı & Medya Yapımcısı rozetini kazanma.' }
+];
+
+/* AI-Galaxy modülleri (ortaokul6 müfredatındaki üç 12 haftalık bölüm) */
+function patikaAdi(dersNo) {
+  if (dersNo <= 12) return '🏙️ 1. MODÜL · GELECEK ŞEHRİ & İLERİ PROMPT';
+  if (dersNo <= 24) return '🎨 2. MODÜL · SİBERPUNK SANAT & İNFOGRAFİK';
+  return '🤖 3. MODÜL · ETKİLEŞİMLİ BOTLAR & OTONOM AKIŞ';
+}
+
+var TOPLAM_HAFTA = 36;
+var HAFTALAR = [];
+for (var w = 1; w <= TOPLAM_HAFTA; w++) {
+  HAFTALAR.push({
+    no: w,
+    kod: (w <= KOD.length) ? KOD[w - 1] : null,
+    ai: (w <= DERSLER.length) ? DERSLER[w - 1] :
+        (PLAN_DERSLER[w - DERSLER.length - 1] || null)
+  });
+}
+
+/* ---------- sahne ölçekleme ---------- */
+(function () {
+  var G = 1280, Y = 800, stage = document.getElementById('stage');
+  function olcekle() {
+    var vg = window.innerWidth, vy = window.innerHeight;
+    if (window.visualViewport) { vg = window.visualViewport.width; vy = window.visualViewport.height; }
+    var o = Math.min(vg / G, vy / Y);
+    stage.style.transform = 'translate(' + ((vg - G * o) / 2) + 'px,' + ((vy - Y * o) / 2) + 'px) scale(' + o + ')';
+  }
+  window.addEventListener('resize', olcekle);
+  window.addEventListener('orientationchange', olcekle);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', olcekle);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(olcekle).catch(function () { });
+  window.addEventListener('load', olcekle);
+  olcekle();
+})();
+
+/* ---------- kartlar ---------- */
+(function () {
+  var SAYFADA = 4;
+  var izgara = document.getElementById('izgara');
+  var araGirdi = document.getElementById('ara');
+  var araTemizle = document.getElementById('araTemizle');
+  var haftaGirdi = document.getElementById('hafta');
+  var sayfaNo = document.getElementById('sayfaNo');
+  var btnGeri = document.getElementById('geri');
+  var btnIleri = document.getElementById('ileri');
+
+  var liste = HAFTALAR.slice(), sayfa = 0, parlayan = 0, secili = 1;
+  haftaGirdi.max = TOPLAM_HAFTA;
+
+  function normal(s) {
+    return (s || '').toLocaleLowerCase('tr')
+      .replace(/ı/g, 'i').replace(/İ/g, 'i').replace(/ş/g, 's')
+      .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o').replace(/ç/g, 'c');
+  }
+  function metni(h) {
+    return [h.no, 'hafta ' + h.no,
+            h.kod ? h.kod.ad + ' ' + h.kod.hedef + ' ' + h.kod.aile : '',
+            h.ai ? h.ai.ad + ' ' + (h.ai.konu || '') + ' ' + (h.ai.ozet || '') +
+                   ' ' + (h.ai.adimlar ? h.ai.adimlar.join(' ') : '') + ' ders ' + h.ai.no : ''].join(' ');
+  }
+  function filtrele() {
+    var q = normal(araGirdi.value.trim());
+    araTemizle.hidden = (q === '');
+    liste = HAFTALAR.filter(function (h) { return !q || normal(metni(h)).indexOf(q) >= 0; });
+    sayfa = 0; ciz();
+  }
+  function sayfaSayisi() { return Math.max(1, Math.ceil(liste.length / SAYFADA)); }
+
+  function panelKod(h) {
+    if (!h.kod) {
+      return '<div class="panel kod bos"><span class="tur">🧩 BLOK KODLAMA</span>' +
+        '<h3>⏳ Tekrar & Proje</h3>' +
+        '<p class="hedef">18 adım tamamlandı. Bu haftalarda öğrenciler sevdikleri macerayı tekrar oynar ya da proje yapar.</p>' +
+        '<div class="dugmeler"><a class="ac" href="#">⏳ Yakında</a></div></div>';
+    }
+    var k = h.kod, link = KOD_LINK[k.no], rehber = KOD_REHBER[k.no];
+    return '<div class="panel kod' + (link ? '' : ' plan') + '">' +
+      '<span class="tur">🧩 BLOK KODLAMA • ADIM ' + k.no + '</span>' +
+      '<span class="aile">' + k.aile + '</span>' +
+      '<h3>' + k.emoji + ' ' + k.ad + '</h3>' +
+      '<p class="kavram">🎯 ' + k.hedef + '</p>' +
+      (link ? '' : '<span class="hazirlaniyor">⏳ CodeMino bağlantısı eklenecek</span>') +
+      '<div class="dugmeler">' +
+        (link ? '<a class="ac" href="' + link + '">▶ Oyunu Aç</a>' : '<a class="ac" href="#">⏳ Yakında</a>') +
+        (rehber ? '<a class="rehber-buyuk" href="' + rehber + '">👩‍🏫 Rehber</a>' : '') +
+      '</div></div>';
+  }
+
+  function panelAi(h) {
+    if (!h.ai) {
+      return '<div class="panel ai bos"><span class="tur">🚀 AI-GALAXY</span>' +
+        '<h3>Ders planlanmadı</h3>' +
+        '<div class="dugmeler"><a class="ac" href="#">—</a></div></div>';
+    }
+
+    /* 10–36. hafta: içerik hazırlanıyor ama ders başlığı ve özeti görünür */
+    if (h.ai.ozet) {
+      return '<div class="panel ai plan">' +
+        '<span class="tur">🚀 AI-GALAXY • DERS ' + h.ai.no + '</span>' +
+        '<span class="patika">' + patikaAdi(h.ai.no) + '</span>' +
+        '<h3>' + h.ai.emoji + ' ' + h.ai.ad + '</h3>' +
+        '<p class="hedef">' + h.ai.ozet + '</p>' +
+        '<div class="adimcik pasif">' +
+          '<span>1️⃣ Laboratuvar</span><span>2️⃣ Grup Etkinliği</span><span>3️⃣ Görsel Rehber</span>' +
+        '</div>' +
+        '<span class="hazirlaniyor">⏳ İçerik hazırlanıyor</span>' +
+        '<div class="dugmeler"><a class="ac" href="#">⏳ Yakında</a>' +
+          (h.ai.rehber ? '<a class="rehber-buyuk" href="./ai_rehber6.html?ders=' + h.ai.no + '&hafta=' + h.no + '">👩‍🏫 Rehber</a>' : '') +
+        '</div></div>';
+    }
+
+    var a = h.ai;
+    var adimlar = a.adimlar.map(function (ad, i) {
+      return '<a href="' + AI_TEMEL + '/ders' + a.no + '/ders' + a.no + '_' + (i + 1) + '.html" ' +
+             'target="_blank" rel="noopener" title="' + ad + '">' + (i + 1) + '️⃣ ' + ad + '</a>';
+    }).join('');
+    return '<div class="panel ai">' +
+      '<span class="tur">🚀 AI-GALAXY • DERS ' + a.no + ' • 3 ADIM</span>' +
+      '<span class="patika">' + patikaAdi(a.no) + '</span>' +
+      '<h3>' + a.emoji + ' ' + a.ad + '</h3>' +
+      '<p class="hedef">🎯 Haftalık konu: ' + a.konu + '</p>' +
+      '<div class="adimcik">' + adimlar + '</div>' +
+      '<div class="dugmeler">' +
+        '<a class="ac" href="' + AI_TEMEL + '/ders' + a.no + '/index.html" target="_blank" rel="noopener">▶ Dersi Aç</a>' +
+        '<a class="rehber-buyuk" href="./ai_rehber6.html?ders=' + a.no + '&hafta=' + h.no + '">👩‍🏫 Rehber</a>' +
+      '</div></div>';
+  }
+
+  function ciz() {
+    izgara.innerHTML = '';
+    if (!liste.length) {
+      izgara.innerHTML = '<div class="bosluk"><span>🔎</span>Aramana uyan hafta bulunamadı.</div>';
+      sayfaNo.textContent = '0 / 0';
+      btnGeri.disabled = btnIleri.disabled = true;
+      return;
+    }
+    var bas = sayfa * SAYFADA, dilim = liste.slice(bas, bas + SAYFADA);
+
+    dilim.forEach(function (h) {
+      var k = document.createElement('article');
+      k.className = 'hafta-kart' + (h.no === secili ? ' secili' : '');
+      k.innerHTML =
+        '<div class="hafta-no"><small>HAFTA</small><b>' + h.no + '</b><span class="tik">✓ SEÇİLİ</span></div>' +
+        panelKod(h) + panelAi(h);
+      k.addEventListener('click', function (ev) {
+        if (ev.target.closest('a')) return;
+        secili = h.no; haftaGirdi.value = h.no; ciz();
+      });
+      izgara.appendChild(k);
+      if (parlayan === h.no) {
+        k.classList.add('parla');
+        setTimeout(function () { k.classList.remove('parla'); }, 1700);
+        parlayan = 0;
+      }
+    });
+    for (var i = dilim.length; i < SAYFADA; i++) izgara.appendChild(document.createElement('div'));
+
+    sayfaNo.textContent = (sayfa + 1) + ' / ' + sayfaSayisi();
+    btnGeri.disabled = (sayfa === 0);
+    btnIleri.disabled = (sayfa >= sayfaSayisi() - 1);
+  }
+
+  function haftayaGit(no) {
+    no = Math.max(1, Math.min(TOPLAM_HAFTA, parseInt(no, 10) || 1));
+    haftaGirdi.value = no;
+    araGirdi.value = ''; araTemizle.hidden = true;
+    liste = HAFTALAR.slice();
+    sayfa = Math.floor((no - 1) / SAYFADA);
+    parlayan = no; secili = no;
+    ciz();
+  }
+
+  araGirdi.addEventListener('input', filtrele);
+  araTemizle.addEventListener('click', function () { araGirdi.value = ''; filtrele(); araGirdi.focus(); });
+  haftaGirdi.addEventListener('change', function () { haftayaGit(haftaGirdi.value); });
+  haftaGirdi.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); haftayaGit(haftaGirdi.value); haftaGirdi.blur(); }
+  });
+  document.getElementById('haftaYukari').addEventListener('click', function () { haftayaGit((parseInt(haftaGirdi.value, 10) || 0) + 1); });
+  document.getElementById('haftaAsagi').addEventListener('click', function () { haftayaGit((parseInt(haftaGirdi.value, 10) || 2) - 1); });
+  btnGeri.addEventListener('click', function () { if (sayfa > 0) { sayfa--; ciz(); } });
+  btnIleri.addEventListener('click', function () { if (sayfa < sayfaSayisi() - 1) { sayfa++; ciz(); } });
+
+  window.addEventListener('keydown', function (e) {
+    if (document.activeElement === araGirdi || document.activeElement === haftaGirdi) return;
+    if (e.key === 'ArrowLeft') btnGeri.click();
+    if (e.key === 'ArrowRight') btnIleri.click();
+    if (e.key === 'ArrowUp') { e.preventDefault(); haftayaGit((parseInt(haftaGirdi.value, 10) || 0) + 1); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); haftayaGit((parseInt(haftaGirdi.value, 10) || 2) - 1); }
+  });
+
+  ciz();
+})();
+</script>
+
+</body>
+</html>
+
+

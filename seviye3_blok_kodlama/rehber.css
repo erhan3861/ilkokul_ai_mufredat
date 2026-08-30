@@ -1,0 +1,154 @@
+/* =========================================================
+   Öğretmen Rehberi — ortak slayt stili
+   Sabit 1280x800 sahne + transform:scale (patikadaki oyunlarla
+   aynı responsive mantık). Sayfa sayfa ilerler, yazdırılabilir.
+   ========================================================= */
+
+:root {
+  --vurgu: #8B6BFF;
+  --vurgu-koyu: #6A45E8;
+  --vurgu-acik: #EFEAFF;
+  --koyu: #23385C;
+  --gri: #5A7290;
+  --cizgi: #DDE7F3;
+  --beyaz: #fff;
+  --sahne-g: 1280px;
+  --sahne-y: 800px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { width: 100%; height: 100vh; height: 100dvh; overflow: hidden; }
+
+body {
+  font-family: 'Baloo 2', 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  color: var(--koyu);
+  background: linear-gradient(180deg, #EAF3FF 0%, #F6F1FF 60%, #FFF7E8 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+.stage-kapsayici { position: fixed; inset: 0; overflow: hidden; }
+
+.tutorial-stage {
+  position: absolute; top: 0; left: 0;
+  width: var(--sahne-g); height: var(--sahne-y);
+  transform-origin: 0 0;
+  background: linear-gradient(180deg, #EAF3FF 0%, #F6F1FF 60%, #FFF7E8 100%);
+  display: flex; flex-direction: column;
+  padding: 18px 26px 16px; gap: 14px;
+}
+
+/* ---------- Üst şerit ---------- */
+.rehber-ust {
+  flex: 0 0 auto;
+  display: flex; align-items: center; gap: 14px;
+  background: var(--beyaz);
+  border: 3px solid var(--vurgu-acik);
+  border-radius: 24px; padding: 12px 18px;
+  box-shadow: 0 8px 22px rgba(35, 56, 92, .12);
+}
+.rehber-ust .orta { flex: 1 1 auto; text-align: center; min-width: 0; }
+.rehber-ust h1 { font-size: 1.55rem; font-weight: 700; line-height: 1.15; }
+.rehber-ust p { font-size: .92rem; color: var(--gri); margin-top: 2px; }
+
+.ust-btn {
+  flex: 0 0 auto; text-decoration: none; font: inherit; font-weight: 700; font-size: .98rem;
+  padding: 11px 18px; border-radius: 16px; border: 3px solid var(--beyaz); cursor: pointer;
+  transition: transform .12s, box-shadow .12s;
+}
+.ust-btn:active { transform: translateY(4px); }
+.ust-btn.geri { background: #EEF4FB; color: #3B5A80; box-shadow: 0 5px 0 #C9D8E8; }
+.ust-btn.oyna { background: linear-gradient(180deg, #A491FF, var(--vurgu)); color: #fff; box-shadow: 0 5px 0 var(--vurgu-koyu); }
+
+/* ---------- Slaytlar ---------- */
+.slaytlar { position: relative; flex: 1 1 auto; min-height: 0; }
+
+.slayt {
+  position: absolute; inset: 0;
+  background: var(--beyaz);
+  border: 3px solid var(--vurgu-acik);
+  border-radius: 26px;
+  padding: 22px 30px;
+  box-shadow: 0 10px 26px rgba(35, 56, 92, .12);
+  overflow: hidden;
+  display: none;
+  flex-direction: column; gap: 12px;
+}
+.slayt.aktif { display: flex; animation: gir .28s ease; }
+@keyframes gir { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+
+.slayt-baslik { display: flex; align-items: center; gap: 12px; }
+.slayt-baslik .rozet {
+  background: var(--vurgu-acik); color: var(--vurgu-koyu);
+  font-weight: 700; font-size: .8rem; padding: 5px 13px; border-radius: 20px;
+  white-space: nowrap;
+}
+.slayt-baslik h2 { font-size: 1.45rem; font-weight: 700; }
+.slayt-baslik .emoji { font-size: 1.9rem; }
+
+.slayt p, .slayt li { font-family: 'Nunito', sans-serif; font-size: 1rem; line-height: 1.6; color: #33506F; }
+.slayt b { color: #1D3557; }
+
+.iki-sutun { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1 1 auto; min-height: 0; }
+.uc-sutun { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+.kutu {
+  background: #F7FAFE; border: 2px solid var(--cizgi); border-radius: 18px;
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 8px;
+}
+.kutu.vurgulu { background: var(--vurgu-acik); border-color: #C9BBFF; }
+.kutu.sari { background: #FFF7E0; border-color: #FFE3A3; }
+.kutu.yesil { background: #EDFBF1; border-color: #B9EFC9; }
+.kutu h3 { font-size: 1.05rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.kutu ul { margin-left: 18px; display: flex; flex-direction: column; gap: 5px; }
+
+table { width: 100%; border-collapse: collapse; font-family: 'Nunito', sans-serif; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--cizgi); font-size: .95rem; }
+th { color: var(--vurgu-koyu); font-weight: 800; font-size: .88rem; text-transform: uppercase; letter-spacing: .3px; }
+td.dar { width: 46px; text-align: center; font-size: 1.2rem; }
+
+.soru-listesi { display: flex; flex-direction: column; gap: 9px; }
+.soru {
+  background: #F7FAFE; border-left: 5px solid var(--vurgu); border-radius: 12px;
+  padding: 9px 14px; font-family: 'Nunito', sans-serif; font-size: 1rem;
+}
+.soru .cevap { color: #2E7D4F; font-weight: 700; }
+
+.not { font-size: .9rem; color: var(--gri); font-family: 'Nunito', sans-serif; }
+
+/* ---------- Gezinme ---------- */
+.gezinme {
+  flex: 0 0 auto;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+}
+.gez-btn {
+  font: inherit; font-weight: 700; font-size: 1rem; cursor: pointer;
+  background: var(--beyaz); color: var(--koyu);
+  border: 3px solid var(--vurgu-acik); border-radius: 18px;
+  padding: 11px 22px; box-shadow: 0 5px 0 rgba(35, 56, 92, .14);
+  transition: transform .12s, box-shadow .12s;
+}
+.gez-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(35, 56, 92, .14); }
+.gez-btn[disabled] { opacity: .38; cursor: default; box-shadow: none; transform: none; }
+.gez-btn.ana { background: linear-gradient(180deg, #A491FF, var(--vurgu)); color: #fff; border-color: #fff; box-shadow: 0 5px 0 var(--vurgu-koyu); }
+.gez-btn.yazdir { background: #FFF3D6; border-color: #FFE3A3; box-shadow: 0 5px 0 #F0CE7A; }
+
+.noktalar { display: flex; gap: 8px; align-items: center; }
+.nokta {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: #D6DFEC; border: none; cursor: pointer; padding: 0;
+  transition: transform .15s, background .15s;
+}
+.nokta:hover { transform: scale(1.25); }
+.nokta.aktif { background: var(--vurgu); transform: scale(1.35); }
+.sayfa-no { font-size: .92rem; color: var(--gri); font-weight: 600; min-width: 64px; text-align: center; }
+
+/* ---------- Yazdırma ---------- */
+@media print {
+  html, body { height: auto; overflow: visible; background: #fff; }
+  .stage-kapsayici { position: static; }
+  .tutorial-stage { position: static; width: auto; height: auto; transform: none !important; background: #fff; padding: 0; }
+  .slaytlar { position: static; }
+  .slayt { position: static; display: flex !important; box-shadow: none; border: 1px solid #ccc; margin-bottom: 14px; page-break-after: always; animation: none; }
+  .gezinme, .ust-btn { display: none; }
+}
