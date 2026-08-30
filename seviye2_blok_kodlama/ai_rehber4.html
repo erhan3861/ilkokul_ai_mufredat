@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI-Galaxy — Öğretmen Rehberi • İlkokul 2</title>
+<title>AI-Galaxy — Öğretmen Rehberi • İlkokul 4</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="rehber.css">
 <style>
-  :root { --vurgu: #8B3FD8; --vurgu-koyu: #6B21B8; --vurgu-acik: #F4EAFF; }
-  .ust-btn.etkinlik { background: linear-gradient(180deg, #B478F0, #8B3FD8); color: #fff; box-shadow: 0 5px 0 #6B21B8; }
+  :root { --vurgu: #C0398C; --vurgu-koyu: #8E1F66; --vurgu-acik: #FDEAF6; }
+  .ust-btn.etkinlik { background: linear-gradient(180deg, #EE7CBD, #C0398C); color: #fff; box-shadow: 0 5px 0 #8E1F66; }
   .adim-kart { position: relative; }
   .adim-kart > .not:last-of-type { margin-bottom: 2px; }
   .adim-kart.bu-hafta { border-color: #FFC94D; background: #FFF9E8; }
@@ -50,10 +50,7 @@
   .ek-yazi b { font-size: .98rem; line-height: 1.1; }
   .ek-yazi small { font-family: 'Nunito', sans-serif; font-size: .76rem; opacity: .85; }
   .ek-ok { margin-left: auto; font-size: 1.3rem; font-weight: 800; }
-  .tek-cumle {
-    background: var(--vurgu-acik); border: 2px solid #DCC4FA; border-radius: 16px;
-    padding: 14px 18px; font-size: 1.1rem; line-height: 1.5;
-  }
+
   /* 3. slayt (ÖRNEKLER): üç örnek + kapanış kutusu sahneye sığsın, alttan taşma olmasın */
   .slayt .ornek { gap: 8px; margin-bottom: 5px; }
   .slayt .ornek .kotu, .slayt .ornek .iyi { padding: 7px 11px; font-size: .9rem; line-height: 1.34; }
@@ -68,12 +65,16 @@
   .uc-sutun .adim-kart ul { margin-left: 15px; gap: 2px; }
   .uc-sutun .adim-kart .not { margin-top: auto; padding-top: 4px; }
   .uc-sutun .adim-kart .ek-kutu { margin-top: 2px; margin-bottom: 5px; padding: 6px 10px; gap: 8px; }
-  /* rozet kartın içinde dursun: kart overflow:hidden olduğu için dışarı taşamaz */
-  .uc-sutun .adim-kart.bu-hafta::after { top: 5px; right: 7px; }
-  .uc-sutun .adim-kart.bu-hafta h3 { padding-right: 76px; }
   .uc-sutun .adim-kart .ek-em { font-size: 1.3rem; }
   .uc-sutun .adim-kart .ek-yazi b { font-size: .88rem; }
   .uc-sutun .adim-kart .ek-yazi small { font-size: .7rem; }
+  .uc-sutun .adim-kart.bu-hafta::after { top: 5px; right: 7px; }
+  .uc-sutun .adim-kart.bu-hafta h3 { padding-right: 76px; }
+
+  .tek-cumle {
+    background: var(--vurgu-acik); border: 2px solid #F7C2E1; border-radius: 16px;
+    padding: 14px 18px; font-size: 1.1rem; line-height: 1.5;
+  }
   .konu-rozet {
     display: inline-block; background: #FFF3D6; color: #96631C; border: 2px solid #FFDFA0;
     border-radius: 20px; padding: 3px 12px; font-size: .78rem; font-weight: 800; margin-left: 8px;
@@ -86,10 +87,10 @@
 <div class="tutorial-stage" id="stage">
 
   <header class="rehber-ust">
-    <a class="ust-btn geri" id="btnPatika" href="ilkokul2_ai_galaxy_seviye1_blok_kodlama.html">⬅️ Program</a>
+    <a class="ust-btn geri" id="btnPatika" href="ilkokul4_ai_galaxy_seviye2_blok_kodlama.html">⬅️ Program</a>
     <div class="orta">
       <h1 id="baslik">👩‍🏫 AI-Galaxy Öğretmen Rehberi</h1>
-      <p id="altBaslik">İlkokul 2 • 2026–2027</p>
+      <p id="altBaslik">İlkokul 4 • 2026–2027</p>
     </div>
     <a class="ust-btn ek" id="btnEk" href="#" hidden>🃏 Ek Kaynak</a>
     <a class="ust-btn etkinlik" id="btnEtkinlik" href="#" target="_blank" rel="noopener">▶ Etkinliği Aç</a>
@@ -108,10 +109,10 @@
 </div>
 </div>
 
-<script src="ai_rehber2_veri.js"></script>
+<script src="ai_rehber4_veri.js"></script>
 <script>
 (function () {
-  var AI_TEMEL = 'https://ilkokul2.vercel.app';
+  var AI_TEMEL = 'https://ilkokul4.vercel.app';
 
   function par(ad, vars) {
     var m = new RegExp('[?&]' + ad + '=([^&]+)').exec(location.search);
@@ -123,17 +124,19 @@
   var hafta = parseInt(par('hafta', ''), 10);
   var D = AI_DERSLER[dersNo];
 
-  /* derse özel ek kaynak sayfaları (2. sınıf sürümleri) */
+  /* Derse özel ek sınıf oyunları — yalnızca öğretmen rehberinde görünür.
+     Bunlar ilkokul4 etkinliklerinin yerine geçmez; öğretmenin isterse
+     akıllı tahtada oynatacağı ek kaynaklardır. */
   var EK_KAYNAK = {
-    7: { ad: '🎡 Canlı Passaparola', em: '🎡', alt: 'Akıllı tahtada oyna, cevabı düğmeyle aç', url: './pasaparola2.html', adim: 2, yeniSekme: true },
-    8: { ad: '🃏 Tabu Kartları', em: '🃏', alt: '20 hazır kelime + yasaklılar', url: './tabu_kartlari2.html', adim: 2 }
+    7: { ad: '🎡 Canlı Passaparola', em: '🎡', alt: 'Ek sınıf oyunu · cevabı düğmeyle aç', url: './pasaparola4.html', adim: 2, yeniSekme: true },
+    8: { ad: '🃏 Tabu Kartları', em: '🃏', alt: 'Ek sınıf oyunu · 20 kelime + yasaklılar', url: './tabu_kartlari4.html', adim: 2 }
   };
   var EK = EK_KAYNAK[dersNo];
 
   /* --- başlık --- */
   document.getElementById('baslik').innerHTML = '👩‍🏫 ' + D.emoji + ' Ders ' + dersNo + ' — ' + D.ad;
   document.getElementById('altBaslik').innerHTML =
-    'AI-Galaxy • İlkokul 2 • <b>Etkinlik ' + dersNo + '.' + adimNo + '</b>' +
+    'AI-Galaxy • İlkokul 4 • <b>Etkinlik ' + dersNo + '.' + adimNo + '</b>' +
     (hafta ? ' • <b>' + hafta + '. hafta</b>' : '') + ' • Süre: 40–45 dk' +
     (D.konu ? '<span class="konu-rozet">🎯 ' + D.konu + '</span>' : '');
   document.getElementById('btnEtkinlik').href =
@@ -162,7 +165,7 @@
       '<div class="kutu yesil"><h3>🎓 Kazanımlar</h3><ul>' +
         D.kazanim.map(function (x) { return '<li>' + x + '</li>'; }).join('') +
       '</ul>' +
-      '<p class="not">Seviye notu — 2. sınıfta öğrenciler artık yazabildiği için etkinliklerdeki <b>serbest yazma kutularını</b> mutlaka kullandırın; hazır seçenekle yetinmesinler.</p></div>' +
+      '<p class="not">Seviye notu — 4. sınıfta <b>sesli okuma butonları kaldırılmıştır</b>. Maarif konuları derse gömülüdür; öğrenci istemini kendisi yazar, gelen yanıtı <b>değerlendirir ve revize eder</b>.</p></div>' +
     '</div>'
   );
 
@@ -188,7 +191,7 @@
              '<p class="ornek-not">💬 ' + o.not + '</p>';
     }).join('') +
     '<div class="kutu sari"><h3>🖐️ Sınıfta hemen deneyin</h3>' +
-      '<p>Bir öğrenciye kırmızı cümleyi, başka bir öğrenciye yeşil cümleyi <b>kendi defterine yazdırın</b>. Sonuçları ekranda yan yana gösterin: <b>fark kendini anlatır.</b></p></div>'
+      '<p>Kırmızı ve yeşil cümleyi iki öğrenciye <b>defterine yazdırın</b>, sonuçları ekranda yan yana gösterin. Ardından gelen yanıtı üç ölçütle puanlatın: <b>doğru mu · görevi yapmış mı · istenen formatta mı?</b></p></div>'
   );
 
   /* 4 — 3 ETKİNLİK */
@@ -218,8 +221,8 @@
   var ekran = D.ekran || AI_GENEL_EKRAN;
   s.push(
     '<div class="slayt-baslik"><span class="emoji">🖥️</span>' +
-      '<span class="rozet">5 • EKRAN KULLANIMI</span><h2>Çocuk ekranda ne yapacak?</h2></div>' +
-    '<p class="not">Aşağıdaki sıra <b>uygulamadaki gerçek düğmelerle</b> aynıdır. Yavaş okuyan öğrenci için <b>🔊 önce dinle, sonra seç</b> kuralını her adımda hatırlatın.</p>' +
+      '<span class="rozet">5 • EKRAN KULLANIMI</span><h2>Öğrenci ekranda ne yapacak?</h2></div>' +
+    '<p class="not">Aşağıdaki sıra <b>uygulamadaki gerçek düğmelerle</b> aynıdır. 4. sınıfta sesli okuma butonu yoktur: <b>oku → seç → kendi istemini yaz → sun → değerlendir.</b></p>' +
     '<div class="akis">' +
       ekran.map(function (a) { return '<div class="adim"><b>' + a.b + '</b><p>' + a.m + '</p></div>'; }).join('') +
     '</div>'
