@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yıllık Program • Kodlama + AI-Galaxy • 7. Sınıf • 2026–2027</title>
-<meta name="description" content="7. sınıf Seviye 3 yıllık programı: her hafta bir ileri blok kodlama adımı ve bir AI-Galaxy dersi (3 adım) yan yana.">
+<title>Yıllık Program • Kodlama + AI-Galaxy • 8. Sınıf • 2026–2027</title>
+<meta name="description" content="8. sınıf Seviye 3 yıllık programı: her hafta bir ileri blok kodlama adımı ve bir AI-Galaxy dersi (3 adım) yan yana.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
    ========================================================= */
 :root {
   --kod: #1E9E8A;  --kod-bg: #E3F7F3;  --kod-koyu: #11705F;
-  --ai:  #6C3FD1;  --ai-bg:  #F0EBFF;  --ai-koyu:  #43218F;
+  --ai:  #B45309;  --ai-bg:  #FDF0DF;  --ai-koyu:  #7C3A05;
   --yesil: #2FB673; --yesil-acik: #5FE0A0;
   --koyu: #1D3557; --gri: #5A7290;     --cizgi: #DDE7F3;
 }
@@ -23,14 +23,14 @@ html, body { width: 100%; height: 100vh; height: 100dvh; overflow: hidden; }
 body {
   font-family: 'Baloo 2', 'Nunito', 'Segoe UI', system-ui, sans-serif;
   color: var(--koyu);
-  background: linear-gradient(180deg, #9FD8D0 0%, #DDD6FF 50%, #EEF9FF 100%);
+  background: linear-gradient(180deg, #9FD8D0 0%, #F7DFC2 50%, #FFF7EE 100%);
   -webkit-font-smoothing: antialiased;
 }
 .stage-kapsayici { position: fixed; inset: 0; overflow: hidden; }
 .tutorial-stage {
   position: absolute; top: 0; left: 0; width: 1280px; height: 800px;
   transform-origin: 0 0;
-  background: linear-gradient(180deg, #9FD8D0 0%, #DDD6FF 50%, #EEF9FF 100%);
+  background: linear-gradient(180deg, #9FD8D0 0%, #F7DFC2 50%, #FFF7EE 100%);
   display: flex; flex-direction: column; gap: 11px; padding: 13px 20px 11px;
 }
 
@@ -50,7 +50,7 @@ body {
 .rozetler { display: flex; gap: 7px; }
 .rozet { font-weight: 800; font-size: .78rem; padding: 6px 12px; border-radius: 30px; white-space: nowrap; }
 .rozet.kod { background: var(--kod-bg); color: var(--kod-koyu); border: 2px solid #A9E5DB; }
-.rozet.ai  { background: var(--ai-bg);  color: var(--ai-koyu);  border: 2px solid #D5C5FA; }
+.rozet.ai  { background: var(--ai-bg);  color: var(--ai-koyu);  border: 2px solid #F2CFA1; }
 .rozet.hafta { background: #FFF3D6; color: #96631C; border: 2px solid #FFDFA0; }
 
 /* ---------- Araç şeridi ---------- */
@@ -190,11 +190,11 @@ body {
 }
 .panel .dugmeler a:active { transform: translateY(3px); box-shadow: none !important; }
 .panel.kod .ac { background: linear-gradient(180deg, #5FCBB8, var(--kod)); color: #fff; box-shadow: 0 4px 0 var(--kod-koyu); }
-.panel.ai  .ac { background: linear-gradient(180deg, #9873E8, var(--ai));  color: #fff; box-shadow: 0 4px 0 var(--ai-koyu); }
+.panel.ai  .ac { background: linear-gradient(180deg, #E39445, var(--ai));  color: #fff; box-shadow: 0 4px 0 var(--ai-koyu); }
 .rehber-buyuk { background: linear-gradient(180deg, #FFE07A, #FFC42E); color: #6B4A00; box-shadow: 0 4px 0 #E09A0B; }
 
 .panel.plan { background: repeating-linear-gradient(45deg, #FCFAFF, #FCFAFF 12px, #F3EDFF 12px, #F3EDFF 24px); }
-.panel.plan h3 { color: #43218F; }
+.panel.plan h3 { color: #7C3A05; }
 .panel.kod.plan { background: repeating-linear-gradient(45deg, #F7FCFB, #F7FCFB 12px, #EAF7F4 12px, #EAF7F4 24px); }
 .panel.kod.plan h3 { color: var(--kod-koyu); }
 .hazirlaniyor {
@@ -236,7 +236,7 @@ body {
   <header class="ust">
     <span class="logo">🧭</span>
     <div class="yazi">
-      <h1>Yıllık Program • 7. Sınıf • 2026–2027</h1>
+      <h1>Yıllık Program • 8. Sınıf • 2026–2027</h1>
       <p>Her hafta: bir <b>blok kodlama adımı</b> (3. Kademe – İleri) + bir <b>AI-Galaxy dersi</b> (3 adım)</p>
     </div>
     <div class="rozetler">
@@ -268,7 +268,7 @@ body {
 
   <footer class="alt">
     <span class="anahtar"><i style="background:#1E9E8A"></i>Blok Kodlama (sol)</span>
-    <span class="anahtar"><i style="background:#6C3FD1"></i>AI-Galaxy (sağ)</span>
+    <span class="anahtar"><i style="background:#B45309"></i>AI-Galaxy (sağ)</span>
     <span class="anahtar"><i style="background:#2FB673"></i>Seçili hafta</span>
     <span>1–9. hafta: iki müfredat birlikte &nbsp;•&nbsp; 10–18: ileri kodlama sürer &nbsp;•&nbsp; 19–36: AI sistemleri planlı</span>
     <span class="ipucu">Sayfa <kbd>←</kbd><kbd>→</kbd> &nbsp; Hafta <kbd>▲</kbd><kbd>▼</kbd></span>
@@ -285,16 +285,16 @@ body {
    • Blok kodlama: "3. KADEME — İLERİ (6–7–9–10–11. Sınıf | 18 Adım)" -> 1–18. hafta
      Mouse/klavye oyunları bu kademede YOKTUR; CodeMino ana platformdur.
      Sıra: Uzay → Kutup → Çiftlik (gelişmiş hareketten Boolean ve değişkenlere)
-   • AI-Galaxy Ortaokul 7: 36 ders -> 1–36. hafta (haftada bir DERS)
+   • AI-Galaxy Ortaokul 8: 36 ders -> 1–36. hafta (haftada bir DERS)
      Bir dersin üç adımı (dersN_1 / dersN_2 / dersN_3) AYNI haftanın içindedir.
    • 1–9. ders yayında; 10. ders hazırlık ekranında, 11–36 planlanmıştır.
    VERİ KAYNAĞI
    • Kodlama adımları : seviye1_blok_kodlama/blok_kodlama_müfredat.md → "3. KADEME — İLERİ"
-   • Ders adları      : ortaokul7/ders_linkleri_ve_sifreleri.md
-   • Etkinlik adları  : ortaokul7/dersN/dersN_M.html gerçek başlıkları
+   • Ders adları      : ortaokul8/ders_linkleri_ve_sifreleri.md
+   • Etkinlik adları  : ortaokul8/dersN/dersN_M.html gerçek başlıkları
    ========================================================================= */
 
-var AI_TEMEL = 'https://ortaokul7.vercel.app';
+var AI_TEMEL = 'https://ortaokul8.vercel.app';
 
 /* Kodlama adımları henüz yerel oyun olarak kurulmadı; hazır olanlar buraya eklenecek */
 var KOD_LINK = {};
@@ -321,69 +321,69 @@ var KOD = [
   { no: 18, ad: 'Çiftlik Macerası 8 – Final', hedef: 'Hareket + döngü + koşul + yeni blokları birlikte kullanma', aile: 'ÇİFTLİK', emoji: '🏆' }
 ];
 
-/* --- 1–9. hafta: yayında olan Ortaokul 7 AI-Galaxy dersleri (gerçek etkinlik adlarıyla) --- */
+/* --- 1–9. hafta: yayında olan Ortaokul 8 AI-Galaxy dersleri (gerçek etkinlik adlarıyla) --- */
 var DERSLER = [
-  { no: 1, ad: 'Güneş Sistemi ve Açık İstem Yazmak', emoji: '🪐',
-    konu: 'Görevi parçalara ayırma ve Güneş Sistemi için açık istem mimarisi',
-    adimlar: ['Güneş Sistemi & Açık İstem Yazma Labı', 'Güneş Sistemi & Açık İstem Takım Atölyesi', 'Açık İstem Mimarisi Görsel Rehber Vitrini'] },
-  { no: 2, ad: 'Hücre Bölünmesi ve Komut Öncelik Kuralları', emoji: '🧬',
-    konu: 'Mitoz, oran-orantı ve istem içinde kural önceliği belirleme',
-    adimlar: ['Hücre Bölünmesi & Komut Öncelik Kuralları Labı', 'Hücre Bölünmesi & Komut Sırası Takım Atölyesi', 'Hücre Bölünmesi Görsel Rehber Vitrini'] },
-  { no: 3, ad: 'Kuvvet, İş ve Şablon Yapılı Çıktılar', emoji: '⚡',
-    konu: 'Kinetik-potansiyel enerji ve örneklerle çıktı şablonu yönlendirme',
-    adimlar: ['Kuvvet, İş ve Şablon Yapılı Çıktılar Labı', 'Kuvvet, İş ve Şablonlu İstem Takım Atölyesi', 'Kuvvet, İş ve Şablon Yapılı İstemler Görsel Rehberi'] },
-  { no: 4, ad: 'Uzay Üssü Performans Testi ve Rubrik Matrisi', emoji: '📊',
-    konu: 'Ölçüt yazma, rubrik matrisi ve yapay zekâ çıktısında kalite kontrolü',
-    adimlar: ['Uzay Üssü Performans Testi ve Rubrik Labı', 'Uzay Üssü Rubrik Takım Atölyesi', 'Uzay Üssü Performans Testi Görsel Rehberi'] },
-  { no: 5, ad: 'Zaman İçinde Bilim ve Hipotez Tasarımı', emoji: '⏳',
-    konu: 'Bilim tarihi üzerinden araştırma sorusu ve sınanabilir hipotez oluşturma',
-    adimlar: ['Zaman İçinde Bilim ve Hipotez Labı', 'Zaman Makinesi Hipotez Takım Oyunu', 'Zaman İçinde Bilim ve Hipotez Görsel Rehberi'] },
-  { no: 6, ad: 'Karışımlar, Aynalar ve Yanılsama Tespiti', emoji: '🕵️',
-    konu: 'İddia, kanıt ve açıklamayı ayırarak yapay zekâ yanılsamasını doğrulama',
-    adimlar: ['Karışımlar, Aynalar ve Yanılsama Labı', 'Halüsinasyon Avcısı Takım Oyunu', 'Karışımlar, Aynalar ve Doğrulama Görsel Vitrini'] },
-  { no: 7, ad: 'İletişim, Medya Etiği ve Dijital Güvenlik', emoji: '🛡️',
-    konu: 'Kaynak kalitesi, medya okuryazarlığı, dijital etik ve güvenlik',
-    adimlar: ['Yapay Zekâda Bilgi Doğrulama & Halüsinasyon Avı', 'Siber Medya Dedektifi Takım Oyunu', 'Medya Etiği ve Dijital Güvenlik Görsel Vitrini'] },
-  { no: 8, ad: 'Yapay Zekâ Modellerini Karşılaştırma', emoji: '⚖️',
-    konu: 'Birden fazla AI cevabını ortak ölçütlerle karşılaştırma ve benchmark',
-    adimlar: ['Model Karşılaştırma ve Benchmark Labı', '10 Adımlı Model Karşılaştırma Arenası', 'Model Karşılaştırma ve 2. Ay Finali Görsel Vitrini'] },
-  { no: 9, ad: 'Matematik ve Geometri İpucu Koçu', emoji: '📐',
-    konu: 'Doğrular ve açılarda cevabı vermeyen Sokratik öğrenme asistanı',
-    adimlar: ['Matematik ve Geometri İpucu Labı', 'Geometri ve İpucu Koçu Takım Oyunu', 'Geometri ve İpucu Koçu Görsel Vitrini'] }
+  { no: 1, ad: 'Görevi Parçalara Ayırmak', emoji: '🧩',
+    konu: 'Task decomposition — Girdi → İşlem → Çıktı (Fen 8: Mevsimler ve İklim)',
+    adimlar: ['Görevi Parçalara Ayırma Labı (20 bölüm)', 'Görevi Parçalara Ayırma Takım Atölyesi (4 rol)', 'Görsel Rehber & Şampiyon İstem Vitrini'] },
+  { no: 2, ad: 'Prompt İçinde Öncelik Belirlemek', emoji: '🪜',
+    konu: 'Zorunlu / ikincil kural hiyerarşisi (Fen 8: DNA ve Genetik Kod · Mat 8: Çarpanlar ve Katlar)',
+    adimlar: ['Prompt İçinde Öncelik Belirleme Labı (20 bölüm)', 'DNA & Prompt Öncelik Takım Atölyesi (4 rol)', 'Görsel Rehber & Şampiyon İstem Vitrini'] },
+  { no: 3, ad: 'Örnek Vererek Çıktıyı Yönlendirmek', emoji: '📐',
+    konu: 'Few-shot prompting (Fen 8: Katı, Sıvı ve Gaz Basıncı)',
+    adimlar: ['Örnek Vererek Çıktıyı Yönlendirme Labı (20 bölüm)', 'Basınç & Few-Shot Takım Atölyesi (4 rol)', 'Görsel Rehber & Few-Shot İstem Vitrini'] },
+  { no: 4, ad: 'Çıktı Değerlendirme Ölçütü Yazmak', emoji: '📋',
+    konu: 'Rubrik matrisi ve öz-denetim / LLM-as-a-Judge (Fen 8: Periyodik Sistem)',
+    adimlar: ['Çıktı Değerlendirme Ölçütü Yazma Labı (20 bölüm)', 'Periyodik Sistem & Rubrik Takım Atölyesi (4 rol)', 'Görsel Rehber & Rubrik İstem Vitrini'] },
+  { no: 5, ad: 'Araştırma Sorusu Oluşturmak', emoji: '🔎',
+    konu: '5N1K ve hipotez ile odaklı soru (İnkılap 8: Bir Kahraman Doğuyor)',
+    adimlar: ['Araştırma Sorusu Oluşturma Labı (20 bölüm)', 'Bir Kahraman Doğuyor & Derin Araştırma Atölyesi (4 rol)', 'Görsel Rehber & Araştırma İstem Vitrini'] },
+  { no: 6, ad: 'İddia, Kanıt ve Açıklamayı Ayırmak', emoji: '⚖️',
+    konu: 'CER modeli (Fen 8: Periyodik Sistem & Asitler-Bazlar)',
+    adimlar: ['İddia, Kanıt ve Açıklamayı Ayırma Labı (20 bölüm)', 'Asit-Baz & CER Takım Atölyesi (4 rol)', 'Görsel Rehber & CER İstem Vitrini'] },
+  { no: 7, ad: 'Kaynak Kalitesini Değerlendirmek', emoji: '🗂️',
+    konu: 'Kaynak 5 ölçütü: Kim · Kanıt · Güncel · Amaç · Teyit (İnkılap 8: Millî Uyanış)',
+    adimlar: ['AI Kaynak Laboratuvarı (7 bölüm)', 'Takım Kaynak Görevleri (8 görev)', 'AI Kaynak ve Prompt Vitrini (9 ekran)'] },
+  { no: 8, ad: 'Birden Fazla AI Cevabını Karşılaştırmak', emoji: '🏁',
+    konu: 'Model benchmark ve kör değerlendirme (Göreve uyum · Doğruluk · Gerekçe · Belirsizlik)',
+    adimlar: ['Karar Laboratuvarı (7 ekran)', 'Model Dedektifleri (8 görev)', 'Benchmark Araç Kutusu (8 araç promptu)'] },
+  { no: 9, ad: 'Sokratik Öğrenme Asistanı', emoji: '🧭',
+    konu: 'Dinle → Teşhis et → Sor → Bekle → Uyarla (Mat 8: Üslü ve Kareköklü İfadeler)',
+    adimlar: ['Soru Merdiveni (8 ekran)', 'İpucu Zinciri (8 görev)', 'Koç Prompt Vitrini (4 ekran)'] }
 ];
 
-/* --- 10–36. hafta: ortaokul7 müfredatında hazırlanan ve planlanan AI-Galaxy dersleri --- */
+/* --- 10–36. hafta: ortaokul8 müfredatında hazırlanan ve planlanan AI-Galaxy dersleri --- */
 var PLAN_DERSLER = [
-  { no: 10, ad: 'Geri Bildirim Veren Yazı Asistanı', emoji: '✍️', ozet: 'Türkçe anlatım biçimleri ve senaryo için ölçütlü, yapıcı geri bildirim.', rehber: true },
-  { no: 11, ad: 'Kişisel Çalışma Planlayıcısı', emoji: '📅', ozet: 'Veri analizi ve grafiklerden yararlanarak uygulanabilir çalışma planı.' },
-  { no: 12, ad: 'Kendi AI Öğrenme Koçum', emoji: '🎓', ozet: 'Birden fazla branşta kişiselleştirilmiş öğrenme koçu tasarımı.' },
-  { no: 13, ad: 'Görsel Brief Hazırlamak', emoji: '🎨', ozet: 'Renk paleti, stil, detay ve çıktı ölçüsünü içeren görsel brief.' },
-  { no: 14, ad: 'Kompozisyon ve Odak Noktası', emoji: '🎯', ozet: 'Oranlar ve üçler kuralıyla dengeli görsel kompozisyon.' },
-  { no: 15, ad: 'Kadraj ve Kamera Açısının Etkisi', emoji: '📷', ozet: 'Geniş açı, makro ve kahraman açısıyla görsel anlatım.' },
-  { no: 16, ad: 'Işık ve Renkle Hikâye Anlatmak', emoji: '🌈', ozet: 'Aynalar, mercekler ve ışık fiziğiyle atmosfer tasarımı.' },
-  { no: 17, ad: 'Karakter Kimlik Kartı', emoji: '🦸', ozet: 'Tutarlı 360 derece çok açılı karakter tasarım kartı.' },
-  { no: 18, ad: 'Aynı Karakteri Farklı Sahnelere Taşımak', emoji: '🌍', ozet: 'Karakteri farklı iklim ve yerleşim sahnelerinde tutarlı tutma.' },
-  { no: 19, ad: 'Referans Görselle Kontrollü Üretim ve Etik', emoji: '🖼️', ozet: 'Referans, dijital mahremiyet, izin ve kontrollü görsel üretim.' },
-  { no: 20, ad: 'Görsel Hata Ayıklama', emoji: '🛠️', ozet: 'İstemle görsel iyileştirme, sorun bölgesini tanımlama ve düzeltme.' },
-  { no: 21, ad: 'Poster ve Sosyal Medya Görseli Tasarımı', emoji: '📣', ozet: 'Görsel okuma, tipografi ve güvenli medya tasarımı.' },
-  { no: 22, ad: 'Bilgiyi Görselleştirmek: Görsel Metaforlar', emoji: '🧠', ozet: 'Hücre organellerini doğru ve anlaşılır görsel metaforlarla anlatma.' },
-  { no: 23, ad: 'Yapay Zekâ Görsellerini Doğrulamak', emoji: '🔎', ozet: 'Dijital güvenlik ölçütleriyle sahte görsel ve kanıt analizi.' },
-  { no: 24, ad: 'Görsel Kampanya Stüdyosu', emoji: '🏛️', ozet: 'Bütünsel 3D bilim galerisi ve kampanya seti üretimi.' },
-  { no: 25, ad: 'Sistem Promptu Tasarlamak', emoji: '⚙️', ozet: 'Kısıtlı rol, görev sınırı ve davranış kuralları içeren sistem istemi.' },
-  { no: 26, ad: 'Durum ve Değişken Takibi', emoji: '📈', ozet: 'Cebirsel ifadelerle durum, hafıza ve skor izleme.' },
-  { no: 27, ad: 'Koşullar ve Karar Kuralları', emoji: '🌳', ozet: 'Eğer–ise yapısıyla dallanan karar ağaçları tasarlama.' },
-  { no: 28, ad: 'Sistem Testi ve Debugging', emoji: '🐞', ozet: 'Stres testi, sınır durumları ve sistematik hata giderme.' },
-  { no: 29, ad: 'Bir Projenin İş Akışını Çizmek', emoji: '🧭', ozet: 'Algoritma ve akış şemasıyla çok adımlı proje planı.' },
-  { no: 30, ad: 'Prompt Chaining: AI Çıktısını Yeni Göreve Aktarmak', emoji: '⛓️', ozet: 'Bir çıktıyı doğrulayıp sonraki görevin girdisine dönüştürme.' },
-  { no: 31, ad: 'AI Editörü ve Eleştirmeni Birlikte Kullanmak', emoji: '👥', ozet: 'Çoklu ajan komitesiyle üretim, eleştiri ve revizyon.' },
-  { no: 32, ad: 'AI İçerik Fabrikası', emoji: '🏭', ozet: 'Uçtan uca, kontrollü içerik otomasyon hattı.' },
-  { no: 33, ad: 'Senaryodan Storyboarda Geçiş', emoji: '🎞️', ozet: 'Senaryo metnini sahne ve çekim planına dönüştürme.' },
-  { no: 34, ad: 'Video Promptunda Hareket ve Kamera', emoji: '🎥', ozet: 'Nesne hareketiyle kamera hareketini ayrı tanımlama.' },
-  { no: 35, ad: 'Tutarlılık ve Video Güvenliği', emoji: '🔐', ozet: 'Karakter tutarlılığı, biyometrik güvenlik ve dijital etik.' },
-  { no: 36, ad: 'Final Projesi: AI Üretim Stüdyosu', emoji: '🏆', ozet: 'Yıl sonu üretim stüdyosu ve proje sergisi.' }
+  { no: 10, ad: 'Geri Bildirim Veren Yazı Asistanı', emoji: '✍️', ozet: 'Ölçütlü, yapıcı geri bildirim (Türkçe 8: Paragrafta Anlam & Mantık Muhakeme).', rehber: true },
+  { no: 11, ad: 'Kişisel Çalışma Planlayıcısı', emoji: '📅', ozet: 'Veri analizi ve LGS takip asistanı (Matematik 8).' },
+  { no: 12, ad: 'Kendi AI Öğrenme Koçum', emoji: '🎓', ozet: 'Çok branşlı otonom LGS ve ders asistanı.' },
+  { no: 13, ad: 'Görsel Brief Hazırlamak', emoji: '🖼️', ozet: 'Biyoteknoloji ve 3D DNA laboratuvarı için görsel brief (Fen 8).' },
+  { no: 14, ad: 'Kompozisyon ve Odak Noktası', emoji: '📏', ozet: 'Üçgenler ve benzerlik üzerinden kompozisyon (Matematik 8).' },
+  { no: 15, ad: 'Kadraj ve Kamera Açısının Etkisi', emoji: '🎥', ozet: 'Geniş açı, makro ve kahraman açısı.' },
+  { no: 16, ad: 'Işık ve Renkle Hikâye Anlatmak', emoji: '🌈', ozet: 'Fotosentez ve enerji dönüşümleri (Fen 8).' },
+  { no: 17, ad: 'Karakter Kimlik Kartı', emoji: '🪪', ozet: '360° bilim insanı ve genetik uzmanı karakter sayfası.' },
+  { no: 18, ad: 'Aynı Karakteri Farklı Sahnelere Taşımak', emoji: '🗺️', ozet: 'Farklı cephe ve coğrafyalar (İnkılap 8).' },
+  { no: 19, ad: 'Referans Görselle Kontrollü Üretim ve Etik', emoji: '⚖️', ozet: 'Dijital mahremiyet ve telif (Bilişim 8).' },
+  { no: 20, ad: 'Görsel Hata Ayıklama', emoji: '🔧', ozet: 'Anatomi, doku ve perspektif onarımı.' },
+  { no: 21, ad: 'Poster ve Sosyal Medya Görseli Tasarımı', emoji: '📰', ozet: 'Görsel okuma ve mesaj tasarımı (Türkçe 8).' },
+  { no: 22, ad: 'Bilgiyi Görselleştirmek: Görsel Metaforlar', emoji: '🧠', ozet: 'Besin zinciri ve enerji piramidi (Fen 8).' },
+  { no: 23, ad: 'Yapay Zekâ Görsellerini Doğrulamak', emoji: '🧐', ozet: 'Sentetik medya ve deepfake analizi (Bilişim 8).' },
+  { no: 24, ad: 'Görsel Kampanya Stüdyosu', emoji: '📣', ozet: 'Bütünsel 3D bilim ve teknoloji görsel seti.' },
+  { no: 25, ad: 'Sistem Promptu Tasarlamak', emoji: '⚙️', ozet: 'Kısıtlı rol tanımlama ve LGS soru hakemi.' },
+  { no: 26, ad: 'Durum ve Değişken Takibi', emoji: '🎚️', ozet: 'Cebirsel ifadeler ve olasılık (Matematik 8).' },
+  { no: 27, ad: 'Koşullar ve Karar Kuralları', emoji: '🔀', ozet: 'Eğer-ise dallanan karar ağaçları.' },
+  { no: 28, ad: 'Sistem Testi ve Debugging', emoji: '🐞', ozet: 'Stres testi ve hata giderme.' },
+  { no: 29, ad: 'Bir Projenin İş Akışını Çizmek', emoji: '🧭', ozet: 'Algoritma ve akış şemaları (Bilişim 8).' },
+  { no: 30, ad: 'Prompt Chaining: Çıktıyı Yeni Göreve Aktarmak', emoji: '⛓️', ozet: 'İstem zincirleme ile çok adımlı üretim.' },
+  { no: 31, ad: 'AI Editörü ve Eleştirmeni Birlikte Kullanmak', emoji: '🎭', ozet: 'Çoklu ajan komitesi: üretici ve eleştirmen.' },
+  { no: 32, ad: 'AI İçerik Fabrikası', emoji: '🏭', ozet: 'Uçtan uca içerik otomasyon hattı.' },
+  { no: 33, ad: 'Senaryodan Storyboarda Geçiş', emoji: '🎞️', ozet: 'Medya planlama ve sahne haritası (Türkçe 8).' },
+  { no: 34, ad: 'Video Promptunda Hareket ve Kamera', emoji: '📹', ozet: 'Basit makineler ve hareket (Fen 8).' },
+  { no: 35, ad: 'Tutarlılık ve Video Güvenliği', emoji: '🛡️', ozet: 'Dijital telif ve etik (Bilişim 8).' },
+  { no: 36, ad: 'Final Projesi: AI Üretim Stüdyosu', emoji: '🏆', ozet: 'Yıl sonu büyük final — AI Üretim Stüdyosu sergisi.' }
 ];
 
-/* AI-Galaxy modülleri (ortaokul7 müfredatındaki dört 9 haftalık bölüm) */
+/* AI-Galaxy modülleri (ortaokul8 müfredatındaki dört 9 haftalık bölüm) */
 function patikaAdi(dersNo) {
   if (dersNo <= 9) return '🔍 1. MODÜL · İLERİ PROMPT & AI ARAŞTIRMA';
   if (dersNo <= 18) return '🖼️ 2. MODÜL · AI ASİSTANLARI & GÖRSEL TASARIM';
@@ -491,7 +491,7 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
         '</div>' +
         '<span class="hazirlaniyor">⏳ İçerik hazırlanıyor</span>' +
         '<div class="dugmeler"><a class="ac" href="#">⏳ Yakında</a>' +
-          (h.ai.rehber ? '<a class="rehber-buyuk" href="./ai_rehber7.html?ders=' + h.ai.no + '&hafta=' + h.no + '">👩‍🏫 Rehber</a>' : '') +
+          (h.ai.rehber ? '<a class="rehber-buyuk" href="./ai_rehber8.html?ders=' + h.ai.no + '&hafta=' + h.no + '">👩‍🏫 Rehber</a>' : '') +
         '</div></div>';
     }
 
@@ -508,7 +508,7 @@ for (var w = 1; w <= TOPLAM_HAFTA; w++) {
       '<div class="adimcik">' + adimlar + '</div>' +
       '<div class="dugmeler">' +
         '<a class="ac" href="' + AI_TEMEL + '/ders' + a.no + '/index.html" target="_blank" rel="noopener">▶ Dersi Aç</a>' +
-        '<a class="rehber-buyuk" href="./ai_rehber7.html?ders=' + a.no + '&hafta=' + h.no + '">👩‍🏫 Rehber</a>' +
+        '<a class="rehber-buyuk" href="./ai_rehber8.html?ders=' + a.no + '&hafta=' + h.no + '">👩‍🏫 Rehber</a>' +
       '</div></div>';
   }
 

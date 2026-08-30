@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blok Kodlama + AI-Galaxy • Seviye 3 (İleri) Yıllık Programlar</title>
-<meta name="description" content="Blok kodlama ve AI-Galaxy yıllık programları: 6 ve 7. sınıf — Seviye 3 (İleri).">
+<meta name="description" content="Blok kodlama ve AI-Galaxy yıllık programları: 6, 7, 8, 9 ve 10. sınıf — Seviye 3 (İleri).">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -20,38 +20,44 @@ body {
 .tutorial-stage {
   position: absolute; top: 0; left: 0; width: 1280px; height: 800px; transform-origin: 0 0;
   background: linear-gradient(180deg, #9FD8D0 0%, #CFE0FF 50%, #F2F6FF 100%);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; padding: 40px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px 30px;
 }
 .ust { text-align: center; }
 .ust .logo {
-  width: 74px; height: 74px; border-radius: 24px; display: grid; place-items: center; margin: 0 auto 12px;
-  font-size: 2.4rem; color: #fff; background: linear-gradient(135deg, #1E9E8A, #2F6BFF);
+  width: 60px; height: 60px; border-radius: 18px; display: grid; place-items: center; margin: 0 auto 8px;
+  font-size: 2rem; color: #fff; background: linear-gradient(135deg, #1E9E8A, #4F46E5);
   box-shadow: 0 10px 24px rgba(29,53,87,.2);
 }
-.ust h1 { font-size: 2rem; font-weight: 800; line-height: 1.15; }
-.ust p { font-family: 'Nunito', sans-serif; font-size: 1rem; color: #5A7290; margin-top: 6px; }
-.kartlar { display: grid; grid-template-columns: repeat(2, 420px); gap: 24px; }
+.ust h1 { font-size: 1.8rem; font-weight: 800; line-height: 1.15; }
+.ust p { font-family: 'Nunito', sans-serif; font-size: .92rem; color: #5A7290; margin-top: 3px; }
+.kartlar { display: grid; grid-template-columns: repeat(5, 230px); gap: 12px; }
 .kart {
-  display: flex; flex-direction: column; gap: 10px; text-decoration: none; color: inherit;
-  background: #fff; border: 4px solid #fff; border-radius: 24px; padding: 24px 26px 22px;
-  box-shadow: 0 12px 28px rgba(29,53,87,.16); transition: transform .14s, box-shadow .14s;
+  display: flex; flex-direction: column; gap: 7px; text-decoration: none; color: inherit;
+  background: #fff; border: 3px solid #fff; border-radius: 20px; padding: 16px 14px 16px;
+  box-shadow: 0 10px 22px rgba(29,53,87,.14); transition: transform .14s, box-shadow .14s;
 }
-.kart:hover { transform: translateY(-4px); box-shadow: 0 18px 34px rgba(29,53,87,.22); }
-.kart .em { font-size: 2.6rem; }
-.kart h2 { font-size: 1.45rem; font-weight: 800; }
-.kart p { font-family: 'Nunito', sans-serif; font-size: .92rem; color: #5A7290; line-height: 1.45; }
-.kart .etiketler { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
-.kart .etiket { font-size: .74rem; font-weight: 800; padding: 5px 11px; border-radius: 20px; white-space: nowrap; }
-.et-kod { background: #E3F7F3; color: #11705F; border: 2px solid #A9E5DB; }
-.et-ai6 { background: #EAF0FF; color: #1F47B8; border: 2px solid #BFD0FF; }
-.et-ai7 { background: #F0EBFF; color: #43218F; border: 2px solid #D5C5FA; }
-.kart .dugmeler { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
-.kart .ac { align-self: flex-start; text-decoration: none; font-weight: 800; font-size: .95rem; padding: 10px 18px; border-radius: 14px; color: #fff; }
+.kart:hover { transform: translateY(-4px); box-shadow: 0 16px 28px rgba(29,53,87,.2); }
+.kart .em { font-size: 2.1rem; line-height: 1; }
+.kart h2 { font-size: 1.15rem; font-weight: 800; line-height: 1.2; }
+.kart p { font-family: 'Nunito', sans-serif; font-size: .8rem; color: #5A7290; line-height: 1.36; }
+.kart .etiketler { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 2px; }
+.kart .etiket { font-size: .66rem; font-weight: 800; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+.et-kod { background: #E3F7F3; color: #11705F; border: 1.5px solid #A9E5DB; }
+.et-ai6 { background: #EAF0FF; color: #1F47B8; border: 1.5px solid #BFD0FF; }
+.et-ai7 { background: #F0EBFF; color: #43218F; border: 1.5px solid #D5C5FA; }
+.et-ai8 { background: #FDF0DF; color: #7C3A05; border: 1.5px solid #F2CFA1; }
+.et-ai9 { background: #EEF2FF; color: #1E3A8A; border: 1.5px solid #C7D2FE; }
+.et-ai10 { background: #EEF2FF; color: #312E81; border: 1.5px solid #A5B4FC; }
+.kart .dugmeler { display: flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 4px; }
+.kart .ac { align-self: flex-start; text-decoration: none; font-weight: 800; font-size: .86rem; padding: 8px 12px; border-radius: 11px; color: #fff; width: 100%; text-align: center; }
 .kart.s6 .ac { background: linear-gradient(180deg, #6F94FF, #2F6BFF); box-shadow: 0 4px 0 #1F47B8; }
 .kart.s7 .ac { background: linear-gradient(180deg, #9873E8, #6C3FD1); box-shadow: 0 4px 0 #43218F; }
+.kart.s8 .ac { background: linear-gradient(180deg, #E39445, #B45309); box-shadow: 0 4px 0 #7C3A05; }
+.kart.s9 .ac { background: linear-gradient(180deg, #5B7AFF, #3B58DB); box-shadow: 0 4px 0 #1E3A8A; }
+.kart.s10 .ac { background: linear-gradient(180deg, #6366F1, #4F46E5); box-shadow: 0 4px 0 #312E81; }
 .alt {
-  font-family: 'Nunito', sans-serif; font-size: .84rem; color: #5A7290; font-weight: 700;
-  background: rgba(255,255,255,.8); border: 3px solid #fff; border-radius: 16px; padding: 9px 18px;
+  font-family: 'Nunito', sans-serif; font-size: .82rem; color: #5A7290; font-weight: 700;
+  background: rgba(255,255,255,.8); border: 3px solid #fff; border-radius: 16px; padding: 8px 18px;
 }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
@@ -64,17 +70,17 @@ body {
   <div class="ust">
     <span class="logo">🧭</span>
     <h1>Blok Kodlama + AI-Galaxy • Seviye 3</h1>
-    <p>6–7–9–10–11. sınıf: Seviye 3 — İleri &nbsp;•&nbsp; 36 hafta &nbsp;•&nbsp; 18 ileri kodlama adımı (Uzay → Kutup → Çiftlik)</p>
+    <p>6, 7, 8, 9 ve 10. sınıf: Seviye 3 — İleri &nbsp;•&nbsp; 36 hafta &nbsp;•&nbsp; 18 ileri kodlama adımı (Uzay → Kutup → Çiftlik)</p>
   </div>
 
   <div class="kartlar">
     <article class="kart s6">
       <span class="em">6️⃣</span>
-      <h2>6. Sınıf Yıllık Programı</h2>
-      <p>36 hafta · her hafta bir ileri blok kodlama adımı (3. Kademe – İleri) ve bir AI-Galaxy dersi (3 adım) yan yana.</p>
+      <h2>6. Sınıf Programı</h2>
+      <p>36 hafta · her hafta bir ileri blok kodlama adımı ve bir AI-Galaxy dersi (3 adım) yan yana.</p>
       <div class="etiketler">
-        <span class="etiket et-kod">🧩 18 İLERİ KODLAMA</span>
-        <span class="etiket et-ai6">🚀 9 CANLI AI DERSİ</span>
+        <span class="etiket et-kod">🧩 18 KODLAMA</span>
+        <span class="etiket et-ai6">🚀 9 AI DERSİ</span>
       </div>
       <div class="dugmeler">
         <a class="ac" href="./ortaokul6_ai_galaxy_seviye3_blok_kodlama.html">▶ Programı Aç</a>
@@ -83,14 +89,53 @@ body {
 
     <article class="kart s7">
       <span class="em">7️⃣</span>
-      <h2>7. Sınıf Yıllık Programı</h2>
-      <p>36 hafta · aynı 18 ileri blok kodlama adımı + araştırma, medya etiği, görsel sistemler ve AI iş akışları.</p>
+      <h2>7. Sınıf Programı</h2>
+      <p>36 hafta · aynı 18 ileri blok kodlama adımı + araştırma, medya etiği, görsel sistemler ve AI akışları.</p>
       <div class="etiketler">
-        <span class="etiket et-kod">🧩 18 İLERİ KODLAMA</span>
-        <span class="etiket et-ai7">🚀 9 CANLI AI DERSİ</span>
+        <span class="etiket et-kod">🧩 18 KODLAMA</span>
+        <span class="etiket et-ai7">🚀 9 AI DERSİ</span>
       </div>
       <div class="dugmeler">
         <a class="ac" href="./ortaokul7_ai_galaxy_seviye3_blok_kodlama.html">▶ Programı Aç</a>
+      </div>
+    </article>
+
+    <article class="kart s8">
+      <span class="em">8️⃣</span>
+      <h2>8. Sınıf Programı</h2>
+      <p>36 hafta · aynı 18 ileri kodlama adımı + LGS yılına gömülü rubrik, kanıt (CER), kaynak ve benchmark.</p>
+      <div class="etiketler">
+        <span class="etiket et-kod">🧩 18 KODLAMA</span>
+        <span class="etiket et-ai8">🚀 9 AI DERSİ</span>
+      </div>
+      <div class="dugmeler">
+        <a class="ac" href="./ortaokul8_ai_galaxy_seviye3_blok_kodlama.html">▶ Programı Aç</a>
+      </div>
+    </article>
+
+    <article class="kart s9">
+      <span class="em">9️⃣</span>
+      <h2>9. Sınıf (Lise 9)</h2>
+      <p>36 hafta · 18 ileri kodlama + Maarif entegrasyonlu prompt mimarisi, doğrulama ve bilimsel modelleme.</p>
+      <div class="etiketler">
+        <span class="etiket et-kod">🧩 18 KODLAMA</span>
+        <span class="etiket et-ai9">🚀 10 CANLI DERS</span>
+      </div>
+      <div class="dugmeler">
+        <a class="ac" href="./lise9_ai_galaxy_seviye3_blok_kodlama.html">▶ Programı Aç</a>
+      </div>
+    </article>
+
+    <article class="kart s10">
+      <span class="em">🔟</span>
+      <h2>10. Sınıf (Lise 10)</h2>
+      <p>36 hafta · 18 ileri kodlama + derinleştirilmiş A/B deneyi, biyogüvenlik ve laboratuvar sistem prototipi.</p>
+      <div class="etiketler">
+        <span class="etiket et-kod">🧩 18 KODLAMA</span>
+        <span class="etiket et-ai10">🚀 10 CANLI DERS</span>
+      </div>
+      <div class="dugmeler">
+        <a class="ac" href="./lise10_ai_galaxy_seviye3_blok_kodlama.html">▶ Programı Aç</a>
       </div>
     </article>
   </div>

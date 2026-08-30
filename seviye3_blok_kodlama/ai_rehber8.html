@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Galaxy — Öğretmen Rehberi • Ortaokul 8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rehber.css">
+<style>
+  :root { --vurgu: #B45309; --vurgu-koyu: #7C3A05; --vurgu-acik: #FDF0DF; }
+  .ust-btn.etkinlik { background: linear-gradient(180deg, #E39445, #B45309); color: #fff; box-shadow: 0 5px 0 #7C3A05; }
+  .adim-kart { position: relative; }
+  .adim-kart > .not:last-of-type { margin-bottom: 2px; }
+  .adim-kart.bu-hafta { border-color: #FFC94D; background: #FFF9E8; }
+  .adim-kart.bu-hafta::after {
+    content: 'BU HAFTA'; position: absolute; top: -11px; right: 12px;
+    background: #FFC94D; color: #6B4A00; font-size: .66rem; font-weight: 800;
+    padding: 3px 10px; border-radius: 20px; letter-spacing: .5px;
+  }
+  .ornek { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; margin-bottom: 8px; }
+  .ornek .kotu {
+    background: #FFF0F0; border: 2px solid #FFC9C9; border-radius: 12px; padding: 8px 12px;
+    font-family: 'Nunito', sans-serif; font-size: .95rem; color: #A33; text-decoration: line-through;
+  }
+  .ornek .ok { font-size: 1.3rem; color: var(--vurgu); font-weight: 800; }
+  .ornek .iyi {
+    background: #EDFBF1; border: 2px solid #B9EFC9; border-radius: 12px; padding: 8px 12px;
+    font-family: 'Nunito', sans-serif; font-size: .95rem; color: #16663E; font-weight: 700;
+  }
+  .ornek-not { font-size: .8rem; color: #6B7E96; font-family: 'Nunito', sans-serif; margin: -4px 0 10px 2px; }
+  .akis { display: flex; flex-direction: column; gap: 8px; }
+  .akis .adim {
+    background: #F7FAFE; border-left: 5px solid var(--vurgu); border-radius: 12px; padding: 9px 14px;
+  }
+  .akis .adim b { color: #1D3557; }
+  .akis .adim p { font-family: 'Nunito', sans-serif; font-size: .93rem; margin-top: 2px; }
+
+  .ust-btn.ek { background: linear-gradient(180deg, #FFE07A, #FFC42E); color: #6B4A00; box-shadow: 0 5px 0 #E09A0B; }
+  .ek-kutu {
+    display: flex; align-items: center; gap: 10px; text-decoration: none; margin-top: auto;
+    background: linear-gradient(180deg, #FFE9A8, #FFD25C); border: 3px solid #fff;
+    border-radius: 14px; padding: 10px 12px; color: #6B4A00;
+    box-shadow: 0 4px 0 #E0A21A; transition: transform .12s, box-shadow .12s;
+  }
+  .ek-kutu:active { transform: translateY(4px); box-shadow: 0 1px 0 #F0CE7A; }
+  .ek-em { font-size: 1.7rem; }
+  .ek-yazi { display: flex; flex-direction: column; }
+  .ek-yazi b { font-size: .98rem; line-height: 1.1; }
+  .ek-yazi small { font-family: 'Nunito', sans-serif; font-size: .76rem; opacity: .85; }
+  .ek-ok { margin-left: auto; font-size: 1.3rem; font-weight: 800; }
+
+  /* 3. slayt (ÖRNEKLER): üç örnek + kapanış kutusu sahneye sığsın, alttan taşma olmasın */
+  .slayt .ornek { gap: 8px; margin-bottom: 5px; }
+  .slayt .ornek .kotu, .slayt .ornek .iyi { padding: 7px 11px; font-size: .9rem; line-height: 1.34; }
+  .slayt .ornek-not { margin: -3px 0 7px 2px; font-size: .77rem; }
+
+  /* 4. slayt (ETKİNLİKLER): üç kart sahneye sığsın, alttan taşma olmasın */
+  .slayt .uc-sutun { flex: 1 1 auto; min-height: 0; align-items: stretch; }
+  .uc-sutun .adim-kart { min-height: 0; overflow: hidden; padding: 11px 13px; gap: 5px; }
+  .uc-sutun .adim-kart h3 { font-size: .94rem; line-height: 1.2; }
+  .uc-sutun .adim-kart p,
+  .uc-sutun .adim-kart li { font-size: .855rem; line-height: 1.38; }
+  .uc-sutun .adim-kart ul { margin-left: 15px; gap: 2px; }
+  .uc-sutun .adim-kart .not { margin-top: auto; padding-top: 4px; }
+  .uc-sutun .adim-kart .ek-kutu { margin-top: 2px; margin-bottom: 5px; padding: 6px 10px; gap: 8px; }
+  .uc-sutun .adim-kart .ek-em { font-size: 1.3rem; }
+  .uc-sutun .adim-kart .ek-yazi b { font-size: .88rem; }
+  .uc-sutun .adim-kart .ek-yazi small { font-size: .7rem; }
+  .uc-sutun .adim-kart.bu-hafta::after { top: 5px; right: 7px; }
+  .uc-sutun .adim-kart.bu-hafta h3 { padding-right: 76px; }
+
+  .tek-cumle {
+    background: var(--vurgu-acik); border: 2px solid #F2CFA1; border-radius: 16px;
+    padding: 14px 18px; font-size: 1.1rem; line-height: 1.5;
+  }
+  .konu-rozet {
+    display: inline-block; background: #FFF3D6; color: #96631C; border: 2px solid #FFDFA0;
+    border-radius: 20px; padding: 3px 12px; font-size: .78rem; font-weight: 800; margin-left: 8px;
+  }
+  .ders-secici {
+    height: 48px; min-width: 190px; display: flex; align-items: center; gap: 7px;
+    padding: 0 9px; background: #FFF9E8; border: 3px solid #FFE09A; border-radius: 14px;
+    color: #6B4A00; font-size: .7rem; font-weight: 800;
+  }
+  .ders-secici select {
+    min-width: 0; width: 145px; border: 0; outline: 0; background: transparent;
+    color: #43218F; font: inherit; font-size: .78rem; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage-kapsayici">
+<div class="tutorial-stage" id="stage">
+
+  <header class="rehber-ust">
+    <a class="ust-btn geri" id="btnPatika" href="ortaokul8_ai_galaxy_seviye3_blok_kodlama.html">⬅️ Program</a>
+    <label class="ders-secici" title="Rehber dersini seçin"><span>DERS</span><select id="dersSec" aria-label="Rehber dersi"></select></label>
+    <div class="orta">
+      <h1 id="baslik">👩‍🏫 AI-Galaxy Öğretmen Rehberi</h1>
+      <p id="altBaslik">Ortaokul 8 • 2026–2027</p>
+    </div>
+    <a class="ust-btn ek" id="btnEk" href="#" hidden>🃏 Ek Kaynak</a>
+    <a class="ust-btn etkinlik" id="btnEtkinlik" href="#" target="_blank" rel="noopener">▶ Etkinliği Aç</a>
+  </header>
+
+  <div class="slaytlar" id="slaytlar"></div>
+
+  <nav class="gezinme">
+    <button class="gez-btn" id="onceki" type="button">◀ Önceki</button>
+    <div class="noktalar" id="noktalar"></div>
+    <span class="sayfa-no" id="sayfaNo">1 / 6</span>
+    <button class="gez-btn ana" id="sonraki" type="button">Sonraki ▶</button>
+    <button class="gez-btn yazdir" id="yazdir" type="button">🖨️ Yazdır</button>
+  </nav>
+
+</div>
+</div>
+
+<script src="ai_rehber8_veri.js"></script>
+<script>
+(function () {
+  var AI_TEMEL = 'https://ortaokul8.vercel.app';
+
+  function par(ad, vars) {
+    var m = new RegExp('[?&]' + ad + '=([^&]+)').exec(location.search);
+    return m ? decodeURIComponent(m[1]) : vars;
+  }
+
+  var dersNo = Math.max(1, Math.min(10, parseInt(par('ders', '1'), 10) || 1));
+  var adimNo = Math.max(1, Math.min(3, parseInt(par('adim', '1'), 10) || 1));
+  var hafta = parseInt(par('hafta', ''), 10);
+  var D = AI_DERSLER[dersNo];
+  var dersSec = document.getElementById('dersSec');
+  Object.keys(AI_DERSLER).sort(function (a, b) { return a - b; }).forEach(function (no) {
+    var secenek = document.createElement('option');
+    secenek.value = no;
+    secenek.textContent = no + ' · ' + AI_DERSLER[no].ad;
+    secenek.selected = Number(no) === dersNo;
+    dersSec.appendChild(secenek);
+  });
+  dersSec.addEventListener('change', function () {
+    location.href = 'ai_rehber8.html?ders=' + this.value + '&hafta=' + this.value;
+  });
+
+  /* Derse özel ek sınıf oyunları — yalnızca öğretmen rehberinde görünür.
+     Bunlar ortaokul8 etkinliklerinin yerine geçmez; yalnızca mevcutsa gösterilir. */
+  var EK_KAYNAK = {};
+  var EK = EK_KAYNAK[dersNo];
+
+  /* --- başlık --- */
+  document.getElementById('baslik').innerHTML = '👩‍🏫 ' + D.emoji + ' Ders ' + dersNo + ' — ' + D.ad;
+  document.getElementById('altBaslik').innerHTML =
+    'AI-Galaxy • Ortaokul 8 • <b>Etkinlik ' + dersNo + '.' + adimNo + '</b>' +
+    (hafta ? ' • <b>' + hafta + '. hafta</b>' : '') + ' • Süre: 40–45 dk' +
+    (D.konu ? '<span class="konu-rozet">🎯 ' + D.konu + '</span>' : '');
+  document.getElementById('btnEtkinlik').href =
+    AI_TEMEL + '/ders' + dersNo + '/ders' + dersNo + '_' + adimNo + '.html';
+
+  if (EK) {
+    var eb = document.getElementById('btnEk');
+    eb.hidden = false;
+    eb.textContent = EK.ad;
+    eb.href = EK.url;
+    if (EK.yeniSekme) { eb.target = '_blank'; eb.rel = 'noopener'; }
+  }
+
+  /* --- slaytlar --- */
+  var s = [];
+
+  /* 1 — NEDEN? */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">' + D.emoji + '</span>' +
+      '<span class="rozet">1 • NEDEN?</span><h2>Bu ders neden işleniyor?</h2></div>' +
+    '<div class="tek-cumle">🎯 ' + D.tekCumle + '</div>' +
+    '<div class="iki-sutun">' +
+      '<div class="kutu vurgulu"><h3>💡 Faydası</h3><ul>' +
+        D.neden.map(function (x) { return '<li>' + x + '</li>'; }).join('') +
+      '</ul></div>' +
+      '<div class="kutu yesil"><h3>🎓 Kazanımlar</h3><ul>' +
+        D.kazanim.map(function (x) { return '<li>' + x + '</li>'; }).join('') +
+      '</ul>' +
+      '<p class="not">Seviye notu — 8. sınıf <b>LGS yılıdır</b>. Maarif konuları derse gömülüdür ve ağırlık istem yazmaktan <b>çıktıyı denetlemeye</b> kayar: rubrik, CER, kaynak 5 ölçütü, kör değerlendirme. Her karar <b>en az bir kanıtla</b> savunulur.</p></div>' +
+    '</div>'
+  );
+
+  /* 2 — NASIL ANLATILIR? */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🗺️</span>' +
+      '<span class="rozet">2 • NASIL ANLATILIR?</span><h2>Ders akışı — adım adım</h2></div>' +
+    '<div class="akis">' +
+      D.nasil.map(function (a) {
+        return '<div class="adim"><b>' + a.b + '</b><p>' + a.m + '</p></div>';
+      }).join('') +
+    '</div>'
+  );
+
+  /* 3 — ÖRNEKLER */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">✏️</span>' +
+      '<span class="rozet">3 • ÖRNEKLER</span><h2>Böyle değil, şöyle!</h2></div>' +
+    '<p class="not">Soldakini tahtaya yazın, çocuklara sağdakini <b>birlikte</b> buldurun. Kırmızıdan yeşile geçmek dersin özüdür.</p>' +
+    D.ornekler.map(function (o) {
+      return '<div class="ornek"><div class="kotu">' + o.kotu + '</div>' +
+             '<div class="ok">➜</div><div class="iyi">' + o.iyi + '</div></div>' +
+             '<p class="ornek-not">💬 ' + o.not + '</p>';
+    }).join('') +
+    '<div class="kutu sari"><h3>🖐️ Sınıfta hemen deneyin</h3>' +
+      '<p>Kırmızı ve yeşil cümleyi iki öğrenciye <b>defterine yazdırın</b>, sonuçları ekranda yan yana gösterin. Ardından çıktıyı <b>CER ile</b> denetletin: iddia ne, kanıt ne, açıklama ne? Kanıtı olmayan cümlenin altını çizdirin.</p></div>'
+  );
+
+  /* 4 — 3 ETKİNLİK */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🧩</span>' +
+      '<span class="rozet">4 • ETKİNLİKLER</span><h2>Bu dersin 3 etkinliği</h2></div>' +
+    '<div class="uc-sutun">' +
+      D.adimlar.map(function (a, i) {
+        return '<div class="kutu adim-kart' + ((i + 1) === adimNo ? ' bu-hafta' : '') + '">' +
+          '<h3>' + (i + 1) + '️⃣ ' + a.ad + '</h3>' +
+          '<p><b>⏱️ ' + a.sure + '</b>' + (a.tur ? ' · ' + a.tur : '') + '</p>' +
+          '<p><b>Ne yapar:</b> ' + a.ne + '</p>' +
+          (a.sayfalar ? '<p><b>İçindeki bölümler:</b></p><ul>' + a.sayfalar.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul>' : '') +
+          '<p><b>Nasıl işlenir:</b> ' + a.nasil + '</p>' +
+          '<p class="not"><a href="' + AI_TEMEL + '/ders' + dersNo + '/ders' + dersNo + '_' + (i + 1) + '.html" target="_blank" rel="noopener">▶ Bu etkinliği aç</a></p>' +
+          ((EK && EK.adim === (i + 1)) ?
+            '<a class="ek-kutu" href="' + EK.url + '"' + (EK.yeniSekme ? ' target="_blank" rel="noopener"' : '') + '>' +
+              '<span class="ek-em">' + EK.em + '</span>' +
+              '<span class="ek-yazi"><b>' + EK.ad + '</b><small>' + EK.alt + '</small></span>' +
+              '<span class="ek-ok">▶</span></a>' : '') +
+        '</div>';
+      }).join('') +
+    '</div>'
+  );
+
+  /* 5 — EKRANDA NASIL KULLANILIR? */
+  var ekran = D.ekran || AI_GENEL_EKRAN;
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🖥️</span>' +
+      '<span class="rozet">5 • EKRAN KULLANIMI</span><h2>Öğrenci ekranda ne yapacak?</h2></div>' +
+    '<p class="not">Aşağıdaki sıra <b>uygulamadaki gerçek akışla</b> aynıdır: <b>oku → seçimini kanıtla → atölyede üret → ölçütle denetle → kararını savun.</b> Ders 1–6 ile 7–9 farklı formattadır; hangisinde olduğunuza dikkat edin.</p>' +
+    '<div class="akis">' +
+      ekran.map(function (a) { return '<div class="adim"><b>' + a.b + '</b><p>' + a.m + '</p></div>'; }).join('') +
+    '</div>'
+  );
+
+  /* 6 — SORULAR & İPUÇLARI */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🗣️</span>' +
+      '<span class="rozet">6 • SORULAR & İPUÇLARI</span><h2>Sınıfa sorun, tuzaklardan kaçının</h2></div>' +
+    '<div class="iki-sutun">' +
+      '<div class="kutu"><h3>❓ Sınıf soruları</h3><div class="soru-listesi">' +
+        D.sorular.map(function (q) { return '<div class="soru">👉 ' + q + '</div>'; }).join('') +
+      '</div></div>' +
+      '<div class="kutu sari"><h3>⚠️ İpuçları ve sık hatalar</h3><ul>' +
+        D.ipuclari.map(function (x) { return '<li>' + x + '</li>'; }).join('') +
+      '</ul>' +
+      '<p class="not">🌐 Etkinlikler tarayıcıda açılır, kurulum gerekmez. Akıllı tahtada tam ekran için <b>F11</b>.</p></div>' +
+    '</div>'
+  );
+
+  var kap = document.getElementById('slaytlar');
+  kap.innerHTML = s.map(function (ic, i) {
+    return '<section class="slayt' + (i === 0 ? ' aktif' : '') + '">' + ic + '</section>';
+  }).join('');
+})();
+</script>
+<script src="rehber.js"></script>
+</body>
+</html>
+
+
+

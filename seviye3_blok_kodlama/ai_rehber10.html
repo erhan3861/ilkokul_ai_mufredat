@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Galaxy — Öğretmen Rehberi • Lise 10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rehber.css">
+<style>
+  :root { --vurgu: #4F46E5; --vurgu-koyu: #312E81; --vurgu-acik: #EEF2FF; }
+  .ust-btn.etkinlik { background: linear-gradient(180deg, #6366F1, #4F46E5); color: #fff; box-shadow: 0 5px 0 #312E81; }
+  
+  .tek-cumle {
+    background: var(--vurgu-acik); border: 2px solid #C7D2FE; border-radius: 14px;
+    padding: 10px 14px; font-size: .98rem; line-height: 1.45;
+  }
+  .konu-rozet {
+    display: inline-block; background: #FFF3D6; color: #96631C; border: 2px solid #FFDFA0;
+    border-radius: 20px; padding: 2px 10px; font-size: .76rem; font-weight: 800; margin-left: 6px;
+  }
+  .ders-secici {
+    height: 44px; min-width: 175px; display: flex; align-items: center; gap: 6px;
+    padding: 0 8px; background: #FFF9E8; border: 3px solid #FFE09A; border-radius: 14px;
+    color: #6B4A00; font-size: .7rem; font-weight: 800;
+  }
+  .ders-secici select {
+    min-width: 0; width: 135px; border: 0; outline: 0; background: transparent;
+    color: #312E81; font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer;
+  }
+
+  /* Slayt içi kompakt ve taşmayan yerleşim */
+  .slayt { padding: 18px 24px 16px; gap: 10px; }
+  .slayt-baslik { gap: 10px; }
+  .slayt-baslik h2 { font-size: 1.3rem; }
+  .slayt-baslik .emoji { font-size: 1.6rem; }
+  .slayt-baslik .rozet { font-size: .76rem; padding: 4px 10px; }
+
+  .iki-sutun { gap: 14px; }
+  .kutu { padding: 10px 14px; gap: 6px; }
+  .kutu h3 { font-size: .98rem; gap: 6px; }
+  .kutu ul { margin-left: 16px; gap: 3px; }
+  .slayt p, .slayt li { font-size: .88rem; line-height: 1.4; }
+  .not { font-size: .8rem; line-height: 1.35; margin-top: auto; }
+
+  /* 2. slayt: Nasıl anlatılır */
+  .akis { display: flex; flex-direction: column; gap: 6px; flex: 1 1 auto; min-height: 0; }
+  .akis .adim {
+    background: #F7FAFE; border-left: 5px solid var(--vurgu); border-radius: 11px; padding: 7px 12px;
+  }
+  .akis .adim b { color: #1D3557; font-size: .9rem; }
+  .akis .adim p { font-family: 'Nunito', sans-serif; font-size: .86rem; margin-top: 1px; line-height: 1.34; }
+
+  /* 3. slayt: Örnekler */
+  .slayt .ornek { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; margin-bottom: 3px; }
+  .slayt .ornek .kotu {
+    background: #FFF0F0; border: 2px solid #FFC9C9; border-radius: 10px; padding: 6px 10px;
+    font-family: 'Nunito', sans-serif; font-size: .84rem; color: #A33; text-decoration: line-through; line-height: 1.3;
+  }
+  .slayt .ornek .ok { font-size: 1.1rem; color: var(--vurgu); font-weight: 800; }
+  .slayt .ornek .iyi {
+    background: #EDFBF1; border: 2px solid #B9EFC9; border-radius: 10px; padding: 6px 10px;
+    font-family: 'Nunito', sans-serif; font-size: .84rem; color: #16663E; font-weight: 700; line-height: 1.3;
+  }
+  .slayt .ornek-not { font-size: .74rem; color: #6B7E96; font-family: 'Nunito', sans-serif; margin: -2px 0 4px 2px; }
+
+  /* 4. slayt: 3 Etkinlik kartları */
+  .slayt .uc-sutun { flex: 1 1 auto; min-height: 0; align-items: stretch; gap: 12px; }
+  .uc-sutun .adim-kart {
+    min-height: 0; overflow: hidden; padding: 10px 12px; gap: 4px; position: relative;
+    display: flex; flex-direction: column;
+  }
+  .uc-sutun .adim-kart.bu-hafta { border-color: #FFC94D; background: #FFF9E8; }
+  .uc-sutun .adim-kart.bu-hafta::after {
+    content: 'BU AŞAMA'; position: absolute; top: 5px; right: 7px;
+    background: #FFC94D; color: #6B4A00; font-size: .62rem; font-weight: 800;
+    padding: 2px 7px; border-radius: 12px; letter-spacing: .4px;
+  }
+  .uc-sutun .adim-kart h3 { font-size: .92rem; line-height: 1.2; margin-bottom: 1px; }
+  .uc-sutun .adim-kart.bu-hafta h3 { padding-right: 70px; }
+  .uc-sutun .adim-kart p,
+  .uc-sutun .adim-kart li { font-size: .81rem; line-height: 1.32; }
+  .uc-sutun .adim-kart ul { margin-left: 14px; gap: 1px; }
+  .uc-sutun .adim-kart .not { margin-top: auto; padding-top: 3px; font-size: .76rem; }
+  .uc-sutun .adim-kart .not a { color: var(--vurgu); font-weight: 800; text-decoration: none; }
+  .uc-sutun .adim-kart .not a:hover { text-decoration: underline; }
+  .sifre-etiket {
+    align-self: flex-start; display: inline-block; background: #FFF3D6; color: #96631C; border: 1.5px solid #FFDFA0;
+    font-size: .7rem; font-weight: 800; padding: 2px 7px; border-radius: 6px; margin-top: 2px;
+  }
+
+  /* 6. slayt: Sınıf soruları */
+  .soru-listesi { display: flex; flex-direction: column; gap: 6px; }
+  .soru {
+    background: #F7FAFE; border-left: 4px solid var(--vurgu); border-radius: 9px;
+    padding: 6px 11px; font-family: 'Nunito', sans-serif; font-size: .86rem; line-height: 1.32;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage-kapsayici">
+<div class="tutorial-stage" id="stage">
+
+  <header class="rehber-ust">
+    <a class="ust-btn geri" id="btnPatika" href="lise10_ai_galaxy_seviye3_blok_kodlama.html">⬅️ Program</a>
+    <label class="ders-secici" title="Rehber dersini seçin"><span>DERS</span><select id="dersSec" aria-label="Rehber dersi"></select></label>
+    <div class="orta">
+      <h1 id="baslik">👩‍🏫 AI-Galaxy Öğretmen Rehberi</h1>
+      <p id="altBaslik">Lise 10 • 2026–2027</p>
+    </div>
+    <a class="ust-btn etkinlik" id="btnEtkinlik" href="https://lise10.vercel.app/ders1/index.html" target="_blank" rel="noopener">▶ Dersi Aç</a>
+  </header>
+
+  <div class="slaytlar" id="slaytlar"></div>
+
+  <nav class="gezinme">
+    <button class="gez-btn" id="onceki" type="button">◀ Önceki</button>
+    <div class="noktalar" id="noktalar"></div>
+    <span class="sayfa-no" id="sayfaNo">1 / 6</span>
+    <button class="gez-btn ana" id="sonraki" type="button">Sonraki ▶</button>
+    <button class="gez-btn yazdir" id="yazdir" type="button">🖨️ Yazdır</button>
+  </nav>
+
+</div>
+</div>
+
+<script src="ai_rehber10_veri.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  function par(ad, vars) {
+    var m = new RegExp('[?&]' + ad + '=([^&]+)').exec(location.search);
+    return m ? decodeURIComponent(m[1]) : vars;
+  }
+
+  var dersNo = Math.max(1, Math.min(10, parseInt(par('hafta', par('ders', '1')), 10) || 1));
+  var adimNo = Math.max(1, Math.min(3, parseInt(par('adim', '1'), 10) || 1));
+  var hafta = parseInt(par('hafta', ''), 10);
+  var D = AI_DERSLER[dersNo];
+
+  document.title = 'AI-Galaxy Rehber • Lise 10 • ' + dersNo + '. Hafta — ' + D.ad;
+  document.getElementById('baslik').innerHTML = '👩‍🏫 ' + D.emoji + ' Ders ' + dersNo + ' — ' + D.ad;
+  document.getElementById('altBaslik').innerHTML =
+    'AI-Galaxy • Lise 10 • <b>' + dersNo + '. Hafta</b>' +
+    ' • Süre: 40–45 dk' +
+    (D.konu ? '<span class="konu-rozet">🎯 ' + D.konu + '</span>' : '');
+
+  var btnEtkinlik = document.getElementById('btnEtkinlik');
+  btnEtkinlik.href = AI_TEMEL + '/ders' + dersNo + '/index.html';
+  btnEtkinlik.textContent = '▶ ' + dersNo + '. Dersi Aç';
+
+  /* Hafta seçici */
+  var dersSec = document.getElementById('dersSec');
+  Object.keys(AI_DERSLER).sort(function (a, b) { return a - b; }).forEach(function (no) {
+    var secenek = document.createElement('option');
+    secenek.value = no;
+    secenek.textContent = no + ' · ' + AI_DERSLER[no].ad;
+    secenek.selected = Number(no) === dersNo;
+    dersSec.appendChild(secenek);
+  });
+  dersSec.addEventListener('change', function () {
+    location.href = 'ai_rehber10.html?hafta=' + this.value + '&ders=' + this.value;
+  });
+
+  /* --- Slaytlar --- */
+  var s = [];
+
+  /* 1 — NEDEN? */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">' + D.emoji + '</span>' +
+      '<span class="rozet">1 • NEDEN?</span><h2>Bu ders neden işleniyor?</h2></div>' +
+    '<div class="tek-cumle">🎯 ' + D.tekCumle + '</div>' +
+    '<div class="iki-sutun">' +
+      '<div class="kutu vurgulu"><h3>💡 Faydası</h3><ul>' +
+        D.neden.map(function (x) { return '<li>' + x + '</li>'; }).join('') +
+      '</ul></div>' +
+      '<div class="kutu yesil"><h3>🎓 Kazanımlar</h3><ul>' +
+        D.kazanim.map(function (x) { return '<li>' + x + '</li>'; }).join('') +
+      '</ul>' +
+      '<p class="not">Seviye notu — 10. sınıf <b>Lise gelişim ve derinleşme düzeyidir</b>. Maarif alanları (Biyoloji, Kimya, Fizik, Matematik, Tarih, Coğrafya) doğrudan uygulamalı üretimle birleşir. Ağırlık <b>bilimsel modelleme, kontrollü A/B deneyi, kaynak güvenliği ve sistem prototipi oluşturmaya</b> odaklanır.</p></div>' +
+    '</div>'
+  );
+
+  /* 2 — NASIL ANLATILIR? */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🗺️</span>' +
+      '<span class="rozet">2 • NASIL ANLATILIR?</span><h2>Ders akışı — adım adım</h2></div>' +
+    '<div class="akis">' +
+      D.nasil.map(function (a) {
+        return '<div class="adim"><b>' + a.b + '</b><p>' + a.m + '</p></div>';
+      }).join('') +
+    '</div>'
+  );
+
+  /* 3 — ÖRNEKLER */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">✏️</span>' +
+      '<span class="rozet">3 • ÖRNEKLER</span><h2>Böyle değil, şöyle!</h2></div>' +
+    '<p class="not" style="margin: -4px 0 4px;">Soldaki eksik promptu tahtaya yazın, öğrencilere sağdaki profesyonel briefi <b>birlikte</b> kurdurun.</p>' +
+    D.ornekler.map(function (o) {
+      return '<div class="ornek"><div class="kotu">' + o.kotu.replace(/\n/g, '<br>') + '</div>' +
+             '<div class="ok">➜</div><div class="iyi">' + o.iyi.replace(/\n/g, '<br>') + '</div></div>' +
+             '<p class="ornek-not">💬 ' + o.not + '</p>';
+    }).join('') +
+    '<div class="kutu sari" style="margin-top:auto;"><h3>🖐️ Sınıfta hemen deneyin</h3>' +
+      '<p>Kırmızı ve yeşil promptu iki öğrenciye <b>farklı pencerelerde</b> çalıştırtın; çıktıları yan yana ekrana verin. Kısıt, format ve bağlam eklemenin kaliteyi nasıl değiştirdiğini oylatın.</p></div>'
+  );
+
+  /* 4 — 3 ETKİNLİK */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🧩</span>' +
+      '<span class="rozet">4 • ETKİNLİKLER</span><h2>Bu dersin 3 aşaması</h2></div>' +
+    '<div class="uc-sutun">' +
+      D.adimlar.map(function (a, i) {
+        return '<div class="kutu adim-kart' + ((i + 1) === adimNo ? ' bu-hafta' : '') + '">' +
+          '<h3>' + (i + 1) + '️⃣ ' + a.ad + '</h3>' +
+          '<p><b>⏱️ ' + a.sure + '</b>' + (a.tur ? ' · ' + a.tur : '') + '</p>' +
+          '<p><b>Ne yapar:</b> ' + a.ne + '</p>' +
+          (a.sayfalar ? '<p><b>Bölümler:</b></p><ul>' + a.sayfalar.map(function (sp) { return '<li>' + sp + '</li>'; }).join('') + '</ul>' : '') +
+          '<p><b>Nasıl işlenir:</b> ' + a.nasil + '</p>' +
+          '<span class="sifre-etiket">🔑 Şifre: ' + a.pass + '</span>' +
+          '<p class="not"><a href="' + AI_TEMEL + '/ders' + dersNo + '/ders' + dersNo + '_' + (i + 1) + '.html" target="_blank" rel="noopener">▶ Bu aşamayı aç</a></p>' +
+        '</div>';
+      }).join('') +
+    '</div>'
+  );
+
+  /* 5 — EKRANDA NASIL KULLANILIR? */
+  var ekran = D.ekran || AI_GENEL_EKRAN;
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🖥️</span>' +
+      '<span class="rozet">5 • EKRAN KULLANIMI</span><h2>Öğrenci ekranda ne yapacak?</h2></div>' +
+    '<p class="not" style="margin: -4px 0 4px;">Aşağıdaki sıra <b>Lise 10 portalındaki gerçek slayt akışıyla</b> aynıdır: <b>Oku → Formülü Uygula → Takım Atölyesinde Üret → Prompt Vitrininde İncele → Kalite Kontrolü → Şifreyi Al.</b></p>' +
+    '<div class="akis">' +
+      ekran.map(function (a) { return '<div class="adim"><b>' + a.b + '</b><p>' + a.m + '</p></div>'; }).join('') +
+    '</div>'
+  );
+
+  /* 6 — SORULAR & İPUÇLARI */
+  s.push(
+    '<div class="slayt-baslik"><span class="emoji">🗣️</span>' +
+      '<span class="rozet">6 • SORULAR & İPUÇLARI</span><h2>Sınıfa sorun, tuzaklardan kaçının</h2></div>' +
+    '<div class="iki-sutun">' +
+      '<div class="kutu"><h3>❓ Sınıf soruları</h3><div class="soru-listesi">' +
+        D.sorular.map(function (q) { return '<div class="soru">👉 ' + q + '</div>'; }).join('') +
+      '</div></div>' +
+      '<div class="kutu sari"><h3>⚠️ İpuçları ve sık hatalar</h3><ul>' +
+        D.ipuclari.map(function (x) { return '<li>' + x + '</li>'; }).join('') +
+      '</ul>' +
+      '<p class="not">🌐 Etkinlikler tarayıcıda açılır, kurulum gerekmez. Akıllı tahtada tam ekran için <b>F11</b>.</p></div>' +
+    '</div>'
+  );
+
+  var kap = document.getElementById('slaytlar');
+  kap.innerHTML = s.map(function (ic, i) {
+    return '<section class="slayt' + (i === 0 ? ' aktif' : '') + '">' + ic + '</section>';
+  }).join('');
+})();
+</script>
+<script src="rehber.js"></script>
+</body>
+</html>
