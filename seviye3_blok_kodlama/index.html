@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blok Kodlama + AI-Galaxy • Seviye 3 (İleri) Yıllık Programlar</title>
-<meta name="description" content="Blok kodlama ve AI-Galaxy yıllık programları: 6. sınıf — Seviye 3 (İleri).">
+<meta name="description" content="Blok kodlama ve AI-Galaxy yıllık programları: 6 ve 7. sınıf — Seviye 3 (İleri).">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@ body {
 }
 .ust h1 { font-size: 2rem; font-weight: 800; line-height: 1.15; }
 .ust p { font-family: 'Nunito', sans-serif; font-size: 1rem; color: #5A7290; margin-top: 6px; }
-.kartlar { display: grid; grid-template-columns: 420px; gap: 20px; }
+.kartlar { display: grid; grid-template-columns: repeat(2, 420px); gap: 24px; }
 .kart {
   display: flex; flex-direction: column; gap: 10px; text-decoration: none; color: inherit;
   background: #fff; border: 4px solid #fff; border-radius: 24px; padding: 24px 26px 22px;
@@ -44,8 +44,11 @@ body {
 .kart .etiket { font-size: .74rem; font-weight: 800; padding: 5px 11px; border-radius: 20px; white-space: nowrap; }
 .et-kod { background: #E3F7F3; color: #11705F; border: 2px solid #A9E5DB; }
 .et-ai6 { background: #EAF0FF; color: #1F47B8; border: 2px solid #BFD0FF; }
-.kart .ac { margin-top: 8px; align-self: flex-start; font-weight: 800; font-size: .95rem; padding: 10px 18px; border-radius: 14px; color: #fff; }
+.et-ai7 { background: #F0EBFF; color: #43218F; border: 2px solid #D5C5FA; }
+.kart .dugmeler { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.kart .ac { align-self: flex-start; text-decoration: none; font-weight: 800; font-size: .95rem; padding: 10px 18px; border-radius: 14px; color: #fff; }
 .kart.s6 .ac { background: linear-gradient(180deg, #6F94FF, #2F6BFF); box-shadow: 0 4px 0 #1F47B8; }
+.kart.s7 .ac { background: linear-gradient(180deg, #9873E8, #6C3FD1); box-shadow: 0 4px 0 #43218F; }
 .alt {
   font-family: 'Nunito', sans-serif; font-size: .84rem; color: #5A7290; font-weight: 700;
   background: rgba(255,255,255,.8); border: 3px solid #fff; border-radius: 16px; padding: 9px 18px;
@@ -65,7 +68,7 @@ body {
   </div>
 
   <div class="kartlar">
-    <a class="kart s6" href="./ortaokul6_ai_galaxy_seviye3_blok_kodlama.html">
+    <article class="kart s6">
       <span class="em">6️⃣</span>
       <h2>6. Sınıf Yıllık Programı</h2>
       <p>36 hafta · her hafta bir ileri blok kodlama adımı (3. Kademe – İleri) ve bir AI-Galaxy dersi (3 adım) yan yana.</p>
@@ -73,8 +76,23 @@ body {
         <span class="etiket et-kod">🧩 18 İLERİ KODLAMA</span>
         <span class="etiket et-ai6">🚀 9 CANLI AI DERSİ</span>
       </div>
-      <span class="ac">▶ Programı Aç</span>
-    </a>
+      <div class="dugmeler">
+        <a class="ac" href="./ortaokul6_ai_galaxy_seviye3_blok_kodlama.html">▶ Programı Aç</a>
+      </div>
+    </article>
+
+    <article class="kart s7">
+      <span class="em">7️⃣</span>
+      <h2>7. Sınıf Yıllık Programı</h2>
+      <p>36 hafta · aynı 18 ileri blok kodlama adımı + araştırma, medya etiği, görsel sistemler ve AI iş akışları.</p>
+      <div class="etiketler">
+        <span class="etiket et-kod">🧩 18 İLERİ KODLAMA</span>
+        <span class="etiket et-ai7">🚀 9 CANLI AI DERSİ</span>
+      </div>
+      <div class="dugmeler">
+        <a class="ac" href="./ortaokul7_ai_galaxy_seviye3_blok_kodlama.html">▶ Programı Aç</a>
+      </div>
+    </article>
   </div>
 
   <div class="alt">👩‍🏫 Öğretmen rehberi programın kendi sayfasındaki 👩‍🏫 Rehber düğmesinden açılır. &nbsp;•&nbsp; 3–4–5. sınıf: <b>seviye2blokkodlama.vercel.app</b></div>

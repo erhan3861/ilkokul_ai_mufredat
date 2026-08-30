@@ -76,7 +76,7 @@ Burada sizin önerdiğiniz sıralamayı korumak mantıklı. Özellikle **Çiftli
 
 ### 3. Kademe — İleri Seviye
 
-**6–7–9–10–11. sınıflar | 18 adım**
+**6–7–8-9–10–11. sınıflar | 18 adım**
 
 | #  | İçerik                         | Ana hedef                                                 |
 | -- | ------------------------------ | --------------------------------------------------------- |

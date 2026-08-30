@@ -319,8 +319,7 @@ var AI_DERSLER = {
     ],
     ipuclari: [
       'Güvenilirlik piramidini panoya asın; her hafta bir kaynak eklettirin.',
-      'Kişisel bilgi kuralını <b>her derste tekrar ettirin</b>; tek seferlik anlatım yetmez.',
-      'Rehber sayfasındaki “otorite” başlığı kaynak dosyada eksik yazılmıştır; sınıfta <b>otorite</b> olarak okutun.'
+      'Kişisel bilgi kuralını <b>her derste tekrar ettirin</b>; tek seferlik anlatım yetmez.'
     ]
   },
 
